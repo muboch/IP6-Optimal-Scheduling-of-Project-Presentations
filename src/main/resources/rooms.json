@@ -1,0 +1,443 @@
+[
+  {
+    "Id": 1,
+    "name": 105,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 2,
+    "name": 106,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 3,
+    "name": 107,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 4,
+    "name": 108,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 5,
+    "name": 109,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 6,
+    "name": 203,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 7,
+    "name": 205,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 8,
+    "name": 206,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 9,
+    "name": 207,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 10,
+    "name": 209,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 11,
+    "name": 210,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 12,
+    "name": 211,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 13,
+    "name": 213,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 14,
+    "name": 217,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 15,
+    "name": 218,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 16,
+    "name": 305,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 17,
+    "name": 306,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 18,
+    "name": 307,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 19,
+    "name": 308,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 20,
+    "name": 310,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 21,
+    "name": 311,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 22,
+    "name": 312,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 23,
+    "name": 303,
+    "ort": "",
+    "musicroom": "TRUE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 24,
+    "name": 320,
+    "ort": "",
+    "musicroom": "TRUE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 25,
+    "name": 304,
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "TRUE",
+    "artroom": "FALSE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 26,
+    "name": "E 11",
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "TRUE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 27,
+    "name": "E12",
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "TRUE",
+    "reserve": "FALSE"
+  },
+  {
+    "Id": 28,
+    "name": "U 33",
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "TRUE"
+  },
+  {
+    "Id": 29,
+    "name": "E 05",
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "TRUE"
+  },
+  {
+    "Id": 30,
+    "name": "E06",
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "TRUE"
+  },
+  {
+    "Id": 31,
+    "name": "E09",
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "TRUE"
+  },
+  {
+    "Id": 32,
+    "name": "E14",
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "TRUE"
+  },
+  {
+    "Id": 33,
+    "name": "E17",
+    "ort": "",
+    "musicroom": "FALSE",
+    "danceroom": "FALSE",
+    "artroom": "FALSE",
+    "reserve": "TRUE"
+  },
+  {
+    "Id": 34,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 35,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 36,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 37,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 38,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 39,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 40,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 41,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 42,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 43,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 44,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 45,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 46,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 47,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 48,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  },
+  {
+    "Id": 49,
+    "name": "",
+    "ort": "",
+    "musicroom": "",
+    "danceroom": "",
+    "artroom": "",
+    "reserve": ""
+  }
+]
