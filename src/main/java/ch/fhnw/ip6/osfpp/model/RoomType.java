@@ -4,7 +4,9 @@ public enum RoomType {
 
     RESERVE,
     NORMAL,
-    BILDNERISCH,
-    MUSISCH
+    ART,
+    MUSIC,
+    DANCE,
+    AULA
 
 }

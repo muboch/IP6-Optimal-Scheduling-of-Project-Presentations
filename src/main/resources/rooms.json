@@ -1,7 +1,7 @@
 [
   {
     "Id": 1,
-    "name": 105,
+    "name": "105",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -10,7 +10,7 @@
   },
   {
     "Id": 2,
-    "name": 106,
+    "name": "106",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -19,7 +19,7 @@
   },
   {
     "Id": 3,
-    "name": 107,
+    "name": "107",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -28,7 +28,7 @@
   },
   {
     "Id": 4,
-    "name": 108,
+    "name": "108",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -37,7 +37,7 @@
   },
   {
     "Id": 5,
-    "name": 109,
+    "name": "109",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -46,7 +46,7 @@
   },
   {
     "Id": 6,
-    "name": 203,
+    "name": "203",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -55,7 +55,7 @@
   },
   {
     "Id": 7,
-    "name": 205,
+    "name": "205",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -64,7 +64,7 @@
   },
   {
     "Id": 8,
-    "name": 206,
+    "name": "206",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -73,7 +73,7 @@
   },
   {
     "Id": 9,
-    "name": 207,
+    "name": "207",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -82,7 +82,7 @@
   },
   {
     "Id": 10,
-    "name": 209,
+    "name": "209",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -91,7 +91,7 @@
   },
   {
     "Id": 11,
-    "name": 210,
+    "name": "210",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -100,7 +100,7 @@
   },
   {
     "Id": 12,
-    "name": 211,
+    "name": "211",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -109,7 +109,7 @@
   },
   {
     "Id": 13,
-    "name": 213,
+    "name": "213",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -118,7 +118,7 @@
   },
   {
     "Id": 14,
-    "name": 217,
+    "name": "217",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -127,7 +127,7 @@
   },
   {
     "Id": 15,
-    "name": 218,
+    "name": "218",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -136,7 +136,7 @@
   },
   {
     "Id": 16,
-    "name": 305,
+    "name": "305",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -145,7 +145,7 @@
   },
   {
     "Id": 17,
-    "name": 306,
+    "name": "306",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -154,7 +154,7 @@
   },
   {
     "Id": 18,
-    "name": 307,
+    "name": "307",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -163,7 +163,7 @@
   },
   {
     "Id": 19,
-    "name": 308,
+    "name": "308",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -172,7 +172,7 @@
   },
   {
     "Id": 20,
-    "name": 310,
+    "name": "310",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -181,7 +181,7 @@
   },
   {
     "Id": 21,
-    "name": 311,
+    "name": "311",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -190,7 +190,7 @@
   },
   {
     "Id": 22,
-    "name": 312,
+    "name": "312",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -199,7 +199,7 @@
   },
   {
     "Id": 23,
-    "name": 303,
+    "name": "303",
     "ort": "",
     "musicroom": "TRUE",
     "danceroom": "FALSE",
@@ -208,7 +208,7 @@
   },
   {
     "Id": 24,
-    "name": 320,
+    "name": "320",
     "ort": "",
     "musicroom": "TRUE",
     "danceroom": "FALSE",
@@ -217,7 +217,7 @@
   },
   {
     "Id": 25,
-    "name": 304,
+    "name": "304",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "TRUE",
@@ -226,7 +226,7 @@
   },
   {
     "Id": 26,
-    "name": "E 11",
+    "name": "E11",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -244,7 +244,7 @@
   },
   {
     "Id": 28,
-    "name": "U 33",
+    "name": "U33",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -253,7 +253,7 @@
   },
   {
     "Id": 29,
-    "name": "E 05",
+    "name": "E05",
     "ort": "",
     "musicroom": "FALSE",
     "danceroom": "FALSE",
@@ -295,149 +295,5 @@
     "danceroom": "FALSE",
     "artroom": "FALSE",
     "reserve": "TRUE"
-  },
-  {
-    "Id": 34,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 35,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 36,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 37,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 38,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 39,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 40,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 41,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 42,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 43,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 44,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 45,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 46,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 47,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 48,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
-  },
-  {
-    "Id": 49,
-    "name": "",
-    "ort": "",
-    "musicroom": "",
-    "danceroom": "",
-    "artroom": "",
-    "reserve": ""
   }
 ]
