@@ -14,11 +14,21 @@ configurations {
 	}
 }
 
+tasks.withType(JavaExec) {
+	environment('LD_LIBRARY_PATH', 'libs')
+}
+
 repositories {
 	mavenCentral()
+	flatDir {
+		dirs 'libs'
+	}
+
 }
 
 dependencies {
+	implementation name: 'com.google.ortools'
+	implementation name: 'protobuf'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -30,12 +40,19 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	compile group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
-	compile files('lib/com.google.ortools.jar')
-	compile 'com.google.protobuf:protobuf-java:3.0.0'
 	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
+
 }
+
+
+tasks.withType(JavaExec) {
+	environment('LD_LIBRARY_PATH', 'libs')
+}
+
+
 
 test {
 	useJUnitPlatform()
 }
+

@@ -29,6 +29,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class OSFPPApplication implements CommandLineRunner {
 
 
+    static {
+        System.loadLibrary("jniortools");
+    }
+
     private AtomicInteger idCounter = new AtomicInteger();
 
     private final PresentationRepository presentationRepository;
