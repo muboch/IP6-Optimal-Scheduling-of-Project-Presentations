@@ -1,0 +1,24 @@
+package ch.fhnw.ip6.ospp.controller;
+
+import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
+import ch.fhnw.ip6.ospp.vo.TimeslotVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("timeslot")
+@RequiredArgsConstructor
+public class TimeslotController {
+
+    private final TimeslotRepository timeslotRepository;
+
+    @GetMapping
+    public List<TimeslotVO> findAll() {
+        return timeslotRepository.findAllProjectedBy();
+    }
+
+}
