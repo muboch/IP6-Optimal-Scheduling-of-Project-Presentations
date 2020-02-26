@@ -1,27 +1,27 @@
 package ch.fhnw.ip6.ospp;
 
-import ch.fhnw.ip6.ospp.model.*;
-import ch.fhnw.ip6.ospp.persistence.*;
+import ch.fhnw.ip6.ospp.model.Discipline;
+import ch.fhnw.ip6.ospp.model.Presentation;
+import ch.fhnw.ip6.ospp.model.Room;
+import ch.fhnw.ip6.ospp.model.RoomType;
+import ch.fhnw.ip6.ospp.model.Student;
+import ch.fhnw.ip6.ospp.model.Teacher;
+import ch.fhnw.ip6.ospp.model.Timeslot;
+import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
+import ch.fhnw.ip6.ospp.persistence.RoomRepository;
+import ch.fhnw.ip6.ospp.persistence.StudentRepository;
+import ch.fhnw.ip6.ospp.persistence.TeacherRepository;
+import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.io.ResourceLoader;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootApplication
@@ -47,11 +47,26 @@ public class OSPPApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Faker faker = new Faker();
+        // Create Teachers
+        createTeachers();
 
+        // Create Students
+        createStudents();
+
+        // Create Rooms
+        createRooms();
+
+        // Create Timeslots
+        createTimeslots();
+
+        log.info("\uD83C\uDF08\uD83C\uDF08\uD83C\uDF08 Test Data created \uD83C\uDF08\uD83C\uDF08\uD83C\uDF08");
+    }
+
+    private void createTeachers() {
+
+        Faker faker = new Faker();
         AtomicInteger idCounter = new AtomicInteger();
 
-        // Create Teachers
         log.info("\uD83D\uDC68\uD83C\uDFFC\u200D\uD83C\uDFEB Create Teachers");
         int numOfTeachers = 20;
 
@@ -70,16 +85,72 @@ public class OSPPApplication implements CommandLineRunner {
             log.info(teacher.toString());
             numOfTeachers--;
         }
+    }
 
-        List<Teacher> teachers = teacherRepository.findAll();
+    private void createRooms() {
+        AtomicInteger idCounter = new AtomicInteger();
+        log.info("\uD83C\uDFE0 Create Rooms");
+        EnumMap<RoomType, Integer> numberOfRooms = new EnumMap<>(RoomType.class);
+        numberOfRooms.put(RoomType.AULA, 1);
+        numberOfRooms.put(RoomType.ART, 4);
+        numberOfRooms.put(RoomType.MUSIC, 4);
+        numberOfRooms.put(RoomType.DANCE, 2);
+        numberOfRooms.put(RoomType.NORMAL, 20);
+        numberOfRooms.put(RoomType.RESERVE, 7);
 
+        numberOfRooms.forEach((type, value) -> {
+            int cntr = value;
+            while (cntr > 0) {
+                Room room = Room.builder()
+                        .id(idCounter.getAndAdd(1))
+                        .roomNumber(type.name().substring(0, 1) + String.format("" + cntr, "%02d"))
+                        .roomType(type)
+                        .build();
+                room = roomRepository.save(room);
+                log.info(room.toString());
+                cntr--;
+            }
+        });
+    }
 
-        // Create Students
+    private void createTimeslots() {
+        log.info("⌛️ Create Timeslots");
 
-        List<Discipline> disciplines = List.of(Discipline.values());
-        List<String> schoolClasses = List.of("3a", "3b", "3c");
+        AtomicInteger idCounter = new AtomicInteger();
 
-        int numOfStuds = 100;
+        int slotSize = 45;
+        int slotsPerDay = 13;
+        int numOfDays = 2;
+        final LocalDateTime begin = LocalDateTime.of(2020, 1, 1, 8, 0);
+        LocalDateTime prevTime = begin;
+        while (numOfDays > 0) {
+            for (int i = 0; i < slotsPerDay; i++) {
+                LocalDateTime from = prevTime;
+                LocalDateTime to = from.plusMinutes(slotSize);
+                Timeslot slot = Timeslot.builder()
+                        .id(idCounter.getAndAdd(1))
+                        .begin(from)
+                        .end(to)
+                        .build();
+                slot = timeslotRepository.save(slot);
+                log.info(slot.toString());
+                prevTime = to;
+            }
+            prevTime = begin.plusDays(1);
+            numOfDays--;
+        }
+    }
+
+    private void createStudents() {
+
+        final List<Teacher> teachers = teacherRepository.findAll();
+        final Faker faker = new Faker();
+        AtomicInteger idCounter = new AtomicInteger();
+
+        final List<Discipline> disciplines = List.of(Discipline.values());
+        final List<String> schoolClasses = List.of("3a", "3b", "3c");
+
+        int numOfStuds = 10;
 
         log.info("\uD83D\uDE4B\uD83C\uDFFC\u200D Create Students and Presentations");
         while (numOfStuds > 0) {
@@ -109,61 +180,12 @@ public class OSPPApplication implements CommandLineRunner {
                     .student(student)
                     .examinator(examinator)
                     .expert(expert)
-                    .title(faker.book().title())
+                    .title(faker.company().catchPhrase())
                     .build();
 
             presentation = presentationRepository.save(presentation);
             log.info(presentation.toString());
             numOfStuds--;
         }
-
-        // Create Rooms
-        log.info("\uD83C\uDFE0 Create Rooms");
-        EnumMap<RoomType, Integer> numberOfRooms = new EnumMap<>(RoomType.class);
-        numberOfRooms.put(RoomType.AULA, 1);
-        numberOfRooms.put(RoomType.ART, 4);
-        numberOfRooms.put(RoomType.MUSIC, 4);
-        numberOfRooms.put(RoomType.DANCE, 2);
-        numberOfRooms.put(RoomType.NORMAL, 20);
-        numberOfRooms.put(RoomType.RESERVE, 7);
-
-        numberOfRooms.forEach((type, value) -> {
-            int cntr = value;
-            while (cntr > 0) {
-                Room room = Room.builder()
-                        .id(idCounter.getAndAdd(1))
-                        .roomNumber(type.name().substring(0, 1) + String.format("" + cntr, "%02d"))
-                        .roomType(type)
-                        .build();
-                room = roomRepository.save(room);
-                log.info(room.toString());
-                cntr--;
-            }
-        });
-
-        // Create Timeslots
-        log.info("⌛️ Create Timeslots");
-        int slotSize = 45;
-        int slotsPerDay = 13;
-        int numOfDays = 2;
-        final LocalDateTime begin = LocalDateTime.of(2020, 1, 1, 8, 0);
-        LocalDateTime prevTime = begin;
-        while (numOfDays > 0) {
-            for (int i = 0; i < slotsPerDay; i++) {
-                LocalDateTime from = prevTime;
-                LocalDateTime to = from.plusMinutes(slotSize);
-                Timeslot slot = Timeslot.builder()
-                        .id(idCounter.getAndAdd(1))
-                        .begin(from)
-                        .end(to)
-                        .build();
-                slot = timeslotRepository.save(slot);
-                log.info(slot.toString());
-                prevTime = to;
-            }
-            prevTime = begin.plusDays(1);
-            numOfDays--;
-        }
-        log.info("\uD83C\uDF08\uD83C\uDF08\uD83C\uDF08 Test Data created \uD83C\uDF08\uD83C\uDF08\uD83C\uDF08");
     }
 }
