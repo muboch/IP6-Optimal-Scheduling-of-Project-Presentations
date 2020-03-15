@@ -1,6 +1,7 @@
 import React, { useState, FormEvent } from "react";
 import { Button, makeStyles } from "@material-ui/core";
 import { useGStyles } from "../../theme";
+import { API } from "../../constants";
 
 const useStyles = makeStyles(theme => ({
   input: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles(theme => ({
 const PlanningScreen: React.FC = (): JSX.Element => {
   const gStyles = useGStyles();
   const styles = useStyles();
-  const [files, setFiles] = useState();
+  const [files, setFiles] = useState({});
 
   type UploadInfo = {
     key: string;
@@ -28,22 +29,33 @@ const PlanningScreen: React.FC = (): JSX.Element => {
     setFiles({ ...files, [`${mykey}`]: file });
   };
 
-  const uploadFiles = (e: FormEvent<HTMLFormElement>) => {
+  const uploadFiles = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("file", file);
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data"
-      }
-    };
-    return post(url, formData, config);
+    for (const [key, value] of Object.entries(files)) {
+      formData.append(key, value as Blob);
+      console.log(`${key}: ${value}`);
+    }
 
-    console.log("uploadfiles");
+    try {
+      const res = await fetch(API.endpoint, {
+        // content-type header should not be specified!
+        method: "POST",
+        body: formData
+      });
+      const json = await res.json();
+    } catch (error) {
+      console.log("error", error);
+      return;
+    }
+    setFiles({});
   };
 
   return (
-    <form className={gStyles.columnFlexDiv} onSubmit={e => uploadFiles(e)}>
+    <form
+      className={gStyles.columnFlexDiv}
+      onSubmit={(e: FormEvent<HTMLFormElement>) => uploadFiles(e)}
+    >
       {uploadInfos.map(u => {
         return (
           <>
@@ -57,14 +69,22 @@ const PlanningScreen: React.FC = (): JSX.Element => {
               }}
             />
             <label htmlFor={`${u.key}-file`}>
-              <Button variant={"outlined"} component="span" className={gStyles.secondaryButton}>
+              <Button
+                variant={"outlined"}
+                component="span"
+                className={gStyles.secondaryButton}
+              >
                 {`${u.label} hochladen`}
               </Button>
             </label>
           </>
         );
       })}
-      <Button type="submit" className={gStyles.primaryButton}>
+      <Button
+        type="submit"
+        className={gStyles.primaryButton}
+        disabled={Object.entries(files).length !== 4}
+      >
         Planung erstellen
       </Button>
     </form>

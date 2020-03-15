@@ -5,6 +5,7 @@ import { ThemeProvider } from "@material-ui/core";
 import { theme, useGStyles } from "./theme";
 import { StylesContext } from "@material-ui/styles";
 import PlanningScreen from "./screens/CreatePlanningScreen/planningscreen";
+import ListPlanningScreen from "./screens/ListPlanningScreen/listplanningscreen";
 
 const App: React.FC = (): JSX.Element => {
   const styles = useGStyles();
@@ -14,7 +15,11 @@ const App: React.FC = (): JSX.Element => {
         <Switch>
           <Route path="/" component={LandingScreen} />
           <Route path="/createPlanning" component={PlanningScreen} />
-          <Route path="/:rest*" component={() => <Redirect to="/"></Redirect>}></Route>
+          <Route path="/listPlanning" component={ListPlanningScreen} />
+          <Route
+            path="/:rest*"
+            component={() => <Redirect to="/"></Redirect>}
+          ></Route>
         </Switch>
       </ThemeProvider>
     </div>
