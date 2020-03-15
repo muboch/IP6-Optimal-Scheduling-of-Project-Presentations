@@ -4,9 +4,11 @@ import ch.fhnw.ip6.ospp.model.Student;
 import ch.fhnw.ip6.ospp.persistence.StudentRepository;
 import ch.fhnw.ip6.ospp.service.client.StudentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
+@Slf4j
 @Service
 @RequestScope
 @RequiredArgsConstructor

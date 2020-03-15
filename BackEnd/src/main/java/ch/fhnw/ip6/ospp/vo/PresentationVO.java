@@ -8,9 +8,11 @@ public interface PresentationVO {
 
     String getTitle();
 
-    StudentVO getStudent();
+    StudentVO getFirstStudent();
 
-    TeacherVO getExaminator();
+    StudentVO getSecondStudent();
+
+    TeacherVO getCoach();
 
     TeacherVO getExpert();
 
