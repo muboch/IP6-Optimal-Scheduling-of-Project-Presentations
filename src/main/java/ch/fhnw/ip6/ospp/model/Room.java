@@ -22,7 +22,7 @@ public class Room {
 
     private String roomNumber;
 
-    private RoomType roomType;
+    private String roomType;
 
     @OneToMany(mappedBy = "room")
     private List<Presentation> presentations;
