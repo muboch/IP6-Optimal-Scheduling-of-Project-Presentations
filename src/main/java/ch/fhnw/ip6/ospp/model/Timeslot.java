@@ -26,9 +26,7 @@ public class Timeslot {
     @Id
     private long id;
 
-    private LocalDateTime begin;
-
-    private LocalDateTime end;
+    private LocalDateTime start;
 
     @OneToMany
     private List<Presentation> presentations;
