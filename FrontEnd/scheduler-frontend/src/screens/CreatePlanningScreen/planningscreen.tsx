@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import { Button, makeStyles } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 
@@ -28,8 +28,22 @@ const PlanningScreen: React.FC = (): JSX.Element => {
     setFiles({ ...files, [`${mykey}`]: file });
   };
 
+  const uploadFiles = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", file);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data"
+      }
+    };
+    return post(url, formData, config);
+
+    console.log("uploadfiles");
+  };
+
   return (
-    <div className={gStyles.columnFlexDiv}>
+    <form className={gStyles.columnFlexDiv} onSubmit={e => uploadFiles(e)}>
       {uploadInfos.map(u => {
         return (
           <>
@@ -50,8 +64,10 @@ const PlanningScreen: React.FC = (): JSX.Element => {
           </>
         );
       })}
-      <Button className={gStyles.primaryButton}>Planung erstellen</Button>
-    </div>
+      <Button type="submit" className={gStyles.primaryButton}>
+        Planung erstellen
+      </Button>
+    </form>
   );
 };
 
