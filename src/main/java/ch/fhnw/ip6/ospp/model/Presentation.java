@@ -18,11 +18,13 @@ import javax.persistence.OneToOne;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"student","examinator", "expert"})
+@ToString(exclude = {"firstStudent","secondStudent","coach", "expert"})
 public class Presentation {
 
     @Id
     private long id;
+
+    private String nr;
 
     @ManyToOne
     private Room room;
@@ -30,15 +32,20 @@ public class Presentation {
     private String title;
 
     @OneToOne
-    private Student student;
+    private Student firstStudent;
+
+    @OneToOne
+    private Student secondStudent;
 
     @ManyToOne
-    private Teacher examinator;
+    private Teacher coach;
 
     @ManyToOne
     private Teacher expert;
 
     @ManyToOne
     private Timeslot timeslot;
+
+    private Field field;
 
 }

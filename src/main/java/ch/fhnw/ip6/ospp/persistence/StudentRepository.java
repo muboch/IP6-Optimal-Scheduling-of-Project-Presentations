@@ -12,5 +12,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     List<StudentVO> findAllProjectedBy();
 
+    Student readById(long id);
+
 
 }
