@@ -6,16 +6,20 @@
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.2.4.RELEASE/26982f05ecbf96371e8a7175c814117c66d6cc4a/spring-boot-configuration-processor-2.2.4.RELEASE.jar" />
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.10/625fc0055674dff70dbc76efa36d0f2c89b04a24/lombok-1.18.10.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.2.5.RELEASE/3426cb36706915047406da672b7ee9628f5f47d6/spring-boot-configuration-processor-2.2.5.RELEASE.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.12/48e4e5d60309ebd833bc528dcf77668eab3cd72c/lombok-1.18.12.jar" />
         </processorPath>
-        <module name="osfpp.main" />
+        <module name="osopp.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="osfpp.main" target="1.8" />
+      <module name="osfpp.test" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="osfpp" options="-parameters" />
+      <module name="osopp" options="-parameters" />
     </option>
   </component>
 </project>

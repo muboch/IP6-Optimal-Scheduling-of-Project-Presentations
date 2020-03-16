@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=ospp
+      - MYSQL_PASSWORD=root
+
+
+  client:
+    build:
+      context: ./FrontEnd/scheduler-frontend/
+    command: yarn start
+    volumes:
+      - ./client/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+  backend:
+    image: fhnw/ip6-ospp
+    build:
+      context: ./BackEnd
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - 4345:4345
+    volumes:
+      - /data/spring-boot-app
+    container_name: ospp-backend

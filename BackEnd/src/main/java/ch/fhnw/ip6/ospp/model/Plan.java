@@ -9,27 +9,25 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.List;
+import java.time.LocalDateTime;
 
-
+@Entity
 @Getter
 @Setter
-@Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Room {
+public class Plan {
 
     @Id
     private long id;
 
-    private String roomNumber;
+    private String planNr;
 
-    private String roomType;
+    private LocalDateTime created;
 
-    @OneToMany(mappedBy = "room")
-    private List<Presentation> presentations;
+   // private Clob data;
+
 
 }
