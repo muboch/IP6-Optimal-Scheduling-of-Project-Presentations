@@ -7,18 +7,18 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=ospp
       - MYSQL_PASSWORD=root
+    container_name: ospp-db
 
   client:
     build:
       context: ./FrontEnd/scheduler-frontend/
-    command: yarn start
     volumes:
-      - ./client/:/usr/app
-      - /usr/app/node_modules
-    depends_on:
-      - backend
+      - '.:/app'
+      - '/app/node_modules'
     ports:
+      - '3001:3000'
       - "3000:3000"
+    container_name: ospp-client
 
   backend:
     image: fhnw/ip6-ospp
