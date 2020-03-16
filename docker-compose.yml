@@ -8,7 +8,6 @@ services:
       - MYSQL_DATABASE=ospp
       - MYSQL_PASSWORD=root
 
-
   client:
     build:
       context: ./FrontEnd/scheduler-frontend/
