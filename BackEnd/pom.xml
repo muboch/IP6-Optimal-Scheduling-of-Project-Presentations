@@ -2,12 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<!--<modules>
-		<module>../Solvers/SolverAPI</module>
-		<module>../Solvers/CPSolver</module>
-		<module>../Solvers/OriginalSolver</module>
-		<module>../Solvers/ILPSolver</module>
-	</modules>-->
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -15,9 +10,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ch.fhnw.ip6</groupId>
-	<artifactId>ospp</artifactId>
+	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ospp</name>
+	<name>ospp-backend</name>
 	<description>Optimized Scheduling of Project Presentations</description>
 
 	<properties>
