@@ -17,7 +17,7 @@
 	<groupId>ch.fhnw.ip6</groupId>
 	<artifactId>ospp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>war</packaging>
 	<name>ospp</name>
 	<description>Optimized Scheduling of Project Presentations</description>
 
