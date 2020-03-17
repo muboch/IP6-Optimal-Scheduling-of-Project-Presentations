@@ -1,0 +1,233 @@
+[
+  {
+    "Id": 0,
+    "name": "312",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 1,
+    "name": "105",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 2,
+    "name": "106",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 3,
+    "name": "107",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 4,
+    "name": "108",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 5,
+    "name": "109",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 6,
+    "name": "203",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 7,
+    "name": "205",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 8,
+    "name": "206",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 9,
+    "name": "207",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 10,
+    "name": "209",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 11,
+    "name": "210",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 12,
+    "name": "211",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 13,
+    "name": "213",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 14,
+    "name": "217",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 15,
+    "name": "218",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 16,
+    "name": "305",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 17,
+    "name": "306",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 18,
+    "name": "307",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 19,
+    "name": "308",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 20,
+    "name": "310",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 21,
+    "name": "311",
+    "ort": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
+    "Id": 22,
+    "name": "303",
+    "ort": "",
+    "type": "music",
+    "reserve": false
+  },
+  {
+    "Id": 23,
+    "name": "320",
+    "ort": "",
+    "type": "music",
+    "reserve": false
+  },
+  {
+    "Id": 24,
+    "name": "304",
+    "ort": "",
+    "type": "dance",
+    "reserve": false
+  },
+  {
+    "Id": 25,
+    "name": "E11",
+    "ort": "",
+    "type": "art",
+    "reserve": false
+  },
+  {
+    "Id": 26,
+    "name": "E12",
+    "ort": "",
+    "type": "art",
+    "reserve": false
+  },
+  {
+    "Id": 27,
+    "name": "U33",
+    "ort": "",
+    "type": "normal",
+    "reserve": true
+  },
+  {
+    "Id": 28,
+    "name": "E05",
+    "ort": "",
+    "type": "normal",
+    "reserve": true
+  },
+  {
+    "Id": 29,
+    "name": "E06",
+    "ort": "",
+    "type": "normal",
+    "reserve": true
+  },
+  {
+    "Id": 30,
+    "name": "E09",
+    "ort": "",
+    "type": "normal",
+    "reserve": true
+  },
+  {
+    "Id": 31,
+    "name": "E14",
+    "ort": "",
+    "type": "normal",
+    "reserve": true
+  },
+  {
+    "Id": 32,
+    "name": "E17",
+    "ort": "",
+    "type": "normal",
+    "reserve": true
+  }
+]
