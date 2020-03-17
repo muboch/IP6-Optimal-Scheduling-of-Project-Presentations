@@ -16,12 +16,12 @@ jobs:
       - name: Docker Login
         run: docker login -u ${{secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker Build
-        run: docker build . --file Dockerfile
+        run: docker build  -t ospp-backend .
         working-directory: BackEnd
       - name: Docker Tag
         run: |
-          docker tag ${{ secrets.DOCKER_USERNAME }}/ospp-backend:${{ github.sha }}
-          docker tag ${{ secrets.DOCKER_USERNAME }}/ospp-backend:latest
+          docker tag ospp-backend ${{ secrets.DOCKER_USERNAME }}/ospp-backend:${{ github.sha }}
+          docker tag ospp-backend ${{ secrets.DOCKER_USERNAME }}/ospp-backend:latest
         working-directory: BackEnd
       - name: Docker Push
         run: |
