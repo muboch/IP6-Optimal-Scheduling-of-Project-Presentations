@@ -7,14 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SolverAPI" />
-        <module name="CPSolver" />
-        <module name="OriginalSolver" />
-        <module name="ILPSolver" />
+        <module name="ospp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo" target="1.8" />
+      <module name="osfpp.main" target="1.8" />
+      <module name="osfpp.test" target="1.8" />
       <module name="osopp" target="1.8" />
       <module name="osopp.main" target="1.8" />
       <module name="osopp.test" target="1.8" />
@@ -22,10 +21,6 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="CPSolver" options="-parameters" />
-      <module name="ILPSolver" options="-parameters" />
-      <module name="OriginalSolver" options="-parameters" />
-      <module name="SolverAPI" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="osopp" options="-parameters" />
       <module name="ospp" options="-parameters" />
