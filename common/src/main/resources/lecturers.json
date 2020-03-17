@@ -1,0 +1,758 @@
+[
+  {
+    "firstname": "Urs",
+    "lastname": "Abächerli",
+    "initials": "Abu",
+    "email": "urs.abaecherli@edubs.ch",
+    "id": 0
+  },
+  {
+    "firstname": "Angelo",
+    "lastname": "Baltermia",
+    "initials": "Baa",
+    "email": "angelo.baltermia@edubs.ch",
+    "id": 1
+  },
+  {
+    "firstname": "Andreas",
+    "lastname": "Bäumler",
+    "initials": "Bae",
+    "email": "andreas.baeumler@edubs.ch",
+    "id": 2
+  },
+  {
+    "firstname": "Karin",
+    "lastname": "Barth",
+    "initials": "Bak",
+    "email": "karin.barth@edubs.ch",
+    "id": 3
+  },
+  {
+    "firstname": "Nicole",
+    "lastname": "Beer-Blome",
+    "initials": "Ben",
+    "email": "nicole.beer@edubs.ch",
+    "id": 4
+  },
+  {
+    "firstname": "Salome",
+    "lastname": "Bean",
+    "initials": "Bes",
+    "email": "salome.beaneisenhut@edubs.ch",
+    "id": 5
+  },
+  {
+    "firstname": "Martin",
+    "lastname": "Birchler",
+    "initials": "Bim",
+    "email": "martin.birchler@edubs.ch",
+    "id": 6
+  },
+  {
+    "firstname": "Valerie",
+    "lastname": "Bosshard",
+    "initials": "Bov",
+    "email": "valerie.bosshard@edubs.ch",
+    "id": 7
+  },
+  {
+    "firstname": "Andrea",
+    "lastname": "Brand-Gilli",
+    "initials": "Bra",
+    "email": "andrea.brand@edubs.ch",
+    "id": 8
+  },
+  {
+    "firstname": "Robin",
+    "lastname": "Brüderlin",
+    "initials": "Brr",
+    "email": "robin.bruederlin1@edubs.ch",
+    "id": 9
+  },
+  {
+    "firstname": "Dorothee",
+    "lastname": "Caan",
+    "initials": "Cad",
+    "email": "dorothee.caan@edubs.ch",
+    "id": 10
+  },
+  {
+    "firstname": "Valentina",
+    "lastname": "Di Cesare",
+    "initials": "Dcv",
+    "email": "valentina.dicesare@edubs.ch",
+    "id": 11
+  },
+  {
+    "firstname": "Tuba",
+    "lastname": "Demirbas",
+    "initials": "Det",
+    "email": "tuba.demirbas@gmx.ch",
+    "id": 12
+  },
+  {
+    "firstname": "Letizia",
+    "lastname": "Dipner",
+    "initials": "Dil",
+    "email": "letizia.dipner@edubs.ch",
+    "id": 13
+  },
+  {
+    "firstname": "Viola",
+    "lastname": "Ehm",
+    "initials": "Ehv",
+    "email": "viola.ehm@edubs.ch",
+    "id": 14
+  },
+  {
+    "firstname": "Tobias",
+    "lastname": "Erhardt",
+    "initials": "Ert",
+    "email": "tobias.erhardt@edubs.ch",
+    "id": 15
+  },
+  {
+    "firstname": "Béla",
+    "lastname": "Fehér",
+    "initials": "Feb",
+    "email": "bela.feher@edubs.ch",
+    "id": 16
+  },
+  {
+    "firstname": "Esther",
+    "lastname": "Fritzius",
+    "initials": "Fre",
+    "email": "esther.fritzius@edubs.ch",
+    "id": 17
+  },
+  {
+    "firstname": "Sara",
+    "lastname": "Fuschetto",
+    "initials": "Fus",
+    "email": "sara.fuschetto@edubs.ch",
+    "id": 18
+  },
+  {
+    "firstname": "Doris",
+    "lastname": "Gabler",
+    "initials": "Gad",
+    "email": "doris.gabler@edubs.ch",
+    "id": 19
+  },
+  {
+    "firstname": "Fabienne",
+    "lastname": "Gasser",
+    "initials": "Gaf",
+    "email": "fabienne.gasser@edubs.ch",
+    "id": 20
+  },
+  {
+    "firstname": "Friederike",
+    "lastname": "Gaiser",
+    "initials": "Gai",
+    "email": "friederike.gaiser@edubs.ch",
+    "id": 21
+  },
+  {
+    "firstname": "Andrea",
+    "lastname": "Grgic",
+    "initials": "Gra",
+    "email": "andrea.grgic@edubs.ch",
+    "id": 22
+  },
+  {
+    "firstname": "Niels",
+    "lastname": "Grossen",
+    "initials": "Grn",
+    "email": "niels.grossen@edubs.ch",
+    "id": 23
+  },
+  {
+    "firstname": "Andreas",
+    "lastname": "Gut",
+    "initials": "Gta",
+    "email": "andreas.gut@edubs.ch",
+    "id": 24
+  },
+  {
+    "firstname": "Alexandra",
+    "lastname": "Guski",
+    "initials": "Gua",
+    "email": "alexandra.guski@bs.ch",
+    "id": 25
+  },
+  {
+    "firstname": "Teresa",
+    "lastname": "Guarini",
+    "initials": "Gut",
+    "email": "teresa.guarini@edubs.ch",
+    "id": 26
+  },
+  {
+    "firstname": "Thomas",
+    "lastname": "Gysin",
+    "initials": "Gyt",
+    "email": "thomas.gysin@edubs.ch",
+    "id": 27
+  },
+  {
+    "firstname": "Beatris",
+    "lastname": "Heinzmann Gubler",
+    "initials": "Heb",
+    "email": "beatris.heinzmann@edubs.ch",
+    "id": 28
+  },
+  {
+    "firstname": "Markus",
+    "lastname": "Heinzer",
+    "initials": "Hem",
+    "email": "markus.heinzer@edubs.ch",
+    "id": 29
+  },
+  {
+    "firstname": "Michael",
+    "lastname": "Herrmann",
+    "initials": "Her",
+    "email": "michael.herrmann@edubs.ch",
+    "id": 30
+  },
+  {
+    "firstname": "Yolanda",
+    "lastname": "Heusser",
+    "initials": "Hey",
+    "email": "yolanda.heusser@edubs.ch",
+    "id": 31
+  },
+  {
+    "firstname": "Sabrina",
+    "lastname": "Hintermann",
+    "initials": "His",
+    "email": "sabrina.hintermann@edubs.ch",
+    "id": 32
+  },
+  {
+    "firstname": "Stephan",
+    "lastname": "Hochkeppel",
+    "initials": "Hos",
+    "email": "stephan.hochkeppel@edubs.ch",
+    "id": 33
+  },
+  {
+    "firstname": "Salomé",
+    "lastname": "Huggel",
+    "initials": "Hus",
+    "email": "salome.huggel@edubs.ch",
+    "id": 34
+  },
+  {
+    "firstname": "Patrick",
+    "lastname": "Jeannotat",
+    "initials": "Jep",
+    "email": "patrick.jeannotat@edubs.ch",
+    "id": 35
+  },
+  {
+    "firstname": "Ruedi",
+    "lastname": "Jean-Richard",
+    "initials": "Jer",
+    "email": "rjr@jean-richard.ch",
+    "id": 36
+  },
+  {
+    "firstname": "Werner",
+    "lastname": "Jenni",
+    "initials": "Jew",
+    "email": "werner.jenni@edubs.ch",
+    "id": 37
+  },
+  {
+    "firstname": "Anina",
+    "lastname": "Jost",
+    "initials": "Joa",
+    "email": "anina.jost@edubs.ch",
+    "id": 38
+  },
+  {
+    "firstname": "Boas",
+    "lastname": "Kirchhofer",
+    "initials": "Kib",
+    "email": "boas.kirchhofer@edubs.ch",
+    "id": 39
+  },
+  {
+    "firstname": "Nicole",
+    "lastname": "Kläy",
+    "initials": "Kln",
+    "email": "nicole.klaey@edubs.ch",
+    "id": 40
+  },
+  {
+    "firstname": "Gabriele",
+    "lastname": "Knümann",
+    "initials": "Kng",
+    "email": "gabriele.knuemann@edubs.ch",
+    "id": 41
+  },
+  {
+    "firstname": "Oliver",
+    "lastname": "Kubetzko",
+    "initials": "Kuo",
+    "email": "oliver.kubetzko@edubs.ch",
+    "id": 42
+  },
+  {
+    "firstname": "Klemens",
+    "lastname": "Brysch",
+    "initials": "KuPro1",
+    "email": "klemens@foolpool.de",
+    "id": 43
+  },
+  {
+    "firstname": "Stefan",
+    "lastname": "Camenzind",
+    "initials": "KuPro2",
+    "email": "stefan_camenzind@sunrise.ch",
+    "id": 44
+  },
+  {
+    "firstname": "Dominique",
+    "lastname": "Lüdi",
+    "initials": "KuPro3",
+    "email": "dominique.luedi@gmail.com",
+    "id": 45
+  },
+  {
+    "firstname": "Kaspar",
+    "lastname": "Lüscher",
+    "initials": "KuPro4",
+    "email": "chluescher@sunrise.ch",
+    "id": 46
+  },
+  {
+    "firstname": "Tiziana",
+    "lastname": "Sarro",
+    "initials": "KuPro5",
+    "email": "mail@tiziana-sarro.net",
+    "id": 47
+  },
+  {
+    "firstname": "Fiona",
+    "lastname": "Schreier",
+    "initials": "KuPro6",
+    "email": "fionaschreier@gmail.com",
+    "id": 48
+  },
+  {
+    "firstname": "Renate",
+    "lastname": "von Rickenbach",
+    "initials": "KuPro7",
+    "email": "renateju@gmx.ch",
+    "id": 49
+  },
+  {
+    "firstname": "Oliver",
+    "lastname": "Zgorolec",
+    "initials": "KuPro8",
+    "email": "oli.z@gmx.ch",
+    "id": 50
+  },
+  {
+    "firstname": "Raphael",
+    "lastname": "Kübler",
+    "initials": "Kür",
+    "email": "raphael.kuebler@edubs.ch",
+    "id": 51
+  },
+  {
+    "firstname": "Elena",
+    "lastname": "Leuenberger",
+    "initials": "Lee",
+    "email": "elena.leuenberger@edubs.ch",
+    "id": 52
+  },
+  {
+    "firstname": "Martin",
+    "lastname": "Leiser",
+    "initials": "Lem",
+    "email": "martin.leiser@edubs.ch",
+    "id": 53
+  },
+  {
+    "firstname": "Roland",
+    "lastname": "Leuthardt",
+    "initials": "Ler",
+    "email": "roland.leuthardt@edubs.ch",
+    "id": 54
+  },
+  {
+    "firstname": "Fabian",
+    "lastname": "Löw",
+    "initials": "Löf",
+    "email": "fabian.loew@edubs.ch",
+    "id": 55
+  },
+  {
+    "firstname": "Mariella",
+    "lastname": "Lucrezia Meienhofer",
+    "initials": "Lum",
+    "email": "mariella.lucrezia@edubs.ch",
+    "id": 56
+  },
+  {
+    "firstname": "Romano",
+    "lastname": "Macuglia",
+    "initials": "Mar",
+    "email": "romano.macuglia@edubs.ch",
+    "id": 57
+  },
+  {
+    "firstname": "Dinesh",
+    "lastname": "Mehta",
+    "initials": "Med",
+    "email": "dinesh.mehta@edubs.ch",
+    "id": 58
+  },
+  {
+    "firstname": "Fabienne",
+    "lastname": "Meerstetter",
+    "initials": "Mef",
+    "email": "f.meerstetter@stud.unibas.ch",
+    "id": 59
+  },
+  {
+    "firstname": "Annette",
+    "lastname": "Morenz",
+    "initials": "Moa",
+    "email": "annette.morenz@edubs.ch",
+    "id": 60
+  },
+  {
+    "firstname": "Oliver",
+    "lastname": "Mülken",
+    "initials": "Müo",
+    "email": "oliver.muelken@edubs.ch",
+    "id": 61
+  },
+  {
+    "firstname": "Stefano",
+    "lastname": "Muratore",
+    "initials": "Mus",
+    "email": "stefano.muratore@edubs.ch",
+    "id": 62
+  },
+  {
+    "firstname": "Natalie",
+    "lastname": "Nikitine",
+    "initials": "Nin",
+    "email": "natalie.nikitine@edubs.ch",
+    "id": 63
+  },
+  {
+    "firstname": "Miranda",
+    "lastname": "Oeschger",
+    "initials": "Oem",
+    "email": "miranda.oeschger@edubs.ch",
+    "id": 64
+  },
+  {
+    "firstname": "Marco",
+    "lastname": "Orsini",
+    "initials": "Orm",
+    "email": "marco.orsini@edubs.ch",
+    "id": 65
+  },
+  {
+    "firstname": "Simon",
+    "lastname": "Peter",
+    "initials": "Pes",
+    "email": "simon.peter@edubs.ch",
+    "id": 66
+  },
+  {
+    "firstname": "Lukas",
+    "lastname": "Pfeifer",
+    "initials": "Pfl",
+    "email": "lukas.pfeifer@edubs.ch",
+    "id": 67
+  },
+  {
+    "firstname": "Bernd",
+    "lastname": "Piepenbreier",
+    "initials": "Pib",
+    "email": "bernd.piepenbreier@edubs.ch",
+    "id": 68
+  },
+  {
+    "firstname": "Erik",
+    "lastname": "Pleuler",
+    "initials": "Ple",
+    "email": "erik.pleuler@bs.ch",
+    "id": 69
+  },
+  {
+    "firstname": "Ines",
+    "lastname": "Place",
+    "initials": "Pli",
+    "email": "ines.place@edubs.ch",
+    "id": 70
+  },
+  {
+    "firstname": "Michela",
+    "lastname": "Puopolo",
+    "initials": "Pum",
+    "email": "michela.puopolo@edubs.ch",
+    "id": 71
+  },
+  {
+    "firstname": "Christine",
+    "lastname": "Reinders",
+    "initials": "Rec",
+    "email": "christine.reinders@edubs.ch",
+    "id": 72
+  },
+  {
+    "firstname": "Florian",
+    "lastname": "Recher",
+    "initials": "Ref",
+    "email": "florian.recher@edubs.ch",
+    "id": 73
+  },
+  {
+    "firstname": "Nicola",
+    "lastname": "Renfer-Dotta",
+    "initials": "Ren",
+    "email": "nicola.renfer@edubs.ch",
+    "id": 74
+  },
+  {
+    "firstname": "Daniel",
+    "lastname": "Roth",
+    "initials": "Rod",
+    "email": "daniel.roth@edubs.ch",
+    "id": 75
+  },
+  {
+    "firstname": "Kim",
+    "lastname": "Rossel",
+    "initials": "Rok",
+    "email": "kim.rossel@edubs.ch",
+    "id": 76
+  },
+  {
+    "firstname": "Susanne",
+    "lastname": "Rodriguez-Koffel",
+    "initials": "Ros",
+    "email": "susanne.rodriguez@edubs.ch",
+    "id": 77
+  },
+  {
+    "firstname": "Susi",
+    "lastname": "Rüedi",
+    "initials": "Rus",
+    "email": "susi.rueedi@edubs.ch",
+    "id": 78
+  },
+  {
+    "firstname": "Tanja",
+    "lastname": "Ruder Käsermann",
+    "initials": "Rut",
+    "email": "tanja.ruder@edubs.ch",
+    "id": 79
+  },
+  {
+    "firstname": "Arnold",
+    "lastname": "Schumacher",
+    "initials": "Sca",
+    "email": "arnold.schumacher@edubs.ch",
+    "id": 80
+  },
+  {
+    "firstname": "Diego",
+    "lastname": "Scheuber",
+    "initials": "Scd",
+    "email": "diego.scheuber@edubs.ch",
+    "id": 81
+  },
+  {
+    "firstname": "Fabian",
+    "lastname": "Schmid",
+    "initials": "Scf",
+    "email": "fabian.schmid@edubs.ch",
+    "id": 82
+  },
+  {
+    "firstname": "Judith",
+    "lastname": "Schnyder",
+    "initials": "Scj",
+    "email": "judith.schnyder@edubs.ch",
+    "id": 83
+  },
+  {
+    "firstname": "Mandy",
+    "lastname": "Schiele",
+    "initials": "Scm",
+    "email": "mandy.schiele@edubs.ch",
+    "id": 84
+  },
+  {
+    "firstname": "Patrick",
+    "lastname": "Schmidli",
+    "initials": "Scp",
+    "email": "patrick.schmidli@edubs.ch",
+    "id": 85
+  },
+  {
+    "firstname": "Sieglinde",
+    "lastname": "Schreiner",
+    "initials": "Scs",
+    "email": "sieglinde.schreiner@bs.ch",
+    "id": 86
+  },
+  {
+    "firstname": "Thomas",
+    "lastname": "Schmidlin",
+    "initials": "Sct",
+    "email": "thomas.schmidlin@edubs.ch",
+    "id": 87
+  },
+  {
+    "firstname": "Rachel",
+    "lastname": "Stucky",
+    "initials": "Str",
+    "email": "rachel.stucky@edubs.ch",
+    "id": 88
+  },
+  {
+    "firstname": "Tanja Maria",
+    "lastname": "Stoller",
+    "initials": "Stt",
+    "email": "tanja.stoller@edubs.ch",
+    "id": 89
+  },
+  {
+    "firstname": "Michèle-Adeline",
+    "lastname": "Tettü",
+    "initials": "Tem",
+    "email": "michele.tettue@edubs.ch",
+    "id": 90
+  },
+  {
+    "firstname": "Beatrice",
+    "lastname": "Thiele",
+    "initials": "Thb",
+    "email": "beatrice.thiele@edubs.ch",
+    "id": 91
+  },
+  {
+    "firstname": "Corina",
+    "lastname": "Thommen",
+    "initials": "Thc",
+    "email": "corina.thommen@edubs.ch",
+    "id": 92
+  },
+  {
+    "firstname": "Daniela",
+    "lastname": "Trütsch",
+    "initials": "Trd",
+    "email": "daniela.truetsch@edubs.ch",
+    "id": 93
+  },
+  {
+    "firstname": "Ueli",
+    "lastname": "von Arx",
+    "initials": "Vau",
+    "email": "ueli.vonarx@edubs.ch",
+    "id": 94
+  },
+  {
+    "firstname": "Stephanie",
+    "lastname": "Wagner-Büttiker",
+    "initials": "Was",
+    "email": "stephanie.buettiker@edubs.ch",
+    "id": 95
+  },
+  {
+    "firstname": "Angelika",
+    "lastname": "Wenzel",
+    "initials": "Wea",
+    "email": "angelika.wenzel@edubs.ch",
+    "id": 96
+  },
+  {
+    "firstname": "Anne",
+    "lastname": "Weick",
+    "initials": "Wei",
+    "email": "anneweick@gmail.com",
+    "id": 97
+  },
+  {
+    "firstname": "Monika",
+    "lastname": "Wetli",
+    "initials": "Wem",
+    "email": "monika.wetli@edubs.ch",
+    "id": 98
+  },
+  {
+    "firstname": "Corinne",
+    "lastname": "Wiederkehr",
+    "initials": "Wic",
+    "email": "corinne.wiederkehr@edubs.ch",
+    "id": 99
+  },
+  {
+    "firstname": "János",
+    "lastname": "Winkler",
+    "initials": "Wij",
+    "email": "janos.winkler@edubs.ch",
+    "id": 100
+  },
+  {
+    "firstname": "Sabine",
+    "lastname": "Wicki-Scherer",
+    "initials": "Wis",
+    "email": "sabine.wicki1@edubs.ch",
+    "id": 101
+  },
+  {
+    "firstname": "Susanne",
+    "lastname": "Wydler",
+    "initials": "Wys",
+    "email": "susanne.wydler@edubs.ch",
+    "id": 102
+  },
+  {
+    "firstname": "David",
+    "lastname": "Zahno",
+    "initials": "Zad",
+    "email": "david.zahno@edubs.ch",
+    "id": 103
+  },
+  {
+    "firstname": "Test",
+    "lastname": "Doz1",
+    "initials": "Caa",
+    "email": "caa.doz@edubs.ch",
+    "id": 104
+  },
+  {
+    "firstname": "Test",
+    "lastname": "Doz3",
+    "initials": "Tos",
+    "email": "tos.doz@edubs.ch",
+    "id": 105
+  },
+  {
+    "firstname": "Test",
+    "lastname": "Doz4",
+    "initials": "Haa",
+    "email": "Haa.doz@edubs.ch",
+    "id": 106
+  },
+  {
+    "firstname": "Test",
+    "lastname": "Doz5",
+    "initials": "Fcl",
+    "email": "Fcl.doz@edubs.ch",
+    "id": 107
+  }
+]
