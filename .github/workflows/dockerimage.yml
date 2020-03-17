@@ -1,19 +1,30 @@
-name: Docker Image CI
+name: Docker Image
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
-
-  build:
-
-    runs-on: ubuntu-latest
-
+  cd:
+    runs-on: [ubuntu-latest]
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ospp-backend:$(date +%s)
-      working-directory: BackEnd
+      - uses: actions/checkout@v2
+      - name: Docker Login
+        run: docker login -u ${{secerts.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Docker Build
+        run: docker build . --file Dockerfile
+        working-directory: BackEnd
+      - name: Docker Tag
+        run: |
+          docker tag ${{ secrets.DOCKER_USER }}/ospp-backend:${{ github.sha }}
+          docker tag ${{ secrets.DOCKER_USER }}/ospp-backend:latest
+        working-directory: BackEnd
+      - name: Docker Push
+        run: |
+          docker push ${{ secrets.DOCKER_USER }}/ospp-backend:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USER }}/ospp-backend:latest
+        working-directory: BackEnd
