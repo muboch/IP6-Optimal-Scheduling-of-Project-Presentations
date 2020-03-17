@@ -19,7 +19,7 @@ public class Program {
         List<Room> rooms = util.getJsonAsList("rooms.json", Room.class);
         List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
 
-
+        presentations.forEach(System.out::println);
 
 
     }
