@@ -21,6 +21,7 @@
         <module>solvers/ilpsolver</module>
         <module>solvers/cpsolver</module>
         <module>solvers/originalsolver</module>
+        <module>solvers/solution-checker</module>
 
     </modules>
 
