@@ -20,11 +20,11 @@ jobs:
         working-directory: BackEnd
       - name: Docker Tag
         run: |
-          docker tag ospp-backend ${{ secrets.DOCKER_USERNAME }}/ospp-backend:${{ github.sha }}
-          docker tag ospp-backend ${{ secrets.DOCKER_USERNAME }}/ospp-backend:latest
+          docker tag ospp-backend bananenhoschi/ospp-backend:${{ github.sha }}
+          docker tag ospp-backend bananenhoschi/ospp-backend:latest
         working-directory: BackEnd
       - name: Docker Push
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/ospp-backend:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/ospp-backend:latest
+          docker push bananenhoschi/ospp-backend:${{ github.sha }}
+          docker push bananenhoschi/ospp-backend:latest
         working-directory: BackEnd
