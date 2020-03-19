@@ -78,7 +78,7 @@ public class Program {
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
             }
-            IntVar[] arr = (IntVar[]) temp.toArray();
+            IntVar[] arr =  temp.toArray(IntVar[]::new);
             // next line same as c#: "model.Add(LinearExpr.Sum(temp) == 1);"
             model.addLinearConstraint(LinearExpr.sum(arr), 1, 1); // SUM OF ALL MUST EQUAL ONE ?????
         }
@@ -92,11 +92,12 @@ public class Program {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
-                IntVar[] arr = (IntVar[]) temp.toArray();
+                IntVar[] arr = temp.toArray(IntVar[]::new);
                 model.addLinearConstraint(LinearExpr.sum(arr), 0, 1);
             }
         }
         // END CONSTRAINT
+
 
         // START CONSTRAINT Foreach presentation, the following conflicting (presentation,room, time) pairs are not allowed
         for (var l : lecturers) {
@@ -107,12 +108,18 @@ public class Program {
                     for (var p1 : nonOverlappingPresentations[l.getId()]) {
                         temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
                     }
+                    System.out.println("rr"+r.getId());
+
                 }
-                IntVar[] arr = (IntVar[]) temp.toArray();
+
+                System.out.println(t.getId());
+                IntVar[] arr = temp.toArray(IntVar[]::new);
                 model.addLinearConstraint(LinearExpr.sum(arr), 0, 1); // <=1 -> max one out of overlap is allowed
             }
         }
         // END CONSTRAINT
+
+
 
         HashSet<Integer> to_print = new HashSet<Integer>();
         to_print.add(0);
