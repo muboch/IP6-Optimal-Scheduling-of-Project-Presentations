@@ -35,13 +35,13 @@
             <groupId>com.google.ortools</groupId>
             <artifactId>ortools</artifactId>
             <scope>system</scope>
-            <systemPath>${pom.basedir}/libs/com.google.ortools.jar</systemPath>
+            <systemPath>src/main/resources/libs/com.google.ortools.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>protobuf</groupId>
             <artifactId>protobuf</artifactId>
             <scope>system</scope>
-            <systemPath>${pom.basedir}/libs/protobuf.jar</systemPath>
+            <systemPath>src/main/resources/libs/protobuf.jar</systemPath>
         </dependency>
     </dependencies>
 

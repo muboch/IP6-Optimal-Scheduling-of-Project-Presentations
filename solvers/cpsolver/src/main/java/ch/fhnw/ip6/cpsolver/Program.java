@@ -14,10 +14,13 @@ import org.apache.commons.lang3.time.StopWatch;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
 public class Program {
 
     static {
+        System.setProperty("java.library.path", Objects.requireNonNull(Program.class.getClassLoader().getResource("libs/")).getPath());
         System.loadLibrary("jniortools");
     }
 
@@ -82,38 +85,31 @@ public class Program {
         // END CONSTRAINT
 
         // START CONSTRAINT For each (room, timeslot) pair there must be <=1 presentation -> Max 1 Presentation per Room/Time
-        for (var r : rooms)
-        {
-            for (var t : timeslots)
-            {
+        for (var r : rooms) {
+            for (var t : timeslots) {
                 var temp = new ArrayList<IntVar>();
-                for (var p : presentations)
-                {
+                for (var p : presentations) {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
                 IntVar[] arr = (IntVar[]) temp.toArray();
-                model.addLinearConstraint(LinearExpr.sum(arr),0,1);
+                model.addLinearConstraint(LinearExpr.sum(arr), 0, 1);
             }
         }
         // END CONSTRAINT
 
         // START CONSTRAINT Foreach presentation, the following conflicting (presentation,room, time) pairs are not allowed
-        for (var l : lecturers)
-        {
+        for (var l : lecturers) {
 
-            for (var t : timeslots)
-            {
+            for (var t : timeslots) {
                 var temp = new ArrayList<IntVar>();
-                for (var r : rooms)
-                {
-                    for (var p1 : nonOverlappingPresentations[l.getId()])
-                    {
+                for (var r : rooms) {
+                    for (var p1 : nonOverlappingPresentations[l.getId()]) {
                         temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
                     }
                 }
                 IntVar[] arr = (IntVar[]) temp.toArray();
-                model.addLinearConstraint(LinearExpr.sum(arr),0,1); // <=1 -> max one out of overlap is allowed
+                model.addLinearConstraint(LinearExpr.sum(arr), 0, 1); // <=1 -> max one out of overlap is allowed
             }
         }
         // END CONSTRAINT

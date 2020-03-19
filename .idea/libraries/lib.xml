@@ -1,10 +1,10 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/solvers/cpsolver/libs" />
+      <root url="file://$PROJECT_DIR$/solvers/cpsolver/src/main/resources/libs" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://$PROJECT_DIR$/solvers/cpsolver/libs" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/solvers/cpsolver/src/main/resources/libs" recursive="false" />
   </library>
 </component>
