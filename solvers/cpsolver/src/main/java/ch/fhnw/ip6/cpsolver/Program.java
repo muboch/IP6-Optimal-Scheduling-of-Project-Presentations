@@ -17,6 +17,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 public class Program {
 
+    static {
+        System.loadLibrary("jniortools");
+    }
+
     public static void main(String[] args) {
         JsonUtil util = new JsonUtil();
 

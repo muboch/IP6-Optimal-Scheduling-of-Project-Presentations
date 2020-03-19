@@ -12,5 +12,11 @@
 
     <artifactId>solution-checker</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>ch.fhnw.ip6</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

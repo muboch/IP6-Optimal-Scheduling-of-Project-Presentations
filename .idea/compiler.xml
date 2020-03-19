@@ -7,20 +7,28 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="backend" />
+        <module name="cpsolver" />
+        <module name="solution-checker" />
         <module name="SolverAPI" />
         <module name="common" />
-        <module name="OriginalSolver" />
+        <module name="ilpsolver" />
+        <module name="solverapi" />
         <module name="CPSolver" />
+        <module name="OriginalSolver" />
+        <module name="originalsolver" />
         <module name="ILPSolver" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="CPSolver" target="1.8" />
       <module name="demo" target="1.8" />
+      <module name="ILPSolver" target="1.8" />
+      <module name="OriginalSolver" target="1.8" />
       <module name="osopp" target="1.8" />
       <module name="osopp.main" target="1.8" />
       <module name="osopp.test" target="1.8" />
       <module name="ospp" target="1.8" />
+      <module name="SolverAPI" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -29,9 +37,9 @@
       <module name="ILPSolver" options="-parameters" />
       <module name="OriginalSolver" options="-parameters" />
       <module name="SolverAPI" options="-parameters" />
-      <module name="backend" options="-parameters" />
+      <module name="backend" options="" />
       <module name="demo" options="-parameters" />
-      <module name="ilpsolver" options="-parameters" />
+      <module name="ilpsolver" options="" />
       <module name="originalsolver" options="-parameters" />
       <module name="osopp" options="-parameters" />
       <module name="ospp" options="-parameters" />

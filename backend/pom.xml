@@ -12,6 +12,7 @@
 	<groupId>ch.fhnw.ip6</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>backend</name>
 	<description>Optimized Scheduling of Project Presentations</description>
 
