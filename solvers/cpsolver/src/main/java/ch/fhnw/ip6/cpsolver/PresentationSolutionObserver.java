@@ -1,6 +1,7 @@
 package ch.fhnw.ip6.cpsolver;
 
 import ch.fhnw.ip6.common.classes.*;
+import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
 
@@ -16,12 +17,13 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     private final List<Room> rooms;
     private final HashSet<Integer> to_print;
     private int solutionCount;
+    private static SolutionChecker solutionChecker = new SolutionChecker();
 
     @Override
     public void onSolutionCallback() {
         solutionCount++;
         if (!this.to_print.contains(solutionCount)) return;
-        var results = new ArrayList<Solution>();
+        var solutions = new ArrayList<Solution>();
         var professorInfo = new ArrayList<String>();
 
         for (var t : timeslots)
@@ -33,12 +35,15 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     if (booleanValue(presRoomTime[p.getId()][r.getId()][t.getId()]))
                     {
-                        results.add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
+                        solutions.add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
                         professorInfo.add("Pres {p.Id} has Professor {p.Supervisor.Id}, Expert {p.Expert.Id} at time {t.Datum}, room {r.Id}");
                     }
                 }
             }
         }
+        solutionChecker.printSolution(solutions,lecturers,presentations,timeslots,rooms,solutionCount);
+
+
 
     }
 

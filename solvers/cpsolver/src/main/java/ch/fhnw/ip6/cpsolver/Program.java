@@ -15,11 +15,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-
 public class Program {
 
     public static void main(String[] args) {
-
         JsonUtil util = new JsonUtil();
 
         List<Presentation> presentations = util.getJsonAsList("presentations.json", Presentation.class);
@@ -47,7 +45,7 @@ public class Program {
         for (Timeslot t : timeslots) {
             for (Room r : rooms) {
                 for (Presentation p : presentations) {
-                    if (p.getType() != r.getType()) {
+                    if (!p.getType().equals(r.getType())) {
                         continue;
                     }
                     presRoomTime[p.getId()][r.getId()][t.getId()] = model.newBoolVar("presRoomTime_p" + p.getId() + "_r" + r.getId() + "_t" + t.getId());
