@@ -5,12 +5,12 @@ import ch.fhnw.ip6.common.classes.Presentation;
 import ch.fhnw.ip6.common.classes.Room;
 import ch.fhnw.ip6.common.classes.Timeslot;
 import ch.fhnw.ip6.common.util.JsonUtil;
-import lombok.extern.slf4j.Slf4j;
+import com.google.ortools.sat.CpModel;
+import com.google.ortools.sat.IntVar;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.List;
 
-@Slf4j
 public class Program {
 
     public static void main(String[] args) {
@@ -30,10 +30,26 @@ public class Program {
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
+        CpModel model = new CpModel();
 
+        for (Presentation p : presentations) {
+            p.setCoach(teachers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
+            p.setExpert(teachers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
+        }
 
+        //Create model. presTimeRoom[p,t,r] -> Presentation p happens in room r at time t
+        IntVar[][][] presRoomTime = new IntVar[presentations.size()][rooms.size()][timeslots.size()];
+        for (Timeslot t : timeslots) {
+            for (Room r : rooms) {
+                for (Presentation p : presentations) {
+                    if (p.getType() != r.getType()) {
+                        continue;
+                    }
+                    presRoomTime[p.getId()][r.getId()][t.getId()] = model.newBoolVar("presRoomTime_p" + p.getId() + "_r" + r.getId() + "_t" + t.getId());
+                }
+            }
+        }
 
         stopWatch.stop();
-        log.info("Time used to find the final solution: {}", stopWatch.getTime());
     }
 }

@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class Lecturer {
 
-    private long id;
+    private int id;
     private String firstname;
     private String lastname;
     private String email;

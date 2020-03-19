@@ -13,14 +13,17 @@ import lombok.ToString;
 @ToString
 public class Presentation {
 
-    private long id;
+    private int id;
     private String nr;
     private String name;
     private String schoolclass;
     private String name2;
     private String schoolclass2;
     private String title;
-    private String coach;
-    private String expert;
+    private Lecturer coach;
+    private Lecturer expert;
+    private String coachInitials;
+    private String expertInitials;
+    private String type;
 
 }

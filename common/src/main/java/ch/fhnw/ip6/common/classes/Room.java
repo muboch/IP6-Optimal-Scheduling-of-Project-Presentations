@@ -13,12 +13,10 @@ import lombok.ToString;
 @ToString
 public class Room {
 
-       private long id;
+       private int id;
        private String name;
        private String place;
-       private boolean musicroom;
-       private boolean danceroom;
-       private boolean artroom;
-       private boolean reserve;
+       private String type;
+       private Boolean reserve;
 
 }

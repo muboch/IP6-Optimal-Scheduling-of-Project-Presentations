@@ -7,8 +7,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Istanbul für Jugendliche (Reiseheft)",
-    "coach": "det",
-    "expert": "baa"
+    "coachInitials": "det",
+    "expertInitials": "baa",
+    "type": "normal"
   },
   {
     "id": 1,
@@ -18,8 +19,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Einfluss der Fussballtrainer: Die Männer hinter dem Erfolg",
-    "coach": "gyt",
-    "expert": "baa"
+    "coachInitials": "gyt",
+    "expertInitials": "baa",
+    "type": "normal"
   },
   {
     "id": 2,
@@ -29,8 +31,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Rassismus",
-    "coach": "feb",
-    "expert": "baa"
+    "coachInitials": "feb",
+    "expertInitials": "baa",
+    "type": "normal"
   },
   {
     "id": 3,
@@ -40,8 +43,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "noch unschlüssig/Die Diktatur Chiles unter der Führung von Pinochet",
-    "coach": "bim",
-    "expert": "baa"
+    "coachInitials": "bim",
+    "expertInitials": "baa",
+    "type": "normal"
   },
   {
     "id": 4,
@@ -51,8 +55,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Integration von Migranten aus Portugal in Basel",
-    "coach": "oem",
-    "expert": "bae"
+    "coachInitials": "oem",
+    "expertInitials": "bae",
+    "type": "normal"
   },
   {
     "id": 5,
@@ -62,8 +67,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Der Nahostkonflikt und seine Lösungsmöglichkeiten: Das Unmögliche möglich machen",
-    "coach": "abu",
-    "expert": "bak"
+    "coachInitials": "abu",
+    "expertInitials": "bak",
+    "type": "normal"
   },
   {
     "id": 6,
@@ -73,8 +79,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Armenabschübe im Fricktal",
-    "coach": "ros",
-    "expert": "bak"
+    "coachInitials": "ros",
+    "expertInitials": "bak",
+    "type": "normal"
   },
   {
     "id": 7,
@@ -84,8 +91,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Big game in a litte box",
-    "coach": "tem",
-    "expert": "bak"
+    "coachInitials": "tem",
+    "expertInitials": "bak",
+    "type": "normal"
   },
   {
     "id": 8,
@@ -95,8 +103,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Sexismus im Hip Hop",
-    "coach": "tem",
-    "expert": "bak"
+    "coachInitials": "tem",
+    "expertInitials": "bak",
+    "type": "music"
   },
   {
     "id": 9,
@@ -106,8 +115,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wenn aus Brüdern Feinde werden",
-    "coach": "baa",
-    "expert": "bak"
+    "coachInitials": "baa",
+    "expertInitials": "bak",
+    "type": "normal"
   },
   {
     "id": 10,
@@ -117,8 +127,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Der Tanz als Ausdrucksform",
-    "coach": "cad",
-    "expert": "ben"
+    "coachInitials": "cad",
+    "expertInitials": "ben",
+    "type": "dance"
   },
   {
     "id": 11,
@@ -128,8 +139,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Pferdezucht - Haflinger",
-    "coach": "bak",
-    "expert": "ben"
+    "coachInitials": "bak",
+    "expertInitials": "ben",
+    "type": "normal"
   },
   {
     "id": 12,
@@ -139,8 +151,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wie verändert die Evolution/Umgebung die Tiere?",
-    "coach": "gai",
-    "expert": "ben"
+    "coachInitials": "gai",
+    "expertInitials": "ben",
+    "type": "normal"
   },
   {
     "id": 13,
@@ -150,8 +163,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Pferdezucht",
-    "coach": "grn",
-    "expert": "ben"
+    "coachInitials": "grn",
+    "expertInitials": "ben",
+    "type": "normal"
   },
   {
     "id": 14,
@@ -161,8 +175,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Leben mit Asthma",
-    "coach": "ben",
-    "expert": "bes"
+    "coachInitials": "ben",
+    "expertInitials": "bes",
+    "type": "normal"
   },
   {
     "id": 15,
@@ -172,8 +187,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Macht Bewegung glücklich?",
-    "coach": "orm",
-    "expert": "bes"
+    "coachInitials": "orm",
+    "expertInitials": "bes",
+    "type": "normal"
   },
   {
     "id": 16,
@@ -183,8 +199,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Text im Bild",
-    "coach": "thb",
-    "expert": "bov"
+    "coachInitials": "thb",
+    "expertInitials": "bov",
+    "type": "normal"
   },
   {
     "id": 17,
@@ -193,9 +210,10 @@
     "schoolclass": "3E",
     "name2": "",
     "schoolclass2": "",
-    "title": "Malerei und expertression",
-    "coach": "thb",
-    "expert": "bov"
+    "title": "Malerei",
+    "coachInitials": "thb",
+    "expertInitials": "bov",
+    "type": "art"
   },
   {
     "id": 18,
@@ -205,8 +223,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Selbstbewusstsein nach einem negativen Erlebnis",
-    "coach": "ros",
-    "expert": "bra"
+    "coachInitials": "ros",
+    "expertInitials": "bra",
+    "type": "normal"
   },
   {
     "id": 19,
@@ -216,8 +235,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Headspace",
-    "coach": "tem",
-    "expert": "bra"
+    "coachInitials": "tem",
+    "expertInitials": "bra",
+    "type": "normal"
   },
   {
     "id": 20,
@@ -227,8 +247,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Bis es wieder Sommer ist (Kinderbuch)",
-    "coach": "moa",
-    "expert": "bra"
+    "coachInitials": "moa",
+    "expertInitials": "bra",
+    "type": "normal"
   },
   {
     "id": 21,
@@ -238,8 +259,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wenn Kinder lesen, über ihre Lust und Fantasie (Kinderbuch)",
-    "coach": "sca",
-    "expert": "brr"
+    "coachInitials": "sca",
+    "expertInitials": "brr",
+    "type": "normal"
   },
   {
     "id": 22,
@@ -249,8 +271,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Fotoportraits",
-    "coach": "thb",
-    "expert": "caa"
+    "coachInitials": "thb",
+    "expertInitials": "caa",
+    "type": "art"
   },
   {
     "id": 23,
@@ -260,8 +283,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Mein eigener Comic mit Videospielcharakteren",
-    "coach": "med",
-    "expert": "caa"
+    "coachInitials": "med",
+    "expertInitials": "caa",
+    "type": "normal"
   },
   {
     "id": 24,
@@ -271,8 +295,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Zimmerwelten",
-    "coach": "med",
-    "expert": "caa"
+    "coachInitials": "med",
+    "expertInitials": "caa",
+    "type": "normal"
   },
   {
     "id": 25,
@@ -282,8 +307,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Kinderbuch für verschiedene Alterstufen",
-    "coach": "kng",
-    "expert": "caa"
+    "coachInitials": "kng",
+    "expertInitials": "caa",
+    "type": "normal"
   },
   {
     "id": 26,
@@ -293,8 +319,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Psychische Wirkung von Yoga auf Kinder zwischen 5-10 Jahren",
-    "coach": "wem",
-    "expert": "cad"
+    "coachInitials": "wem",
+    "expertInitials": "cad",
+    "type": "normal"
   },
   {
     "id": 27,
@@ -304,8 +331,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die beliebtesten Tänze der letzten Jahrzehnte",
-    "coach": "wys",
-    "expert": "cad"
+    "coachInitials": "wys",
+    "expertInitials": "cad",
+    "type": "dance"
   },
   {
     "id": 28,
@@ -315,8 +343,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Klimatribunal nach Milo Rau",
-    "coach": "scj",
-    "expert": "cad"
+    "coachInitials": "scj",
+    "expertInitials": "cad",
+    "type": "normal"
   },
   {
     "id": 29,
@@ -326,8 +355,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Vorbilder als Halbgötter",
-    "coach": "scs",
-    "expert": "det"
+    "coachInitials": "scs",
+    "expertInitials": "det",
+    "type": "normal"
   },
   {
     "id": 30,
@@ -337,8 +367,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wie gehen Jugendliche mit ihrer Sexualität um?",
-    "coach": "rus",
-    "expert": "det"
+    "coachInitials": "rus",
+    "expertInitials": "det",
+    "type": "normal"
   },
   {
     "id": 31,
@@ -348,8 +379,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die gesundheitliche Wirkung des Lachens",
-    "coach": "rus",
-    "expert": "det"
+    "coachInitials": "rus",
+    "expertInitials": "det",
+    "type": "normal"
   },
   {
     "id": 32,
@@ -359,8 +391,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Kartendeck",
-    "coach": "caa",
-    "expert": "dil"
+    "coachInitials": "caa",
+    "expertInitials": "dil",
+    "type": "normal"
   },
   {
     "id": 33,
@@ -370,8 +403,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Farm to table - Reportage&Rezepte",
-    "coach": "scj",
-    "expert": "ert"
+    "coachInitials": "scj",
+    "expertInitials": "ert",
+    "type": "normal"
   },
   {
     "id": 34,
@@ -381,8 +415,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Intervallfasten",
-    "coach": "gai",
-    "expert": "fcl"
+    "coachInitials": "gai",
+    "expertInitials": "fcl",
+    "type": "normal"
   },
   {
     "id": 35,
@@ -392,8 +427,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Angehörige von Schizophrenie-Patienten",
-    "coach": "grn",
-    "expert": "feb"
+    "coachInitials": "grn",
+    "expertInitials": "feb",
+    "type": "normal"
   },
   {
     "id": 36,
@@ -403,8 +439,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Sprache der Kräuterspirale",
-    "coach": "rus",
-    "expert": "feb"
+    "coachInitials": "rus",
+    "expertInitials": "feb",
+    "type": "normal"
   },
   {
     "id": 37,
@@ -414,8 +451,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wasser ist Lebenswichtig! Was vereinfacht uns das Trinken?",
-    "coach": "fre",
-    "expert": "feb"
+    "coachInitials": "fre",
+    "expertInitials": "feb",
+    "type": "normal"
   },
   {
     "id": 38,
@@ -425,8 +463,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Ab wann spricht man von Adipositas?",
-    "coach": "grn",
-    "expert": "fre"
+    "coachInitials": "grn",
+    "expertInitials": "fre",
+    "type": "normal"
   },
   {
     "id": 39,
@@ -436,8 +475,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Traum und Schlaf",
-    "coach": "heb",
-    "expert": "fre"
+    "coachInitials": "heb",
+    "expertInitials": "fre",
+    "type": "normal"
   },
   {
     "id": 40,
@@ -447,8 +487,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Schlafparalyse",
-    "coach": "fus",
-    "expert": "fre"
+    "coachInitials": "fus",
+    "expertInitials": "fre",
+    "type": "normal"
   },
   {
     "id": 41,
@@ -458,8 +499,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Alter + Technik",
-    "coach": "trd",
-    "expert": "fus"
+    "coachInitials": "trd",
+    "expertInitials": "fus",
+    "type": "normal"
   },
   {
     "id": 42,
@@ -469,8 +511,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Konzentrationsfähigkeit bei Jugendlichen",
-    "coach": "jew",
-    "expert": "fus"
+    "coachInitials": "jew",
+    "expertInitials": "fus",
+    "type": "normal"
   },
   {
     "id": 43,
@@ -480,8 +523,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Homöopathie - Wahrheit oder Lüge",
-    "coach": "feb",
-    "expert": "gad"
+    "coachInitials": "feb",
+    "expertInitials": "gad",
+    "type": "normal"
   },
   {
     "id": 44,
@@ -491,8 +535,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Sind probiotische Nahrungsmittel eine Lüge?",
-    "coach": "feb",
-    "expert": "gad"
+    "coachInitials": "feb",
+    "expertInitials": "gad",
+    "type": "normal"
   },
   {
     "id": 45,
@@ -502,8 +547,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Zöliakie",
-    "coach": "grn",
-    "expert": "gad"
+    "coachInitials": "grn",
+    "expertInitials": "gad",
+    "type": "normal"
   },
   {
     "id": 46,
@@ -513,8 +559,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Süssstoffe als Zuckeralternative",
-    "coach": "fre",
-    "expert": "gad"
+    "coachInitials": "fre",
+    "expertInitials": "gad",
+    "type": "normal"
   },
   {
     "id": 47,
@@ -524,8 +571,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die sportliche Aktivität von Jugendlichen 2019",
-    "coach": "mef",
-    "expert": "gaf"
+    "coachInitials": "mef",
+    "expertInitials": "gaf",
+    "type": "normal"
   },
   {
     "id": 48,
@@ -535,8 +583,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Brustkrebs",
-    "coach": "ben",
-    "expert": "gai"
+    "coachInitials": "ben",
+    "expertInitials": "gai",
+    "type": "normal"
   },
   {
     "id": 49,
@@ -546,8 +595,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Ich muss gross sein, obwohl ich klein bin!",
-    "coach": "kng",
-    "expert": "gai"
+    "coachInitials": "kng",
+    "expertInitials": "gai",
+    "type": "normal"
   },
   {
     "id": 50,
@@ -557,8 +607,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Gedichte zu Gemälden",
-    "coach": "oem",
-    "expert": "gra"
+    "coachInitials": "oem",
+    "expertInitials": "gra",
+    "type": "normal"
   },
   {
     "id": 51,
@@ -568,8 +619,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Zero Waste (Müllvermeidung)",
-    "coach": "baa",
-    "expert": "grn"
+    "coachInitials": "baa",
+    "expertInitials": "grn",
+    "type": "normal"
   },
   {
     "id": 52,
@@ -579,8 +631,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Risiken von Schönheitsoperationen",
-    "coach": "fre",
-    "expert": "grn"
+    "coachInitials": "fre",
+    "expertInitials": "grn",
+    "type": "normal"
   },
   {
     "id": 53,
@@ -590,8 +643,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "verschiedene Seifen im Vergleich",
-    "coach": "fre",
-    "expert": "grn"
+    "coachInitials": "fre",
+    "expertInitials": "grn",
+    "type": "normal"
   },
   {
     "id": 54,
@@ -601,8 +655,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Handicap Trisomie 21: Integrative Schulung von Kindern mit Down-Syndrom",
-    "coach": "orm",
-    "expert": "gut"
+    "coachInitials": "orm",
+    "expertInitials": "gut",
+    "type": "normal"
   },
   {
     "id": 55,
@@ -612,8 +667,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Leben mit einem behinderten Bruder",
-    "coach": "rus",
-    "expert": "gut"
+    "coachInitials": "rus",
+    "expertInitials": "gut",
+    "type": "normal"
   },
   {
     "id": 56,
@@ -623,8 +679,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Akne was tun? Pop it! (Ausdrücken)",
-    "coach": "fre",
-    "expert": "gut"
+    "coachInitials": "fre",
+    "expertInitials": "gut",
+    "type": "normal"
   },
   {
     "id": 57,
@@ -634,8 +691,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Sportler, die nach einer Verletzung/Unfall nicht aufgegeben haben....",
-    "coach": "sca",
-    "expert": "gyt"
+    "coachInitials": "sca",
+    "expertInitials": "gyt",
+    "type": "normal"
   },
   {
     "id": 58,
@@ -645,8 +703,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Skatespot in Basel - Reiseführer",
-    "coach": "brr",
-    "expert": "gyt"
+    "coachInitials": "brr",
+    "expertInitials": "gyt",
+    "type": "normal"
   },
   {
     "id": 59,
@@ -656,8 +715,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Parkourführer durch Basel (Reiseführer)",
-    "coach": "brr",
-    "expert": "gyt"
+    "coachInitials": "brr",
+    "expertInitials": "gyt",
+    "type": "normal"
   },
   {
     "id": 60,
@@ -667,8 +727,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Leitfaden zur Organisation eines Tennisturniers",
-    "coach": "nin",
-    "expert": "gyt"
+    "coachInitials": "nin",
+    "expertInitials": "gyt",
+    "type": "normal"
   },
   {
     "id": 61,
@@ -678,8 +739,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Geschichte auf Englisch schreiben (Tragödie)",
-    "coach": "abu",
-    "expert": "haa"
+    "coachInitials": "abu",
+    "expertInitials": "haa",
+    "type": "normal"
   },
   {
     "id": 62,
@@ -689,8 +751,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Dreiländereck und sein Geheimnis",
-    "coach": "rod",
-    "expert": "hem"
+    "coachInitials": "rod",
+    "expertInitials": "hem",
+    "type": "normal"
   },
   {
     "id": 63,
@@ -700,8 +763,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Techno-Metropole Berlin",
-    "coach": "his",
-    "expert": "her"
+    "coachInitials": "his",
+    "expertInitials": "her",
+    "type": "normal"
   },
   {
     "id": 64,
@@ -711,8 +775,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Stoff - Mixtape",
-    "coach": "his",
-    "expert": "her"
+    "coachInitials": "his",
+    "expertInitials": "her",
+    "type": "music"
   },
   {
     "id": 65,
@@ -722,8 +787,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Emotionen durch Musik",
-    "coach": "caa",
-    "expert": "her"
+    "coachInitials": "caa",
+    "expertInitials": "her",
+    "type": "music"
   },
   {
     "id": 66,
@@ -733,8 +799,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Murga Uruguaya - Ein Stück mit Rhythmen des Karnevals von Uruguay",
-    "coach": "pib",
-    "expert": "his"
+    "coachInitials": "pib",
+    "expertInitials": "his",
+    "type": "music"
   },
   {
     "id": 67,
@@ -744,8 +811,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Schottland in Ton&Bild",
-    "coach": "her",
-    "expert": "his"
+    "coachInitials": "her",
+    "expertInitials": "his",
+    "type": "normal"
   },
   {
     "id": 68,
@@ -755,8 +823,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Einen Song und was alles dazu gehört",
-    "coach": "her",
-    "expert": "his"
+    "coachInitials": "her",
+    "expertInitials": "his",
+    "type": "music"
   },
   {
     "id": 69,
@@ -766,8 +835,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Vegane Ernährung und ihre Auswirkung auf den Körper",
-    "coach": "gad",
-    "expert": "hus"
+    "coachInitials": "gad",
+    "expertInitials": "hus",
+    "type": "normal"
   },
   {
     "id": 70,
@@ -777,8 +847,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Blinden und die Sehenden - Wie \"sehen\" die Blinden die Sehenden und die Sehenden die Blinden",
-    "coach": "kng",
-    "expert": "hus"
+    "coachInitials": "kng",
+    "expertInitials": "hus",
+    "type": "normal"
   },
   {
     "id": 71,
@@ -788,8 +859,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Plastik frei leben",
-    "coach": "gad",
-    "expert": "hus"
+    "coachInitials": "gad",
+    "expertInitials": "hus",
+    "type": "normal"
   },
   {
     "id": 72,
@@ -799,8 +871,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Tiergestützte Therapie im Alten- und Pflegeheim",
-    "coach": "scm",
-    "expert": "hus"
+    "coachInitials": "scm",
+    "expertInitials": "hus",
+    "type": "normal"
   },
   {
     "id": 73,
@@ -810,8 +883,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Me, Myself and Y, the guide for happiness",
-    "coach": "pfl",
-    "expert": "joa"
+    "coachInitials": "pfl",
+    "expertInitials": "joa",
+    "type": "normal"
   },
   {
     "id": 74,
@@ -821,8 +895,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Kulturelle Um- und Zwischennutzung in Basel",
-    "coach": "baa",
-    "expert": "joa"
+    "coachInitials": "baa",
+    "expertInitials": "joa",
+    "type": "art"
   },
   {
     "id": 75,
@@ -832,8 +907,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Rassismus im italienischen Fussball",
-    "coach": "sca",
-    "expert": "joa"
+    "coachInitials": "sca",
+    "expertInitials": "joa",
+    "type": "normal"
   },
   {
     "id": 76,
@@ -843,8 +919,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Frauen erzählen ihre Geschichten",
-    "coach": "pfl",
-    "expert": "joa"
+    "coachInitials": "pfl",
+    "expertInitials": "joa",
+    "type": "normal"
   },
   {
     "id": 77,
@@ -854,8 +931,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "E-Sports",
-    "coach": "bae",
-    "expert": "joa"
+    "coachInitials": "bae",
+    "expertInitials": "joa",
+    "type": "normal"
   },
   {
     "id": 78,
@@ -865,8 +943,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Geschlechtsindentität - vorgeschrieben von der Gesellschaft! (Kurzfilm)",
-    "coach": "pfl",
-    "expert": "joa"
+    "coachInitials": "pfl",
+    "expertInitials": "joa",
+    "type": "art"
   },
   {
     "id": 79,
@@ -875,9 +954,10 @@
     "schoolclass": "3D",
     "name2": "",
     "schoolclass2": "",
-    "title": "Das Asch experteriment - wenn man gezwungen ist zu lügen",
-    "coach": "nin",
-    "expert": "kib"
+    "title": "Das Asch experiment - wenn man gezwungen ist zu lügen",
+    "coachInitials": "nin",
+    "expertInitials": "kib",
+    "type": "normal"
   },
   {
     "id": 80,
@@ -887,8 +967,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Gewalt gegen Frauen bei Türken",
-    "coach": "det",
-    "expert": "kib"
+    "coachInitials": "det",
+    "expertInitials": "kib",
+    "type": "normal"
   },
   {
     "id": 81,
@@ -898,8 +979,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Zero-Waste - Dein Ratgeber zu einem Leben ohne Abfall",
-    "coach": "wea",
-    "expert": "kng"
+    "coachInitials": "wea",
+    "expertInitials": "kng",
+    "type": "normal"
   },
   {
     "id": 82,
@@ -909,8 +991,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "5 Elemente Ernährung bezüglich Zystenniere: Ying und Yang im Einklang",
-    "coach": "gai",
-    "expert": "kng"
+    "coachInitials": "gai",
+    "expertInitials": "kng",
+    "type": "normal"
   },
   {
     "id": 83,
@@ -920,8 +1003,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "ADHS im schoolclassnzimmer",
-    "coach": "gta",
-    "expert": "kuo"
+    "coachInitials": "gta",
+    "expertInitials": "kuo",
+    "type": "normal"
   },
   {
     "id": 84,
@@ -931,8 +1015,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Was lesen junge Erwachsene heutzutage (Buch)",
-    "coach": "kng",
-    "expert": "kuo"
+    "coachInitials": "kng",
+    "expertInitials": "kuo",
+    "type": "normal"
   },
   {
     "id": 85,
@@ -942,8 +1027,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Theater Skript schreiben : Eiden (Thema: Weltherrschaft)",
-    "coach": "scp",
-    "expert": "kuo"
+    "coachInitials": "scp",
+    "expertInitials": "kuo",
+    "type": "normal"
   },
   {
     "id": 86,
@@ -953,8 +1039,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Meine Komposition (Trommelstück)",
-    "coach": "her",
-    "expert": "kür"
+    "coachInitials": "her",
+    "expertInitials": "kür",
+    "type": "normal"
   },
   {
     "id": 87,
@@ -964,8 +1051,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Good Character Writing. Was macht einen interessanten Charakter aus?",
-    "coach": "bae",
-    "expert": "lee"
+    "coachInitials": "bae",
+    "expertInitials": "lee",
+    "type": "normal"
   },
   {
     "id": 88,
@@ -975,8 +1063,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Der Wolf in der Schweiz",
-    "coach": "grn",
-    "expert": "lem"
+    "coachInitials": "grn",
+    "expertInitials": "lem",
+    "type": "normal"
   },
   {
     "id": 89,
@@ -986,8 +1075,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Vergleich von depressiven Erkrankungen bei Kindern versus Erwachsenen",
-    "coach": "feb",
-    "expert": "lem"
+    "coachInitials": "feb",
+    "expertInitials": "lem",
+    "type": "normal"
   },
   {
     "id": 90,
@@ -997,8 +1087,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Entwicklung der Anschauung des Universums seit dem 15. Jahrhundert",
-    "coach": "ple",
-    "expert": "lem"
+    "coachInitials": "ple",
+    "expertInitials": "lem",
+    "type": "normal"
   },
   {
     "id": 91,
@@ -1008,8 +1099,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Velohalterung für Uhr, 3 D-Druck",
-    "coach": "ple",
-    "expert": "med"
+    "coachInitials": "ple",
+    "expertInitials": "med",
+    "type": "normal"
   },
   {
     "id": 92,
@@ -1019,8 +1111,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Musikvideo:Numb",
-    "coach": "ert",
-    "expert": "med"
+    "coachInitials": "ert",
+    "expertInitials": "med",
+    "type": "music"
   },
   {
     "id": 93,
@@ -1030,8 +1123,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Umgebung mit 4 Materialien gezeichnet",
-    "coach": "stt",
-    "expert": "med"
+    "coachInitials": "stt",
+    "expertInitials": "med",
+    "type": "normal"
   },
   {
     "id": 94,
@@ -1041,8 +1135,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Volkskleidung von Mann und Frau im Kosovo",
-    "coach": "gaf",
-    "expert": "mef"
+    "coachInitials": "gaf",
+    "expertInitials": "mef",
+    "type": "normal"
   },
   {
     "id": 95,
@@ -1052,8 +1147,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "How to be fit with me?",
-    "coach": "nin",
-    "expert": "mef"
+    "coachInitials": "nin",
+    "expertInitials": "mef",
+    "type": "normal"
   },
   {
     "id": 96,
@@ -1063,8 +1159,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wie sieht es optisch nach dem Tod aus?",
-    "coach": "scp",
-    "expert": "moa"
+    "coachInitials": "scp",
+    "expertInitials": "moa",
+    "type": "normal"
   },
   {
     "id": 97,
@@ -1074,8 +1171,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Integration und Autismus",
-    "coach": "tos",
-    "expert": "moa"
+    "coachInitials": "tos",
+    "expertInitials": "moa",
+    "type": "normal"
   },
   {
     "id": 98,
@@ -1085,8 +1183,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Faire Mode",
-    "coach": "pli",
-    "expert": "moa"
+    "coachInitials": "pli",
+    "expertInitials": "moa",
+    "type": "normal"
   },
   {
     "id": 99,
@@ -1096,8 +1195,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Motivationen von Schulabsenzen",
-    "coach": "kuo",
-    "expert": "mus"
+    "coachInitials": "kuo",
+    "expertInitials": "mus",
+    "type": "normal"
   },
   {
     "id": 100,
@@ -1107,8 +1207,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Hochbegabung",
-    "coach": "kib",
-    "expert": "mus"
+    "coachInitials": "kib",
+    "expertInitials": "mus",
+    "type": "normal"
   },
   {
     "id": 101,
@@ -1118,8 +1219,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Fitnessbuch",
-    "coach": "wem",
-    "expert": "nin"
+    "coachInitials": "wem",
+    "expertInitials": "nin",
+    "type": "normal"
   },
   {
     "id": 102,
@@ -1129,8 +1231,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Ernährung von Sportlern",
-    "coach": "gyt",
-    "expert": "nin"
+    "coachInitials": "gyt",
+    "expertInitials": "nin",
+    "type": "normal"
   },
   {
     "id": 103,
@@ -1140,8 +1243,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Krankheit Depressionen",
-    "coach": "scm",
-    "expert": "oem"
+    "coachInitials": "scm",
+    "expertInitials": "oem",
+    "type": "normal"
   },
   {
     "id": 104,
@@ -1151,8 +1255,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Kinder- und Jugendkriminalität. Psychologische Hintergründe, Therapie und Präventionsansätze",
-    "coach": "bae",
-    "expert": "oem"
+    "coachInitials": "bae",
+    "expertInitials": "oem",
+    "type": "normal"
   },
   {
     "id": 105,
@@ -1162,8 +1267,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wie wirkt sich Medienkonsum auf Kinder aus?",
-    "coach": "scm",
-    "expert": "oem"
+    "coachInitials": "scm",
+    "expertInitials": "oem",
+    "type": "normal"
   },
   {
     "id": 106,
@@ -1173,8 +1279,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wie denken Kinder?",
-    "coach": "trd",
-    "expert": "oem"
+    "coachInitials": "trd",
+    "expertInitials": "oem",
+    "type": "normal"
   },
   {
     "id": 107,
@@ -1184,8 +1291,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "(write down your mind/speak my mind)",
-    "coach": "wic",
-    "expert": "oem"
+    "coachInitials": "wic",
+    "expertInitials": "oem",
+    "type": "normal"
   },
   {
     "id": 108,
@@ -1195,8 +1303,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Macht der Gedanken",
-    "coach": "wem",
-    "expert": "orm"
+    "coachInitials": "wem",
+    "expertInitials": "orm",
+    "type": "normal"
   },
   {
     "id": 109,
@@ -1206,8 +1315,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Lifestyle (Hip-Hop Song schreiben)",
-    "coach": "pib",
-    "expert": "pes"
+    "coachInitials": "pib",
+    "expertInitials": "pes",
+    "type": "music"
   },
   {
     "id": 110,
@@ -1217,8 +1327,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Arrangement für die Gitarre",
-    "coach": "pib",
-    "expert": "pes"
+    "coachInitials": "pib",
+    "expertInitials": "pes",
+    "type": "music"
   },
   {
     "id": 111,
@@ -1228,8 +1339,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Balkankrieg und seine Folgen: Warum der Krieg nicht zu Ende ist",
-    "coach": "sca",
-    "expert": "pfl"
+    "coachInitials": "sca",
+    "expertInitials": "pfl",
+    "type": "normal"
   },
   {
     "id": 112,
@@ -1239,8 +1351,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Zahnarztangst",
-    "coach": "jew",
-    "expert": "ple"
+    "coachInitials": "jew",
+    "expertInitials": "ple",
+    "type": "normal"
   },
   {
     "id": 113,
@@ -1250,8 +1363,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Basel und Velo",
-    "coach": "sca",
-    "expert": "ple"
+    "coachInitials": "sca",
+    "expertInitials": "ple",
+    "type": "normal"
   },
   {
     "id": 114,
@@ -1261,8 +1375,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Schulplaner für 2. schoolclassn FMS",
-    "coach": "moa",
-    "expert": "pli"
+    "coachInitials": "moa",
+    "expertInitials": "pli",
+    "type": "normal"
   },
   {
     "id": 115,
@@ -1272,8 +1387,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Gedanken lesen? Anhand von nonverbalen Signalen",
-    "coach": "sca",
-    "expert": "pli"
+    "coachInitials": "sca",
+    "expertInitials": "pli",
+    "type": "normal"
   },
   {
     "id": 116,
@@ -1283,8 +1399,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wie kümmere ich mich um die Umwelt (Bilderbuch)",
-    "coach": "moa",
-    "expert": "pli"
+    "coachInitials": "moa",
+    "expertInitials": "pli",
+    "type": "normal"
   },
   {
     "id": 117,
@@ -1294,8 +1411,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Kochen nach Farben (Kochbuch)",
-    "coach": "tem",
-    "expert": "pum"
+    "coachInitials": "tem",
+    "expertInitials": "pum",
+    "type": "normal"
   },
   {
     "id": 118,
@@ -1305,8 +1423,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Wechselwirkung des mentalen Anteils und der Leistung im Tennis",
-    "coach": "orm",
-    "expert": "ref"
+    "coachInitials": "orm",
+    "expertInitials": "ref",
+    "type": "normal"
   },
   {
     "id": 119,
@@ -1316,8 +1435,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wie stark kann man seine Sprungkraft trainieren in 3 Monaten?",
-    "coach": "orm",
-    "expert": "ref"
+    "coachInitials": "orm",
+    "expertInitials": "ref",
+    "type": "normal"
   },
   {
     "id": 120,
@@ -1327,8 +1447,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Flamenco eine attraktive Lebensform",
-    "coach": "bra",
-    "expert": "ros"
+    "coachInitials": "bra",
+    "expertInitials": "ros",
+    "type": "normal"
   },
   {
     "id": 121,
@@ -1338,8 +1459,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Menschen am Rande der Gesellschaft",
-    "coach": "bak",
-    "expert": "ros"
+    "coachInitials": "bak",
+    "expertInitials": "ros",
+    "type": "normal"
   },
   {
     "id": 122,
@@ -1349,8 +1471,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Das Schönheitsbild der Frauen in der Pop Kultur",
-    "coach": "wea",
-    "expert": "ros"
+    "coachInitials": "wea",
+    "expertInitials": "ros",
+    "type": "normal"
   },
   {
     "id": 123,
@@ -1360,8 +1483,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Probleme und Hindernisse während der Genesung eines Hirnschlages am Beispiel von drei Patienten",
-    "coach": "bra",
-    "expert": "rus"
+    "coachInitials": "bra",
+    "expertInitials": "rus",
+    "type": "normal"
   },
   {
     "id": 124,
@@ -1371,8 +1495,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Einfluss der türkischen Kultur auf Diabetes Typ2",
-    "coach": "det",
-    "expert": "rus"
+    "coachInitials": "det",
+    "expertInitials": "rus",
+    "type": "normal"
   },
   {
     "id": 125,
@@ -1382,8 +1507,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wie kann man Höhenangst überwinden?",
-    "coach": "gyt",
-    "expert": "sca"
+    "coachInitials": "gyt",
+    "expertInitials": "sca",
+    "type": "normal"
   },
   {
     "id": 126,
@@ -1393,8 +1519,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Schattenseiten von Basel",
-    "coach": "gyt",
-    "expert": "sca"
+    "coachInitials": "gyt",
+    "expertInitials": "sca",
+    "type": "normal"
   },
   {
     "id": 127,
@@ -1404,8 +1531,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Poesie Buch",
-    "coach": "pfl",
-    "expert": "sca"
+    "coachInitials": "pfl",
+    "expertInitials": "sca",
+    "type": "normal"
   },
   {
     "id": 128,
@@ -1415,8 +1543,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Einfluss der Psyche auf unsere Träume",
-    "coach": "feb",
-    "expert": "scf"
+    "coachInitials": "feb",
+    "expertInitials": "scf",
+    "type": "normal"
   },
   {
     "id": 129,
@@ -1426,8 +1555,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Wie wichtig ist die Früherkennung einer Depression in diesem Fall bei Jugendlichen",
-    "coach": "fre",
-    "expert": "scf"
+    "coachInitials": "fre",
+    "expertInitials": "scf",
+    "type": "normal"
   },
   {
     "id": 130,
@@ -1437,8 +1567,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Grundrechte für Primaten",
-    "coach": "rus",
-    "expert": "scf"
+    "coachInitials": "rus",
+    "expertInitials": "scf",
+    "type": "normal"
   },
   {
     "id": 131,
@@ -1448,8 +1579,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Krankhafte Männlichkeit (Tanzperformance)",
-    "coach": "cad",
-    "expert": "scj"
+    "coachInitials": "cad",
+    "expertInitials": "scj",
+    "type": "normal"
   },
   {
     "id": 132,
@@ -1459,8 +1591,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Rundgang auf dem Dreispitzareal",
-    "coach": "ert",
-    "expert": "scj"
+    "coachInitials": "ert",
+    "expertInitials": "scj",
+    "type": "normal"
   },
   {
     "id": 133,
@@ -1470,8 +1603,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Klein und Fein - Miniaturmalerei",
-    "coach": "stt",
-    "expert": "scj"
+    "coachInitials": "stt",
+    "expertInitials": "scj",
+    "type": "normal"
   },
   {
     "id": 134,
@@ -1481,8 +1615,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "bildnerische Darstellung von seelischem Schmerz",
-    "coach": "stt",
-    "expert": "scj"
+    "coachInitials": "stt",
+    "expertInitials": "scj",
+    "type": "normal"
   },
   {
     "id": 135,
@@ -1492,8 +1627,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Gewalt gegen Frauen in der Partnerschaft",
-    "coach": "oem",
-    "expert": "scm"
+    "coachInitials": "oem",
+    "expertInitials": "scm",
+    "type": "normal"
   },
   {
     "id": 136,
@@ -1503,8 +1639,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Ich erstelle mein eigenes Herbarium",
-    "coach": "rus",
-    "expert": "scm"
+    "coachInitials": "rus",
+    "expertInitials": "scm",
+    "type": "normal"
   },
   {
     "id": 137,
@@ -1514,8 +1651,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Kinder leiden, wenn Eltern streiten",
-    "coach": "gta",
-    "expert": "scp"
+    "coachInitials": "gta",
+    "expertInitials": "scp",
+    "type": "normal"
   },
   {
     "id": 138,
@@ -1525,8 +1663,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Kinder-Bilder-Buch",
-    "coach": "moa",
-    "expert": "scp"
+    "coachInitials": "moa",
+    "expertInitials": "scp",
+    "type": "normal"
   },
   {
     "id": 139,
@@ -1536,8 +1675,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die verschiedenen Religionen in der Türkei",
-    "coach": "bra",
-    "expert": "scs"
+    "coachInitials": "bra",
+    "expertInitials": "scs",
+    "type": "normal"
   },
   {
     "id": 140,
@@ -1547,8 +1687,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Sekundarstufe II im Schulsystemvergleich zwischen Basel und Istanbul.",
-    "coach": "det",
-    "expert": "scs"
+    "coachInitials": "det",
+    "expertInitials": "scs",
+    "type": "normal"
   },
   {
     "id": 141,
@@ -1558,8 +1699,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Eifersucht",
-    "coach": "fus",
-    "expert": "scs"
+    "coachInitials": "fus",
+    "expertInitials": "scs",
+    "type": "normal"
   },
   {
     "id": 142,
@@ -1569,8 +1711,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Ayla lernt tanzen (Kinderbuch)",
-    "coach": "caa",
-    "expert": "sct"
+    "coachInitials": "caa",
+    "expertInitials": "sct",
+    "type": "normal"
   },
   {
     "id": 143,
@@ -1580,8 +1723,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Was ist das bessere Zuhause der Demenzerkrankten?",
-    "coach": "scm",
-    "expert": "sct"
+    "coachInitials": "scm",
+    "expertInitials": "sct",
+    "type": "normal"
   },
   {
     "id": 144,
@@ -1591,8 +1735,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Besessenheit der K-Pop Fans",
-    "coach": "pfl",
-    "expert": "stt"
+    "coachInitials": "pfl",
+    "expertInitials": "stt",
+    "type": "normal"
   },
   {
     "id": 145,
@@ -1602,8 +1747,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "upgecycelte Kunst-/Kulturbar",
-    "coach": "was",
-    "expert": "stt"
+    "coachInitials": "was",
+    "expertInitials": "stt",
+    "type": "art"
   },
   {
     "id": 146,
@@ -1613,8 +1759,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Performance als künstlerisches Ausdrucksmittel",
-    "coach": "scj",
-    "expert": "stt"
+    "coachInitials": "scj",
+    "expertInitials": "stt",
+    "type": "dance"
   },
   {
     "id": 147,
@@ -1624,8 +1771,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Tiere rund um die Welt (Bilderbuch)",
-    "coach": "scj",
-    "expert": "stt"
+    "coachInitials": "scj",
+    "expertInitials": "stt",
+    "type": "normal"
   },
   {
     "id": 148,
@@ -1635,8 +1783,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Tatoo: Entwürfe",
-    "coach": "med",
-    "expert": "stt"
+    "coachInitials": "med",
+    "expertInitials": "stt",
+    "type": "normal"
   },
   {
     "id": 149,
@@ -1646,8 +1795,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Ein Comic zum Kosovokrieg",
-    "coach": "med",
-    "expert": "stt"
+    "coachInitials": "med",
+    "expertInitials": "stt",
+    "type": "normal"
   },
   {
     "id": 150,
@@ -1657,8 +1807,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Das Pferd als Lehrer",
-    "coach": "bak",
-    "expert": "tem"
+    "coachInitials": "bak",
+    "expertInitials": "tem",
+    "type": "normal"
   },
   {
     "id": 151,
@@ -1668,8 +1819,9 @@
     "name2": "Schmidl",
     "schoolclass2": "3D",
     "title": "Musikvideo",
-    "coach": "ert",
-    "expert": "tem"
+    "coachInitials": "ert",
+    "expertInitials": "tem",
+    "type": "music"
   },
   {
     "id": 152,
@@ -1679,8 +1831,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Musikvideo",
-    "coach": "ert",
-    "expert": "tem"
+    "coachInitials": "ert",
+    "expertInitials": "tem",
+    "type": "music"
   },
   {
     "id": 153,
@@ -1690,8 +1843,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Filmmusik",
-    "coach": "her",
-    "expert": "tem"
+    "coachInitials": "her",
+    "expertInitials": "tem",
+    "type": "music"
   },
   {
     "id": 154,
@@ -1701,8 +1855,9 @@
     "name2": "Kunam",
     "schoolclass2": "3G",
     "title": "Care about you (Buch)",
-    "coach": "scm",
-    "expert": "tem"
+    "coachInitials": "scm",
+    "expertInitials": "tem",
+    "type": "normal"
   },
   {
     "id": 155,
@@ -1712,8 +1867,9 @@
     "name2": "Capra",
     "schoolclass2": "",
     "title": "Care about you (Buch)",
-    "coach": "scm",
-    "expert": "tem"
+    "coachInitials": "scm",
+    "expertInitials": "tem",
+    "type": "normal"
   },
   {
     "id": 156,
@@ -1723,8 +1879,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Konservierungsmittel in Lebensmittlen",
-    "coach": "grn",
-    "expert": "tem"
+    "coachInitials": "grn",
+    "expertInitials": "tem",
+    "type": "normal"
   },
   {
     "id": 157,
@@ -1734,8 +1891,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Ich fühle was, was du nicht fühlst",
-    "coach": "det",
-    "expert": "tem"
+    "coachInitials": "det",
+    "expertInitials": "tem",
+    "type": "normal"
   },
   {
     "id": 158,
@@ -1745,8 +1903,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Meine Haut",
-    "coach": "gad",
-    "expert": "tem"
+    "coachInitials": "gad",
+    "expertInitials": "tem",
+    "type": "normal"
   },
   {
     "id": 159,
@@ -1756,8 +1915,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Möbeldesign",
-    "coach": "lum",
-    "expert": "thb"
+    "coachInitials": "lum",
+    "expertInitials": "thb",
+    "type": "normal"
   },
   {
     "id": 160,
@@ -1767,8 +1927,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Upcycling von Tera Pak",
-    "coach": "lum",
-    "expert": "thb"
+    "coachInitials": "lum",
+    "expertInitials": "thb",
+    "type": "normal"
   },
   {
     "id": 161,
@@ -1778,8 +1939,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Moderne Architektur: Bau eines Hauses in Form eines Quaders",
-    "coach": "lum",
-    "expert": "thb"
+    "coachInitials": "lum",
+    "expertInitials": "thb",
+    "type": "normal"
   },
   {
     "id": 162,
@@ -1789,8 +1951,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "The Art of the Architect",
-    "coach": "was",
-    "expert": "thb"
+    "coachInitials": "was",
+    "expertInitials": "thb",
+    "type": "normal"
   },
   {
     "id": 163,
@@ -1800,8 +1963,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Ein Schritt näher zum perfekten Bild",
-    "coach": "bov",
-    "expert": "thb"
+    "coachInitials": "bov",
+    "expertInitials": "thb",
+    "type": "normal"
   },
   {
     "id": 164,
@@ -1811,8 +1975,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Mein Kater Jeammy (Kinderbuch)",
-    "coach": "moa",
-    "expert": "tos"
+    "coachInitials": "moa",
+    "expertInitials": "tos",
+    "type": "normal"
   },
   {
     "id": 165,
@@ -1822,8 +1987,9 @@
     "name2": "Wackernagel",
     "schoolclass2": "3C",
     "title": "Classmate (Webseite)",
-    "coach": "rod",
-    "expert": "trd"
+    "coachInitials": "rod",
+    "expertInitials": "trd",
+    "type": "normal"
   },
   {
     "id": 166,
@@ -1833,8 +1999,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Classmate (Webseite)",
-    "coach": "rod",
-    "expert": "trd"
+    "coachInitials": "rod",
+    "expertInitials": "trd",
+    "type": "normal"
   },
   {
     "id": 167,
@@ -1844,8 +2011,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Mode: Aus alt mach neu",
-    "coach": "stt",
-    "expert": "vau"
+    "coachInitials": "stt",
+    "expertInitials": "vau",
+    "type": "normal"
   },
   {
     "id": 168,
@@ -1855,8 +2023,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Zeichnen nach Themen und Zitaten aus Musikstücken",
-    "coach": "caa",
-    "expert": "was"
+    "coachInitials": "caa",
+    "expertInitials": "was",
+    "type": "art"
   },
   {
     "id": 169,
@@ -1866,8 +2035,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Horoskope",
-    "coach": "caa",
-    "expert": "was"
+    "coachInitials": "caa",
+    "expertInitials": "was",
+    "type": "normal"
   },
   {
     "id": 170,
@@ -1877,8 +2047,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "KUCKMAL (Bilderbuch Sexualaufklärung)",
-    "coach": "scj",
-    "expert": "was"
+    "coachInitials": "scj",
+    "expertInitials": "was",
+    "type": "normal"
   },
   {
     "id": 171,
@@ -1888,8 +2059,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Daumenkino",
-    "coach": "thb",
-    "expert": "was"
+    "coachInitials": "thb",
+    "expertInitials": "was",
+    "type": "art"
   },
   {
     "id": 172,
@@ -1899,8 +2071,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Basel in three days (Reiseführer)",
-    "coach": "wea",
-    "expert": "was"
+    "coachInitials": "wea",
+    "expertInitials": "was",
+    "type": "normal"
   },
   {
     "id": 173,
@@ -1910,8 +2083,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Von der Welpenschule zur Weltschoolclass",
-    "coach": "hus",
-    "expert": "was"
+    "coachInitials": "hus",
+    "expertInitials": "was",
+    "type": "normal"
   },
   {
     "id": 174,
@@ -1921,8 +2095,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Bewusstsein",
-    "coach": "kib",
-    "expert": "was"
+    "coachInitials": "kib",
+    "expertInitials": "was",
+    "type": "normal"
   },
   {
     "id": 175,
@@ -1932,8 +2107,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Das Sonnensystem (Büchlein)",
-    "coach": "vau",
-    "expert": "was"
+    "coachInitials": "vau",
+    "expertInitials": "was",
+    "type": "normal"
   },
   {
     "id": 176,
@@ -1943,8 +2119,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Finnland - von der Unabhängigkeit bis heute",
-    "coach": "ros",
-    "expert": "wea"
+    "coachInitials": "ros",
+    "expertInitials": "wea",
+    "type": "normal"
   },
   {
     "id": 177,
@@ -1954,8 +2131,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Jugendleben der Mädchen in Sri Lanka und in der Schweiz",
-    "coach": "joa",
-    "expert": "wea"
+    "coachInitials": "joa",
+    "expertInitials": "wea",
+    "type": "normal"
   },
   {
     "id": 178,
@@ -1965,8 +2143,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Verlangen heisst Abhängigkeit (Poesiebuch)",
-    "coach": "kng",
-    "expert": "wea"
+    "coachInitials": "kng",
+    "expertInitials": "wea",
+    "type": "normal"
   },
   {
     "id": 179,
@@ -1976,8 +2155,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Rassismus in der Traumfabrik: Hollywood",
-    "coach": "ros",
-    "expert": "wea"
+    "coachInitials": "ros",
+    "expertInitials": "wea",
+    "type": "normal"
   },
   {
     "id": 180,
@@ -1987,8 +2167,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "How to get \"en\" pinte",
-    "coach": "cad",
-    "expert": "wem"
+    "coachInitials": "cad",
+    "expertInitials": "wem",
+    "type": "normal"
   },
   {
     "id": 181,
@@ -1998,8 +2179,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Turnaufführung mit Kindern",
-    "coach": "nin",
-    "expert": "wem"
+    "coachInitials": "nin",
+    "expertInitials": "wem",
+    "type": "dance"
   },
   {
     "id": 182,
@@ -2009,8 +2191,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Die Psyche bei Sportverletzungen",
-    "coach": "orm",
-    "expert": "wem"
+    "coachInitials": "orm",
+    "expertInitials": "wem",
+    "type": "normal"
   },
   {
     "id": 183,
@@ -2020,8 +2203,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Gesundheitliche Auswirkungen beim Kraftsport",
-    "coach": "brr",
-    "expert": "wic"
+    "coachInitials": "brr",
+    "expertInitials": "wic",
+    "type": "normal"
   },
   {
     "id": 184,
@@ -2031,8 +2215,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Integration von jugendlichen Migranten in der Schweiz",
-    "coach": "gyt",
-    "expert": "wic"
+    "coachInitials": "gyt",
+    "expertInitials": "wic",
+    "type": "normal"
   },
   {
     "id": 185,
@@ -2042,8 +2227,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Auswirkungen durch tägliche Liegestützen",
-    "coach": "gyt",
-    "expert": "wic"
+    "coachInitials": "gyt",
+    "expertInitials": "wic",
+    "type": "normal"
   },
   {
     "id": 186,
@@ -2053,8 +2239,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Deutschrap Mixtape",
-    "coach": "pib",
-    "expert": "wij"
+    "coachInitials": "pib",
+    "expertInitials": "wij",
+    "type": "music"
   },
   {
     "id": 187,
@@ -2064,8 +2251,9 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Ballett und der Hintergrund des Tanzens",
-    "coach": "cad",
-    "expert": "wys"
+    "coachInitials": "cad",
+    "expertInitials": "wys",
+    "type": "dance"
   },
   {
     "id": 188,
@@ -2075,7 +2263,7 @@
     "name2": "",
     "schoolclass2": "",
     "title": "Der Klimastreik in Basel",
-    "coach": "bae",
-    "expert": "zad"
+    "coachInitials": "bae",
+    "expertInitials": "zad"
   }
 ]

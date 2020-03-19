@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class Timeslot {
 
-     private long id;
+     private int id;
      private String datum;
      private int block;
 

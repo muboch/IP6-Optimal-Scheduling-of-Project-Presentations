@@ -1,299 +1,233 @@
 [
   {
+    "id": 0,
+    "name": "312",
+    "place": "",
+    "type": "normal",
+    "reserve": false
+  },
+  {
     "id": 1,
     "name": "105",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 2,
     "name": "106",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 3,
     "name": "107",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 4,
     "name": "108",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 5,
     "name": "109",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 6,
     "name": "203",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 7,
     "name": "205",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 8,
     "name": "206",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 9,
     "name": "207",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 10,
     "name": "209",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 11,
     "name": "210",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 12,
     "name": "211",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 13,
     "name": "213",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 14,
     "name": "217",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 15,
     "name": "218",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 16,
     "name": "305",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 17,
     "name": "306",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 18,
     "name": "307",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 19,
     "name": "308",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 20,
     "name": "310",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 21,
     "name": "311",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": false
   },
   {
     "id": 22,
-    "name": "312",
+    "name": "303",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "music",
+    "reserve": false
   },
   {
     "id": 23,
-    "name": "303",
+    "name": "320",
     "place": "",
-    "musicroom": "true",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "music",
+    "reserve": false
   },
   {
     "id": 24,
-    "name": "320",
+    "name": "304",
     "place": "",
-    "musicroom": "true",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "dance",
+    "reserve": false
   },
   {
     "id": 25,
-    "name": "304",
+    "name": "E11",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "true",
-    "artroom": "false",
-    "reserve": "false"
+    "type": "art",
+    "reserve": false
   },
   {
     "id": 26,
-    "name": "E11",
+    "name": "E12",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "true",
-    "reserve": "false"
+    "type": "art",
+    "reserve": false
   },
   {
     "id": 27,
-    "name": "E12",
+    "name": "U33",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "true",
-    "reserve": "false"
+    "type": "normal",
+    "reserve": true
   },
   {
     "id": 28,
-    "name": "U33",
+    "name": "E05",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "true"
+    "type": "normal",
+    "reserve": true
   },
   {
     "id": 29,
-    "name": "E05",
+    "name": "E06",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "true"
+    "type": "normal",
+    "reserve": true
   },
   {
     "id": 30,
-    "name": "E06",
+    "name": "E09",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "true"
+    "type": "normal",
+    "reserve": true
   },
   {
     "id": 31,
-    "name": "E09",
+    "name": "E14",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "true"
+    "type": "normal",
+    "reserve": true
   },
   {
     "id": 32,
-    "name": "E14",
-    "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "true"
-  },
-  {
-    "id": 33,
     "name": "E17",
     "place": "",
-    "musicroom": "false",
-    "danceroom": "false",
-    "artroom": "false",
-    "reserve": "true"
+    "type": "normal",
+    "reserve": true
   }
 ]
