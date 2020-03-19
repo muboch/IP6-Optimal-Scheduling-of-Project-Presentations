@@ -6,6 +6,7 @@ import ch.fhnw.ip6.common.classes.Room;
 import ch.fhnw.ip6.common.classes.Timeslot;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import com.google.ortools.sat.CpModel;
+import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import org.apache.commons.lang3.time.StopWatch;
@@ -124,6 +125,10 @@ public class Program {
         to_print.add(600);
         to_print.add(1000);
 
+        CpSolver solver = new CpSolver();
+        var cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms,
+                to_print);
+        var res = solver.searchAllSolutions(model, cb);
 
         stopWatch.stop();
     }
