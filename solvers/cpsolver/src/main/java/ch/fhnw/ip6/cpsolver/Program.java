@@ -10,6 +10,7 @@ import com.google.ortools.sat.IntVar;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Program {
 
@@ -49,6 +50,18 @@ public class Program {
                 }
             }
         }
+
+        System.out.println("Setup completed");
+        // For each presentations, list the presentations that are not allowed to overlap
+        List<Presentation>[] nonOverlappingPresentations = new List[teachers.size()];
+        for (Lecturer l:teachers)
+        {
+            nonOverlappingPresentations[l.getId()] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() ==l.getId()).collect(Collectors.toList());
+        }
+        System.out.println("Overlap calculation completed");
+
+        
+
 
         stopWatch.stop();
     }
