@@ -1,4 +1,5 @@
 *.class
 /common/target/
-.idea
-/.idea/
+.idea/
+.idea/
+*/*/target/
