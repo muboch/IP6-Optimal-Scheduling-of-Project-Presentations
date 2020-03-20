@@ -36,14 +36,14 @@
             <artifactId>ortools</artifactId>
             <version>0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/src/main/resources/libs/com.google.ortools.jar</systemPath>
+            <systemPath>${basedir}/libs/com.google.ortools.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>protobuf</groupId>
             <artifactId>protobuf</artifactId>
             <version>0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/src/main/resources/libs/protobuf.jar</systemPath>
+            <systemPath>${basedir}/libs/protobuf.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>ch.fhnw.ip6</groupId>
