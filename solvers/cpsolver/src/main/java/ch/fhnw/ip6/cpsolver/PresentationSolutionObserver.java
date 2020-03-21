@@ -4,6 +4,7 @@ import ch.fhnw.ip6.common.classes.*;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
+import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     private final List<Timeslot> timeslots;
     private final List<Room> rooms;
     private final HashSet<Integer> to_print;
+    private final StopWatch stopWatch;
     private int solutionCount;
     private static SolutionChecker solutionChecker = new SolutionChecker();
 
@@ -23,6 +25,7 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     public void onSolutionCallback() {
         solutionCount++;
         if (!this.to_print.contains(solutionCount)) return;
+        System.out.println("Solution "+ solutionCount +" . Time: "+ stopWatch.getTime());
         var solutions = new ArrayList<Solution>();
         var professorInfo = new ArrayList<String>();
 
@@ -42,12 +45,12 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
             }
         }
         solutionChecker.printSolution(solutions,lecturers,presentations,timeslots,rooms,solutionCount);
-
+        solutionChecker.checkSolutionForCorrectness(solutions,lecturers,presentations,timeslots,rooms);
 
 
     }
 
-    public PresentationSolutionObserver(IntVar[][][] presRoomTime, List<Lecturer> lecturers, List<Presentation> presentations, List<Timeslot> timeslots, List<Room> rooms, HashSet<Integer> to_print) {
+    public PresentationSolutionObserver(IntVar[][][] presRoomTime, List<Lecturer> lecturers, List<Presentation> presentations, List<Timeslot> timeslots, List<Room> rooms, HashSet<Integer> to_print, StopWatch stopWatch) {
     this.presRoomTime = presRoomTime;
     this.lecturers = lecturers;
     this.presentations = presentations;
@@ -55,5 +58,6 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     this.rooms = rooms;
     this.to_print = to_print;
     this.solutionCount = 0;
+    this.stopWatch = stopWatch;
     }
 }

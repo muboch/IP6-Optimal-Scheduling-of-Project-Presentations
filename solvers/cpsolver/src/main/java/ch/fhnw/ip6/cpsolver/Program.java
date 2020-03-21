@@ -106,13 +106,10 @@ public class Program {
                 var temp = new ArrayList<IntVar>();
                 for (var r : rooms) {
                     for (var p1 : nonOverlappingPresentations[l.getId()]) {
+                        if (presRoomTime[p1.getId()][r.getId()][t.getId()] == null) continue;
                         temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
                     }
-                    System.out.println("rr"+r.getId());
-
                 }
-
-                System.out.println(t.getId());
                 IntVar[] arr = temp.toArray(IntVar[]::new);
                 model.addLinearConstraint(LinearExpr.sum(arr), 0, 1); // <=1 -> max one out of overlap is allowed
             }
@@ -132,7 +129,7 @@ public class Program {
 
         CpSolver solver = new CpSolver();
         var cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms,
-                to_print);
+                to_print, stopWatch);
         var res = solver.searchAllSolutions(model, cb);
 
         stopWatch.stop();
