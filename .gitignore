@@ -1,5 +1,12 @@
 *.class
+*.iml
 /common/target/
 .idea/
-.idea/
-*/*/target/
+.gradle/
+backend/target
+solvers/cpsolver/target
+solvers/ilpsolver/target
+solvers/originalsolver/target
+solvers/solution-checker/target
+solvers/solverapi/target
+FrontEnd/build
