@@ -38,7 +38,7 @@ const PlanningScreen: React.FC = (): JSX.Element => {
     }
 
     try {
-      const res = await fetch(API.endpoint, {
+      const res = await fetch("/plannings", {
         // content-type header should not be specified!
         method: "POST",
         body: formData
