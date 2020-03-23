@@ -2,6 +2,9 @@ server:
   port: 5000
 
 spring:
+  data:
+    rest:
+      basePath: /api
   datasource:
     url: jdbc:mysql://localhost:3306/osppdb
     username: ospp

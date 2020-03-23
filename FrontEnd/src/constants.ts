@@ -1,1 +1,1 @@
-export const API = { endpoint: "http://localhost:8080" };
+export const API = { endpoint: "/api/plannings" };

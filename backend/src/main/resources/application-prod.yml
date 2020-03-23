@@ -2,6 +2,9 @@ server:
   port: 5000
 
 spring:
+  data:
+    rest:
+      basePath: /api
   profiles:
     active: @spring.profiles.active@
   datasource:
