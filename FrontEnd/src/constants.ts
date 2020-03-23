@@ -1,1 +1,1 @@
-export const API = { endpoint: "/api/plannings" };
+export const API = { endpoint: "http://localhost:5000" };
