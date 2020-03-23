@@ -16,7 +16,8 @@ phases:
   post_build:
     commands:
       - echo post_build
+      - mv backend/target/backend*.jar ./deploy/application.jar
 
 artifacts:
   files:
-    - backend/target/backend-0.0.1-SNAPSHOT.jar
+    - deploy/application.jar
