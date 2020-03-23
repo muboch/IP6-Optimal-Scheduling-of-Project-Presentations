@@ -16,6 +16,7 @@ phases:
   post_build:
     commands:
       - echo post_build
+      - mkdir ./deploy
       - mv backend/target/backend*.jar ./deploy/application.jar
 
 artifacts:
