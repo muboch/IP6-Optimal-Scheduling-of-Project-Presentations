@@ -23,7 +23,7 @@ import java.util.Objects;
 
 @RestController
 @CrossOrigin
-@RequestMapping
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
 public class PlanningController {

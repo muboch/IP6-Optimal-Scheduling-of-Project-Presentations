@@ -1,7 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import { Button, makeStyles } from "@material-ui/core";
 import { useGStyles } from "../../theme";
-import { API } from "../../constants";
 
 const useStyles = makeStyles(theme => ({
   input: {
@@ -38,7 +37,7 @@ const PlanningScreen: React.FC = (): JSX.Element => {
     }
 
     try {
-      const res = await fetch("/plannings", {
+      const res = await fetch("/api/plannings", {
         // content-type header should not be specified!
         method: "POST",
         body: formData
