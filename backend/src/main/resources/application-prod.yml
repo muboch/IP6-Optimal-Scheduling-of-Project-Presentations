@@ -8,7 +8,6 @@ spring:
     url: jdbc:mysql://db-ospp.cpfp7kii5qy2.eu-central-1.rds.amazonaws.com:3306/osppdb
     username: osppuser
     password: 2QXHYrCjwNthHi4h8FY9Go2s7r3i8s
-    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     properties:
       hibernate:
