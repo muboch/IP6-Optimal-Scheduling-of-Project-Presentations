@@ -11,7 +11,7 @@ phases:
       - echo pre_build
   build:
     commands:
-      - mvn package -f backend/pom.xml -Pprod
+      - mvn clean install -f backend/pom.xml -Pprod
       - echo build
   post_build:
     commands:
