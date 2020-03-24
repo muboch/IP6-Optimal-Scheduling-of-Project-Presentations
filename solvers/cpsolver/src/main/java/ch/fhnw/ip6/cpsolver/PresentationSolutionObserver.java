@@ -2,6 +2,7 @@ package ch.fhnw.ip6.cpsolver;
 
 import ch.fhnw.ip6.common.classes.*;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
+import com.google.ortools.constraintsolver.BooleanVar;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
 import org.apache.commons.lang3.time.StopWatch;
@@ -24,6 +25,7 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     @Override
     public void onSolutionCallback() {
         solutionCount++;
+
         if (!this.to_print.contains(solutionCount)) return;
         System.out.println("Solution "+ solutionCount +" . Time: "+ stopWatch.getTime());
         var solutions = new ArrayList<Solution>();
