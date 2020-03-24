@@ -29,7 +29,7 @@ public class Program {
 
         List<Presentation> presentations = util.getJsonAsList("presentations.json", Presentation.class);
         List<Lecturer> lecturers = util.getJsonAsList("lecturers.json", Lecturer.class);
-        List<Room> rooms = util.getJsonAsList("rooms.json", Room.class);
+        List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
 
         presentations.forEach(System.out::println);
@@ -47,7 +47,7 @@ public class Program {
             p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
         }
 
-        //Create model. presTimeRoom[p,t,r] -> Presentation p happens in room r at time t
+        //Create model. presTimeRoom[p,t,r] == 1 -> Presentation p happens in room r at time t
         IntVar[][][] presRoomTime = new IntVar[presentations.size()][rooms.size()][timeslots.size()];
         for (Timeslot t : timeslots) {
             for (Room r : rooms) {
@@ -62,9 +62,9 @@ public class Program {
 
         System.out.println("Setup completed");
         // For each presentations, list the presentations that are not allowed to overlap
-        List<Presentation>[] nonOverlappingPresentations = new List[lecturers.size()];
+        List<Presentation>[] presentationsPerLecturer = new List[lecturers.size()];
         for (Lecturer l : lecturers) {
-            nonOverlappingPresentations[l.getId()] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList());
+            presentationsPerLecturer[l.getId()] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList());
         }
         System.out.println("Overlap calculation completed");
 
@@ -78,7 +78,7 @@ public class Program {
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
             }
-            IntVar[] arr =  temp.toArray(IntVar[]::new);
+            IntVar[] arr = temp.toArray(IntVar[]::new);
             // next line same as c#: "model.Add(LinearExpr.Sum(temp) == 1);"
             model.addLinearConstraint(LinearExpr.sum(arr), 1, 1); // SUM OF ALL MUST EQUAL ONE ?????
         }
@@ -99,13 +99,12 @@ public class Program {
         // END CONSTRAINT
 
 
-        // START CONSTRAINT Foreach presentation, the following conflicting (presentation,room, time) pairs are not allowed
+        // START CONSTRAINT Foreach presentation, the following conflicting (presentation,room, time) pairs are not allowed -> Lecturers may not have more than one presentation at a time.
         for (var l : lecturers) {
-
             for (var t : timeslots) {
                 var temp = new ArrayList<IntVar>();
                 for (var r : rooms) {
-                    for (var p1 : nonOverlappingPresentations[l.getId()]) {
+                    for (var p1 : presentationsPerLecturer[l.getId()]) {
                         if (presRoomTime[p1.getId()][r.getId()][t.getId()] == null) continue;
                         temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
                     }
@@ -116,6 +115,72 @@ public class Program {
         }
         // END CONSTRAINT
 
+        // START CONSTRAINT 1. Coaches should switch the rooms as little as possible
+        // Create (lecturer,room) booleans, minimize
+        IntVar[][] coachRoom = new IntVar[lecturers.size()][rooms.size()];
+        for (var l : lecturers) {
+            for (var r : rooms) {
+                //coachRoom[l.getId()][r.getId()] = model.newIntVar(0, timeslots.size(), "coach_" + l.getId() + "room_" + r.getId());
+                coachRoom[l.getId()][r.getId()]  = model.newBoolVar("coach_"+l.getId()+"room_"+r.getId()); //
+            }
+        }
+        for (var l : lecturers) {
+            for (var r : rooms) {
+                var temp = new ArrayList<IntVar>();
+
+                for (var p1 : presentationsPerLecturer[l.getId()]) {
+                    for (var t : timeslots) {
+                        if (presRoomTime[p1.getId()][r.getId()][t.getId()] == null) continue;
+                        temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
+                    }
+
+                }
+                IntVar[] arr = temp.toArray(IntVar[]::new);
+
+                // Implement coachRoom[l][r] == (sum(arr) >= 1).
+                model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(coachRoom[l.getId()][r.getId()]);
+                model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(coachRoom[l.getId()][r.getId()].not());
+            }
+            // Minimize the amount of rooms a lecturer uses
+            model.minimize(LinearExpr.sum(coachRoom[l.getId()]));
+        }
+        // END CONSTRAINT
+
+        // START CONSTRAINT 2. Coaches should have as little free timeslots between presentations as possible.
+
+
+        // END CONSTRAINT
+
+
+        // START CONSTRAINT 3. As little rooms as possible should be free per timeslots -> Minimize used Timeslots
+        /*
+        IntVar[] timeslotUsed = new IntVar[timeslots.size()];
+        for (var t : timeslots) {
+            timeslotUsed[t.getId()] = model.newBoolVar("timeslotUsed_" + t.getId());
+        }
+
+        for (var t : timeslots) {
+            var temp = new ArrayList<IntVar>();
+
+            for (var r : rooms) {
+                for (var p : presentations) {
+                    if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
+                    temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
+                }
+            }
+            IntVar[] arr = temp.toArray(IntVar[]::new);
+            /// IF SUM ARR > 0 add boolean timeslotUsed TRUE else FALSE;
+            model.addEquality(timeslotUsed[t.getId()], LinearExpr.sum(arr));
+        }
+        model.minimize(LinearExpr.sum(timeslotUsed));
+        // MINIMIZE TIMESLOTUSED each.
+
+         */
+
+        // END CONSTRAINT
+
+
+        //Add equality between roomTimeslotPresentations for each lecurer's presentations
 
 
         HashSet<Integer> to_print = new HashSet<Integer>();
@@ -128,9 +193,12 @@ public class Program {
         to_print.add(1000);
 
         CpSolver solver = new CpSolver();
+        System.out.println("All constraints done, solving");
+        System.out.println(model.validate());
         var cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms,
                 to_print, stopWatch);
         var res = solver.searchAllSolutions(model, cb);
+        System.out.println(res);
 
         stopWatch.stop();
     }
