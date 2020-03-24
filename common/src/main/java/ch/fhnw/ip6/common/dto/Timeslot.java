@@ -1,4 +1,4 @@
-package ch.fhnw.ip6.common.classes;
+package ch.fhnw.ip6.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +11,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Room {
+public class Timeslot {
 
-       private int id;
-       private String name;
-       private String place;
-       private String type;
-       private Boolean reserve;
+     private int id;
+     private String date;
+     private int block;
 
 }

@@ -1,4 +1,4 @@
-package ch.fhnw.ip6.common.classes;
+package ch.fhnw.ip6.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

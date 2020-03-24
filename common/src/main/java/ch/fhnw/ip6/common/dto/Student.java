@@ -1,4 +1,4 @@
-package ch.fhnw.ip6.common.classes;
+package ch.fhnw.ip6.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +11,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Timeslot {
+public class Student {
 
-     private int id;
-     private String datum;
-     private int block;
-
+    private int id;
+    private String name;
+    private String schoolclass;
 }

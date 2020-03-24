@@ -1,8 +1,7 @@
 package ch.fhnw.ip6.solutionchecker;
 
-import ch.fhnw.ip6.common.classes.*;
+import ch.fhnw.ip6.common.dto.*;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +14,7 @@ public class SolutionChecker {
         rooms.forEach(r -> System.out.print(r.getName()+"|"));
         System.out.println();
         for (var time : timeslots) {
-            System.out.print(time.getDatum() + " |");
+            System.out.print(time.getDate() + " |");
             for (var room : rooms) {
                 var solop = Solutions.stream().filter(s -> s.getRoom() == room && s.getTimeSlot() == time).findFirst();
                 if (solop.isPresent()) //
@@ -107,7 +106,7 @@ public class SolutionChecker {
                 if (profTimeslot[i][j] > 1) {
 
                     int finalJ = j;
-                    System.out.println("   Error: Professor " + i + " has " + profTimeslot[i][j] + " presentations at time " + timeslots.stream().filter(t -> t.getId() == finalJ).findFirst().get().getDatum());
+                    System.out.println("   Error: Professor " + i + " has " + profTimeslot[i][j] + " presentations at time " + timeslots.stream().filter(t -> t.getId() == finalJ).findFirst().get().getDate());
                     numErrors++;
                 }
             }
@@ -139,7 +138,7 @@ public class SolutionChecker {
             if (roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] == 0) {
                 roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] = r.getPresentation().getId();
             } else {
-                System.out.println("RoomDoubleUseError: Room " + r.getRoom().getId() + " at time " + r.getTimeSlot().getDatum() + " is already in use for presentation " + roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] + ". Can't add Presentation " + r.getPresentation().getId() + " at the same time! ");
+                System.out.println("RoomDoubleUseError: Room " + r.getRoom().getId() + " at time " + r.getTimeSlot().getDate() + " is already in use for presentation " + roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] + ". Can't add Presentation " + r.getPresentation().getId() + " at the same time! ");
                 return false;
             }
 
