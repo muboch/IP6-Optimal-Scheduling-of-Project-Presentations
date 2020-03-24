@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: @spring.profiles.active@
+    active: prod
   datasource:
     url: jdbc:mysql://db-ospp.cpfp7kii5qy2.eu-central-1.rds.amazonaws.com:3306/osppdb
     username: osppuser

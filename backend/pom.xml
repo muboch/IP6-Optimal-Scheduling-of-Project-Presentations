@@ -88,7 +88,7 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>test</id>
+			<id>dev</id>
 			<build>
 				<plugins>
 					<plugin>
