@@ -1,5 +1,6 @@
 *.class
 *.iml
+.DS_Store
 /common/target/
 .idea/
 .gradle/
@@ -11,3 +12,4 @@ solvers/solution-checker/target
 solvers/solverapi/target
 FrontEnd/build
 FrontEnd/node
+
