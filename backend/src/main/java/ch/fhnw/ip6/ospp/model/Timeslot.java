@@ -8,9 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -21,12 +19,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Timeslot {
+public class Timeslot extends BaseEntity{
 
-    @Id
-    private long id;
+    private String start;
 
-    private LocalDateTime start;
+    private int block;
 
     @OneToMany
     private List<Presentation> presentations;

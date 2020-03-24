@@ -12,4 +12,6 @@ public interface RoomService {
 
 
     void loadRooms(MultipartFile file);
+
+    void deleteAll();
 }

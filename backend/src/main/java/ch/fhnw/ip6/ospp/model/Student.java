@@ -15,17 +15,16 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class Student extends Member {
+public class Student extends User {
 
-    private String schoolClass;
-
-    private Discipline discipline;
+    private String schoolclass;
+    private String name;
 
     @Builder(builderMethodName = "studentBuilder")
-    public Student(long id, String firstname, String lastname, String email, String schoolClass, Discipline discipline) {
-        super(id, firstname, lastname, email);
-        this.schoolClass = schoolClass;
-        this.discipline = discipline;
+    public Student(long id, String name, String email, String schoolclass) {
+        super(id, email);
+        this.name = name;
+        this.schoolclass = schoolclass;
     }
 
 }

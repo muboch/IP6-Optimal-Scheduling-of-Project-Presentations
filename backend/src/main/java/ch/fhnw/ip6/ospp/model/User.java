@@ -4,19 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Member {
+public abstract class User extends BaseEntity {
 
-    @Id
-    private long id;
-    private String firstname;
-    private String lastname;
     private String email;
 
+    public User(long id, String email) {
+        super(id);
+        this.email = email;
+    }
 }

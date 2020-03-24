@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -36,14 +35,32 @@ public class TimeslotServiceImpl implements TimeslotService {
 
     @Override
     public void loadTimeslots(MultipartFile input) {
+
         try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
-            Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(is);
+
+            deleteAll();
+
+            // TODO Carlo move delimiter to properties
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withDelimiter(';').parse(is);
+
             for (CSVRecord record : records) {
-                Timeslot timeslot = Timeslot.builder().start(LocalDateTime.parse(record.get("Start"))).build();
+
+                // TODO Carlo move headers to properties
+                Timeslot timeslot = Timeslot.builder()
+                        .start(record.get("datum"))
+                        .block(Integer.parseInt(record.get("block")))
+                        .build();
+
                 timeslotRepository.save(timeslot);
             }
+
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
+    }
+
+    @Override
+    public void deleteAll() {
+        timeslotRepository.deleteAll();
     }
 }

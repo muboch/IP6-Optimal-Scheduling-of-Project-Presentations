@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -19,10 +19,9 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(exclude = {"firstStudent","secondStudent","coach", "expert"})
-public class Presentation {
+public class Presentation extends BaseEntity{
 
-    @Id
-    private long id;
+
 
     private String nr;
 
@@ -31,10 +30,10 @@ public class Presentation {
 
     private String title;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Student firstStudent;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Student secondStudent;
 
     @ManyToOne
@@ -46,6 +45,6 @@ public class Presentation {
     @ManyToOne
     private Timeslot timeslot;
 
-    private Field field;
+    private Type type;
 
 }

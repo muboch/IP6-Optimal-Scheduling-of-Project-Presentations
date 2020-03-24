@@ -13,6 +13,7 @@ import java.util.List;
 @RequestScope
 @RequiredArgsConstructor
 public class PlannningServiceImpl implements PlanningService {
+
     @Override
     public void plan() {
 

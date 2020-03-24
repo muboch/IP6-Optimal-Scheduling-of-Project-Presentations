@@ -34,19 +34,36 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher readByInitials(String initials) {
-        return null;
+        return teacherRepository.readByInitials(initials);
     }
 
     @Override
     public void loadTeachers(MultipartFile input) {
         try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
-            Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(is);
+
+            deleteAll();
+
+            Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().withDelimiter(';').parse(is);
+
             for (CSVRecord record : records) {
-                Teacher expert = Teacher.teacherBuilder().initials(record.get("Kürzel")).email(record.get("Kürzel")).lastname(record.get("Name")).firstname(record.get("Vorname")).build();
+
+                // TODO Carlo move headers to properties
+                Teacher expert = Teacher.teacherBuilder()
+                        .initials(record.get("initials"))
+                        .email(record.get("email"))
+                        .lastname(record.get("lastname"))
+                        .firstname(record.get(0))
+                        .build();
                 teacherRepository.save(expert);
+
             }
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
+    }
+
+    @Override
+    public void deleteAll() {
+        teacherRepository.deleteAll();
     }
 }

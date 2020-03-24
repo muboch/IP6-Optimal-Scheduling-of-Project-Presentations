@@ -3,6 +3,7 @@ package ch.fhnw.ip6.ospp.service;
 import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Student;
 import ch.fhnw.ip6.ospp.model.Teacher;
+import ch.fhnw.ip6.ospp.model.Type;
 import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
 import ch.fhnw.ip6.ospp.service.client.PresentationService;
 import ch.fhnw.ip6.ospp.service.client.TeacherService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,28 +26,47 @@ import java.io.InputStreamReader;
 public class PresentationServiceImpl implements PresentationService {
 
     private final PresentationRepository presentationRepository;
-    private TeacherService teacherService;
+    private final TeacherService teacherService;
 
 
     @Override
     public void loadPresentation(MultipartFile input) {
 
         try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
-            Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(is);
+
+            deleteAll();
+
+            // TODO Carlo move delimiter to properties
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withDelimiter(';').parse(is);
+
             for (CSVRecord record : records) {
 
-                Teacher expert = teacherService.readByInitials(record.get("Experte"));
-                Teacher coach = teacherService.readByInitials(record.get("Betreuung"));
+                // TODO Carlo move headers to properties
+                Teacher expert = teacherService.readByInitials(record.get("coachInitials"));
+                Teacher coach = teacherService.readByInitials(record.get("expertInitials"));
 
-                Student studentOne = Student.studentBuilder().lastname(record.get("Name_1")).firstname(record.get("Vorname_1")).schoolClass(record.get("Klasse_1")).build();
-                Student studentTwo = Student.studentBuilder().lastname(record.get("Name_2")).firstname(record.get("Vorname_2")).schoolClass(record.get("Klasse_2")).build();
+                Student studentOne = Student.studentBuilder()
+                        .name(record.get("name"))
+                        .schoolclass(record.get("schoolclass"))
+                        .build();
 
-                Presentation presentation = Presentation.builder().nr(record.get("Nr.")).title(record.get("Titel"))
+                Presentation presentation = Presentation.builder()
+                        .nr(record.get("nr"))
+                        .title(record.get("title"))
+                        .type(Type.fromString(record.get("type")))
                         .firstStudent(studentOne)
-                        .secondStudent(studentTwo)
                         .expert(expert)
                         .coach(coach)
                         .build();
+
+                if (StringUtils.isNotEmpty(record.get("name2"))) {
+                    Student studentTwo = Student.studentBuilder()
+                            .name(record.get("name2"))
+                            .schoolclass(record.get("schoolclass2"))
+                            .build();
+                    presentation.setSecondStudent(studentTwo);
+                }
+
                 presentationRepository.save(presentation);
             }
         } catch (IOException e) {
@@ -66,5 +87,10 @@ public class PresentationServiceImpl implements PresentationService {
     @Override
     public Presentation readByNr(String nr) {
         return null;
+    }
+
+    @Override
+    public void deleteAll() {
+        presentationRepository.deleteAll();
     }
 }

@@ -13,5 +13,5 @@ public interface PresentationService {
 
     Presentation readByNr(String nr);
 
-
+    void deleteAll();
 }

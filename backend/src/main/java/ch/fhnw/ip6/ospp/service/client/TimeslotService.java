@@ -12,4 +12,6 @@ public interface TimeslotService {
 
 
     void loadTimeslots(MultipartFile file);
+
+    void deleteAll();
 }

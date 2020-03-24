@@ -14,4 +14,6 @@ public interface TeacherService {
 
 
     void loadTeachers(MultipartFile file);
+
+    void deleteAll();
 }

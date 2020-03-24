@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -20,14 +19,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Room {
+public class Room extends BaseEntity{
 
-    @Id
-    private long id;
+    private String name;
 
-    private String roomNumber;
+    private Type type;
 
-    private String roomType;
+    private String place;
+
+    private boolean reserve;
 
     @OneToMany(mappedBy = "room")
     private List<Presentation> presentations;

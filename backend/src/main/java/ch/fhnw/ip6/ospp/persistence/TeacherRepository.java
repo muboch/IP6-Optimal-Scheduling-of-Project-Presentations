@@ -12,5 +12,5 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     List<TeacherVO> findAllProjectedBy();
 
-
+    Teacher readByInitials(String initials);
 }
