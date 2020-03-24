@@ -22,6 +22,7 @@ public class Teacher extends User {
     private String initials;
 
     private String firstname;
+
     private String lastname;
 
     @Builder(builderMethodName = "teacherBuilder")
