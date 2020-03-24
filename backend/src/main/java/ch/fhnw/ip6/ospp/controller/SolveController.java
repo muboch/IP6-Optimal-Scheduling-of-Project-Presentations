@@ -3,7 +3,7 @@ package ch.fhnw.ip6.ospp.controller;
 import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
 import ch.fhnw.ip6.ospp.persistence.RoomRepository;
 import ch.fhnw.ip6.ospp.persistence.StudentRepository;
-import ch.fhnw.ip6.ospp.persistence.TeacherRepository;
+import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SolveController {
 
     private final PresentationRepository presentationRepository;
-    private final TeacherRepository teacherRepository;
+    private final LecturerRepository lecturerRepository;
     private final StudentRepository studentRepository;
     private final TimeslotRepository timeslotRepository;
     private final RoomRepository roomRepository;

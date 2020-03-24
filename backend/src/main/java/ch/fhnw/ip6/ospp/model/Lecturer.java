@@ -17,7 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class Teacher extends User {
+public class Lecturer extends User {
 
     private String initials;
 
@@ -25,8 +25,8 @@ public class Teacher extends User {
 
     private String lastname;
 
-    @Builder(builderMethodName = "teacherBuilder")
-    public Teacher(long id, String firstname, String lastname, String email, List<Presentation> presentationsAsExaminator, List<Presentation> presentationsAsExpert, String initials) {
+    @Builder(builderMethodName = "lecturerBuilder")
+    public Lecturer(long id, String firstname, String lastname, String email, List<Presentation> presentationsAsExaminator, List<Presentation> presentationsAsExpert, String initials) {
         super(id, email);
         this.firstname = firstname;
         this.lastname = lastname;

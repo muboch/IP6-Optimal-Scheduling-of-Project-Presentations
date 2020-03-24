@@ -55,10 +55,10 @@ public class Presentation {
     private Student secondStudent;
 
     @ManyToOne
-    private Teacher coach;
+    private Lecturer coach;
 
     @ManyToOne
-    private Teacher expert;
+    private Lecturer expert;
 
     @ManyToOne
     private Timeslot timeslot;

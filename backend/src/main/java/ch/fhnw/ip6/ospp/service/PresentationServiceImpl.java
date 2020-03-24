@@ -2,11 +2,11 @@ package ch.fhnw.ip6.ospp.service;
 
 import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Student;
-import ch.fhnw.ip6.ospp.model.Teacher;
+import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.model.Type;
 import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
 import ch.fhnw.ip6.ospp.service.client.PresentationService;
-import ch.fhnw.ip6.ospp.service.client.TeacherService;
+import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -26,7 +26,7 @@ import java.io.InputStreamReader;
 public class PresentationServiceImpl implements PresentationService {
 
     private final PresentationRepository presentationRepository;
-    private final TeacherService teacherService;
+    private final LecturerService lecturerService;
 
 
     @Override
@@ -42,8 +42,8 @@ public class PresentationServiceImpl implements PresentationService {
             for (CSVRecord record : records) {
 
                 // TODO Carlo move headers to properties
-                Teacher expert = teacherService.readByInitials(record.get("coachInitials"));
-                Teacher coach = teacherService.readByInitials(record.get("expertInitials"));
+                Lecturer expert = lecturerService.readByInitials(record.get("coachInitials"));
+                Lecturer coach = lecturerService.readByInitials(record.get("expertInitials"));
 
                 Student studentOne = Student.studentBuilder()
                         .name(record.get("name"))

@@ -1,7 +1,7 @@
 package ch.fhnw.ip6.ospp.vo;
 
 
-public interface TeacherVO {
+public interface LecturerVO {
 
     int getId();
 

@@ -12,9 +12,9 @@ public interface PresentationVO {
 
     StudentVO getSecondStudent();
 
-    TeacherVO getCoach();
+    LecturerVO getCoach();
 
-    TeacherVO getExpert();
+    LecturerVO getExpert();
 
     TimeslotVO getTimeslot();
 

@@ -1,8 +1,8 @@
 package ch.fhnw.ip6.ospp.service;
 
-import ch.fhnw.ip6.ospp.model.Teacher;
-import ch.fhnw.ip6.ospp.persistence.TeacherRepository;
-import ch.fhnw.ip6.ospp.service.client.TeacherService;
+import ch.fhnw.ip6.ospp.model.Lecturer;
+import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
+import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -18,27 +18,27 @@ import java.io.InputStreamReader;
 @Service
 @RequestScope
 @RequiredArgsConstructor
-public class TeacherServiceImpl implements TeacherService {
+public class LecturerServiceImpl implements LecturerService {
 
-    private final TeacherRepository teacherRepository;
+    private final LecturerRepository lecturerRepository;
 
     @Override
-    public Teacher addTeacher(Teacher teacher) {
+    public Lecturer addLecturer(Lecturer lecturer) {
         return null;
     }
 
     @Override
-    public Teacher readById(long id) {
+    public Lecturer readById(long id) {
         return null;
     }
 
     @Override
-    public Teacher readByInitials(String initials) {
-        return teacherRepository.readByInitials(initials);
+    public Lecturer readByInitials(String initials) {
+        return lecturerRepository.readByInitials(initials);
     }
 
     @Override
-    public void loadTeachers(MultipartFile input) {
+    public void loadLecturer(MultipartFile input) {
         try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
 
             deleteAll();
@@ -48,13 +48,13 @@ public class TeacherServiceImpl implements TeacherService {
             for (CSVRecord record : records) {
 
                 // TODO Carlo move headers to properties
-                Teacher expert = Teacher.teacherBuilder()
+                Lecturer expert = Lecturer.lecturerBuilder()
                         .initials(record.get("initials"))
                         .email(record.get("email"))
                         .lastname(record.get("lastname"))
                         .firstname(record.get(0))
                         .build();
-                teacherRepository.save(expert);
+                lecturerRepository.save(expert);
 
             }
         } catch (IOException e) {
@@ -64,6 +64,6 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void deleteAll() {
-        teacherRepository.deleteAll();
+        lecturerRepository.deleteAll();
     }
 }

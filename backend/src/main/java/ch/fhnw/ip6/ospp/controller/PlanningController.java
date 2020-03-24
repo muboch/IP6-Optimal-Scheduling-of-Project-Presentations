@@ -3,7 +3,7 @@ package ch.fhnw.ip6.ospp.controller;
 import ch.fhnw.ip6.ospp.service.client.PlanningService;
 import ch.fhnw.ip6.ospp.service.client.PresentationService;
 import ch.fhnw.ip6.ospp.service.client.RoomService;
-import ch.fhnw.ip6.ospp.service.client.TeacherService;
+import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.service.client.TimeslotService;
 import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.List;
 public class PlanningController {
 
     private final PresentationService presentationService;
-    private final TeacherService teacherService;
+    private final LecturerService lecturerService;
     private final PlanningService planningService;
     private final RoomService roomService;
     private final TimeslotService timeslotService;
@@ -44,10 +44,10 @@ public class PlanningController {
         presentationService.deleteAll();
         roomService.deleteAll();
         timeslotService.deleteAll();
-        teacherService.deleteAll();
+        lecturerService.deleteAll();
 
 
-        teacherService.loadTeachers(teachers);
+        lecturerService.loadLecturer(teachers);
         presentationService.loadPresentation(presentations);
         roomService.loadRooms(rooms);
         timeslotService.loadTimeslots(timeslots);
