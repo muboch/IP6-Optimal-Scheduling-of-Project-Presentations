@@ -1,0 +1,190 @@
+﻿id;nr;name;schoolclass;name2;schoolclass2;title;coachInitials;expertInitials;type
+0;I17;Özkan Gülbeyaz;3I;;;Istanbul für Jugendliche (Reiseheft);det;baa;normal
+1;D05;Damas Michel;3D;;;Einfluss der Fussballtrainer: Die Männer hinter dem Erfolg;gyt;baa;normal
+2;I13;Ngom Kisha;3I;;;Rassismus;feb;baa;normal
+3;I01;Affentranger Acevedo Emilia;3I;;;noch unschlüssig/Die Diktatur Chiles unter der Führung von Pinochet;bim;baa;normal
+4;I11;Luis Agostinho Daniela;3I;;;Die Integration von Migranten aus Portugal in Basel;oem;bae;normal
+5;A12;Matcaeva Yasima;3A;;;Der Nahostkonflikt und seine Lösungsmöglichkeiten: Das Unmögliche möglich machen;abu;bak;normal
+6;H08;Kinghorn Annika Jane;3H;;;Armenabschübe im Fricktal;ros;bak;normal
+7;D06;Gasser Janina;3D;;;Big game in a litte box;tem;bak;normal
+8;D03;Bolliger Xaver;3D;;;Sexismus im Hip Hop;tem;bak;music
+9;I23;Ziberi Qerim;3I;;;Wenn aus Brüdern Feinde werden;baa;bak;normal
+10;B17;Stauffer Jaël;3B;;;Der Tanz als Ausdrucksform;cad;ben;dance
+11;I06;Ebeling Alva Marie;3I;;;Pferdezucht - Haflinger;bak;ben;normal
+12;E16;Nigon Loup;3E;;;Wie verändert die Evolution/Umgebung die Tiere?;gai;ben;normal
+13;B16;Schoellkopf Damian;3B;;;Pferdezucht;grn;ben;normal
+14;B02;Congedi Sara;3B;;;Leben mit Asthma;ben;bes;normal
+15;A03;Casanova Yannick;3A;;;Macht Bewegung glücklich?;orm;bes;normal
+16;E03;Dagorov-Grobben Jan;3E;;;Text im Bild;thb;bov;normal
+17;E19;Reichenbach Vincent;3E;;;Malerei;thb;bov;art
+18;H12;Sendon Cristina;3H;;;Selbstbewusstsein nach einem negativen Erlebnis;ros;bra;normal
+19;D17;Schediwy Tabea;3D;;;Headspace;tem;bra;normal
+20;C19;Theuer Céline;3C;;;Bis es wieder Sommer ist (Kinderbuch);moa;bra;normal
+21;C15;Rada Chiara Laura;3C;;;Wenn Kinder lesen, über ihre Lust und Fantasie (Kinderbuch);sca;brr;normal
+22;G10;Gashi  Albulena;3G;;;Fotoportraits;thb;caa;art
+23;E11;Lopez Kilian;3E;;;Mein eigener Comic mit Videospielcharakteren;med;caa;normal
+24;E02;Collenberg Jael;3E;;;Zimmerwelten;med;caa;normal
+25;C10;Küry Michelle;3C;;;Kinderbuch für verschiedene Alterstufen;kng;caa;normal
+26;H04;Cullen Mari;3H;;;Psychische Wirkung von Yoga auf Kinder zwischen 5-10 Jahren;wem;cad;normal
+27;F06;Keller Cindy;3F;;;Die beliebtesten Tänze der letzten Jahrzehnte;wys;cad;dance
+28;D10;Herzka Yossi;3D;;;Klimatribunal nach Milo Rau;scj;cad;normal
+29;I07;Erkilic Simay;3I;;;Vorbilder als Halbgötter;scs;det;normal
+30;B05;Esen Deniz;3B;;;Wie gehen Jugendliche mit ihrer Sexualität um?;rus;det;normal
+31;B18;Stephens Zoe;3B;;;Die gesundheitliche Wirkung des Lachens;rus;det;normal
+32;E10;Kàrovits Marcell;3E;;;Kartendeck;caa;dil;normal
+33;E20;Schaffner Lya;3E;;;Farm to table - Reportage&Rezepte;scj;ert;normal
+34;I08;Gehrig  Jeniffer;3I;;;Intervallfasten;gai;fcl;normal
+35;B15;Peter Katja;3B;;;Angehörige von Schizophrenie-Patienten;grn;feb;normal
+36;D21;Walther Ellen;3D;;;Die Sprache der Kräuterspirale;rus;feb;normal
+37;B07;Geçgin Madiya;3B;;;Wasser ist Lebenswichtig! Was vereinfacht uns das Trinken?;fre;feb;normal
+38;B14;Mohamed Fatuma;3B;;;Ab wann spricht man von Adipositas?;grn;fre;normal
+39;E09;Jallow Isatou;3E;;;Traum und Schlaf;heb;fre;normal
+40;G13;Hug Sara Dominique;3G;;;Schlafparalyse;fus;fre;normal
+41;H15;Tschirky Gwenn;3H;;;Alter + Technik;trd;fus;normal
+42;B10;Haupt Alexandra;3B;;;Die Konzentrationsfähigkeit bei Jugendlichen;jew;fus;normal
+43;A01;Akhtar Bisma;3A;;;Homöopathie - Wahrheit oder Lüge;feb;gad;normal
+44;A06;Demjaha Delvinë;3A;;;Sind probiotische Nahrungsmittel eine Lüge?;feb;gad;normal
+45;G02;Appapillai Arsshanth;3G;;;Zöliakie;grn;gad;normal
+46;A07;Hügli Anica;3A;;;Süssstoffe als Zuckeralternative;fre;gad;normal
+47;H11;Scheidegger Elena;3H;;;Die sportliche Aktivität von Jugendlichen 2019;mef;gaf;normal
+48;B08;Gollin Eleah Liliana;3B;;;Brustkrebs;ben;gai;normal
+49;F02;Cajlakovic Selma;3F;;;Ich muss gross sein, obwohl ich klein bin!;kng;gai;normal
+50;R03;Progano Laura;Rep.;;;Gedichte zu Gemälden;oem;gra;normal
+51;I15;Oderwald Muriel;3I;;;Zero Waste (Müllvermeidung);baa;grn;normal
+52;A15;Mir Mohamed Schewin;3A;;;Die Risiken von Schönheitsoperationen;fre;grn;normal
+53;A08;Ikisivri Acelya;3A;;;verschiedene Seifen im Vergleich;fre;grn;normal
+54;I22;Wismer Joel;3I;;;Handicap Trisomie 21: Integrative Schulung von Kindern mit Down-Syndrom;orm;gut;normal
+55;H03;Cattelan Giacumin;3H;;;Leben mit einem behinderten Bruder;rus;gut;normal
+56;A19;Vanniyasingam Vazsala;3A;;;Akne was tun? Pop it! (Ausdrücken);fre;gut;normal
+57;A10;Magno Adriano;3A;;;Sportler, die nach einer Verletzung/Unfall nicht aufgegeben haben....;sca;gyt;normal
+58;E21;Schick Tom;3E;;;Skatespot in Basel - Reiseführer;brr;gyt;normal
+59;D15;Neiss Luregn Silas;3D;;;Parkourführer durch Basel (Reiseführer);brr;gyt;normal
+60;C08;Gerber Paula;3C;;;Leitfaden zur Organisation eines Tennisturniers;nin;gyt;normal
+61;G17;Moser  Vincent;3G;;;Geschichte auf Englisch schreiben (Tragödie);abu;haa;normal
+62;H02;Bitterlin Oskar;3H;;;Dreiländereck und sein Geheimnis;rod;hem;normal
+63;G07;Cengiz Erdem;3G;;;Techno-Metropole Berlin;his;her;normal
+64;F17;Willi Ian;3F;;;Stoff - Mixtape;his;her;music
+65;D12;Kern Linus;3D;;;Emotionen durch Musik;caa;her;music
+66;D09;Helou Juan;3D;;;Murga Uruguaya - Ein Stück mit Rhythmen des Karnevals von Uruguay;pib;his;music
+67;E01;Benz Yannick;3E;;;Schottland in Ton&Bild;her;his;normal
+68;D22;Wilson Emma;3D;;;Einen Song und was alles dazu gehört;her;his;music
+69;R02;Trajkoska Aleksandra;3B;;;Die Vegane Ernährung und ihre Auswirkung auf den Körper;gad;hus;normal
+70;F10;Neyer Salome;3F;;;"Die Blinden und die Sehenden - Wie ""sehen"" die Blinden die Sehenden und die Sehenden die Blinden";kng;hus;normal
+71;F03;Epting Jana;3F;;;Plastik frei leben;gad;hus;normal
+72;G20;Schulthess Anna;3G;;;Tiergestützte Therapie im Alten- und Pflegeheim;scm;hus;normal
+73;F09;Mateos Goncalves Gabriela;3F;;;Me, Myself and Y, the guide for happiness;pfl;joa;normal
+74;E23;Zanetti Franca;3E;;;Kulturelle Um- und Zwischennutzung in Basel;baa;joa;art
+75;A04;Davoglio Enrico;3A;;;Rassismus im italienischen Fussball;sca;joa;normal
+76;F01;Baur Adina;3F;;;Frauen erzählen ihre Geschichten;pfl;joa;normal
+77;B20;Upper Julian;3B;;;E-Sports;bae;joa;normal
+78;F04;Felix Lucia;3F;;;Geschlechtsindentität - vorgeschrieben von der Gesellschaft! (Kurzfilm);pfl;joa;art
+79;D11;Karatas Özlem;3D;;;Das Asch experiment - wenn man gezwungen ist zu lügen;nin;kib;normal
+80;I02;Aydin Gökcen;3I;;;Gewalt gegen Frauen bei Türken;det;kib;normal
+81;H05;Fumarola Alexia;3H;;;Zero-Waste - Dein Ratgeber zu einem Leben ohne Abfall;wea;kng;normal
+82;A20;Weiss Svenja Savina;3A;;;5 Elemente Ernährung bezüglich Zystenniere: Ying und Yang im Einklang;gai;kng;normal
+83;D24;Yildiz Suzer;3D;;;ADHS im schoolclassnzimmer;gta;kuo;normal
+84;F05;Hildebrandt Melissa;3F;;;Was lesen junge Erwachsene heutzutage (Buch);kng;kuo;normal
+85;B12;Lavacca Nico;3B;;;Theater Skript schreiben : Eiden (Thema: Weltherrschaft);scp;kuo;normal
+86;C21;Wesp Nicolas;3C;;;Meine Komposition (Trommelstück);her;kür;normal
+87;I05;Da Silva de Jesus Luis Felipe;3I;;;Good Character Writing. Was macht einen interessanten Charakter aus?;bae;lee;normal
+88;B04;Ermis Salar Miran;3B;;;Der Wolf in der Schweiz;grn;lem;normal
+89;A05;Demiri Diellza;3A;;;Vergleich von depressiven Erkrankungen bei Kindern versus Erwachsenen;feb;lem;normal
+90;A13;McGowan Ryan;3A;;;Die Entwicklung der Anschauung des Universums seit dem 15. Jahrhundert;ple;lem;normal
+91;G21;Trifone Massimo;3G;;;Velohalterung für Uhr, 3 D-Druck;ple;med;normal
+92;I20;Stefanutti Mara;3I;;;Musikvideo:Numb;ert;med;music
+93;C06;Eryilmaz Kübra;3C;;;Die Umgebung mit 4 Materialien gezeichnet;stt;med;normal
+94;B11;Krasniqi Arianita;3B;;;Volkskleidung von Mann und Frau im Kosovo;gaf;mef;normal
+95;C02;Barbosa Marta;3C;;;How to be fit with me?;nin;mef;normal
+96;C13;Nägeli Kyra;3C;;;Wie sieht es optisch nach dem Tod aus?;scp;moa;normal
+97;D01;Alimoski Jeton;3D;;;Integration und Autismus;tos;moa;normal
+98;C01;Ammann Emma-Jo;3C;;;Faire Mode;pli;moa;normal
+99;D23;Wolf Julian;3D;;;Motivationen von Schulabsenzen;kuo;mus;normal
+100;C16;Schopfer Kim;3C;;;Hochbegabung;kib;mus;normal
+101;E18;Otter Alina;3E;;;Fitnessbuch;wem;nin;normal
+102;B06;Fox Karim;3B;;;Die Ernährung von Sportlern;gyt;nin;normal
+103;E08;Hunziker Lena;3E;;;Die Krankheit Depressionen;scm;oem;normal
+104;G01;Alves Erica;3G;;;Kinder- und Jugendkriminalität. Psychologische Hintergründe, Therapie und Präventionsansätze;bae;oem;normal
+105;E06;Görgülü Rozarin;3E;;;Wie wirkt sich Medienkonsum auf Kinder aus?;scm;oem;normal
+106;I04;Chen Conring;3I;;;Wie denken Kinder?;trd;oem;normal
+107;I12;Mathlouthi Semira;3I;;;(write down your mind/speak my mind);wic;oem;normal
+108;I03;Bursac Jelena;3I;;;Die Macht der Gedanken;wem;orm;normal
+109;F15;Scott Nicolas;3F;;;Lifestyle (Hip-Hop Song schreiben);pib;pes;music
+110;D16;Nuortti Tomas;3D;;;Arrangement für die Gitarre;pib;pes;music
+111;A09;Krasniqi Fitore;3A;;;Balkankrieg und seine Folgen: Warum der Krieg nicht zu Ende ist;sca;pfl;normal
+112;B03;Egli Caroline;3B;;;Zahnarztangst;jew;ple;normal
+113;A16;Pereira Nick;3A;;;Basel und Velo;sca;ple;normal
+114;C09;Karaboyun Selina;3C;;;Schulplaner für 2. schoolclassn FMS;moa;pli;normal
+115;A21;Yoganathan Meenaja;3A;;;Gedanken lesen? Anhand von nonverbalen Signalen;sca;pli;normal
+116;C03;Burdet Lena;3C;;;Wie kümmere ich mich um die Umwelt (Bilderbuch);moa;pli;normal
+117;D13;Lachenmeier Elena;3D;;;Kochen nach Farben (Kochbuch);tem;pum;normal
+118;H10;Neuenschwander Jonas;3H;;;Die Wechselwirkung des mentalen Anteils und der Leistung im Tennis;orm;ref;normal
+119;B19;Todaro Tizian;3B;;;Wie stark kann man seine Sprungkraft trainieren in 3 Monaten?;orm;ref;normal
+120;H01;Bieri Julia;3H;;;Flamenco eine attraktive Lebensform;bra;ros;normal
+121;F13;Schädeli Simon;3F;;;Menschen am Rande der Gesellschaft;bak;ros;normal
+122;H16;Vicente  Melanie;3H;;;Das Schönheitsbild der Frauen in der Pop Kultur;wea;ros;normal
+123;A18;Riedo Cédric;3A;;;Probleme und Hindernisse während der Genesung eines Hirnschlages am Beispiel von drei Patienten;bra;rus;normal
+124;A02;Aksu Almina Aysu;3A;;;Einfluss der türkischen Kultur auf Diabetes Typ2;det;rus;normal
+125;F16;Varli  Hivda;3F;;;Wie kann man Höhenangst überwinden?;gyt;sca;normal
+126;C12;Meier Noah;3C;;;Die Schattenseiten von Basel;gyt;sca;normal
+127;F18;Ziberi Lejla;3F;;;Poesie Buch;pfl;sca;normal
+128;I10;Kugler Nadine;3I;;;Einfluss der Psyche auf unsere Träume;feb;scf;normal
+129;G03;Attari Sultaneh;3G;;;Wie wichtig ist die Früherkennung einer Depression in diesem Fall bei Jugendlichen;fre;scf;normal
+130;F14;Schmid Celina;3F;;;Grundrechte für Primaten;rus;scf;normal
+131;D04;Brügger Tim;3D;;;Krankhafte Männlichkeit (Tanzperformance);cad;scj;normal
+132;E22;Schmiedlin Armand;3E;;;Rundgang auf dem Dreispitzareal;ert;scj;normal
+133;E14;Milovanovic Katarina;3E;;;Klein und Fein - Miniaturmalerei;stt;scj;normal
+134;E12;Lottenbach Katharina;3E;;;bildnerische Darstellung von seelischem Schmerz;stt;scj;normal
+135;R01;Flückiger Kristin;Rep;;;Gewalt gegen Frauen in der Partnerschaft;oem;scm;normal
+136;G14;Kluser Lena;3G;;;Ich erstelle mein eigenes Herbarium;rus;scm;normal
+137;D02;Bingöl Fatma;3D;;;Kinder leiden, wenn Eltern streiten;gta;scp;normal
+138;C18;Schweighauser Jannik;3C;;;Kinder-Bilder-Buch;moa;scp;normal
+139;I16;Özer Hamza;3I;;;Die verschiedenen Religionen in der Türkei;bra;scs;normal
+140;I09;Keles Selin;3I;;;Die Sekundarstufe II im Schulsystemvergleich zwischen Basel und Istanbul.;det;scs;normal
+141;C05;Vodevic Lorena;3I;;;Die Eifersucht;fus;scs;normal
+142;I21;Dietrich Milena;3C;;;Ayla lernt tanzen (Kinderbuch);caa;sct;normal
+143;G19;Pulaj Florent;3G;;;Was ist das bessere Zuhause der Demenzerkrankten?;scm;sct;normal
+144;F12;Radmanovac Tijana;3F;;;Besessenheit der K-Pop Fans;pfl;stt;normal
+145;E04;Dunkel Max;3E;;;upgecycelte Kunst-/Kulturbar;was;stt;art
+146;E07;Hälg Anne;3E;;;Die Performance als künstlerisches Ausdrucksmittel;scj;stt;dance
+147;E15;Nick Felicitas;3E;;;Tiere rund um die Welt (Bilderbuch);scj;stt;normal
+148;E05;Ebner Jana;3E;;;Tatoo: Entwürfe;med;stt;normal
+149;G11;Gervalla Ariola;3G;;;Ein Comic zum Kosovokrieg;med;stt;normal
+150;D19;Trösch Alina;3D;;;Das Pferd als Lehrer;bak;tem;normal
+151;D07;Gassmann Anouk;3D;Schmidl;3D;Musikvideo;ert;tem;music
+152;D18;Schmidl Charlotte;3D;;;Musikvideo;ert;tem;music
+153;D20;Wälle Jacqueline;3D;;;Filmmusik;her;tem;music
+154;G06;Capra Mara;3G;Kunam;3G;Care about you (Buch);scm;tem;normal
+155;G15;Kunam Ranisa;3G;Capra;;Care about you (Buch);scm;tem;normal
+156;A17;Ramanadan Agny Flargy;3A;;;Konservierungsmittel in Lebensmittlen;grn;tem;normal
+157;C04;Demirel Damla;3C;;;Ich fühle was, was du nicht fühlst;det;tem;normal
+158;H06;Gil Lozano Valentina;3H;;;Meine Haut;gad;tem;normal
+159;G08;Dannacher Jonas;3G;;;Möbeldesign;lum;thb;normal
+160;C14;Ponacz Lena;3C;;;Upcycling von Tera Pak;lum;thb;normal
+161;G09;Frisina Dario;3G;;;Moderne Architektur: Bau eines Hauses in Form eines Quaders;lum;thb;normal
+162;B09;Halis Bertan;3B;;;The Art of the Architect;was;thb;normal
+163;E17;Nützi Fabian;3E;;;Ein Schritt näher zum perfekten Bild;bov;thb;normal
+164;C22;Wirz Josiane;3C;;;Mein Kater Jeammy (Kinderbuch);moa;tos;normal
+165;C17;Sarac  Can;3C;Wackernagel;3C;Classmate (Webseite);rod;trd;normal
+166;C20;Wackernagel Timon;3C;;;Classmate (Webseite);rod;trd;normal
+167;I14;Novosel Julia;3I;;;Mode: Aus alt mach neu;stt;vau;normal
+168;F08;Mateo Gonzalez Alisha;3F;;;Zeichnen nach Themen und Zitaten aus Musikstücken;caa;was;art
+169;E13;Löw Wilhelm;3E;;;Horoskope;caa;was;normal
+170;D08;Graf Dilan;3D;;;KUCKMAL (Bilderbuch Sexualaufklärung);scj;was;normal
+171;G16;Mehrabi Sohayl;3G;;;Daumenkino;thb;was;art
+172;H09;Liuzzo Giorgia Naike;3H;;;Basel in three days (Reiseführer);wea;was;normal
+173;A14;Meyer Andrina;3A;;;Von der Welpenschule zur Weltschoolclass;hus;was;normal
+174;I19;Rivera Ricardo;3I;;;Bewusstsein;kib;was;normal
+175;G18;Plüss Lilly;3G;;;Das Sonnensystem (Büchlein);vau;was;normal
+176;H07;Jordi Anouk;3H;;;Finnland - von der Unabhängigkeit bis heute;ros;wea;normal
+177;H14;Thayakaran Suvedha;3H;;;Jugendleben der Mädchen in Sri Lanka und in der Schweiz;joa;wea;normal
+178;F11;Palanci Eda Nur;3F;;;Verlangen heisst Abhängigkeit (Poesiebuch);kng;wea;normal
+179;H13;Tesfay Wintana;3H;;;Rassismus in der Traumfabrik: Hollywood;ros;wea;normal
+180;D14;Lozancic Ana;3D;;;"How to get ""en"" pinte";cad;wem;normal
+181;C07;Fringeli Severine;3C;;;Turnaufführung mit Kindern;nin;wem;dance
+182;A11;Marti Jérôme;3A;;;Die Psyche bei Sportverletzungen;orm;wem;normal
+183;B13;Magro Matteo;3B;;;Gesundheitliche Auswirkungen beim Kraftsport;brr;wic;normal
+184;F07;Kuçi Agnesa;3F;;;Integration von jugendlichen Migranten in der Schweiz;gyt;wic;normal
+185;C11;Luongo Danilo;3C;;;Auswirkungen durch tägliche Liegestützen;gyt;wic;normal
+186;G04;Bärfuss Linard;3G;;;Deutschrap Mixtape;pib;wij;music
+187;B21;Vecchio Deborah;3B;;;Ballett und der Hintergrund des Tanzens;cad;wys;dance
+188;G05;Ben Sayed Yasmine;3G;;;Der Klimastreik in Basel;bae;zad;normal
