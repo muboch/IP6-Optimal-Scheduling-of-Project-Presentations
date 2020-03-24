@@ -11,13 +11,13 @@ phases:
       - echo pre_build
   build:
     commands:
-      - mvn clean install -f backend/pom.xml -Pprod
+      - mvn clean install -f ospp-application/pom.xml -Pprod
       - echo build
   post_build:
     commands:
       - echo post_build
       - mkdir ./deploy
-      - mv backend/target/backend*.jar ./deploy/application.jar
+      - mv ospp-application/target/ospp-application*.jar ./deploy/application.jar
 
 artifacts:
   files:

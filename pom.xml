@@ -19,7 +19,7 @@
 
     <modules>
         <module>common</module>
-        <module>backend</module>
+        <module>ospp-application</module>
         <module>solvers/solverapi</module>
         <module>solvers/ilpsolver</module>
         <module>solvers/cpsolver</module>
