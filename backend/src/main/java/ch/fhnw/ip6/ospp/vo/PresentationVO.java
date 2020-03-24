@@ -2,7 +2,7 @@ package ch.fhnw.ip6.ospp.vo;
 
 public interface PresentationVO {
 
-    long getId();
+    int getId();
 
     RoomVO getRoom();
 

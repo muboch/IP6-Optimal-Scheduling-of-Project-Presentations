@@ -3,7 +3,7 @@ package ch.fhnw.ip6.ospp.vo;
 
 public interface TeacherVO {
 
-    long getId();
+    int getId();
 
     String getFirstname();
 

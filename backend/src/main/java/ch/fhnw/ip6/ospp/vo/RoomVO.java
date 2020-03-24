@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RoomVO {
 
-    long getId();
+    int getId();
 
     String getNr();
 

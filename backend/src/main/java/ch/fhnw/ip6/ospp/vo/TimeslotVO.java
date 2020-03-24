@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface TimeslotVO {
 
-    long getId();
+    int getId();
 
-    LocalDateTime getBegin();
+    String getStart();
 
-    LocalDateTime getEnd();
+    int getBlock();
 
     List<PresentationVO> getPresentations();
 
