@@ -12,5 +12,12 @@
 
     <artifactId>solverapi</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>ch.fhnw.ip6</groupId>
+            <artifactId>common</artifactId>
+            <version>${common.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

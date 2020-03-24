@@ -12,6 +12,9 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <common.version>1.0-SNAPSHOT</common.version>
+        <solverapi.version>1.0-SNAPSHOT</solverapi.version>
+        <solution-checker.version>1.0-SNAPSHOT</solution-checker.version>
     </properties>
 
     <modules>
@@ -22,7 +25,21 @@
         <module>solvers/cpsolver</module>
         <module>solvers/originalsolver</module>
         <module>solvers/solution-checker</module>
-
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.12</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
