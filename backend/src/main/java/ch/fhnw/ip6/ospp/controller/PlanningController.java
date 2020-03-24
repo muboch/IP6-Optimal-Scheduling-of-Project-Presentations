@@ -11,11 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,17 +37,13 @@ public class PlanningController {
     enum File {PRESENTATIONS, TEACHERS, TIMESLOTS, ROOMS}
 
     @PostMapping(value = "/plannings", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> importFiles(@RequestParam MultipartFile[] requestFiles) {
+    public ResponseEntity<Object> importFiles(@RequestParam("presentations") MultipartFile presentations,
+                                              @RequestParam("teachers") MultipartFile teachers,
+                                              @RequestParam("rooms") MultipartFile rooms,
+                                              @RequestParam("timeslots") MultipartFile timeslots) {
 
-        if (requestFiles.length != 4) {
-            log.error("There are 4 files required, but got {}.", requestFiles.length);
-            return ResponseEntity.badRequest().build();
-        }
-
-        Map<File, MultipartFile> files = mapFiles(requestFiles);
-
-        teacherService.loadTeachers(files.get(File.TEACHERS));
-        presentationService.loadPresentation(files.get(File.PRESENTATIONS));
+        teacherService.loadTeachers(teachers);
+        presentationService.loadPresentation(presentations);
 
         return ResponseEntity.ok().build();
 
@@ -53,30 +51,17 @@ public class PlanningController {
 
     @GetMapping(value = "/plannings")
     public List<PlanningVO> getPlannings() {
-        List<PlanningVO> plannings = planningService.getAllPlannings();
-        return plannings;
+        return planningService.getAllPlannings();
     }
 
     @GetMapping(value = "/plannings/{id}")
-    public PlanningVO getPlanningById(@RequestParam long id){
+    public PlanningVO getPlanningById(@RequestParam long id) {
         return planningService.getPlanById(id);
     }
 
     private Map<File, MultipartFile> mapFiles(MultipartFile[] requestFiles) {
         Map<File, MultipartFile> files = new HashMap<>();
-        for (MultipartFile f : requestFiles) {
-            if (Objects.requireNonNull(f.getOriginalFilename()).toLowerCase().startsWith("presentation")) {
-                files.put(File.PRESENTATIONS, f);
-            } else if (f.getOriginalFilename().toLowerCase().startsWith("teacher")) {
-                files.put(File.TEACHERS, f);
-            } else if (f.getOriginalFilename().toLowerCase().startsWith("time")) {
-                files.put(File.TIMESLOTS, f);
-            } else if (f.getOriginalFilename().toLowerCase().startsWith("room")) {
-                files.put(File.ROOMS, f);
-            } else {
-                log.error("Cannot match this file: {}", f.getOriginalFilename());
-            }
-        }
+        Arrays.stream(requestFiles).forEach(file -> files.put(File.valueOf(file.getName().toUpperCase()), file));
         return files;
 
     }
