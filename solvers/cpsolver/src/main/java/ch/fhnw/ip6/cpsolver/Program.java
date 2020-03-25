@@ -1,9 +1,11 @@
 package ch.fhnw.ip6.cpsolver;
 
-import ch.fhnw.ip6.common.classes.Lecturer;
-import ch.fhnw.ip6.common.classes.Presentation;
-import ch.fhnw.ip6.common.classes.Room;
-import ch.fhnw.ip6.common.classes.Timeslot;
+import ch.fhnw.ip6.api.SolverApi;
+import ch.fhnw.ip6.common.dto.Lecturer;
+import ch.fhnw.ip6.common.dto.Presentation;
+import ch.fhnw.ip6.common.dto.Room;
+import ch.fhnw.ip6.common.dto.Solution;
+import ch.fhnw.ip6.common.dto.Timeslot;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.CpSolver;
@@ -17,14 +19,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Program {
+public class Program implements SolverApi {
 
     static {
         System.setProperty("java.library.path", Objects.requireNonNull(Program.class.getClassLoader().getResource("libs/")).getPath());
         System.loadLibrary("jniortools");
     }
 
-    public static void main(String[] args) {
+    @Override
+    public Solution testSolve() {
         JsonUtil util = new JsonUtil();
 
         List<Presentation> presentations = util.getJsonAsList("presentations.json", Presentation.class);
@@ -32,20 +35,16 @@ public class Program {
         List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
 
-        presentations.forEach(System.out::println);
-        lecturers.forEach(System.out::println);
-        rooms.forEach(System.out::println);
-        timeslots.forEach(System.out::println);
 
+        return solve(presentations, lecturers, rooms, timeslots);
+    }
+
+    @Override
+    public Solution solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         CpModel model = new CpModel();
-
-        for (Presentation p : presentations) {
-            p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
-            p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
-        }
 
         //Create model. presTimeRoom[p,t,r] == 1 -> Presentation p happens in room r at time t
         IntVar[][][] presRoomTime = new IntVar[presentations.size()][rooms.size()][timeslots.size()];
@@ -201,5 +200,7 @@ public class Program {
         System.out.println(res);
 
         stopWatch.stop();
+
+        return null;
     }
 }

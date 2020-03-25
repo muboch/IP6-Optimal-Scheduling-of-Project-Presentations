@@ -1,8 +1,7 @@
 package ch.fhnw.ip6.cpsolver;
 
-import ch.fhnw.ip6.common.classes.*;
+import ch.fhnw.ip6.common.dto.*;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
-import com.google.ortools.constraintsolver.BooleanVar;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
 import org.apache.commons.lang3.time.StopWatch;
