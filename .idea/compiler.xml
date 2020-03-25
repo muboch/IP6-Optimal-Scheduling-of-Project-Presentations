@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cpsolver" />
+        <module name="solution-checker" />
+        <module name="SolverAPI" />
+        <module name="common" />
+        <module name="ilpsolver" />
+        <module name="solverapi" />
+        <module name="CPSolver" />
+        <module name="OriginalSolver" />
+        <module name="originalsolver" />
+        <module name="ILPSolver" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demo" target="1.8" />
+      <module name="osopp" target="1.8" />
+      <module name="osopp.main" target="1.8" />
+      <module name="osopp.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CPSolver" options="" />
+      <module name="ILPSolver" options="" />
+      <module name="OriginalSolver" options="-parameters" />
+      <module name="SolverAPI" options="" />
+      <module name="backend" options="-parameters" />
+      <module name="demo" options="-parameters" />
+      <module name="ilpsolver" options="" />
+      <module name="originalsolver" options="" />
+      <module name="osopp" options="-parameters" />
+      <module name="ospp" options="-parameters" />
+    </option>
+  </component>
+</project>
