@@ -27,7 +27,6 @@
 			<groupId>ch.fhnw.ip6</groupId>
 			<artifactId>common</artifactId>
 			<version>1.0-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<!-- spring boot -->
