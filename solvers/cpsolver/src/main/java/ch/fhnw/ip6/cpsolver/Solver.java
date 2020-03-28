@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class Solver implements SolverApi {
 
     static {
-        System.setProperty("java.library.path", Objects.requireNonNull(Solver.class.getClassLoader().getResource("libs/")).getPath());
         System.loadLibrary("jniortools");
     }
 
@@ -35,6 +34,10 @@ public class Solver implements SolverApi {
         List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
 
+        for (Presentation p : presentations) {
+            p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
+            p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
+        }
 
         return solve(presentations, lecturers, rooms, timeslots);
     }
