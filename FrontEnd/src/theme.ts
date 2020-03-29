@@ -50,7 +50,15 @@ export const useGStyles = makeStyles(theme => ({
       margin: theme.spacing(1)
     }
   },
-  primaryButton: { color: theme.palette.primary.contrastText, backgroundColor: theme.palette.primary.main, padding: "4px" },
+  primaryButton: {
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.main,
+    padding: "4px",
+    "&.Mui-disabled": {
+      color: "gray"
+    }
+  },
+
   secondaryButton: {
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.primary.contrastText,

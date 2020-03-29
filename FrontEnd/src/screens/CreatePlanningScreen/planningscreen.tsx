@@ -1,21 +1,36 @@
 import React, { useState, FormEvent } from "react";
 import { Button, makeStyles } from "@material-ui/core";
 import { useGStyles } from "../../theme";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
 const useStyles = makeStyles(theme => ({
   input: {
     display: "none"
+  },
+  button: {
+    width: "400px"
   }
 }));
 
 const PlanningScreen: React.FC = (): JSX.Element => {
   const gStyles = useGStyles();
   const styles = useStyles();
-  const [files, setFiles] = useState({});
+  const [files, setFiles] = useState<Files>({
+    presentations: undefined,
+    rooms: undefined,
+    timeslots: undefined,
+    teachers: undefined
+  });
 
   type UploadInfo = {
-    key: string;
+    key: keyof Files;
     label: string;
+  };
+  type Files = {
+    presentations?: File;
+    rooms?: File;
+    timeslots?: File;
+    teachers?: File;
   };
 
   const uploadInfos: Array<UploadInfo> = [
@@ -24,6 +39,10 @@ const PlanningScreen: React.FC = (): JSX.Element => {
     { key: "timeslots", label: "Zeitslots" },
     { key: "teachers", label: "Lehrpersonen" }
   ];
+  const getKeyValue = (key: keyof Files) => {
+    return files[key] !== undefined;
+  };
+
   const setFileForKey = (mykey: string, file: File) => {
     setFiles({ ...files, [`${mykey}`]: file });
   };
@@ -71,9 +90,12 @@ const PlanningScreen: React.FC = (): JSX.Element => {
               <Button
                 variant={"outlined"}
                 component="span"
-                className={gStyles.secondaryButton}
+                className={`${gStyles.secondaryButton} ${styles.button}`}
               >
                 {`${u.label} hochladen`}
+                {getKeyValue(u.key) && (
+                  <CheckCircleOutlineIcon></CheckCircleOutlineIcon>
+                )}
               </Button>
             </label>
           </>
@@ -81,8 +103,13 @@ const PlanningScreen: React.FC = (): JSX.Element => {
       })}
       <Button
         type="submit"
-        className={gStyles.primaryButton}
-        disabled={Object.entries(files).length !== 4}
+        className={`${gStyles.primaryButton} ${styles.button}`}
+        disabled={
+          !getKeyValue("presentations") ||
+          !getKeyValue("rooms") ||
+          !getKeyValue("teachers") ||
+          !getKeyValue("timeslots")
+        }
       >
         Planung erstellen
       </Button>
