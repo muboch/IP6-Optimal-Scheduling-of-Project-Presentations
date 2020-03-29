@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class Solver implements SolverApi {
 
     @Value("${ospp.timelimit}")
-    private int timelimit;
+    private int timelimit = 10;
 
     static {
         System.loadLibrary("jniortools");
@@ -49,10 +49,14 @@ public class Solver implements SolverApi {
 
     @Override
     public Solution solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
-
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         CpModel model = new CpModel();
+
+        for (Presentation p : presentations) {
+            p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
+            p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
+        }
 
         //Create model. presTimeRoom[p,t,r] == 1 -> Presentation p happens in room r at time t
         IntVar[][][] presRoomTime = new IntVar[presentations.size()][rooms.size()][timeslots.size()];
@@ -122,12 +126,11 @@ public class Solver implements SolverApi {
         }
         // END CONSTRAINT
 
-        // START CONSTRAINT 1. Coaches should switch the rooms as little as possible
+        // START CONSTRAINT Soft Constraint 1. Coaches should switch the rooms as little as possible
         // Create (lecturer,room) booleans, minimize
         IntVar[][] coachRoom = new IntVar[lecturers.size()][rooms.size()];
         for (var l : lecturers) {
             for (var r : rooms) {
-                //coachRoom[l.getId()][r.getId()] = model.newIntVar(0, timeslots.size(), "coach_" + l.getId() + "room_" + r.getId());
                 coachRoom[l.getId()][r.getId()]  = model.newBoolVar("coach_"+l.getId()+"room_"+r.getId()); //
             }
         }
@@ -140,7 +143,6 @@ public class Solver implements SolverApi {
                         if (presRoomTime[p1.getId()][r.getId()][t.getId()] == null) continue;
                         temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
                     }
-
                 }
                 IntVar[] arr = temp.toArray(IntVar[]::new);
 
@@ -154,16 +156,19 @@ public class Solver implements SolverApi {
         // END CONSTRAINT
 
         // START CONSTRAINT 2. Coaches should have as little free timeslots between presentations as possible.
+        IntVar[][] coachAtTimeslot = new IntVar[lecturers.size()][timeslots.size()]; // Coach has a presentation at timeslot
+        //   var firstTimeslot =
 
 
         // END CONSTRAINT
 
 
-        // START CONSTRAINT 3. As little rooms as possible should be free per timeslots -> Minimize used Timeslots
-        /*
+        // START CONSTRAINT 3.1 As little rooms as possible should be free per timeslots -> Minimize used Timeslots
         IntVar[] timeslotUsed = new IntVar[timeslots.size()];
+        int[] timeslotCost = new int[timeslots.size()];
         for (var t : timeslots) {
             timeslotUsed[t.getId()] = model.newBoolVar("timeslotUsed_" + t.getId());
+            timeslotCost[t.getId()] = t.getId();
         }
 
         for (var t : timeslots) {
@@ -177,17 +182,44 @@ public class Solver implements SolverApi {
             }
             IntVar[] arr = temp.toArray(IntVar[]::new);
             /// IF SUM ARR > 0 add boolean timeslotUsed TRUE else FALSE;
-            model.addEquality(timeslotUsed[t.getId()], LinearExpr.sum(arr));
+            // Implement timeslotUsed[t] == (sum(arr) >= 1).
+            model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(timeslotUsed[t.getId()]);
+            model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(timeslotUsed[t.getId()].not());
         }
-        model.minimize(LinearExpr.sum(timeslotUsed));
-        // MINIMIZE TIMESLOTUSED each.
+        model.minimize(LinearExpr.scalProd(timeslotUsed, timeslotCost));
 
-         */
 
         // END CONSTRAINT
 
+        //START CONSTRAINT 3.2 As little rooms as possible should be free per timeslots -> Maximize used rooms per timeslot
+        /*
+        IntVar[][] timeslotRooms = new IntVar[timeslots.size()][rooms.size()];
+        for (var t : timeslots) {
+            for (var r : rooms) {
+                timeslotRooms[t.getId()][r.getId()] = model.newBoolVar("timeslotRooms_" + t.getId()+"_"+r.getId());
+            }
+        }
 
-        //Add equality between roomTimeslotPresentations for each lecurer's presentations
+        for (var t : timeslots){
+            for (var r: rooms){
+                var temp = new ArrayList<IntVar>();
+
+                for (var p: presentations){
+                    if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
+                    temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
+                }
+                IntVar[] arr = temp.toArray(IntVar[]::new);
+                // Implement timeslotRooms[t][r] == (sum(arr) >= 1).
+                model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(timeslotRooms[t.getId()][r.getId()]);
+                model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(timeslotRooms[t.getId()][r.getId()].not());
+            }
+            model.maximize(LinearExpr.sum(timeslotRooms[t.getId()])); // Maximize rooms for timeslot
+        }
+
+         */
+
+
+
 
 
         HashSet<Integer> to_print = new HashSet<Integer>();
@@ -200,15 +232,16 @@ public class Solver implements SolverApi {
         to_print.add(1000);
 
         CpSolver solver = new CpSolver();
+        solver.getParameters().setMaxTimeInSeconds(timelimit);
         System.out.println("All constraints done, solving");
         System.out.println(model.validate());
         var cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms,
                 to_print, stopWatch);
+
         var res = solver.searchAllSolutions(model, cb);
         System.out.println(res);
 
         stopWatch.stop();
-
         return null;
     }
 }
