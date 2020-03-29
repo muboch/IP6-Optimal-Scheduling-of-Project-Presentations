@@ -9,6 +9,7 @@ import ch.fhnw.ip6.common.dto.Timeslot;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.CpSolver;
+import com.google.ortools.sat.CpSolverStatus;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import org.apache.commons.lang3.time.StopWatch;
@@ -73,17 +74,17 @@ public class Solver implements SolverApi {
 
         System.out.println("Setup completed");
         // For each presentations, list the presentations that are not allowed to overlap
-        List<Presentation>[] presentationsPerLecturer = new List[lecturers.size()];
+        List<Presentation>[] presentationsPerLecturer = new ArrayList[lecturers.size()];
         for (Lecturer l : lecturers) {
             presentationsPerLecturer[l.getId()] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList());
         }
         System.out.println("Overlap calculation completed");
 
         // START CONSTRAINT:  For each Presentation, there must be 1 (room,timeslot) pair. -> Each presentation must be presented in a room at a time
-        for (var p : presentations) {
-            var temp = new ArrayList<IntVar>();
-            for (var t : timeslots) {
-                for (var r : rooms) {
+        for (Presentation p : presentations) {
+            List<IntVar> temp = new ArrayList<>();
+            for (Timeslot t : timeslots) {
+                for (Room r : rooms) {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
 
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
@@ -96,10 +97,10 @@ public class Solver implements SolverApi {
         // END CONSTRAINT
 
         // START CONSTRAINT For each (room, timeslot) pair there must be <=1 presentation -> Max 1 Presentation per Room/Time
-        for (var r : rooms) {
-            for (var t : timeslots) {
-                var temp = new ArrayList<IntVar>();
-                for (var p : presentations) {
+        for (Room r : rooms) {
+            for (Timeslot t : timeslots) {
+                List<IntVar> temp = new ArrayList<IntVar>();
+                for (Presentation p : presentations) {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
@@ -111,11 +112,11 @@ public class Solver implements SolverApi {
 
 
         // START CONSTRAINT Foreach presentation, the following conflicting (presentation,room, time) pairs are not allowed -> Lecturers may not have more than one presentation at a time.
-        for (var l : lecturers) {
-            for (var t : timeslots) {
-                var temp = new ArrayList<IntVar>();
-                for (var r : rooms) {
-                    for (var p1 : presentationsPerLecturer[l.getId()]) {
+        for (Lecturer l : lecturers) {
+            for (Timeslot t : timeslots) {
+                List<IntVar> temp = new ArrayList<>();
+                for (Room r : rooms) {
+                    for (Presentation p1 : presentationsPerLecturer[l.getId()]) {
                         if (presRoomTime[p1.getId()][r.getId()][t.getId()] == null) continue;
                         temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
                     }
@@ -129,17 +130,17 @@ public class Solver implements SolverApi {
         // START CONSTRAINT Soft Constraint 1. Coaches should switch the rooms as little as possible
         // Create (lecturer,room) booleans, minimize
         IntVar[][] coachRoom = new IntVar[lecturers.size()][rooms.size()];
-        for (var l : lecturers) {
-            for (var r : rooms) {
+        for (Lecturer l : lecturers) {
+            for (Room r : rooms) {
                 coachRoom[l.getId()][r.getId()]  = model.newBoolVar("coach_"+l.getId()+"room_"+r.getId()); //
             }
         }
-        for (var l : lecturers) {
-            for (var r : rooms) {
-                var temp = new ArrayList<IntVar>();
+        for (Lecturer l : lecturers) {
+            for (Room r : rooms) {
+                List<IntVar> temp = new ArrayList<>();
 
-                for (var p1 : presentationsPerLecturer[l.getId()]) {
-                    for (var t : timeslots) {
+                for (Presentation p1 : presentationsPerLecturer[l.getId()]) {
+                    for (Timeslot t : timeslots) {
                         if (presRoomTime[p1.getId()][r.getId()][t.getId()] == null) continue;
                         temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
                     }
@@ -166,16 +167,16 @@ public class Solver implements SolverApi {
         // START CONSTRAINT 3.1 As little rooms as possible should be free per timeslots -> Minimize used Timeslots
         IntVar[] timeslotUsed = new IntVar[timeslots.size()];
         int[] timeslotCost = new int[timeslots.size()];
-        for (var t : timeslots) {
+        for (Timeslot t : timeslots) {
             timeslotUsed[t.getId()] = model.newBoolVar("timeslotUsed_" + t.getId());
             timeslotCost[t.getId()] = t.getId();
         }
 
-        for (var t : timeslots) {
-            var temp = new ArrayList<IntVar>();
+        for (Timeslot t : timeslots) {
+            List<IntVar> temp = new ArrayList<IntVar>();
 
-            for (var r : rooms) {
-                for (var p : presentations) {
+            for (Room r : rooms) {
+                for (Presentation p : presentations) {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
@@ -235,10 +236,10 @@ public class Solver implements SolverApi {
         solver.getParameters().setMaxTimeInSeconds(timelimit);
         System.out.println("All constraints done, solving");
         System.out.println(model.validate());
-        var cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms,
+        PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms,
                 to_print, stopWatch);
 
-        var res = solver.searchAllSolutions(model, cb);
+        CpSolverStatus res = solver.searchAllSolutions(model, cb);
         System.out.println(res);
 
         stopWatch.stop();
