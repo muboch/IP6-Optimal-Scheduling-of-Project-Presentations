@@ -131,7 +131,7 @@ public class SolutionChecker {
                 return false;
             }
         }
-        System.out.println("No Presentation Occures more than once");
+        System.out.println("Each Presentation occures once");
         return true;
     }
 

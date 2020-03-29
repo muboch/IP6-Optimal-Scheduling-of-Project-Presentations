@@ -155,10 +155,11 @@ public class Program {
 
 
         // START CONSTRAINT 3.1 As little rooms as possible should be free per timeslots -> Minimize used Timeslots
-
         IntVar[] timeslotUsed = new IntVar[timeslots.size()];
+        int[] timeslotCost = new int[timeslots.size()];
         for (var t : timeslots) {
             timeslotUsed[t.getId()] = model.newBoolVar("timeslotUsed_" + t.getId());
+            timeslotCost[t.getId()] = t.getId();
         }
 
         for (var t : timeslots) {
@@ -176,7 +177,11 @@ public class Program {
             model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(timeslotUsed[t.getId()]);
             model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(timeslotUsed[t.getId()].not());
         }
-        model.minimize(LinearExpr.sum(timeslotUsed));
+        for (var t: timeslotUsed){
+            // If timeslot used add cost, else dont
+        }
+
+        model.minimize(LinearExpr.scalProd(timeslotUsed, timeslotCost));
 
 
         // END CONSTRAINT
@@ -226,6 +231,7 @@ public class Program {
         System.out.println(model.validate());
         var cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms,
                 to_print, stopWatch);
+        cb
         var res = solver.searchAllSolutions(model, cb);
         System.out.println(res);
 
