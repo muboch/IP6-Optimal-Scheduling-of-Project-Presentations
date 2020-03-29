@@ -160,7 +160,7 @@
                         <artifactId>frontend-maven-plugin</artifactId>
                         <version>1.9.1</version>
                         <configuration>
-                            <workingDirectory>${basedir}/../FrontEnd</workingDirectory>
+                            <workingDirectory>${basedir}/../frontend</workingDirectory>
                         </configuration>
                         <executions>
                             <execution>
@@ -205,7 +205,7 @@
                                     <outputDirectory>${basedir}/target/classes/static</outputDirectory>
                                     <resources>
                                         <resource>
-                                            <directory>${basedir}/../FrontEnd/build</directory>
+                                            <directory>${basedir}/../frontend/build</directory>
                                         </resource>
                                     </resources>
                                 </configuration>
@@ -236,7 +236,7 @@
                         <artifactId>frontend-maven-plugin</artifactId>
                         <version>1.9.1</version>
                         <configuration>
-                            <workingDirectory>${basedir}/../FrontEnd/scheduler-frontend</workingDirectory>
+                            <workingDirectory>${basedir}/../frontend</workingDirectory>
                         </configuration>
                         <executions>
                             <execution>
@@ -281,7 +281,7 @@
                                     <outputDirectory>${basedir}/target/classes/static</outputDirectory>
                                     <resources>
                                         <resource>
-                                            <directory>${basedir}/../FrontEnd/build</directory>
+                                            <directory>${basedir}/../frontend/build</directory>
                                         </resource>
                                     </resources>
                                 </configuration>
