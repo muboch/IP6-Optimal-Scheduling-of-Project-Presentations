@@ -5,12 +5,10 @@ import ch.fhnw.ip6.ospp.persistence.StudentRepository;
 import ch.fhnw.ip6.ospp.service.client.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Service
-@RequestScope
+@Component
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 

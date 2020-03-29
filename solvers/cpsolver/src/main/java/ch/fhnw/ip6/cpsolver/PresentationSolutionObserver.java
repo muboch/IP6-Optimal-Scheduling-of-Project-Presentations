@@ -1,6 +1,10 @@
 package ch.fhnw.ip6.cpsolver;
 
-import ch.fhnw.ip6.common.dto.*;
+import ch.fhnw.ip6.common.dto.Lecturer;
+import ch.fhnw.ip6.common.dto.Presentation;
+import ch.fhnw.ip6.common.dto.Room;
+import ch.fhnw.ip6.common.dto.Solution;
+import ch.fhnw.ip6.common.dto.Timeslot;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;

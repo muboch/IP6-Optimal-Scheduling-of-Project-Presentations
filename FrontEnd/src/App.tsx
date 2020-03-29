@@ -1,9 +1,8 @@
 import React from "react";
-import { Switch, Route, Redirect } from "wouter";
+import {Redirect, Route, Switch} from "wouter";
 import LandingScreen from "./screens/LandingScreen/landingscreen";
-import { ThemeProvider } from "@material-ui/core";
-import { theme, useGStyles } from "./theme";
-import { StylesContext } from "@material-ui/styles";
+import {ThemeProvider} from "@material-ui/core";
+import {theme, useGStyles} from "./theme";
 import PlanningScreen from "./screens/CreatePlanningScreen/planningscreen";
 import ListPlanningScreen from "./screens/ListPlanningScreen/listplanningscreen";
 

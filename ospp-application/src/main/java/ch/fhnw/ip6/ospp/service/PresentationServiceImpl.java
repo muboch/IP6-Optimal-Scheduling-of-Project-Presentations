@@ -1,27 +1,27 @@
 package ch.fhnw.ip6.ospp.service;
 
+import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Student;
-import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.model.Type;
 import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
-import ch.fhnw.ip6.ospp.service.client.PresentationService;
 import ch.fhnw.ip6.ospp.service.client.LecturerService;
+import ch.fhnw.ip6.ospp.service.client.PresentationService;
+import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 @Slf4j
-@Service
-@RequestScope
+@Component
 @RequiredArgsConstructor
 public class PresentationServiceImpl implements PresentationService {
 
@@ -75,22 +75,27 @@ public class PresentationServiceImpl implements PresentationService {
     }
 
     @Override
-    public Presentation addPresentation(Presentation presentation) {
+    public PresentationVO addPresentation(Presentation presentation) {
         return null;
     }
 
     @Override
-    public Presentation readById(long id) {
+    public PresentationVO readById(long id) {
         return null;
     }
 
     @Override
-    public Presentation readByNr(String nr) {
+    public PresentationVO readByNr(String nr) {
         return null;
     }
 
     @Override
     public void deleteAll() {
         presentationRepository.deleteAll();
+    }
+
+    @Override
+    public List<PresentationVO> getAll() {
+        return presentationRepository.findAllProjectedBy();
     }
 }

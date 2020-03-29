@@ -5,9 +5,11 @@ import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.Timeslot;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface SolverApi {
 
     /**

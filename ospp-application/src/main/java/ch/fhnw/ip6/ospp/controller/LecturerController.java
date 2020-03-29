@@ -1,6 +1,6 @@
 package ch.fhnw.ip6.ospp.controller;
 
-import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
+import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.vo.LecturerVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LecturerController {
 
-    private final LecturerRepository lecturerRepository;
+    private final LecturerService lecturerService;
 
     @GetMapping
     public List<LecturerVO> findAll() {
-        return lecturerRepository.findAllProjectedBy();
+        return lecturerService.getAll();
     }
 
 }

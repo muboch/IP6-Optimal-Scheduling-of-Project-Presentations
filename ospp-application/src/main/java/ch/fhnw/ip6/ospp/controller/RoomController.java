@@ -1,6 +1,6 @@
 package ch.fhnw.ip6.ospp.controller;
 
-import ch.fhnw.ip6.ospp.persistence.RoomRepository;
+import ch.fhnw.ip6.ospp.service.client.RoomService;
 import ch.fhnw.ip6.ospp.vo.RoomVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoomController {
 
-    private final RoomRepository roomRepository;
+    private final RoomService roomService;
 
     @GetMapping
     public List<RoomVO> findAll() {
-        return roomRepository.findAllProjectedBy();
+        return roomService.getAll();
     }
 }

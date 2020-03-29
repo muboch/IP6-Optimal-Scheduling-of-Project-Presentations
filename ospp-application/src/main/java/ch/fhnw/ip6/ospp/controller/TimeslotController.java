@@ -1,6 +1,6 @@
 package ch.fhnw.ip6.ospp.controller;
 
-import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
+import ch.fhnw.ip6.ospp.service.client.TimeslotService;
 import ch.fhnw.ip6.ospp.vo.TimeslotVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TimeslotController {
 
-    private final TimeslotRepository timeslotRepository;
+    private final TimeslotService timeslotService;
 
     @GetMapping
     public List<TimeslotVO> findAll() {
-        return timeslotRepository.findAllProjectedBy();
+        return timeslotService.getAll();
     }
 
 }

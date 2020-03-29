@@ -1,17 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  useTheme,
-  InputLabel,
-  FormControl,
-  Select,
-  MenuItem,
-  Link
-} from "@material-ui/core";
-import { useGStyles } from "../../theme";
-import { useLocation } from "wouter";
-import { API } from "../../constants";
+import React, {useEffect, useState} from "react";
+import {Button, FormControl, InputLabel, Link, MenuItem, Select} from "@material-ui/core";
+import {useGStyles} from "../../theme";
+import {API} from "../../constants";
 
 type Plannings = {
   id: string;

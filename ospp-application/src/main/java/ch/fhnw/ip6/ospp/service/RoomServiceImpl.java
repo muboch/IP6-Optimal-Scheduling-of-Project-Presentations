@@ -4,20 +4,20 @@ import ch.fhnw.ip6.ospp.model.Room;
 import ch.fhnw.ip6.ospp.model.Type;
 import ch.fhnw.ip6.ospp.persistence.RoomRepository;
 import ch.fhnw.ip6.ospp.service.client.RoomService;
+import ch.fhnw.ip6.ospp.vo.RoomVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 @Slf4j
 @Service
-@RequestScope
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
@@ -62,5 +62,10 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void deleteAll() {
         roomRepository.deleteAll();
+    }
+
+    @Override
+    public List<RoomVO> getAll() {
+        return roomRepository.findAllProjectedBy();
     }
 }

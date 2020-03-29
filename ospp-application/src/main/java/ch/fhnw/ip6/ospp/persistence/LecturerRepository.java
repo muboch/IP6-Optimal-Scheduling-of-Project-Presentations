@@ -7,10 +7,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
 @Component
 public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
 
-    List<LecturerVO> findAllProjectedBy();
-
     Lecturer readByInitials(String initials);
+
+    Lecturer readById(Long id);
+
+    List<LecturerVO> findAllProjectedBy();
 }

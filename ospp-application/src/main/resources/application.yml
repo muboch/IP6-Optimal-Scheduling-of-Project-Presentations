@@ -5,7 +5,7 @@ spring:
   profiles:
     active: prod
   datasource:
-    url: jdbc:mysql://db-ospp.cpfp7kii5qy2.eu-central-1.rds.amazonaws.com:3306/osppdb
+    url: jdbc:mysql://db-ospp.cpfp7kii5qy2.eu-central-1.rds.amazonaws.com:3306/osppdb?useUnicode=yes&characterEncoding=UTF-8
     username: osppuser
     password: 2QXHYrCjwNthHi4h8FY9Go2s7r3i8s
   jpa:
@@ -14,3 +14,6 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
+
+ospp:
+  solver: CPSolver

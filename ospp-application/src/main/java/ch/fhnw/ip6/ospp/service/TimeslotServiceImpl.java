@@ -3,20 +3,20 @@ package ch.fhnw.ip6.ospp.service;
 import ch.fhnw.ip6.ospp.model.Timeslot;
 import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
 import ch.fhnw.ip6.ospp.service.client.TimeslotService;
+import ch.fhnw.ip6.ospp.vo.TimeslotVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 @Slf4j
-@Service
-@RequestScope
+@Component
 @RequiredArgsConstructor
 public class TimeslotServiceImpl implements TimeslotService {
 
@@ -62,5 +62,10 @@ public class TimeslotServiceImpl implements TimeslotService {
     @Override
     public void deleteAll() {
         timeslotRepository.deleteAll();
+    }
+
+    @Override
+    public List<TimeslotVO> getAll() {
+        return timeslotRepository.findAllProjectedBy();
     }
 }
