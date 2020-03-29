@@ -8,15 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cpsolver" />
-        <module name="solution-checker" />
-        <module name="SolverAPI" />
         <module name="common" />
         <module name="ilpsolver" />
         <module name="solverapi" />
-        <module name="CPSolver" />
-        <module name="OriginalSolver" />
         <module name="originalsolver" />
-        <module name="ILPSolver" />
+        <module name="solution-checker" />
       </profile>
       <profile name="Annotation profile for ospp" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -68,7 +64,7 @@
       <module name="originalsolver" options="" />
       <module name="osopp" options="-parameters" />
       <module name="ospp" options="-parameters" />
-      <module name="ospp-application" options="-parameters -Amapstruct.defaultComponentModel=spring" />
+      <module name="ospp-application" options="-parameters" />
     </option>
   </component>
 </project>
