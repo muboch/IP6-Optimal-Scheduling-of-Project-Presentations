@@ -10,6 +10,6 @@ solvers/ilpsolver/target
 solvers/originalsolver/target
 solvers/solution-checker/target
 solvers/solverapi/target
-frontend2/build
-frontend2/node
+frontend/build
+frontend/node
 
