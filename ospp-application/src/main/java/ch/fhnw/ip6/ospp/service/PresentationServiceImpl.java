@@ -54,7 +54,7 @@ public class PresentationServiceImpl implements PresentationService {
                         .nr(record.get("nr"))
                         .title(record.get("title"))
                         .type(Type.fromString(record.get("type")))
-                        .firstStudent(studentOne)
+                        .studentOne(studentOne)
                         .expert(expert)
                         .coach(coach)
                         .build();
@@ -64,7 +64,7 @@ public class PresentationServiceImpl implements PresentationService {
                             .name(record.get("name2"))
                             .schoolclass(record.get("schoolclass2"))
                             .build();
-                    presentation.setSecondStudent(studentTwo);
+                    presentation.setStudentTwo(studentTwo);
                 }
 
                 presentationRepository.save(presentation);
