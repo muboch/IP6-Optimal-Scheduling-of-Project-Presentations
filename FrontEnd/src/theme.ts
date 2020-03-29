@@ -55,7 +55,7 @@ export const useGStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     padding: "4px",
     "&.Mui-disabled": {
-      color: "gray"
+      background: "#AAB9AE",
     }
   },
 

@@ -62,6 +62,7 @@ const PlanningScreen: React.FC = (): JSX.Element => {
         body: formData
       });
       const json = await res.json();
+
     } catch (error) {
       console.log("error", error);
       return;
@@ -94,7 +95,7 @@ const PlanningScreen: React.FC = (): JSX.Element => {
               >
                 {`${u.label} hochladen`}
                 {getKeyValue(u.key) && (
-                  <CheckCircleOutlineIcon></CheckCircleOutlineIcon>
+                  <CheckCircleOutlineIcon/>
                 )}
               </Button>
             </label>
