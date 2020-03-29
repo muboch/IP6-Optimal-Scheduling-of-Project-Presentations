@@ -15,15 +15,15 @@ public class SolutionChecker {
     public static void printSolution(List<Solution> Solutions, List<Lecturer> lecturers, List<Presentation> presentations, List<Timeslot> timeslots, List<Room> rooms, int solutionCount) {
         System.out.println("Solution " + solutionCount);//: time =+ " {WallTime():.02} s");
         System.out.print("         |");
-        rooms.forEach(r -> System.out.print(r.getName()+"|"));
+        rooms.forEach(r -> System.out.print(r.getName() + "|"));
         System.out.println();
-        for (var time : timeslots) {
+        for (Timeslot time : timeslots) {
             System.out.print(time.getDate() + " |");
-            for (var room : rooms) {
-                var solop = Solutions.stream().filter(s -> s.getRoom() == room && s.getTimeSlot() == time).findFirst();
+            for (Room room : rooms) {
+                Optional<Solution> solop = Solutions.stream().filter(s -> s.getRoom() == room && s.getTimeSlot() == time).findFirst();
                 if (solop.isPresent()) //
                 {
-                    var sol = solop.get();
+                    Solution sol = solop.get();
                     System.out.print(String.format("%03d", sol.getPresentation().getId()) + "|");
                 } else {
                     System.out.print("   |");
@@ -36,39 +36,39 @@ public class SolutionChecker {
     public static void checkSolutionForCorrectness(List<Solution> Solutions, List<Lecturer> lecturers, List<Presentation> presentations, List<Timeslot> timeslots, List<Room> rooms) {
         CheckOnePresentationPerTimeslotForProfessor(Solutions, presentations, timeslots, lecturers);
         CheckEachPresentationOnce(Solutions, presentations);
-        CheckRoomUsedMaxOncePerTime(Solutions,rooms,timeslots);
-        CheckRoomSwitchesPerLecturer(Solutions,lecturers, timeslots);
+        CheckRoomUsedMaxOncePerTime(Solutions, rooms, timeslots);
+        CheckRoomSwitchesPerLecturer(Solutions, lecturers, timeslots);
     }
 
     private static void CheckRoomSwitchesPerLecturer(List<Solution> solutions, List<Lecturer> lecturers, List<Timeslot> timeslots) {
         List<Room>[] roomsPerLecturer = new List[lecturers.size()];
         // Initialize ArrayLists
-        for(var l: lecturers){
+        for (Lecturer l : lecturers) {
             roomsPerLecturer[l.getId()] = new ArrayList<>();
         }
 
 
-        for (var t: timeslots){
+        for (Timeslot t : timeslots) {
             // Get solutions for current timeslot
-            var solForTime = solutions.stream().filter(s -> s.getTimeSlot().getId() == t.getId()).collect(Collectors.toList());
-            for(var s: solForTime){
+            List<Solution> solForTime = solutions.stream().filter(s -> s.getTimeSlot().getId() == t.getId()).collect(Collectors.toList());
+            for (Solution s : solForTime) {
                 // If the last room for the lecturer is different than the room of the solution, add it. Else, don't, as the lecturer didnt switch rooms
                 Optional<Room> lastExpertRoom = Optional.empty();
-                if( roomsPerLecturer[s.getExpert().getId()] != null){
+                if (roomsPerLecturer[s.getExpert().getId()] != null) {
                     lastExpertRoom = roomsPerLecturer[s.getExpert().getId()].stream().reduce((first, second) -> second); // Get last element in array (sequential)
                 }
 
                 Optional<Room> lastCoachRoom = Optional.empty();
-                if( roomsPerLecturer[s.getCoach().getId()] != null){
+                if (roomsPerLecturer[s.getCoach().getId()] != null) {
                     lastCoachRoom = roomsPerLecturer[s.getCoach().getId()].stream().reduce((first, second) -> second); // Get last element in array (sequential)
                 }
 
 
-                if(!lastExpertRoom.isPresent() ||  lastExpertRoom.get().getId() != s.getRoom().getId()){
+                if (!lastExpertRoom.isPresent() || lastExpertRoom.get().getId() != s.getRoom().getId()) {
                     roomsPerLecturer[s.getExpert().getId()].add(s.getRoom());
                 }
 
-                if(!lastCoachRoom.isPresent() ||  lastCoachRoom.get().getId() != s.getRoom().getId()){
+                if (!lastCoachRoom.isPresent() || lastCoachRoom.get().getId() != s.getRoom().getId()) {
                     roomsPerLecturer[s.getCoach().getId()].add(s.getRoom());
                 }
 
@@ -77,29 +77,28 @@ public class SolutionChecker {
 
         int totalSwitches = 0;
         System.out.println("RoomSwitches Per Lecturer:");
-        for (var l: lecturers){
-            System.out.print("L: "+ l.getId()+ " :");
-            for (var rs: roomsPerLecturer[l.getId()]){
-                System.out.print(rs.getId()+"->");
+        for (Lecturer l : lecturers) {
+            System.out.print("L: " + l.getId() + " :");
+            for (Room rs : roomsPerLecturer[l.getId()]) {
+                System.out.print(rs.getId() + "->");
             }
-            var switches = (roomsPerLecturer[l.getId()].size()-1);
-            if (switches > 0){
+            int switches = (roomsPerLecturer[l.getId()].size() - 1);
+            if (switches > 0) {
                 System.out.println("Total: " + switches + " switches.");
                 totalSwitches += switches;
             } else {
                 System.out.println("Total: no switches.");
             }
         }
-        System.out.println("Total Switches over all Lecturers: "+ totalSwitches);
-
+        System.out.println("Total Switches over all Lecturers: " + totalSwitches);
 
 
     }
 
     private static Boolean CheckOnePresentationPerTimeslotForProfessor(List<Solution> results, List<Presentation> presentations, List<Timeslot> timeslots, List<Lecturer> lecturers) {
 
-        var profTimeslot = new int[lecturers.size()][timeslots.size()];
-        for (var r : results) {
+        int[][] profTimeslot = new int[lecturers.size()][timeslots.size()];
+        for (Solution r : results) {
             profTimeslot[r.getCoach().getId()][r.getTimeSlot().getId()]++;
             profTimeslot[r.getExpert().getId()][r.getTimeSlot().getId()]++;
         }
@@ -120,8 +119,8 @@ public class SolutionChecker {
     }
 
     private static Boolean CheckEachPresentationOnce(List<Solution> results, List<Presentation> presentations) {
-        var presentationsScheduledTime = new int[presentations.size()];
-        for (var result : results) {
+        int[] presentationsScheduledTime = new int[presentations.size()];
+        for (Solution result : results) {
             presentationsScheduledTime[result.getPresentation().getId()]++;
         }
 
@@ -137,8 +136,8 @@ public class SolutionChecker {
 
     private static Boolean CheckRoomUsedMaxOncePerTime(List<Solution> results, List<Room> rooms,
                                                        List<Timeslot> timeslots) {
-        var roomPerTime = new int[timeslots.size()][rooms.size()];
-        for (var r : results) {
+        int[][] roomPerTime = new int[timeslots.size()][rooms.size()];
+        for (Solution r : results) {
             if (roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] == 0) {
                 roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] = r.getPresentation().getId();
             } else {
