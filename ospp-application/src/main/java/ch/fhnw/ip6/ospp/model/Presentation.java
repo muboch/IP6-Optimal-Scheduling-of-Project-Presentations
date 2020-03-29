@@ -49,10 +49,10 @@ public class Presentation {
     private String title;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Student firstStudent;
+    private Student studentOne;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Student secondStudent;
+    private Student studentTwo;
 
     @ManyToOne
     private Lecturer coach;

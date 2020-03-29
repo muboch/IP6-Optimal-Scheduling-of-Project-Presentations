@@ -17,11 +17,9 @@ public class Presentation {
 
     private int id;
     private String nr;
-    @JsonProperty("name")
-    private String studentOne;
+    private String name;
     private String schoolclass;
-    @JsonProperty("name2")
-    private String studentTwo;
+    private String name2;
     private String schoolclass2;
     private String title;
     @JsonIgnore

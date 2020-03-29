@@ -15,7 +15,6 @@ import lombok.ToString;
 public class Timeslot {
 
      private int id;
-     @JsonProperty("datum")
      private String date;
      private int block;
      private int priority;
