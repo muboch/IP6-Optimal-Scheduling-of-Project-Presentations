@@ -90,7 +90,7 @@ public class Solver implements SolverApi {
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
             }
-            IntVar[] arr = temp.toArray(IntVar[]::new);
+            IntVar[] arr = temp.toArray(new IntVar[0]);
             // next line same as c#: "model.Add(LinearExpr.Sum(temp) == 1);"
             model.addLinearConstraint(LinearExpr.sum(arr), 1, 1); // SUM OF ALL MUST EQUAL ONE ?????
         }
@@ -104,7 +104,7 @@ public class Solver implements SolverApi {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
-                IntVar[] arr = temp.toArray(IntVar[]::new);
+                IntVar[] arr = temp.toArray(new IntVar[0]);
                 model.addLinearConstraint(LinearExpr.sum(arr), 0, 1);
             }
         }
@@ -121,7 +121,7 @@ public class Solver implements SolverApi {
                         temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
                     }
                 }
-                IntVar[] arr = temp.toArray(IntVar[]::new);
+                IntVar[] arr = temp.toArray(new IntVar[0]);
                 model.addLinearConstraint(LinearExpr.sum(arr), 0, 1); // <=1 -> max one out of overlap is allowed
             }
         }
@@ -145,7 +145,7 @@ public class Solver implements SolverApi {
                         temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
                     }
                 }
-                IntVar[] arr = temp.toArray(IntVar[]::new);
+                IntVar[] arr = temp.toArray(new IntVar[0]);
 
                 // Implement coachRoom[l][r] == (sum(arr) >= 1).
                 model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(coachRoom[l.getId()][r.getId()]);
@@ -181,7 +181,7 @@ public class Solver implements SolverApi {
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
             }
-            IntVar[] arr = temp.toArray(IntVar[]::new);
+            IntVar[] arr = temp.toArray(new IntVar[0]);
             /// IF SUM ARR > 0 add boolean timeslotUsed TRUE else FALSE;
             // Implement timeslotUsed[t] == (sum(arr) >= 1).
             model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(timeslotUsed[t.getId()]);

@@ -31,14 +31,14 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
 
         //if (!this.to_print.contains(solutionCount)) return;
         System.out.println("Solution "+ solutionCount +" . Time: "+ stopWatch.getTime());
-        var solutions = new ArrayList<Solution>();
-        var professorInfo = new ArrayList<String>();
+        List<Solution> solutions = new ArrayList<Solution>();
+        List<String> professorInfo = new ArrayList<String>();
 
-        for (var t : timeslots)
+        for (Timeslot t : timeslots)
         {
-            for (var r : rooms)
+            for (Room r : rooms)
             {
-                for (var p : presentations)
+                for (Presentation p : presentations)
                 {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     if (booleanValue(presRoomTime[p.getId()][r.getId()][t.getId()]))
