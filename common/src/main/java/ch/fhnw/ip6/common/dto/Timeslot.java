@@ -18,5 +18,6 @@ public class Timeslot {
      @JsonProperty("datum")
      private String date;
      private int block;
+     private int priority;
 
 }

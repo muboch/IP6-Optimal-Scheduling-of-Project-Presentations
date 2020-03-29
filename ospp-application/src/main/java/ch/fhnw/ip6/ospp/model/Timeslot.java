@@ -45,6 +45,8 @@ public class Timeslot {
 
     private int block;
 
+    private int priority;
+
     @OneToMany
     private List<Presentation> presentations;
 

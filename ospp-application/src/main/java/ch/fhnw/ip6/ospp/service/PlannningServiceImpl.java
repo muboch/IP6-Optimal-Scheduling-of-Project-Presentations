@@ -49,6 +49,9 @@ public class PlannningServiceImpl implements PlanningService {
     @Value("${ospp.solver}")
     private String solverName;
 
+    @Value("${ospp.testmode}")
+    private boolean testmode;
+
     @Override
     public Solution plan() {
         List<PresentationVO> presentationVOs = presentationService.getAll();
@@ -61,8 +64,12 @@ public class PlannningServiceImpl implements PlanningService {
         List<Room> rooms = roomVOs.stream().map(roomMapper::toDto).collect(Collectors.toList());
         List<Timeslot> timeslots = timeslotVOs.stream().map(timeslotMapper::toDto).collect(Collectors.toList());
 
-        Solution solution = getSolver().solve(presentations, lecturers, rooms, timeslots);
-
+        Solution solution = null;
+        if (testmode) {
+            getSolver().testSolve();
+        } else {
+            solution = getSolver().solve(presentations, lecturers, rooms, timeslots);
+        }
         return solution;
     }
 
@@ -76,7 +83,7 @@ public class PlannningServiceImpl implements PlanningService {
         return null;
     }
 
-    private SolverApi getSolver(){
+    private SolverApi getSolver() {
         return (SolverApi) applicationContext.getBean(solverName);
     }
 }
