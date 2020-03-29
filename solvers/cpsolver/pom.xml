@@ -48,14 +48,12 @@
             <groupId>com.google.ortools</groupId>
             <artifactId>ortools</artifactId>
             <version>0</version>
-            <scope>system</scope>
             <systemPath>${basedir}/libs/com.google.ortools.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>protobuf</groupId>
             <artifactId>protobuf</artifactId>
             <version>0</version>
-            <scope>system</scope>
             <systemPath>${basedir}/libs/protobuf.jar</systemPath>
         </dependency>
     </dependencies>
