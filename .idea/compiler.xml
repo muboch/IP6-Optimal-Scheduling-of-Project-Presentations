@@ -64,7 +64,7 @@
       <module name="originalsolver" options="" />
       <module name="osopp" options="-parameters" />
       <module name="ospp" options="-parameters" />
-      <module name="ospp-application" options="-parameters" />
+      <module name="ospp-application" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>
