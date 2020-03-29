@@ -12,6 +12,7 @@ import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import org.apache.commons.lang3.time.StopWatch;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ import java.util.stream.Collectors;
 
 @Component("ch.fhnw.ip6.cpsolver.Solver")
 public class Solver implements SolverApi {
+
+    @Value("${ospp.timelimit}")
+    private int timelimit;
 
     static {
         System.loadLibrary("jniortools");
