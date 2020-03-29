@@ -29,7 +29,7 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     public void onSolutionCallback() {
         solutionCount++;
 
-        if (!this.to_print.contains(solutionCount)) return;
+        //if (!this.to_print.contains(solutionCount)) return;
         System.out.println("Solution "+ solutionCount +" . Time: "+ stopWatch.getTime());
         var solutions = new ArrayList<Solution>();
         var professorInfo = new ArrayList<String>();
