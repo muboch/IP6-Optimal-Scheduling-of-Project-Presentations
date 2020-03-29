@@ -41,19 +41,24 @@ public class PlanningController {
                                               @RequestParam("timeslots") MultipartFile timeslots) {
 
         deleteTables();
-
+        log.info("previous data truncated");
         loadFiles(presentations, teachers, rooms, timeslots);
-
-        solve();
-
         log.info("data upload completed");
+        log.info("start solving");
+        Solution solution = createSolution();
+        log.info("created planning {}", solution);
 
         return ResponseEntity.ok().build();
 
     }
 
-    private Solution solve() {
-       return planningService.plan();
+    @GetMapping("/solve")
+    public ResponseEntity<Solution> solve() {
+        return ResponseEntity.ok().body(createSolution());
+    }
+
+    private Solution createSolution() {
+        return planningService.plan();
     }
 
     private void loadFiles(@RequestParam("presentations") MultipartFile presentations, @RequestParam("teachers") MultipartFile teachers, @RequestParam("rooms") MultipartFile rooms, @RequestParam("timeslots") MultipartFile timeslots) {
