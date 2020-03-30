@@ -10,16 +10,22 @@ import ch.fhnw.ip6.ospp.service.client.TimeslotService;
 import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 @RestController
@@ -81,9 +87,19 @@ public class PlanningController {
         return planningService.getAllPlannings();
     }
 
-    @GetMapping(value = "/plannings/{id}")
-    public PlanningVO getPlanningById(@RequestParam long id) {
-        return planningService.getPlanById(id);
-    }
+    @GetMapping(value = "/plannings/{id}", produces = "text/csv")
+    public ResponseEntity getPlanningById(@PathVariable long id) throws IOException {
 
+        File file = new File(id + ".csv");
+        byte[] content = planningService.getFileById(id);
+
+        Files.write(file.toPath(), content);
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; planning=" + id + ".csv")
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(new FileSystemResource(file));
+
+    }
 }

@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,8 +78,8 @@ public class PlannningServiceImpl implements PlanningService {
     }
 
     @Override
-    public PlanningVO getPlanById(long id) {
-        return planningRepository.findById(id);
+    public byte[] getFileById(long id) {
+        return planningRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No planning for id " + id)).getPlanning();
     }
 
     @Override

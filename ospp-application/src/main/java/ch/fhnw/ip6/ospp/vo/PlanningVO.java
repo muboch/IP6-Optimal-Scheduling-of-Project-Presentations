@@ -6,6 +6,6 @@ public interface PlanningVO {
 
     String getNr();
 
-    byte[] getPlanning();
+    String getName();
 
 }

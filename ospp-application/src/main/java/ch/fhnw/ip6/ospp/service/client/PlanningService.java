@@ -11,7 +11,7 @@ public interface PlanningService {
 
     Planning plan();
 
-    PlanningVO getPlanById(long id);
+    byte[] getFileById(long id);
 
     List<PlanningVO> getAllPlannings();
 }

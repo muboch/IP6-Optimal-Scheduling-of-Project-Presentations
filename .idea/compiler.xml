@@ -38,31 +38,20 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="common" target="1.8" />
-      <module name="cpsolver" target="1.8" />
-      <module name="demo" target="1.8" />
-      <module name="ilpsolver" target="1.8" />
-      <module name="originalsolver" target="1.8" />
-      <module name="osopp" target="1.8" />
-      <module name="osopp.main" target="1.8" />
-      <module name="osopp.test" target="1.8" />
-      <module name="ospp" target="1.8" />
-      <module name="ospp-application" target="1.8" />
-      <module name="solution-checker" target="1.8" />
-      <module name="solverapi" target="1.8" />
+      <module name="common" target="11" />
+      <module name="cpsolver" target="11" />
+      <module name="ilpsolver" target="11" />
+      <module name="originalsolver" target="11" />
+      <module name="ospp" target="11" />
+      <module name="ospp-application" target="11" />
+      <module name="solution-checker" target="11" />
+      <module name="solverapi" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="CPSolver" options="" />
-      <module name="ILPSolver" options="" />
-      <module name="OriginalSolver" options="-parameters" />
-      <module name="SolverAPI" options="" />
-      <module name="backend" options="-parameters" />
-      <module name="demo" options="-parameters" />
       <module name="ilpsolver" options="" />
       <module name="originalsolver" options="" />
-      <module name="osopp" options="-parameters" />
       <module name="ospp" options="-parameters" />
       <module name="ospp-application" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>

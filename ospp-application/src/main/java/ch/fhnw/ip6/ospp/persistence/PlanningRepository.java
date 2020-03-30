@@ -10,9 +10,6 @@ import java.util.List;
 @Component
 public interface PlanningRepository extends JpaRepository<Planning, Long> {
 
-
-    PlanningVO findById(long id);
-
     List<PlanningVO> findAllProjectedBy();
 
 }

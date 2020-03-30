@@ -27,6 +27,8 @@ public class Planning {
 
     private String nr;
 
+    private String name;
+
     private LocalDateTime created;
 
     @Lob
