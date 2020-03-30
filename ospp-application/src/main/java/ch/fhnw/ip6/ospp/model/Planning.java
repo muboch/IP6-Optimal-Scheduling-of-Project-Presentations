@@ -9,6 +9,8 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import java.sql.Clob;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,16 +20,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Plan {
+public class Planning {
 
     @Id
     private long id;
 
-    private String planNr;
+    private String nr;
 
     private LocalDateTime created;
 
-   // private Clob data;
+    @Lob
+    private byte[] planning;
 
 
 }

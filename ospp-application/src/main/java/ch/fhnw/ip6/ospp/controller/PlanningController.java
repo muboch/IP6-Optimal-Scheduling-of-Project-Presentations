@@ -1,5 +1,6 @@
 package ch.fhnw.ip6.ospp.controller;
 
+import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.service.client.PlanningService;
@@ -45,19 +46,19 @@ public class PlanningController {
         loadFiles(presentations, teachers, rooms, timeslots);
         log.info("data upload completed");
         log.info("start solving");
-        Solution solution = createSolution();
-        log.info("created planning {}", solution);
+        Planning planning = createSolution();
+        log.info("created planning {}", planning);
 
         return ResponseEntity.ok().build();
 
     }
 
     @GetMapping("/solve")
-    public ResponseEntity<Solution> solve() {
+    public ResponseEntity<Planning> solve() {
         return ResponseEntity.ok().body(createSolution());
     }
 
-    private Solution createSolution() {
+    private Planning createSolution() {
         return planningService.plan();
     }
 

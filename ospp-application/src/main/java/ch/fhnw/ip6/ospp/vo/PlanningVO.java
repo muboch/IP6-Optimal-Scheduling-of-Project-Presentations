@@ -4,8 +4,8 @@ public interface PlanningVO {
 
     String getId();
 
-    String getName();
+    String getNr();
 
-    String getFileUrl();
+    byte[] getPlanning();
 
 }

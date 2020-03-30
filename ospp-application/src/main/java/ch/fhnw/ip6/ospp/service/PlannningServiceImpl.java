@@ -5,13 +5,12 @@ import ch.fhnw.ip6.common.dto.Lecturer;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
-import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.Timeslot;
 import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.mapper.RoomMapper;
 import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
-import ch.fhnw.ip6.ospp.model.Plan;
+import ch.fhnw.ip6.ospp.persistence.PlanningRepository;
 import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.service.client.PlanningService;
 import ch.fhnw.ip6.ospp.service.client.PresentationService;
@@ -40,6 +39,8 @@ public class PlannningServiceImpl implements PlanningService {
     private final LecturerService lecturerService;
     private final RoomService roomService;
     private final TimeslotService timeslotService;
+
+    private final PlanningRepository planningRepository;
 
     private final PresentationMapper presentationMapper;
     private final LecturerMapper lecturerMapper;
@@ -77,12 +78,12 @@ public class PlannningServiceImpl implements PlanningService {
 
     @Override
     public PlanningVO getPlanById(long id) {
-        return null;
+        return planningRepository.findById(id);
     }
 
     @Override
     public List<PlanningVO> getAllPlannings() {
-        return null;
+        return planningRepository.findAllProjectedBy();
     }
 
     private SolverApi getSolver() {
