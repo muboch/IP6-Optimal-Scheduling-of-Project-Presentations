@@ -80,7 +80,7 @@ public class SolutionChecker {
             }
         }
         System.out.println("Total Switches over all Lecturers: " + totalSwitches);
-
+        return totalSwitches;
 
 
     }
