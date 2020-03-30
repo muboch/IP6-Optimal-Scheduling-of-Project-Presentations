@@ -1,7 +1,10 @@
 package ch.fhnw.ip6.cpsolver;
 
+import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverApi;
+import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Lecturer;
+import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Solution;
@@ -12,6 +15,7 @@ import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverStatus;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("ch.fhnw.ip6.cpsolver.Solver")
-public class Solver implements SolverApi {
+public class Solver extends AbstractSolver {
 
     @Value("${ospp.timelimit}")
     private int timelimit = 10;
@@ -31,8 +35,12 @@ public class Solver implements SolverApi {
         System.loadLibrary("jniortools");
     }
 
+    public Solver(SolverContext solverContext) {
+        super(solverContext);
+    }
+
     @Override
-    public Solution testSolve() {
+    public Planning testSolve() {
         JsonUtil util = new JsonUtil();
 
         List<Presentation> presentations = util.getJsonAsList("presentations.json", Presentation.class);
@@ -49,7 +57,7 @@ public class Solver implements SolverApi {
     }
 
     @Override
-    public Solution solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
+    public Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         CpModel model = new CpModel();
@@ -219,30 +227,16 @@ public class Solver implements SolverApi {
 
          */
 
-
-
-
-
-        HashSet<Integer> to_print = new HashSet<Integer>();
-        to_print.add(0);
-        to_print.add(1);
-        to_print.add(2);
-        to_print.add(100);
-        to_print.add(200);
-        to_print.add(600);
-        to_print.add(1000);
-
         CpSolver solver = new CpSolver();
         solver.getParameters().setMaxTimeInSeconds(timelimit);
         System.out.println("All constraints done, solving");
         System.out.println(model.validate());
-        PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms,
-                to_print, stopWatch);
+        PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms, stopWatch, solverContext);
 
         CpSolverStatus res = solver.searchAllSolutions(model, cb);
         System.out.println(res);
 
         stopWatch.stop();
-        return null;
+        return solverContext.getPlanning();
     }
 }

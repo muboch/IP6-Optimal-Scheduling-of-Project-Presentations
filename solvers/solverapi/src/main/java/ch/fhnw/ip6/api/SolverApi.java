@@ -1,10 +1,13 @@
 package ch.fhnw.ip6.api;
 
 import ch.fhnw.ip6.common.dto.Lecturer;
+import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.Timeslot;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +15,8 @@ import java.util.List;
 
 @Component
 public interface SolverApi {
+
+
 
     /**
      * Builds the model and calls the solver and returns a solution.
@@ -22,7 +27,7 @@ public interface SolverApi {
      * @param timeslots     {@link List} of {@link Timeslot}
      * @return Solution
      */
-    Solution solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots);
+    Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots);
 
 
     /**
@@ -30,6 +35,8 @@ public interface SolverApi {
      *
      * @return
      */
-    Solution testSolve();
+    Planning testSolve();
+
+
 
 }

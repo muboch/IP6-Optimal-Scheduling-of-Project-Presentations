@@ -2,6 +2,7 @@ package ch.fhnw.ip6.ospp.service;
 
 import ch.fhnw.ip6.api.SolverApi;
 import ch.fhnw.ip6.common.dto.Lecturer;
+import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Solution;
@@ -10,6 +11,7 @@ import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.mapper.RoomMapper;
 import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
+import ch.fhnw.ip6.ospp.model.Plan;
 import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.service.client.PlanningService;
 import ch.fhnw.ip6.ospp.service.client.PresentationService;
@@ -53,7 +55,7 @@ public class PlannningServiceImpl implements PlanningService {
     private boolean testmode;
 
     @Override
-    public Solution plan() {
+    public Planning plan() {
         List<PresentationVO> presentationVOs = presentationService.getAll();
         List<LecturerVO> lecturerVOs = lecturerService.getAll();
         List<RoomVO> roomVOs = roomService.getAll();
@@ -64,7 +66,7 @@ public class PlannningServiceImpl implements PlanningService {
         List<Room> rooms = roomVOs.stream().map(roomMapper::toDto).collect(Collectors.toList());
         List<Timeslot> timeslots = timeslotVOs.stream().map(timeslotMapper::toDto).collect(Collectors.toList());
 
-        Solution solution = null;
+        Planning solution = null;
         if (testmode) {
             getSolver().testSolve();
         } else {
