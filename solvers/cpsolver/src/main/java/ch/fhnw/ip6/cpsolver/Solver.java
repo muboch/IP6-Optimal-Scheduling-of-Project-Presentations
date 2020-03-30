@@ -20,6 +20,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -173,21 +174,21 @@ public class Solver extends AbstractSolver {
         // implication
 
 
-        for (var l: lecturers){
-                for (var t: timeslots){
+        for (Lecturer l: lecturers){
+                for (Timeslot t: timeslots){
                     lecturerTimeslot[l.getId()][t.getId()] = model.newBoolVar("lecturerTimeslot_"+l.getId()+"_" + t.getId());
 
                     timeslotCost[t.getId()] = t.getPriority();
-                    var temp = new ArrayList<IntVar>();
+                    ArrayList<IntVar> temp = new ArrayList<>();
 
-                    for (var r:rooms){
+                    for (Room r:rooms){
 
-                        for (var p: presentations){
+                        for (Presentation p: presentations){
                         if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                         temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                     }
                 }
-                    IntVar[] arr = temp.toArray(IntVar[]::new);
+                    IntVar[] arr = temp.toArray(new IntVar[0]);
                     // Implement lecturerTimeslot[c][t] == (sum(arr) >= 1)
                     model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(lecturerTimeslot[l.getId()][t.getId()]);
                     model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(lecturerTimeslot[l.getId()][t.getId()].not());
@@ -202,7 +203,7 @@ public class Solver extends AbstractSolver {
 
         // START CONSTRAINT 3.1 As little rooms as possible should be free per timeslots -> Minimize used Timeslots
         IntVar[] timeslotUsed = new IntVar[timeslots.size()];
-        for (var t : timeslots) {
+        for (Timeslot t : timeslots) {
             timeslotUsed[t.getId()] = model.newBoolVar("timeslotUsed_" + t.getId());
         }
 
