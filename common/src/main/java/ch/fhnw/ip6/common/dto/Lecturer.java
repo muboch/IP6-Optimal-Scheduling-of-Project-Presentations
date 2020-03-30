@@ -19,4 +19,8 @@ public class Lecturer {
     private String email;
     private String initials;
 
+    public String getName(){
+        return lastname + " " + firstname;
+    }
+
 }

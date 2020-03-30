@@ -47,8 +47,9 @@ public class TimeslotServiceImpl implements TimeslotService {
 
                 // TODO Carlo move headers to properties
                 Timeslot timeslot = Timeslot.builder()
-                        .date(record.get("datum"))
+                        .date(record.get("date"))
                         .block(Integer.parseInt(record.get("block")))
+                        .priority(Integer.parseInt(record.get("priority")))
                         .build();
 
                 timeslotRepository.save(timeslot);

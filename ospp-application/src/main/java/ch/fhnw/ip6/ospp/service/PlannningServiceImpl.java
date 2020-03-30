@@ -7,6 +7,7 @@ import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Timeslot;
 import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
+import ch.fhnw.ip6.ospp.mapper.PlanningMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.mapper.RoomMapper;
 import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
@@ -23,11 +24,18 @@ import ch.fhnw.ip6.ospp.vo.RoomVO;
 import ch.fhnw.ip6.ospp.vo.TimeslotVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +55,7 @@ public class PlannningServiceImpl implements PlanningService {
     private final LecturerMapper lecturerMapper;
     private final RoomMapper roomMapper;
     private final TimeslotMapper timeslotMapper;
+    private final PlanningMapper planningMapper;
 
     private final ApplicationContext applicationContext;
 
@@ -68,13 +77,55 @@ public class PlannningServiceImpl implements PlanningService {
         List<Room> rooms = roomVOs.stream().map(roomMapper::toDto).collect(Collectors.toList());
         List<Timeslot> timeslots = timeslotVOs.stream().map(timeslotMapper::toDto).collect(Collectors.toList());
 
-        Planning solution = null;
+        Planning planning = null;
         if (testmode) {
-            getSolver().testSolve();
+            planning = getSolver().testSolve();
         } else {
-            solution = getSolver().solve(presentations, lecturers, rooms, timeslots);
+            planning = getSolver().solve(presentations, lecturers, rooms, timeslots);
         }
-        return solution;
+
+        String fileName = "Planning_" + planning.getNr() + "_" + LocalDate.now().toString();
+        byte[] file = transformToCsv(planning, fileName);
+
+        ch.fhnw.ip6.ospp.model.Planning planningEntity = new ch.fhnw.ip6.ospp.model.Planning();
+        planningEntity.setNr(String.valueOf(planning.getNr()));
+        planningEntity.setPlanning(file);
+        planningEntity.setName(fileName);
+        planningRepository.save(planningEntity);
+
+        return planning;
+    }
+
+    private byte[] transformToCsv(Planning planning, String fileName) {
+        StringWriter sw = new StringWriter();
+        try {
+            CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.EXCEL.withHeader(
+                    "nr", "title", "name", "schoolclass", "name2", "schoolclass2", "coach", "expert", "timeslot", "room"
+            ));
+            planning.getSolutions().forEach(s -> {
+                try {
+                    csvPrinter.printRecord(
+                            s.getPresentation().getNr(),
+                            s.getPresentation().getTitle(),
+                            s.getPresentation().getName(),
+                            s.getPresentation().getSchoolclass(),
+                            s.getPresentation().getName2(),
+                            s.getPresentation().getSchoolclass2(),
+                            s.getCoach().getName(),
+                            s.getExpert().getName(),
+                            s.getRoom().getName());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            sw.flush();
+            File file = new File(fileName + ".csv");
+            return sw.toString().getBytes(StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
