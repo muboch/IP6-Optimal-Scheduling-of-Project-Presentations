@@ -50,7 +50,8 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         }
         System.out.println("Solution " + solutionCount);
         System.out.println(planning.toString());
-        solutionChecker.checkSolutionForCorrectness(planning.getSolutions(), lecturers, presentations, timeslots, rooms);
+        solutionChecker.getSolutionCost(planning.getSolutions(), lecturers, presentations, timeslots, rooms);
+        planning.setCost(solutionChecker.getSolutionCost(planning.getSolutions(), lecturers, presentations, timeslots, rooms));
         solverContext.saveBestPlanning(planning);
     }
 

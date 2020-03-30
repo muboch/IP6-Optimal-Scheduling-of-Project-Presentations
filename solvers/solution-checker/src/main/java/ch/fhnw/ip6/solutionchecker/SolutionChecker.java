@@ -14,14 +14,22 @@ import java.util.stream.Collectors;
 
 public class SolutionChecker {
 
-    public static void checkSolutionForCorrectness(Set<Solution> solutions, List<Lecturer> lecturers, List<Presentation> presentations, List<Timeslot> timeslots, List<Room> rooms) {
+    static int ROOM_SWITCH_COST = 100;
+    static int ROOM_DOUBLE_BOOKED_COST = 10000;
+
+    public static int getSolutionCost(Set<Solution> solutions, List<Lecturer> lecturers, List<Presentation> presentations, List<Timeslot> timeslots, List<Room> rooms) {
         CheckOnePresentationPerTimeslotForProfessor(solutions, presentations, timeslots, lecturers);
         CheckEachPresentationOnce(solutions, presentations);
-        CheckRoomUsedMaxOncePerTime(solutions, rooms, timeslots);
-        CheckRoomSwitchesPerLecturer(solutions, lecturers, timeslots);
+        int roomDoubleBookedCost = CheckRoomUsedMaxOncePerTime(solutions, rooms, timeslots) * ROOM_DOUBLE_BOOKED_COST;
+        int roomSwitchCost = GetRoomSwitches(solutions, lecturers, timeslots) * ROOM_SWITCH_COST;
+
+        return roomSwitchCost + roomDoubleBookedCost;
     }
 
-    private static void CheckRoomSwitchesPerLecturer(Set<Solution> solutions, List<Lecturer> lecturers, List<Timeslot> timeslots) {
+    /*
+    *
+    *  */
+    private static int GetRoomSwitches(Set<Solution> solutions, List<Lecturer> lecturers, List<Timeslot> timeslots) {
         List<Room>[] roomsPerLecturer = new List[lecturers.size()];
         // Initialize ArrayLists
         for (Lecturer l : lecturers) {
@@ -74,6 +82,7 @@ public class SolutionChecker {
         System.out.println("Total Switches over all Lecturers: " + totalSwitches);
 
 
+
     }
 
     private static Boolean CheckOnePresentationPerTimeslotForProfessor(Set<Solution> results, List<Presentation> presentations, List<Timeslot> timeslots, List<Lecturer> lecturers) {
@@ -115,20 +124,21 @@ public class SolutionChecker {
         return true;
     }
 
-    private static Boolean CheckRoomUsedMaxOncePerTime(Set<Solution> results, List<Room> rooms,
+    private static int CheckRoomUsedMaxOncePerTime(Set<Solution> results, List<Room> rooms,
                                                        List<Timeslot> timeslots) {
         int[][] roomPerTime = new int[timeslots.size()][rooms.size()];
+        int doubleBookings = 0;
         for (Solution r : results) {
             if (roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] == 0) {
                 roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] = r.getPresentation().getId();
             } else {
                 System.out.println("RoomDoubleUseError: Room " + r.getRoom().getId() + " at time " + r.getTimeSlot().getDate() + " is already in use for presentation " + roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] + ". Can't add Presentation " + r.getPresentation().getId() + " at the same time! ");
-                return false;
+                doubleBookings++;
             }
 
         }
-        System.out.println("No rooms used double");
-        return true;
+        System.out.println("Double room Bookings: "+doubleBookings);
+        return doubleBookings;
     }
 
 }
