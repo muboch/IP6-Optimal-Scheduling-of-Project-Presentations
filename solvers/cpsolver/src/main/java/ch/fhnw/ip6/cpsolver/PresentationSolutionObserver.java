@@ -8,13 +8,10 @@ import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.Timeslot;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
-import com.google.ortools.constraintsolver.Solver;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
 import org.apache.commons.lang3.time.StopWatch;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class PresentationSolutionObserver extends CpSolverSolutionCallback {
@@ -35,7 +32,8 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         System.out.println("Solution " + solutionCount + " . Time: " + stopWatch.getTime());
         Planning planning = new Planning();
         planning.setNr(solutionCount);
-        List<String> professorInfo = new ArrayList<>();
+        planning.setTimeslots(timeslots);
+        planning.setRooms(rooms);
 
         for (Timeslot t : timeslots) {
             for (Room r : rooms) {
@@ -43,15 +41,13 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     if (booleanValue(presRoomTime[p.getId()][r.getId()][t.getId()])) {
                         planning.getSolutions().add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
-                        professorInfo.add("Pres {p.Id} has Professor {p.Supervisor.Id}, Expert {p.Expert.Id} at time {t.Datum}, room {r.Id}");
                     }
                 }
             }
         }
         System.out.println("Solution " + solutionCount);
-        System.out.println(planning.toString());
-        solutionChecker.getSolutionCost(planning.getSolutions(), lecturers, presentations, timeslots, rooms);
         planning.setCost(solutionChecker.getSolutionCost(planning.getSolutions(), lecturers, presentations, timeslots, rooms));
+        System.out.println(planning.toString());
         solverContext.saveBestPlanning(planning);
     }
 
