@@ -4,42 +4,147 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.5.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
     <groupId>ch.fhnw.ip6</groupId>
     <artifactId>ospp</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <description>Optimized Scheduling of Project Presentations</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <common.version>1.0-SNAPSHOT</common.version>
-        <solverapi.version>1.0-SNAPSHOT</solverapi.version>
-        <solution-checker.version>1.0-SNAPSHOT</solution-checker.version>
+        <mapstruct.version>1.3.1.Final</mapstruct.version>
+        <mapstruct-processor.version>1.3.1.Final</mapstruct-processor.version>
+        <lombok.version>1.18.12</lombok.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <eirslett.version>1.9.1</eirslett.version>
+        <docker.jib.version>2.1.0</docker.jib.version>
+        <docker.registry>bananenhoschi</docker.registry>
+        <docker.name>ospp</docker.name>
     </properties>
 
     <modules>
         <module>common</module>
-        <module>ospp-application</module>
         <module>solvers/solverapi</module>
         <module>solvers/ilpsolver</module>
         <module>solvers/cpsolver</module>
         <module>solvers/originalsolver</module>
         <module>solvers/solution-checker</module>
+        <module>ospp-application</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>ch.fhnw.ip6</groupId>
+                <artifactId>ospp-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.fhnw.ip6</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.fhnw.ip6</groupId>
+                <artifactId>cpsolver</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.fhnw.ip6</groupId>
+                <artifactId>solverapi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.fhnw.ip6</groupId>
+                <artifactId>solution-checker</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.9</version>
+                <version>${commons-lang3.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.12</version>
+                <version>${lombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <compilerArg>
+                            -Amapstruct.defaultComponentModel=spring
+                        </compilerArg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${docker.jib.version}</version>
+                <configuration>
+                    <from>
+                        <image>bananenh/pf/openjdk:11</image>
+                    </from>
+                    <to>
+                        <image>${docker.registry}/${docker.name}</image>
+                    </to>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${dir.javaLibs}</outputDirectory>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

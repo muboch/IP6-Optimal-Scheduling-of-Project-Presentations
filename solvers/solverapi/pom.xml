@@ -16,12 +16,10 @@
         <dependency>
             <groupId>ch.fhnw.ip6</groupId>
             <artifactId>common</artifactId>
-            <version>${common.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.2.4.RELEASE</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
