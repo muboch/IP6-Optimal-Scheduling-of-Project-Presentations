@@ -6,11 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -22,11 +18,13 @@ public class Planning {
     private int nr;
     private int cost;
     private Set<Solution> solutions = new HashSet<>();
+    private List<Timeslot> timeslots = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
 
     @Override
     public String toString() {
-        List<Timeslot> timeslots = solutions.stream().map(Solution::getTimeSlot).sorted(TimeslotComparator::compareAnInt).distinct().collect(Collectors.toList());
-        List<Room> rooms = solutions.stream().map(Solution::getRoom).sorted(RoomComparator::compareAnInt).distinct().collect(Collectors.toList());
+        // If we only want to show rooms that have presentations at all, use the following lines
+        // List<Room> rooms = solutions.stream().map(Solution::getRoom).sorted(RoomComparator::compareAnInt).distinct().collect(Collectors.toList());
 
         StringBuilder sb = new StringBuilder();
         sb.append("Planning Nr. ").append(nr).append(" with cost ").append(cost).append(System.lineSeparator());

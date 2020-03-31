@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Button, FormControl, InputLabel, Link, MenuItem, Select} from "@material-ui/core";
 import {useGStyles} from "../../theme";
-import {API} from "../../constants";
 
 type Plannings = {
   id: string;
@@ -16,7 +15,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     const loadData = async () => {
-      const res = await fetch(`${API.endpoint}/plannings`);
+      const res = await fetch(`api/plannings`);
       const json = await res.json();
       setPlannings(JSON.parse(json));
     };

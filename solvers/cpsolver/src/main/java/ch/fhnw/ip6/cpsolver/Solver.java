@@ -26,6 +26,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ch.fhnw.ip6.common.util.CostUtil.ROOM_SWITCH_COST;
+import static ch.fhnw.ip6.common.util.CostUtil.USED_ROOM_COST;
+
 @Component("ch.fhnw.ip6.cpsolver.Solver")
 public class Solver extends AbstractSolver {
 
@@ -89,6 +92,12 @@ public class Solver extends AbstractSolver {
         }
         System.out.println("Overlap calculation completed");
 
+        // Data structures for Objectives
+        ArrayList<IntVar> objIntVars = new ArrayList<IntVar>();
+        ArrayList<Integer> objIntCoeffs = new ArrayList<>();
+
+
+
         // START CONSTRAINT:  For each Presentation, there must be 1 (room,timeslot) pair. -> Each presentation must be presented in a room at a time
         for (Presentation p : presentations) {
             List<IntVar> temp = new ArrayList<>();
@@ -101,7 +110,7 @@ public class Solver extends AbstractSolver {
             }
             IntVar[] arr = temp.toArray(new IntVar[0]);
             // next line same as c#: "model.Add(LinearExpr.Sum(temp) == 1);"
-            model.addLinearConstraint(LinearExpr.sum(arr), 1, 1); // SUM OF ALL MUST EQUAL ONE ?????
+            model.addLinearConstraint(LinearExpr.sum(arr), 1, 1); // SUM OF ALL MUST EQUAL ONE
         }
         // END CONSTRAINT
 
@@ -136,12 +145,15 @@ public class Solver extends AbstractSolver {
         }
         // END CONSTRAINT
 
+
         // START CONSTRAINT Soft Constraint 1. Coaches should switch the rooms as little as possible
         // Create (lecturer,room) booleans, minimize
         IntVar[][] coachRoom = new IntVar[lecturers.size()][rooms.size()];
+        int[] coachRoomCost = new int[rooms.size()];
         for (Lecturer l : lecturers) {
             for (Room r : rooms) {
-                coachRoom[l.getId()][r.getId()]  = model.newBoolVar("coach_"+l.getId()+"room_"+r.getId()); //
+                coachRoom[l.getId()][r.getId()]  = model.newBoolVar("coach_"+l.getId()+"room_"+r.getId());
+                coachRoomCost[r.getId()] = ROOM_SWITCH_COST;
             }
         }
         for (Lecturer l : lecturers) {
@@ -159,18 +171,30 @@ public class Solver extends AbstractSolver {
                 // Implement coachRoom[l][r] == (sum(arr) >= 1).
                 model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(coachRoom[l.getId()][r.getId()]);
                 model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(coachRoom[l.getId()][r.getId()].not());
+
+                // Add to objective
+                objIntVars.add(coachRoom[l.getId()][r.getId()]);
+                objIntCoeffs.add(coachRoomCost[r.getId()]);
+
             }
             // Minimize the amount of rooms a lecturer uses
-            model.minimize(LinearExpr.sum(coachRoom[l.getId()]));
+            //model.minimize(LinearExpr.scalProd(coachRoom[l.getId()], coachRoomCost));
+            // Add cost to model
         }
         // END CONSTRAINT
 
         // START CONSTRAINT 2. Coaches should have as little free timeslots between presentations as possible.
         IntVar[][] lecturerTimeslot = new IntVar[lecturers.size()][timeslots.size()]; // Coach has a presentation at timeslot
         int[] timeslotCost = new int[timeslots.size()];
-        IntVar firstTs;
-        IntVar lastTs;
-        // Differenz = # stunden an dem lecturer anwesend sein muss
+
+        IntVar[] firstTimeslots = new IntVar[lecturers.size()];
+        IntVar[] lastTimeslots = new IntVar[lecturers.size()];
+
+        for (Lecturer l: lecturers) {
+
+        }
+
+            // Differenz = # stunden an dem lecturer anwesend sein muss
         // implication
 
 
@@ -192,8 +216,24 @@ public class Solver extends AbstractSolver {
                     // Implement lecturerTimeslot[c][t] == (sum(arr) >= 1)
                     model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(lecturerTimeslot[l.getId()][t.getId()]);
                     model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(lecturerTimeslot[l.getId()][t.getId()].not());
+
+                    //Add Objective
+                    objIntVars.add(lecturerTimeslot[l.getId()][t.getId()]);
+                    objIntCoeffs.add(timeslotCost[t.getId()]);
             }
-            model.minimize(LinearExpr.scalProd(lecturerTimeslot[l.getId()], timeslotCost));
+
+/*
+                for (Timeslot t: timeslots){
+                     firstTimeslots[l.getId()] = model.newIntVar(0, timeslots.size(), "firstTimeslot"+l.getId());
+                     model.addMinEquality(firstTimeslots[l.getId()], [item for item in range()])
+
+                }
+*/
+
+
+
+
+            //model.minimize(LinearExpr.scalProd(lecturerTimeslot[l.getId()], timeslotCost));
 
         }
 
@@ -221,38 +261,51 @@ public class Solver extends AbstractSolver {
             // Implement timeslotUsed[t] == (sum(arr) >= 1).
             model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(timeslotUsed[t.getId()]);
             model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(timeslotUsed[t.getId()].not());
+
+            //Add Objective
+            objIntVars.add(timeslotUsed[t.getId()]);
+            objIntCoeffs.add(timeslotCost[t.getId()]);
         }
-        model.minimize(LinearExpr.scalProd(timeslotUsed, timeslotCost));
-
-
+        //model.minimize(LinearExpr.scalProd(timeslotUsed, timeslotCost));
         // END CONSTRAINT
 
-        //START CONSTRAINT 3.2 As little rooms as possible should be free per timeslots -> Maximize used rooms per timeslot
-        /*
-        IntVar[][] timeslotRooms = new IntVar[timeslots.size()][rooms.size()];
-        for (var t : timeslots) {
-            for (var r : rooms) {
-                timeslotRooms[t.getId()][r.getId()] = model.newBoolVar("timeslotRooms_" + t.getId()+"_"+r.getId());
-            }
+        // START CONSTRAINT 4 As little rooms as possible should be used over all -> Minimize used Rooms over all timeslots
+        IntVar[] roomUsed = new IntVar[rooms.size()];
+        int[] roomCost = new int[rooms.size()];
+        for (Room r : rooms) {
+            roomUsed[r.getId()] = model.newBoolVar("roomUsed_" + r.getId());
+            roomCost[r.getId()] = USED_ROOM_COST;
         }
 
-        for (var t : timeslots){
-            for (var r: rooms){
-                var temp = new ArrayList<IntVar>();
+        for (Room r : rooms) {
+            List<IntVar> temp = new ArrayList<IntVar>();
 
-                for (var p: presentations){
+            for (Timeslot t : timeslots) {
+                for (Presentation p : presentations) {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                 }
-                IntVar[] arr = temp.toArray(IntVar[]::new);
-                // Implement timeslotRooms[t][r] == (sum(arr) >= 1).
-                model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(timeslotRooms[t.getId()][r.getId()]);
-                model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(timeslotRooms[t.getId()][r.getId()].not());
             }
-            model.maximize(LinearExpr.sum(timeslotRooms[t.getId()])); // Maximize rooms for timeslot
-        }
+            IntVar[] arr = temp.toArray(new IntVar[0]);
+            /// IF SUM ARR > 0 add boolean roomUsed TRUE else FALSE;
+            // Implement timeslotUsed[t] == (sum(arr) >= 1).
+            model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(roomUsed[r.getId()]);
+            model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(roomUsed[r.getId()].not());
 
-         */
+            //Add Objective
+            objIntVars.add(roomUsed[r.getId()]);
+            objIntCoeffs.add(roomCost[r.getId()]);
+        }
+        //model.minimize(LinearExpr.scalProd(roomUsed,roomCost));
+        // END CONSTRAINT
+
+
+        // Add the objective to the Solver, parse to array first because java is funny like that
+        int[] objIntCoeffsArr = objIntCoeffs.stream().mapToInt(i->i).toArray(); // objIntCoeffs.toArray(int[]::new);
+        IntVar[] objIntVarsArr = objIntVars.toArray(IntVar[]::new);
+
+        // finally, minimize the objective
+        model.minimize(LinearExpr.scalProd(objIntVarsArr, objIntCoeffsArr));
 
         CpSolver solver = new CpSolver();
         solver.getParameters().setMaxTimeInSeconds(timelimit);
