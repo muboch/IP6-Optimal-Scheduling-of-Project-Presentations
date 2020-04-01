@@ -48,18 +48,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- solver specific -->
-        <dependency>
-            <groupId>com.google.ortools</groupId>
-            <artifactId>ortools</artifactId>
-            <version>v7.5.7466</version>
-        </dependency>
-        <dependency>
-            <groupId>protobuf</groupId>
-            <artifactId>protobuf</artifactId>
-            <version>v7.5.7466</version>
-        </dependency>
-
         <!-- database -->
         <dependency>
             <groupId>com.h2database</groupId>
