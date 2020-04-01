@@ -63,7 +63,7 @@ public class PlannningServiceImpl implements PlanningService {
     private String solverName;
 
     @Value("${ospp.testmode}")
-    private boolean testmode;
+    private boolean testmode = true;
 
     @Override
     public Planning plan() {

@@ -2,8 +2,6 @@ server:
   port: 5000
 
 spring:
-  profiles:
-    active: prod
   datasource:
     url: jdbc:mysql://db-ospp.cpfp7kii5qy2.eu-central-1.rds.amazonaws.com:3306/osppdb?useUnicode=yes&characterEncoding=UTF-8
     username: osppuser
@@ -16,4 +14,6 @@ spring:
       ddl-auto: update
 
 ospp:
-  solver: CPSolver
+  solver: ch.fhnw.ip6.cpsolver.Solver
+  timelimit: 10
+  testmode: true
