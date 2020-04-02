@@ -124,16 +124,6 @@
             <artifactId>build-helper-maven-plugin</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <dependency>
-            <groupId>io.github.oliviercailloux</groupId>
-            <artifactId>google-or-tools</artifactId>
-            <version>6.7.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>3.11.4</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
