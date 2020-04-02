@@ -42,13 +42,6 @@
         <module>ospp-application</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>local</id>
-            <url>file://${basedir}/../lib</url>
-        </repository>
-    </repositories>
-
     <dependencyManagement>
         <dependencies>
 

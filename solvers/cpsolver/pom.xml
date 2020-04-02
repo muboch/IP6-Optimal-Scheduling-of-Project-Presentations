@@ -11,6 +11,13 @@
 
     <artifactId>cpsolver</artifactId>
 
+    <repositories>
+        <repository>
+            <id>local</id>
+            <url>file://${basedir}/../../lib</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- project specific -->
         <dependency>
