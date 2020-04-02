@@ -1,3 +1,4 @@
+# ALL-IN-ONE docker image
 FROM maven:3.6.3-jdk-11 as builder
 
 VOLUME /tmp
