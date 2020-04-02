@@ -136,7 +136,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M4</version>
                 <configuration>
-                    <argLine>-Djava.library.path=lib</argLine>
+                    <argLine>-Djava.library.path=/lib</argLine>
                 </configuration>
             </plugin>
         </plugins>
