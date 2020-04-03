@@ -302,7 +302,7 @@ public class Solver extends AbstractSolver {
 
         // Add the objective to the Solver, parse to array first because java is funny like that
         int[] objIntCoeffsArr = objIntCoeffs.stream().mapToInt(i->i).toArray(); // objIntCoeffs.toArray(int[]::new);
-        IntVar[] objIntVarsArr = objIntVars.toArray(IntVar[]::new);
+        IntVar[] objIntVarsArr = objIntVars.toArray(new IntVar[0]);
 
         // finally, minimize the objective
         model.minimize(LinearExpr.scalProd(objIntVarsArr, objIntCoeffsArr));
