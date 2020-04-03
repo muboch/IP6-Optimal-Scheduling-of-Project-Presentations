@@ -5,13 +5,13 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/osppdb?useUnicode=yes&characterEncoding=UTF-8
-    username: ospp
-    password: Change_me_2020
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
 

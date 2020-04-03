@@ -13,3 +13,8 @@ solvers/solverapi/target
 frontend/build
 frontend/node
 
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

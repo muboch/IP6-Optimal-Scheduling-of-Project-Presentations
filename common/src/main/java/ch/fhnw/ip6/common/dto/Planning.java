@@ -35,14 +35,17 @@ public class Planning {
 
         timeslots.forEach(t -> {
             sb.append(t.getDate()).append(" |");
-            rooms.forEach(r ->
-                    solutions
-                            .stream()
-                            .filter(s -> s.getRoom().equals(r) && s.getTimeSlot().equals(t))
-                            .findFirst()
-                            .ifPresentOrElse(
-                                    s -> sb.append(String.format("%03d", s.getPresentation().getId())).append("|")
-                                    , () -> sb.append("   |")));
+            rooms.forEach(r -> {
+                Optional<Solution> o = solutions
+                        .stream()
+                        .filter(s -> s.getRoom().equals(r) && s.getTimeSlot().equals(t))
+                        .findFirst();
+                if (o.isPresent())
+                    sb.append(String.format("%03d", o.get().getPresentation().getId())).append("|");
+                else
+                    sb.append("   |");
+            });
+
             sb.append(System.lineSeparator());
         });
 
