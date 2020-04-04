@@ -32,13 +32,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -99,7 +98,7 @@ public class PlannningServiceImpl implements PlanningService {
 
     private CSV transformToCsv(Planning planning) {
 
-        String fileName = "Planning_" + planning.getNr() + "_" + LocalDate.now().toString();
+        String fileName = "Planning_" + LocalDateTime.now().toString();
 
         StringWriter sw = new StringWriter();
         try {
