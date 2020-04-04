@@ -1,20 +1,17 @@
 *.class
 *.iml
-.DS_Store
-/common/target/
 .idea/
 .gradle/
-backend/target
-solvers/cpsolver/target
-solvers/ilpsolver/target
-solvers/originalsolver/target
-solvers/solution-checker/target
-solvers/solverapi/target
+target/
 frontend/build
 frontend/node
 
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
