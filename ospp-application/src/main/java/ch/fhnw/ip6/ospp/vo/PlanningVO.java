@@ -8,4 +8,5 @@ public interface PlanningVO {
 
     String getName();
 
+    String getStatus();
 }

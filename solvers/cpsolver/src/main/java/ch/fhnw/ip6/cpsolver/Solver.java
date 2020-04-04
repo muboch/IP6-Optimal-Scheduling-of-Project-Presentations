@@ -33,7 +33,7 @@ import static ch.fhnw.ip6.common.util.CostUtil.USED_ROOM_COST;
 public class Solver extends AbstractSolver {
 
     @Value("${ospp.timelimit}")
-    private int timelimit = 36000;
+    private int timelimit = 180;
 
     static {
         System.loadLibrary("jniortools");
@@ -322,6 +322,8 @@ public class Solver extends AbstractSolver {
         System.out.println(res);
 
         stopWatch.stop();
-        return solverContext.getPlanning();
+        Planning p =  solverContext.getPlanning();
+        p.setStatus(res.name());
+        return p;
     }
 }
