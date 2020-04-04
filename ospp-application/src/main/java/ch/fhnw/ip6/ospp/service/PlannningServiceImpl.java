@@ -11,6 +11,7 @@ import ch.fhnw.ip6.ospp.mapper.PlanningMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.mapper.RoomMapper;
 import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
+import ch.fhnw.ip6.ospp.model.CSV;
 import ch.fhnw.ip6.ospp.persistence.PlanningRepository;
 import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.service.client.PlanningService;
@@ -22,8 +23,6 @@ import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import ch.fhnw.ip6.ospp.vo.RoomVO;
 import ch.fhnw.ip6.ospp.vo.TimeslotVO;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -150,10 +149,5 @@ public class PlannningServiceImpl implements PlanningService {
     }
 
 
-    @Getter
-    @Builder
-    public class CSV {
-        private byte[] content;
-        private String name;
-    }
+
 }
