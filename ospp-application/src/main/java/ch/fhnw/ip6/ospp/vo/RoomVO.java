@@ -1,7 +1,5 @@
 package ch.fhnw.ip6.ospp.vo;
 
-import ch.fhnw.ip6.ospp.model.Type;
-
 import java.util.List;
 
 
@@ -13,7 +11,7 @@ public interface RoomVO {
 
     String getPlace();
     int getExternalId();
-    Type getType();
+    String getType();
 
     boolean isReserve();
 

@@ -45,7 +45,7 @@ public class Room {
     private int externalId;
 
 
-    private Type type;
+    private String type;
 
     private String place;
 

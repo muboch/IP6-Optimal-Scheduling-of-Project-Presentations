@@ -49,7 +49,7 @@ public class RoomServiceImpl implements RoomService {
                         .name(record.get("name"))
                         .place(record.get("place"))
                         .externalId(Integer.parseInt(record.get(0)))
-                        .type(Type.fromString(record.get("type")))
+                        .type(record.get("type"))
                         .reserve(Boolean.parseBoolean(record.get("reserve")))
                         .build();
                 roomRepository.save(room);
