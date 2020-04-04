@@ -5,57 +5,88 @@ import {
   InputLabel,
   Link,
   MenuItem,
-  Select
+  Select,
+  Paper,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  makeStyles
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
-import { API } from "../../constants";
+
 
 type Plannings = {
-  id: string;
+  nr: string;
   name: string;
-  fileUrl: string;
+  id: string;
+  status?: string;
 };
 
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+    maxWidth: 1000
+  }
+});
+
 const ListPlanningScreen: React.FC = (): JSX.Element => {
-  const styles = useGStyles();
+  const gStyles = useGStyles();
+  const styles = useStyles();
   const [plannings, setPlannings] = useState<Array<Plannings>>();
-  const [selectedPlanning, setSelectedPlanning] = useState<string>();
 
   useEffect(() => {
     const loadData = async () => {
-      const res = await fetch(`${API.endpoint}/api/plannings`);
+      const res = await fetch(`${process.env.API_ENDPOINT}/api/plannings`);
       const json = await res.json();
-      setPlannings(JSON.parse(json));
+      console.log(json);
+
+      setPlannings(json);
     };
     loadData();
   }, []);
 
+  const downloadFile = async (id: string) => {
+    const res = await fetch(`${process.env.API_ENDPOINT}/api/plannings/${id}`);
+  };
+
   return (
-    <div className={styles.columnFlexDiv}>
-      <FormControl>
-        <InputLabel id="select-planing-label">Planung</InputLabel>
-        <Select
-          labelId="select-planing-label"
-          onChange={e => {
-            setSelectedPlanning(e.target.value as string);
-          }}
-        >
-          <MenuItem value={undefined}>
-            <em>Planung auswählen</em>
-          </MenuItem>
-          {plannings?.map(p => {
-            return <MenuItem value={p.id}>{p.name}</MenuItem>;
-          })}
-        </Select>
-      </FormControl>
-      <Link href={plannings?.find(p => p.id === selectedPlanning)?.fileUrl}>
-        <Button
-          disabled={selectedPlanning === undefined}
-          className={styles.primaryButton}
-        >
-          Planung Herunterladen
-        </Button>
-      </Link>
+    <div className={gStyles.columnFlexDiv}>
+      <TableContainer component={Paper} className={styles.table}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell align="right">Nummer</TableCell>
+              <TableCell align="right">Status</TableCell>
+              <TableCell align="right">Download</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {plannings &&
+              plannings.map(p => (
+                <TableRow key={p.id}>
+                  <TableCell component="th" scope="row">
+                    {p.name}
+                  </TableCell>
+                  <TableCell align="right">{p.nr}</TableCell>
+                  <TableCell align="right">{p.status}</TableCell>
+                  <TableCell align="right">
+                    <Button
+                      className={gStyles.primaryButton}
+                      target="_blank"
+                      href={`${process.env.API_ENDPOINT}/api/plannings/${p.id}`}
+                    >
+                      Planung Herunterladen
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

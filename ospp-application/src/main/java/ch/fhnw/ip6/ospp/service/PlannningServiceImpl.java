@@ -99,9 +99,10 @@ public class PlannningServiceImpl implements PlanningService {
     private byte[] transformToCsv(Planning planning, String fileName) {
         StringWriter sw = new StringWriter();
         try {
-            CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.EXCEL.withHeader(
+            CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.EXCEL.withDelimiter(';').withHeader(
                     "nr", "title", "name", "schoolclass", "name2", "schoolclass2", "coach", "expert", "timeslot", "room"
             ));
+
             planning.getSolutions().forEach(s -> {
                 try {
                     csvPrinter.printRecord(
@@ -113,6 +114,7 @@ public class PlannningServiceImpl implements PlanningService {
                             s.getPresentation().getSchoolclass2(),
                             s.getCoach().getName(),
                             s.getExpert().getName(),
+                            s.getTimeSlot().getDate(),
                             s.getRoom().getName());
                 } catch (IOException e) {
                     e.printStackTrace();

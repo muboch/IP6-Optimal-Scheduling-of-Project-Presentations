@@ -16,7 +16,7 @@ spring:
 
 ospp:
   solver: ch.fhnw.ip6.cpsolver.Solver
-  timelimit: 60
+  timelimit: 180
   testmode: false
 
 server:

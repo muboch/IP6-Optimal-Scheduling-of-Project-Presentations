@@ -2,7 +2,6 @@ import React, { useState, FormEvent } from "react";
 import { Button, makeStyles } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import { API } from "../../constants";
 
 const useStyles = makeStyles(theme => ({
   input: {
@@ -57,7 +56,7 @@ const PlanningScreen: React.FC = (): JSX.Element => {
     }
 
     try {
-      const res = await fetch(`${API.endpoint}/api/plannings`, {
+      const res = await fetch(`${process.env.API_ENDPOINT}/api/plannings`, {
         // content-type header should not be specified!
         method: "POST",
         body: formData

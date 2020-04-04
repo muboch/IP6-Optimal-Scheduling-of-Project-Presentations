@@ -20,6 +20,7 @@ public class Planning {
     private Set<Solution> solutions = new HashSet<>();
     private List<Timeslot> timeslots = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();
+    private String status;
 
     @Override
     public String toString() {

@@ -1,12 +1,14 @@
 import React from "react";
-import {Redirect, Route, Switch} from "wouter";
+import { Redirect, Route, Switch } from "wouter";
 import LandingScreen from "./screens/LandingScreen/landingscreen";
-import {ThemeProvider} from "@material-ui/core";
-import {theme, useGStyles} from "./theme";
+import { ThemeProvider } from "@material-ui/core";
+import { theme, useGStyles } from "./theme";
 import PlanningScreen from "./screens/CreatePlanningScreen/planningscreen";
 import ListPlanningScreen from "./screens/ListPlanningScreen/listplanningscreen";
 
 const App: React.FC = (): JSX.Element => {
+  console.log("endpoint", process.env.API_ENDPOINT);
+
   const styles = useGStyles();
   return (
     <div className={styles.root}>
