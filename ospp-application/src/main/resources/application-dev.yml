@@ -17,7 +17,7 @@ spring:
 ospp:
   solver: ch.fhnw.ip6.cpsolver.Solver
   timelimit: 10
-  testmode: true
+  testmode: false
 
 server:
   address: 0.0.0.0
