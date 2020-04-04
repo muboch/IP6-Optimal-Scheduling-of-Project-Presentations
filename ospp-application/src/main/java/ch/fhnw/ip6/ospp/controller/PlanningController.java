@@ -13,6 +13,7 @@ import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -56,6 +57,7 @@ public class PlanningController {
 
         log.info("fire planning event");
         planningService.firePlanning();
+        log.info("event fired, solving in process");
 
         return ResponseEntity.ok().build();
 
@@ -88,7 +90,7 @@ public class PlanningController {
     }
 
     @GetMapping(value = "/plannings/{id}", produces = "text/csv")
-    public ResponseEntity getPlanningById(@PathVariable long id) throws IOException {
+    public ResponseEntity<Resource> getPlanningById(@PathVariable long id) throws IOException {
 
         CSV csv = planningService.getFileById(id);
 
