@@ -13,6 +13,7 @@ import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,22 +54,21 @@ public class PlanningController {
         log.info("previous data truncated");
         loadFiles(presentations, teachers, rooms, timeslots);
         log.info("data upload completed");
-        log.info("start solving");
-        Planning planning = createSolution();
-        log.info("created planning {}", planning);
+
+        log.info("fire planning event");
+        planningService.firePlanning();
+        log.info("event fired, solving in process");
 
         return ResponseEntity.ok().build();
 
     }
 
     @GetMapping("/solve")
-    public ResponseEntity<Planning> solve() {
-        return ResponseEntity.ok().body(createSolution());
+    public ResponseEntity<Object> solve() {
+        planningService.firePlanning();
+        return ResponseEntity.ok().build();
     }
 
-    private Planning createSolution() {
-        return planningService.plan();
-    }
 
     private void loadFiles(@RequestParam("presentations") MultipartFile presentations, @RequestParam("teachers") MultipartFile teachers, @RequestParam("rooms") MultipartFile rooms, @RequestParam("timeslots") MultipartFile timeslots) {
         lecturerService.loadLecturer(teachers);
@@ -90,7 +90,7 @@ public class PlanningController {
     }
 
     @GetMapping(value = "/plannings/{id}", produces = "text/csv")
-    public ResponseEntity getPlanningById(@PathVariable long id) throws IOException {
+    public ResponseEntity<Resource> getPlanningById(@PathVariable long id) throws IOException {
 
         CSV csv = planningService.getFileById(id);
 
@@ -98,7 +98,7 @@ public class PlanningController {
         Files.write(file.toPath(), csv.getContent());
 
         return ResponseEntity.ok()
-                .header("Content-Disposition", "attachment; planning=" + id + ".csv")
+                .header("Content-Disposition", "attachment; planning=" + csv.getName() + ".csv")
                 .contentLength(file.length())
                 .contentType(MediaType.parseMediaType("text/csv"))
                 .body(new FileSystemResource(file));

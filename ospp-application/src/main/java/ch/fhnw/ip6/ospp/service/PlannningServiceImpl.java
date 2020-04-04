@@ -6,6 +6,7 @@ import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.ospp.event.SolveEvent;
 import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.mapper.PlanningMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
@@ -29,13 +30,13 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,9 +57,10 @@ public class PlannningServiceImpl implements PlanningService {
     private final LecturerMapper lecturerMapper;
     private final RoomMapper roomMapper;
     private final TimeslotMapper timeslotMapper;
-    private final PlanningMapper planningMapper;
 
     private final ApplicationContext applicationContext;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Value("${ospp.solver}")
     private String solverName;
@@ -78,7 +80,7 @@ public class PlannningServiceImpl implements PlanningService {
         List<Room> rooms = roomVOs.stream().map(roomMapper::toDto).collect(Collectors.toList());
         List<Timeslot> timeslots = timeslotVOs.stream().map(timeslotMapper::toDto).collect(Collectors.toList());
 
-        Planning planning = null;
+        Planning planning;
         if (testmode) {
             planning = getSolver().testSolve();
         } else {
@@ -130,6 +132,11 @@ public class PlannningServiceImpl implements PlanningService {
         }
 
         return null;
+    }
+
+    @Override
+    public void firePlanning() {
+        applicationEventPublisher.publishEvent(new SolveEvent(this));
     }
 
     @Override
