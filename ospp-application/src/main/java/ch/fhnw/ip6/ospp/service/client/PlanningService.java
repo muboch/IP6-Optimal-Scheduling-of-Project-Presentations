@@ -14,4 +14,6 @@ public interface PlanningService {
     CSV getFileById(long id);
 
     List<PlanningVO> getAllPlannings();
+
+    void firePlanning();
 }
