@@ -1,3 +1,5 @@
+
+
 spring:
   profiles:
     active: dev
@@ -16,3 +18,6 @@ ospp:
   solver: ch.fhnw.ip6.cpsolver.Solver
   timelimit: 10
   testmode: true
+
+server:
+  address: 0.0.0.0
