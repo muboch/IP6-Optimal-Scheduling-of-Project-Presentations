@@ -7,7 +7,8 @@ import PlanningScreen from "./screens/CreatePlanningScreen/planningscreen";
 import ListPlanningScreen from "./screens/ListPlanningScreen/listplanningscreen";
 
 const App: React.FC = (): JSX.Element => {
-  console.log("endpoint", process.env.API_ENDPOINT);
+  console.log("endpoint", process.env.REACT_APP_API_ENDPOINT);
+  console.log("nodeenv", process.env.NODE_ENV);
 
   const styles = useGStyles();
   return (

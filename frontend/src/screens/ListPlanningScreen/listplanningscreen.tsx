@@ -39,7 +39,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     const loadData = async () => {
-      const res = await fetch(`${process.env.API_ENDPOINT}/api/plannings`);
+      const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/plannings`);
       const json = await res.json();
       console.log(json);
 
@@ -49,7 +49,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
   }, []);
 
   const downloadFile = async (id: string) => {
-    const res = await fetch(`${process.env.API_ENDPOINT}/api/plannings/${id}`);
+    const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/plannings/${id}`);
   };
 
   return (
@@ -77,7 +77,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
                     <Button
                       className={gStyles.primaryButton}
                       target="_blank"
-                      href={`${process.env.API_ENDPOINT}/api/plannings/${p.id}`}
+                      href={`${process.env.REACT_APP_API_ENDPOINT}/api/plannings/${p.id}`}
                     >
                       Planung Herunterladen
                     </Button>
