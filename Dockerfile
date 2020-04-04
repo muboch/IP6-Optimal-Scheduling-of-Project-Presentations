@@ -47,4 +47,4 @@ COPY --from=builder /deps/* /usr/lib/
 RUN apt-get update -y
 RUN apt-get install openjdk-11-jdk -y
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=dev","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
