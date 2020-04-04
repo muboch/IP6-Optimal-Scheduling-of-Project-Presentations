@@ -42,8 +42,8 @@ public class PresentationServiceImpl implements PresentationService {
             for (CSVRecord record : records) {
 
                 // TODO Carlo move headers to properties
-                Lecturer expert = lecturerService.readByInitials(record.get("coachInitials"));
-                Lecturer coach = lecturerService.readByInitials(record.get("expertInitials"));
+                Lecturer coach = lecturerService.readByInitials(record.get("coachInitials"));
+                Lecturer expert = lecturerService.readByInitials(record.get("expertInitials"));
 
                 Student studentOne = Student.studentBuilder()
                         .name(record.get("name"))
