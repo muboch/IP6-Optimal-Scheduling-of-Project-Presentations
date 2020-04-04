@@ -19,8 +19,8 @@ jobs:
         run: docker build  -t ospp-application .
       - name: Docker Tag
         run: |
-          docker tag ospp-backend bananenhoschi/ospp-application:${{ github.sha }}
-          docker tag ospp-backend bananenhoschi/ospp-application:latest
+          docker tag ospp-application bananenhoschi/ospp-application:${{ github.sha }}
+          docker tag ospp-application bananenhoschi/ospp-application:latest
       - name: Docker Push
         run: |
           docker push bananenhoschi/ospp-application:${{ github.sha }}
