@@ -7,7 +7,7 @@ public interface TimeslotVO {
 
     int getId();
 
-    String getStart();
+    String getDate();
 
     int getBlock();
 

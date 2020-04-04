@@ -9,7 +9,7 @@ public interface RoomVO {
 
     int getId();
 
-    String getNr();
+    String getName();
 
     String getPlace();
 
