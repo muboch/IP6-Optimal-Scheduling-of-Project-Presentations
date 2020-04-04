@@ -6,6 +6,8 @@ public interface PresentationVO {
 
     RoomVO getRoom();
 
+    String getNr();
+
     int getExternalId();
 
     String getType();

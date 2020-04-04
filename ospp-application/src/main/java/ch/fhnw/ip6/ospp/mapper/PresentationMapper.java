@@ -21,6 +21,8 @@ public interface PresentationMapper {
     @Mapping(target = "id", source = "presentation.externalId")
     ch.fhnw.ip6.common.dto.Presentation toDto(Presentation presentation);
 
+    @Mapping(target = "type", source = "presentation.type")
+    @Mapping(target = "nr", source = "presentation.nr")
     @Mapping(target = "name", source = "presentation.studentOne.name")
     @Mapping(target = "schoolclass", source = "presentation.studentOne.schoolclass")
     @Mapping(target = "name2", source = "presentation.studentTwo.name")
