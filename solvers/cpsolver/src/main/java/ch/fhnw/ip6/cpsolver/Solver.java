@@ -61,10 +61,15 @@ public class Solver extends AbstractSolver {
     }
 
     @Override
-    public Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
+        public Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         CpModel model = new CpModel();
+
+        presentations.forEach(System.out::println);
+        rooms.forEach(System.out::println);
+        timeslots.forEach(System.out::println);
+        lecturers.forEach(System.out::println);
 
         for (Presentation p : presentations) {
             p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation

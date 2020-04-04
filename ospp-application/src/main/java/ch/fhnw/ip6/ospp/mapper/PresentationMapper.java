@@ -18,6 +18,7 @@ public interface PresentationMapper {
     @Mapping(target = "schoolclass2", source = "presentation.studentTwo.schoolclass")
     @Mapping(target = "coachInitials", source = "presentation.coach.initials")
     @Mapping(target = "expertInitials", source = "presentation.expert.initials")
+    @Mapping(target = "id", source = "presentation.externalId")
     ch.fhnw.ip6.common.dto.Presentation toDto(Presentation presentation);
 
     @Mapping(target = "name", source = "presentation.studentOne.name")
@@ -26,6 +27,7 @@ public interface PresentationMapper {
     @Mapping(target = "schoolclass2", source = "presentation.studentTwo.schoolclass")
     @Mapping(target = "coachInitials", source = "presentation.coach.initials")
     @Mapping(target = "expertInitials", source = "presentation.expert.initials")
+    @Mapping(target = "id", source = "presentation.externalId")
     ch.fhnw.ip6.common.dto.Presentation toDto(PresentationVO presentation);
 
 }

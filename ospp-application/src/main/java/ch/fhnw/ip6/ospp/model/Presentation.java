@@ -31,6 +31,8 @@ public class Presentation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    
+    private int externalId;
 
     @CreationTimestamp
     private LocalDateTime created;
@@ -63,6 +65,6 @@ public class Presentation {
     @ManyToOne
     private Timeslot timeslot;
 
-    private Type type;
+    private String type;
 
 }

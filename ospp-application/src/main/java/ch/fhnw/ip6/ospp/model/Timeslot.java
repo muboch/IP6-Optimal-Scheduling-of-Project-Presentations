@@ -40,6 +40,7 @@ public class Timeslot {
 
     @Version
     private int version;
+    private int externalId;
 
     private String date;
 

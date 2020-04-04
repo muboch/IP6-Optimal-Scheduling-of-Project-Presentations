@@ -42,6 +42,8 @@ public class Room {
     private int version;
 
     private String name;
+    private int externalId;
+
 
     private Type type;
 

@@ -53,6 +53,7 @@ public class LecturerServiceImpl implements LecturerService {
                         .email(record.get("email"))
                         .lastname(record.get("lastname"))
                         .firstname(record.get(0))
+                        .externalId(Integer.parseInt(record.get("id")))
                         .build();
                 lecturerRepository.save(expert);
 

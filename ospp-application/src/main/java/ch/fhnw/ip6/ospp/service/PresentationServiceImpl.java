@@ -52,8 +52,9 @@ public class PresentationServiceImpl implements PresentationService {
 
                 Presentation presentation = Presentation.builder()
                         .nr(record.get("nr"))
+                        .externalId(Integer.parseInt(record.get(0)))
                         .title(record.get("title"))
-                        .type(Type.fromString(record.get("type")))
+                        .type(record.get("type"))
                         .studentOne(studentOne)
                         .expert(expert)
                         .coach(coach)

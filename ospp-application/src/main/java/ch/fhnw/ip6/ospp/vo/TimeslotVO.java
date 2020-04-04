@@ -10,6 +10,7 @@ public interface TimeslotVO {
     String getDate();
 
     int getBlock();
+    int getExternalId();
 
     List<PresentationVO> getPresentations();
 

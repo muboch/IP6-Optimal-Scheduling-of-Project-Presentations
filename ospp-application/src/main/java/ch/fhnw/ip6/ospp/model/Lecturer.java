@@ -21,14 +21,18 @@ public class Lecturer extends User {
 
     private String initials;
 
+
+    private int externalId;
+
     private String firstname;
 
     private String lastname;
 
     @Builder(builderMethodName = "lecturerBuilder")
-    public Lecturer(long id, String firstname, String lastname, String email, List<Presentation> presentationsAsExaminator, List<Presentation> presentationsAsExpert, String initials) {
+    public Lecturer(long id, String firstname, String lastname, String email, List<Presentation> presentationsAsExaminator, List<Presentation> presentationsAsExpert, String initials, int externalId) {
         super(id, email);
         this.firstname = firstname;
+        this.externalId = externalId;
         this.lastname = lastname;
         this.initials = initials;
     }

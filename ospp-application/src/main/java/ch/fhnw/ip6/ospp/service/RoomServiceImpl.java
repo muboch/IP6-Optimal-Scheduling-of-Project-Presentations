@@ -48,6 +48,7 @@ public class RoomServiceImpl implements RoomService {
                 Room room = Room.builder()
                         .name(record.get("name"))
                         .place(record.get("place"))
+                        .externalId(Integer.parseInt(record.get(0)))
                         .type(Type.fromString(record.get("type")))
                         .reserve(Boolean.parseBoolean(record.get("reserve")))
                         .build();

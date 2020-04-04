@@ -3,6 +3,17 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cpsolver" />
+        <module name="common" />
+        <module name="ilpsolver" />
+        <module name="solverapi" />
+        <module name="originalsolver" />
+        <module name="solution-checker" />
+      </profile>
       <profile name="Annotation profile for ospp" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -24,27 +35,21 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.12/lombok-1.18.12.jar" />
         </processorPath>
         <module name="ospp-application" />
-        <module name="cpsolver" />
-        <module name="common" />
-        <module name="solution-checker" />
-        <module name="ilpsolver" />
-        <module name="solverapi" />
-        <module name="originalsolver" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="common" target="1.8" />
-      <module name="cpsolver" target="1.8" />
+      <module name="common" target="11" />
+      <module name="cpsolver" target="11" />
       <module name="demo" target="1.8" />
-      <module name="ilpsolver" target="1.8" />
-      <module name="originalsolver" target="1.8" />
+      <module name="ilpsolver" target="11" />
+      <module name="originalsolver" target="11" />
       <module name="osopp" target="1.8" />
       <module name="osopp.main" target="1.8" />
       <module name="osopp.test" target="1.8" />
-      <module name="ospp" target="1.8" />
+      <module name="ospp" target="11" />
       <module name="ospp-application" target="1.8" />
-      <module name="solution-checker" target="1.8" />
-      <module name="solverapi" target="1.8" />
+      <module name="solution-checker" target="11" />
+      <module name="solverapi" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -54,16 +59,12 @@
       <module name="OriginalSolver" options="-parameters" />
       <module name="SolverAPI" options="" />
       <module name="backend" options="-parameters" />
-      <module name="common" options="-parameters -Amapstruct.defaultComponentModel=spring" />
-      <module name="cpsolver" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="demo" options="-parameters" />
-      <module name="ilpsolver" options="-parameters -Amapstruct.defaultComponentModel=spring" />
-      <module name="originalsolver" options="-parameters -Amapstruct.defaultComponentModel=spring" />
+      <module name="ilpsolver" options="" />
+      <module name="originalsolver" options="" />
       <module name="osopp" options="-parameters" />
-      <module name="ospp" options="" />
+      <module name="ospp" options="-parameters" />
       <module name="ospp-application" options="-parameters -Amapstruct.defaultComponentModel=spring" />
-      <module name="solution-checker" options="-parameters -Amapstruct.defaultComponentModel=spring" />
-      <module name="solverapi" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>

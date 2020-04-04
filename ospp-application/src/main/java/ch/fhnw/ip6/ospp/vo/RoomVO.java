@@ -12,7 +12,7 @@ public interface RoomVO {
     String getName();
 
     String getPlace();
-
+    int getExternalId();
     Type getType();
 
     boolean isReserve();
