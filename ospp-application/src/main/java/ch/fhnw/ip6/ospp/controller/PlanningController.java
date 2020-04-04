@@ -2,6 +2,7 @@ package ch.fhnw.ip6.ospp.controller;
 
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Solution;
+import ch.fhnw.ip6.ospp.service.PlannningServiceImpl;
 import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.service.client.PlanningService;
 import ch.fhnw.ip6.ospp.service.client.PresentationService;
@@ -90,10 +91,10 @@ public class PlanningController {
     @GetMapping(value = "/plannings/{id}", produces = "text/csv")
     public ResponseEntity getPlanningById(@PathVariable long id) throws IOException {
 
-        File file = new File(id + ".csv");
-        byte[] content = planningService.getFileById(id);
+        PlannningServiceImpl.CSV csv = planningService.getFileById(id);
 
-        Files.write(file.toPath(), content);
+        File file = new File(csv.getName());
+        Files.write(file.toPath(), csv.getContent());
 
         return ResponseEntity.ok()
                 .header("Content-Disposition", "attachment; planning=" + id + ".csv")

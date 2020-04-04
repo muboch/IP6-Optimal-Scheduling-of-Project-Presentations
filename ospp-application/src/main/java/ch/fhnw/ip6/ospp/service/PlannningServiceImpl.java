@@ -22,6 +22,8 @@ import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import ch.fhnw.ip6.ospp.vo.RoomVO;
 import ch.fhnw.ip6.ospp.vo.TimeslotVO;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -37,6 +39,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -84,19 +87,21 @@ public class PlannningServiceImpl implements PlanningService {
             planning = getSolver().solve(presentations, lecturers, rooms, timeslots);
         }
 
-        String fileName = "Planning_" + planning.getNr() + "_" + LocalDate.now().toString();
-        byte[] file = transformToCsv(planning, fileName);
+        CSV csv = transformToCsv(planning);
 
         ch.fhnw.ip6.ospp.model.Planning planningEntity = new ch.fhnw.ip6.ospp.model.Planning();
         planningEntity.setNr(String.valueOf(planning.getNr()));
-        planningEntity.setPlanning(file);
-        planningEntity.setName(fileName);
+        planningEntity.setPlanning(csv.getContent());
+        planningEntity.setName(csv.getName());
         planningRepository.save(planningEntity);
 
         return planning;
     }
 
-    private byte[] transformToCsv(Planning planning, String fileName) {
+    private CSV transformToCsv(Planning planning) {
+
+        String fileName = "Planning_" + planning.getNr() + "_" + LocalDate.now().toString();
+
         StringWriter sw = new StringWriter();
         try {
             CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.EXCEL.withHeader(
@@ -119,8 +124,7 @@ public class PlannningServiceImpl implements PlanningService {
                 }
             });
             sw.flush();
-            File file = new File(fileName + ".csv");
-            return sw.toString().getBytes(StandardCharsets.UTF_8);
+            return CSV.builder().content(sw.toString().getBytes(StandardCharsets.UTF_8)).name(fileName).build();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,8 +133,9 @@ public class PlannningServiceImpl implements PlanningService {
     }
 
     @Override
-    public byte[] getFileById(long id) {
-        return planningRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No planning for id " + id)).getPlanning();
+    public CSV getFileById(long id) {
+        ch.fhnw.ip6.ospp.model.Planning planning = planningRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No planning for id " + id));
+        return CSV.builder().name(planning.getName()).content(planning.getPlanning()).build();
     }
 
     @Override
@@ -140,5 +145,13 @@ public class PlannningServiceImpl implements PlanningService {
 
     private SolverApi getSolver() {
         return (SolverApi) applicationContext.getBean(solverName);
+    }
+
+
+    @Getter
+    @Builder
+    public class CSV {
+        private byte[] content;
+        private String name;
     }
 }
