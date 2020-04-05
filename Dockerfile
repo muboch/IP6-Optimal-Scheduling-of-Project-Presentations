@@ -32,12 +32,11 @@ WORKDIR /repo
 RUN git clone git@github.com:bananenhoschi/IP6-Optimal-Scheduling-of-Project-Presentations.git /repo
 
 # Maven build
-RUN mvn clean install -Pdev
+RUN mvn clean install -Pprod
 
 # Copy runnable Spring Boot jar
 RUN ls /repo/ospp-application/target/
 RUN mv /repo/ospp-application/target/ospp-application-1.0-SNAPSHOT.jar /app.jar
-
 
 FROM ubuntu:18.04
 WORKDIR /
