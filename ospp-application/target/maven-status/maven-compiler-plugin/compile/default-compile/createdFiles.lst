@@ -30,6 +30,7 @@ ch/fhnw/ip6/ospp/service/LecturerServiceImpl.class
 ch/fhnw/ip6/ospp/mapper/PlanningMapperImpl.class
 ch/fhnw/ip6/ospp/model/CSV$CSVBuilder.class
 ch/fhnw/ip6/ospp/model/CSV.class
+ch/fhnw/ip6/ospp/persistence/BlockRepository.class
 ch/fhnw/ip6/ospp/service/client/PresentationService.class
 ch/fhnw/ip6/ospp/mapper/PresentationMapperImpl.class
 ch/fhnw/ip6/ospp/model/Student$StudentBuilder.class
@@ -49,12 +50,12 @@ ch/fhnw/ip6/ospp/vo/StudentVO.class
 ch/fhnw/ip6/ospp/model/Lecturer.class
 ch/fhnw/ip6/ospp/model/Type.class
 ch/fhnw/ip6/ospp/model/Timeslot$TimeslotBuilder.class
-ch/fhnw/ip6/ospp/controller/PresentationController.class
 ch/fhnw/ip6/ospp/persistence/TimeslotRepository.class
+ch/fhnw/ip6/ospp/controller/PresentationController.class
 ch/fhnw/ip6/ospp/service/TimeslotServiceImpl.class
 ch/fhnw/ip6/ospp/model/Student.class
 ch/fhnw/ip6/ospp/service/PresentationServiceImpl.class
 ch/fhnw/ip6/ospp/service/client/PlanningService.class
 ch/fhnw/ip6/ospp/persistence/LecturerRepository.class
-ch/fhnw/ip6/ospp/controller/RoomController.class
 ch/fhnw/ip6/ospp/model/Room.class
+ch/fhnw/ip6/ospp/controller/RoomController.class

@@ -77,10 +77,13 @@ public class Solver extends AbstractSolver {
         for (Timeslot t : timeslots) {
             for (Room r : rooms) {
                 for (Presentation p : presentations) {
-                    if (!p.getType().equals(r.getType())) {
+                    if (!p.getType().equals(r.getType())) { // If roomtype doesnt fit
                         continue;
                     }
-                    presRoomTime[p.getId()][r.getId()][t.getId()] = model.newBoolVar("presRoomTime_p" + p.getId() + "_r" + r.getId() + "_t" + t.getId());
+                    if(locktimes[p.getCoach().getId()][t.getId()] || locktimes[p.getExpert().getId()][t.getId()]){ // If coach is locked at this time
+                        continue;
+                    }
+                        presRoomTime[p.getId()][r.getId()][t.getId()] = model.newBoolVar("presRoomTime_p" + p.getId() + "_r" + r.getId() + "_t" + t.getId());
                 }
             }
         }

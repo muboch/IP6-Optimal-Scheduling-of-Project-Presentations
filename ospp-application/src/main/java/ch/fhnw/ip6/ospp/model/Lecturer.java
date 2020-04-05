@@ -33,12 +33,13 @@ public class Lecturer extends User {
     private List<Timeslot> locktimes;
 
     @Builder(builderMethodName = "lecturerBuilder")
-    public Lecturer(long id, String firstname, String lastname, String email, List<Presentation> presentationsAsExaminator, List<Presentation> presentationsAsExpert, String initials, int externalId) {
+    public Lecturer(long id, String firstname, String lastname, String email, List<Presentation> presentationsAsExaminator, List<Presentation> presentationsAsExpert, List<Timeslot> locktimes, String initials, int externalId) {
         super(id, email);
         this.firstname = firstname;
         this.externalId = externalId;
         this.lastname = lastname;
         this.initials = initials;
+        this.locktimes = locktimes;
     }
 
 }
