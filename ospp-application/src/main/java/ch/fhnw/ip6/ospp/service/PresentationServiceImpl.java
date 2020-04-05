@@ -37,7 +37,11 @@ public class PresentationServiceImpl implements PresentationService {
             deleteAll();
 
             // TODO Carlo move delimiter to properties
-            Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withDelimiter(';').parse(is);
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT
+                    .withHeader("id", "nr", "name", "schoolclass", "name2", "schoolclass2", "title", "coachInitials", "expertInitials", "type")
+                    .withSkipHeaderRecord()
+                    .withDelimiter(';')
+                    .parse(is);
 
             for (CSVRecord record : records) {
 
@@ -52,7 +56,7 @@ public class PresentationServiceImpl implements PresentationService {
 
                 Presentation presentation = Presentation.builder()
                         .nr(record.get("nr"))
-                        .externalId(Integer.parseInt(record.get(0)))
+                        .externalId(Integer.parseInt(record.get("id")))
                         .title(record.get("title"))
                         .type(record.get("type"))
                         .studentOne(studentOne)

@@ -43,7 +43,7 @@ public class LecturerServiceImpl implements LecturerService {
 
             deleteAll();
 
-            Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().withDelimiter(';').parse(is);
+            Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("firstname", "lastname", "initials", "email", "id").withDelimiter(';').withSkipHeaderRecord().parse(is);
 
             for (CSVRecord record : records) {
 
@@ -52,7 +52,7 @@ public class LecturerServiceImpl implements LecturerService {
                         .initials(record.get("initials"))
                         .email(record.get("email"))
                         .lastname(record.get("lastname"))
-                        .firstname(record.get(0))
+                        .firstname(record.get("firstname"))
                         .externalId(Integer.parseInt(record.get("id")))
                         .build();
                 lecturerRepository.save(expert);

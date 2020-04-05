@@ -41,14 +41,17 @@ public class TimeslotServiceImpl implements TimeslotService {
             deleteAll();
 
             // TODO Carlo move delimiter to properties
-            Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withDelimiter(';').parse(is);
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT
+                    .withHeader("id", "date", "block", "priority")
+                    .withDelimiter(';')
+                    .withSkipHeaderRecord().parse(is);
 
             for (CSVRecord record : records) {
 
                 // TODO Carlo move headers to properties
                 Timeslot timeslot = Timeslot.builder()
                         .date(record.get("date"))
-                        .externalId(Integer.parseInt(record.get(0)))
+                        .externalId(Integer.parseInt(record.get("id")))
                         .block(Integer.parseInt(record.get("block")))
                         .priority(Integer.parseInt(record.get("priority")))
                         .build();

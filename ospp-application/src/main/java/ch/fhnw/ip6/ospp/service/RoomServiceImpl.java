@@ -41,14 +41,18 @@ public class RoomServiceImpl implements RoomService {
             deleteAll();
 
             // TODO Carlo move delimiter to properties
-            Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withDelimiter(';').parse(is);
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT
+                    .withHeader("id", "name", "place", "type", "reserve")
+                    .withSkipHeaderRecord()
+                    .withDelimiter(';')
+                    .parse(is);
 
             for (CSVRecord record : records) {
                 // TODO Carlo move headers to properties
                 Room room = Room.builder()
                         .name(record.get("name"))
                         .place(record.get("place"))
-                        .externalId(Integer.parseInt(record.get(0)))
+                        .externalId(Integer.parseInt(record.get("id")))
                         .type(record.get("type"))
                         .reserve(Boolean.parseBoolean(record.get("reserve")))
                         .build();
