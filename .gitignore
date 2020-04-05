@@ -3,6 +3,14 @@
 .idea/
 .gradle/
 target/
+/common/target
+/ospp-application/target
+/ospp-application/target/
+/solver/cpsolver/target/
+/solver/ilpsolver/target/
+/solver/orignialsolver/target/
+/solver/solverapi/target/
+/solver/solutionchecker/target/
 frontend/build
 frontend/node
 

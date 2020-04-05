@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
@@ -92,7 +93,7 @@ public class PlannningServiceImpl implements PlanningService {
 
         ch.fhnw.ip6.ospp.model.Planning planningEntity = new ch.fhnw.ip6.ospp.model.Planning();
         planningEntity.setNr(String.valueOf(planning.getNr()));
-        planningEntity.setPlanning(csv.getContent());
+        planningEntity.setData(csv.getContent());
         planningEntity.setName(csv.getName());
         planningRepository.save(planningEntity);
 
@@ -127,6 +128,7 @@ public class PlannningServiceImpl implements PlanningService {
                 }
             });
             sw.flush();
+
             return CSV.builder().content(sw.toString().getBytes(StandardCharsets.UTF_8)).name(fileName).build();
         } catch (IOException e) {
             e.printStackTrace();
@@ -143,7 +145,7 @@ public class PlannningServiceImpl implements PlanningService {
     @Override
     public CSV getFileById(long id) {
         ch.fhnw.ip6.ospp.model.Planning planning = planningRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No planning for id " + id));
-        return CSV.builder().name(planning.getName()).content(planning.getPlanning()).build();
+        return CSV.builder().name(planning.getName()).content(planning.getData()).build();
     }
 
     @Override
