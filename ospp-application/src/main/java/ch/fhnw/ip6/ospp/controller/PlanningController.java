@@ -16,6 +16,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -60,8 +61,13 @@ public class PlanningController {
         log.info("data upload completed");
 
         log.info("fire planning event");
-        planningService.firePlanning();
-        log.info("event fired, solving in process");
+        try {
+            planningService.firePlanning();
+            log.info("event fired, solving in process");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.PROCESSING).body(e.getMessage());
+        }
 
         return ResponseEntity.ok().build();
 
@@ -69,7 +75,14 @@ public class PlanningController {
 
     @GetMapping("/solve")
     public ResponseEntity<Object> solve() {
-        planningService.firePlanning();
+        log.info("fire planning event");
+        try {
+            planningService.firePlanning();
+            log.info("event fired, solving in process");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.PROCESSING).body(e.getMessage());
+        }
         return ResponseEntity.ok().build();
     }
 

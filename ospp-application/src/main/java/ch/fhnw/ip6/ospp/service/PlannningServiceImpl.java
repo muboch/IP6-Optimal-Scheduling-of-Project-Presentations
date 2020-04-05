@@ -1,6 +1,7 @@
 package ch.fhnw.ip6.ospp.service;
 
 import ch.fhnw.ip6.api.SolverApi;
+import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Lecturer;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Presentation;
@@ -61,6 +62,7 @@ public class PlannningServiceImpl implements PlanningService {
     private final TimeslotMapper timeslotMapper;
 
     private final ApplicationContext applicationContext;
+    private final SolverContext solverContext;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -71,7 +73,7 @@ public class PlannningServiceImpl implements PlanningService {
     private boolean testmode = true;
 
     @Override
-    public Planning plan() {
+    public Planning plan() throws Exception {
         List<PresentationVO> presentationVOs = presentationService.getAll();
         List<LecturerVO> lecturerVOs = lecturerService.getAll();
         List<RoomVO> roomVOs = roomService.getAll();
@@ -83,6 +85,9 @@ public class PlannningServiceImpl implements PlanningService {
         List<Timeslot> timeslots = timeslotVOs.stream().map(timeslotMapper::toDto).collect(Collectors.toList());
 
         Planning planning;
+        if(solverContext.isSolving()){
+            throw new Exception("Solver is already running.");
+        }
         if (testmode) {
             planning = getSolver().testSolve();
         } else {
@@ -138,7 +143,10 @@ public class PlannningServiceImpl implements PlanningService {
     }
 
     @Override
-    public void firePlanning() {
+    public void firePlanning() throws Exception {
+        if(solverContext.isSolving()){
+            throw new Exception("Solver is already running.");
+        }
         applicationEventPublisher.publishEvent(new SolveEvent(this));
     }
 

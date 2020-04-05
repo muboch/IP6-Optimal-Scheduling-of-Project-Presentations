@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface PlanningService {
 
-    Planning plan();
+    Planning plan() throws Exception;
 
     CSV getFileById(long id);
 
     List<PlanningVO> getAllPlannings();
 
-    void firePlanning();
+    void firePlanning() throws Exception;
 }

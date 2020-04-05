@@ -62,6 +62,7 @@ public class Solver extends AbstractSolver {
 
     @Override
         public Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
+        solverContext.setSolving(true);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         CpModel model = new CpModel();
@@ -324,6 +325,7 @@ public class Solver extends AbstractSolver {
         stopWatch.stop();
         Planning p =  solverContext.getPlanning();
         p.setStatus(res.name());
+        solverContext.setSolving(false);
         return p;
     }
 }

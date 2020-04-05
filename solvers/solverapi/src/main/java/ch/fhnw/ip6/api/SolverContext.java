@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 @Getter
 public class SolverContext {
 
-    private Planning planning;
 
+    private boolean isSolving;
+
+    private Planning planning;
 
     /**
      * Compares received planning with existing planning. Keeps the planning with the better score.
