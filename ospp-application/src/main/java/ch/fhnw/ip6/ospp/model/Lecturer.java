@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
@@ -27,6 +28,9 @@ public class Lecturer extends User {
     private String firstname;
 
     private String lastname;
+
+    @OneToMany
+    private List<Timeslot> locktimes;
 
     @Builder(builderMethodName = "lecturerBuilder")
     public Lecturer(long id, String firstname, String lastname, String email, List<Presentation> presentationsAsExaminator, List<Presentation> presentationsAsExpert, String initials, int externalId) {

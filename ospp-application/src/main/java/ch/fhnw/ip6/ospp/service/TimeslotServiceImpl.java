@@ -1,6 +1,8 @@
 package ch.fhnw.ip6.ospp.service;
 
+import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.model.Timeslot;
+import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
 import ch.fhnw.ip6.ospp.service.client.TimeslotService;
 import ch.fhnw.ip6.ospp.vo.TimeslotVO;
@@ -22,7 +24,7 @@ import java.util.List;
 public class TimeslotServiceImpl implements TimeslotService {
 
     private final TimeslotRepository timeslotRepository;
-
+    private final LecturerRepository lecturerRepository;
 
     @Override
     public Timeslot addTimeslot(Timeslot timeslot) {
@@ -47,15 +49,17 @@ public class TimeslotServiceImpl implements TimeslotService {
             CSVParser records = csvFormat.parse(is);
             int lecturers = records.getRecords().size();
 
-            boolean[][] locktimes = new boolean[lecturers][timeslots];
-
             for (int j = 0; j < lecturers; j++) {
+                Lecturer lecturer = lecturerRepository.readByInitials(records.getRecords().get(j).get(0));
                 for (int i = 0; i < timeslots; i++) {
                     String val = records.getRecords().get(j).get(i);
-                    locktimes[j][i] = val.toLowerCase().equals("x");
+                    if(val.toLowerCase().equals("x")){
+                        Timeslot timeslot = timeslotRepository.findByExternalId(i);
+                        lecturer.getLocktimes().add(timeslot);
+                    }
                 }
+                lecturerRepository.save(lecturer);
             }
-            // TODO persist on ???
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
