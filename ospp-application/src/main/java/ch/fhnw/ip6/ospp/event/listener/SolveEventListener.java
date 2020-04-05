@@ -17,6 +17,10 @@ public class SolveEventListener implements ApplicationListener<SolveEvent> {
     @Override
     public void onApplicationEvent(SolveEvent event) {
         log.info("received event for solving");
-        planningService.plan();
+        try {
+            planningService.plan();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 }
