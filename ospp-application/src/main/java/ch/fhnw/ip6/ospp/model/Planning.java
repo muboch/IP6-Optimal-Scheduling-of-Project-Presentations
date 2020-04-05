@@ -36,8 +36,11 @@ public class Planning {
 
     private LocalDateTime created;
 
+    private String fileType;
+
     @Lob
-    private byte[] planning;
+    private byte[] data;
+
 
 
 }
