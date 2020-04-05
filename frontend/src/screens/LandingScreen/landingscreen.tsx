@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import { useLocation } from "wouter";
+import { SCREENROUTES } from "../../constants";
 
 const LandingScreen: React.FC = (): JSX.Element => {
   const styles = useGStyles();
@@ -12,7 +13,7 @@ const LandingScreen: React.FC = (): JSX.Element => {
       <Button
         className={styles.primaryButton}
         onClick={() => {
-          setLocation("/createPlanning");
+          setLocation(SCREENROUTES.createPlanning);
         }}
       >
         Neue Planung erstellen
@@ -20,7 +21,7 @@ const LandingScreen: React.FC = (): JSX.Element => {
       <Button
         className={styles.primaryButton}
         onClick={() => {
-          setLocation("/listPlanning");
+          setLocation(SCREENROUTES.listPlanning);
         }}
       >
         Plannungen Anzeigen

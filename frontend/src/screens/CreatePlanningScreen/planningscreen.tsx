@@ -1,7 +1,9 @@
 import React, { useState, FormEvent } from "react";
-import { Button, makeStyles } from "@material-ui/core";
+import { Button, makeStyles, Snackbar } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import { Redirect, useLocation } from "wouter";
+import { SCREENROUTES } from "../../constants";
 
 const useStyles = makeStyles(theme => ({
   input: {
@@ -13,8 +15,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PlanningScreen: React.FC = (): JSX.Element => {
+  const [location, setLocation] = useLocation();
   const gStyles = useGStyles();
   const styles = useStyles();
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>();
   const [files, setFiles] = useState<Files>({
     presentations: undefined,
     rooms: undefined,
@@ -31,13 +36,15 @@ const PlanningScreen: React.FC = (): JSX.Element => {
     rooms?: File;
     timeslots?: File;
     teachers?: File;
+    locktimes?: File;
   };
 
   const uploadInfos: Array<UploadInfo> = [
     { key: "presentations", label: "Präsentationen" },
     { key: "rooms", label: "Räume" },
     { key: "timeslots", label: "Zeitslots" },
-    { key: "teachers", label: "Lehrpersonen" }
+    { key: "teachers", label: "Lehrpersonen" },
+    { key: "locktimes", label: "Sperrzeiten für Dozenten" }
   ];
   const getKeyValue = (key: keyof Files) => {
     return files[key] !== undefined;
@@ -56,65 +63,81 @@ const PlanningScreen: React.FC = (): JSX.Element => {
     }
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/plannings`, {
-        // content-type header should not be specified!
-        method: "POST",
-        body: formData
-      });
-      const json = await res.json();
-
+      const res = await fetch(
+        `${process.env.REACT_APP_API_ENDPOINT}/api/plannings`,
+        {
+          // content-type header should not be specified!
+          method: "POST",
+          body: formData
+        }
+      );
+      if (res.ok) {
+        setLocation(SCREENROUTES.uploadSucessful);
+      }
     } catch (error) {
       console.log("error", error);
+      setErrorMsg(error);
+      setSnackbarOpen(true);
+
       return;
     }
-    setFiles({});
   };
 
   return (
-    <form
-      className={gStyles.columnFlexDiv}
-      onSubmit={(e: FormEvent<HTMLFormElement>) => uploadFiles(e)}
-    >
-      {uploadInfos.map(u => {
-        return (
-          <>
-            <input
-              accept=".csv"
-              className={styles.input}
-              id={`${u.key}-file`}
-              type="file"
-              onChange={e => {
-                setFileForKey(u.key, e.target.files![0]);
-              }}
-            />
-            <label htmlFor={`${u.key}-file`}>
-              <Button
-                variant={"outlined"}
-                component="span"
-                className={`${gStyles.secondaryButton} ${styles.button}`}
-              >
-                {`${u.label} hochladen`}
-                {getKeyValue(u.key) && (
-                  <CheckCircleOutlineIcon/>
-                )}
-              </Button>
-            </label>
-          </>
-        );
-      })}
-      <Button
-        type="submit"
-        className={`${gStyles.primaryButton} ${styles.button}`}
-        disabled={
-          !getKeyValue("presentations") ||
-          !getKeyValue("rooms") ||
-          !getKeyValue("teachers") ||
-          !getKeyValue("timeslots")
-        }
+    <>
+      <form
+        className={gStyles.columnFlexDiv}
+        onSubmit={(e: FormEvent<HTMLFormElement>) => uploadFiles(e)}
       >
-        Planung erstellen
-      </Button>
-    </form>
+        {uploadInfos.map(u => {
+          return (
+            <>
+              <input
+                accept=".csv"
+                className={styles.input}
+                id={`${u.key}-file`}
+                type="file"
+                onChange={e => {
+                  setFileForKey(u.key, e.target.files![0]);
+                }}
+              />
+              <label htmlFor={`${u.key}-file`}>
+                <Button
+                  variant={"outlined"}
+                  component="span"
+                  className={`${gStyles.secondaryButton} ${styles.button}`}
+                >
+                  {`${u.label} hochladen`}
+                  {getKeyValue(u.key) && <CheckCircleOutlineIcon />}
+                </Button>
+              </label>
+            </>
+          );
+        })}
+        <Button
+          type="submit"
+          className={`${gStyles.primaryButton} ${styles.button}`}
+          disabled={
+            !getKeyValue("presentations") ||
+            !getKeyValue("rooms") ||
+            !getKeyValue("teachers") ||
+            !getKeyValue("timeslots") ||
+            !getKeyValue("locktimes")
+          }
+        >
+          Planung erstellen
+        </Button>
+      </form>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={10000}
+        onClose={() => {
+          setSnackbarOpen(false);
+          setErrorMsg("");
+        }}
+        message={`Fehler beim upload der Dateien: ${errorMsg}`}
+      />
+    </>
   );
 };
 
