@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,7 +101,7 @@ public class PlannningServiceImpl implements PlanningService {
 
     private CSV transformToCsv(Planning planning) {
 
-        String fileName = "Planning_" + LocalDateTime.now().toString();
+        String fileName = "Planning_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).toString();
 
         StringWriter sw = new StringWriter();
         try {
