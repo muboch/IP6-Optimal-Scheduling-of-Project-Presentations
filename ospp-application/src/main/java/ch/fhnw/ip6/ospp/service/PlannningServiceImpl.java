@@ -84,6 +84,9 @@ public class PlannningServiceImpl implements PlanningService {
         List<Room> rooms = roomVOs.stream().map(roomMapper::toDto).collect(Collectors.toList());
         List<Timeslot> timeslots = timeslotVOs.stream().map(timeslotMapper::toDto).collect(Collectors.toList());
 
+        boolean[][] locktimes = createLocktimesMap(lecturerVOs, timeslotVOs.size());
+
+
         Planning planning;
         if(solverContext.isSolving()){
             throw new Exception("Solver is already running.");
@@ -91,7 +94,7 @@ public class PlannningServiceImpl implements PlanningService {
         if (testmode) {
             planning = getSolver().testSolve();
         } else {
-            planning = getSolver().solve(presentations, lecturers, rooms, timeslots);
+            planning = getSolver().solve(presentations, lecturers, rooms, timeslots, locktimes);
         }
 
         CSV csv = transformToCsv(planning);
@@ -103,6 +106,20 @@ public class PlannningServiceImpl implements PlanningService {
         planningRepository.save(planningEntity);
 
         return planning;
+    }
+
+    private boolean[][] createLocktimesMap(List<LecturerVO> lecturerVOs, int numberOfTimeslots) {
+
+        boolean[][] locktimes = new boolean[lecturerVOs.size()][numberOfTimeslots];
+
+        for(int l = 0; l < lecturerVOs.size(); l++){
+            for(int t = 0; t < numberOfTimeslots; t++){
+                int finalT = t;
+                locktimes[l][t] = lecturerVOs.get(l).getLocktimes().stream().filter(timeslotVO -> timeslotVO.getExternalId() == finalT).findFirst().isPresent();
+            }
+        }
+
+        return locktimes;
     }
 
     private CSV transformToCsv(Planning planning) {

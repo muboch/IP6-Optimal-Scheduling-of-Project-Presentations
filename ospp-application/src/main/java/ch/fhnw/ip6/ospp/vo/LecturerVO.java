@@ -3,6 +3,8 @@ package ch.fhnw.ip6.ospp.vo;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.List;
+
 public interface LecturerVO {
 
     @Value("#{target.externalId}")
@@ -17,5 +19,7 @@ public interface LecturerVO {
     String getEmail();
 
     String getInitials();
+
+    List<TimeslotVO> getLocktimes();
 
 }

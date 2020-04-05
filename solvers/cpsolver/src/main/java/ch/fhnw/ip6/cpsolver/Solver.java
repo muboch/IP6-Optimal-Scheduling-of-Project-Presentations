@@ -1,13 +1,11 @@
 package ch.fhnw.ip6.cpsolver;
 
 import ch.fhnw.ip6.api.AbstractSolver;
-import ch.fhnw.ip6.api.SolverApi;
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Lecturer;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
-import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.Timeslot;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import com.google.ortools.sat.CpModel;
@@ -15,14 +13,11 @@ import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverStatus;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,11 +52,11 @@ public class Solver extends AbstractSolver {
             p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
         }
 
-        return solve(presentations, lecturers, rooms, timeslots);
+        return solve(presentations, lecturers, rooms, timeslots, new boolean[0][0]);
     }
 
     @Override
-        public Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
+        public Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots, boolean[][] locktimes) {
         solverContext.setSolving(true);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
