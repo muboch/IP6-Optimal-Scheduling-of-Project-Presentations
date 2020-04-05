@@ -1,10 +1,8 @@
 *.class
 *.iml
 .idea/
-.gradle/
-target/
+/target/
 /common/target
-/ospp-application/target
 /ospp-application/target/
 /solver/cpsolver/target/
 /solver/ilpsolver/target/
