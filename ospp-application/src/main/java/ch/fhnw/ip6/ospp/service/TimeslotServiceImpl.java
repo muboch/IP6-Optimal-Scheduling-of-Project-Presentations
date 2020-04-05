@@ -7,6 +7,7 @@ import ch.fhnw.ip6.ospp.vo.TimeslotVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,33 @@ public class TimeslotServiceImpl implements TimeslotService {
     @Override
     public Timeslot readById(long id) {
         return null;
+    }
+
+    @Override
+    public void loadLocktimes(MultipartFile input) {
+
+        try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
+            CSVFormat csvFormat = CSVFormat.DEFAULT
+                    .withDelimiter(';')
+                    .withSkipHeaderRecord();
+
+            int timeslots = csvFormat.getHeader().length - 1; // minus 1 cause first col is lecturers
+
+            CSVParser records = csvFormat.parse(is);
+            int lecturers = records.getRecords().size();
+
+            boolean[][] locktimes = new boolean[lecturers][timeslots];
+
+            for (int j = 0; j < lecturers; j++) {
+                for (int i = 0; i < timeslots; i++) {
+                    String val = records.getRecords().get(j).get(i);
+                    locktimes[j][i] = val.toLowerCase().equals("x");
+                }
+            }
+            // TODO persist on ???
+        } catch (IOException e) {
+            log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
+        }
     }
 
     @Override

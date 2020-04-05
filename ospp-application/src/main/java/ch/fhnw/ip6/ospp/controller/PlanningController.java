@@ -53,11 +53,12 @@ public class PlanningController {
     public ResponseEntity<Object> importFiles(@RequestParam("presentations") MultipartFile presentations,
                                               @RequestParam("teachers") MultipartFile teachers,
                                               @RequestParam("rooms") MultipartFile rooms,
-                                              @RequestParam("timeslots") MultipartFile timeslots) {
+                                              @RequestParam("timeslots") MultipartFile timeslots,
+                                              @RequestParam("locktimes") MultipartFile locktimes) {
 
         deleteTables();
         log.info("previous data truncated");
-        loadFiles(presentations, teachers, rooms, timeslots);
+        loadFiles(presentations, teachers, rooms, timeslots, locktimes);
         log.info("data upload completed");
 
         log.info("fire planning event");
@@ -87,11 +88,12 @@ public class PlanningController {
     }
 
 
-    private void loadFiles(MultipartFile presentations, MultipartFile teachers, MultipartFile rooms, MultipartFile timeslots) {
+    private void loadFiles(MultipartFile presentations, MultipartFile teachers, MultipartFile rooms, MultipartFile timeslots, MultipartFile locktimes) {
         lecturerService.loadLecturer(teachers);
         presentationService.loadPresentation(presentations);
         roomService.loadRooms(rooms);
         timeslotService.loadTimeslots(timeslots);
+        timeslotService.loadLocktimes(locktimes);
     }
 
     private void deleteTables() {

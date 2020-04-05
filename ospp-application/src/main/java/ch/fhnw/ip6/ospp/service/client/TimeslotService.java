@@ -14,6 +14,8 @@ public interface TimeslotService {
 
     void loadTimeslots(MultipartFile file);
 
+    void loadLocktimes(MultipartFile file);
+
     void deleteAll();
 
     List<TimeslotVO> getAll();
