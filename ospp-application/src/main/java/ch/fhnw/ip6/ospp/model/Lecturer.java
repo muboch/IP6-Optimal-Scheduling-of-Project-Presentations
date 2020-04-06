@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -22,14 +21,13 @@ public class Lecturer extends User {
 
     private String initials;
 
-
     private int externalId;
 
     private String firstname;
 
     private String lastname;
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Timeslot> locktimes;
 
     @Builder(builderMethodName = "lecturerBuilder")

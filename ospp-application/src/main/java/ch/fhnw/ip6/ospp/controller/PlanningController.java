@@ -99,8 +99,8 @@ public class PlanningController {
     private void deleteTables() {
         presentationService.deleteAll();
         roomService.deleteAll();
-        timeslotService.deleteAll();
         lecturerService.deleteAll();
+        timeslotService.deleteAll();
     }
 
     @GetMapping(value = "/plannings")

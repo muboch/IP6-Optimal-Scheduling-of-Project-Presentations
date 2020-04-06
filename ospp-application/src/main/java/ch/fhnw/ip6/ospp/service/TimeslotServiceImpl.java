@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +41,8 @@ public class TimeslotServiceImpl implements TimeslotService {
     @Override
     public void loadLocktimes(MultipartFile input) {
 
-        try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
-            CSVFormat csvFormat = CSVFormat.DEFAULT
+        try (InputStreamReader is = new InputStreamReader(input.getInputStream(), StandardCharsets.UTF_8)) {
+            CSVFormat csvFormat = CSVFormat.EXCEL
                     .withHeader()
                     .withDelimiter(';');
 
@@ -49,7 +50,7 @@ public class TimeslotServiceImpl implements TimeslotService {
             List<String> headers = records.getHeaderNames();
             int timeslots = headers.size();
 
-            for(CSVRecord r : records){
+            for (CSVRecord r : records) {
                 Lecturer lecturer = lecturerRepository.readByInitials(r.get(0));
                 List<Timeslot> locktimes = new ArrayList<>();
                 for (int i = 1; i < timeslots; i++) {
@@ -60,6 +61,7 @@ public class TimeslotServiceImpl implements TimeslotService {
                     }
                 }
                 lecturer.setLocktimes(locktimes);
+                log.warn(lecturer.toString());
                 lecturerRepository.save(lecturer);
             }
         } catch (IOException e) {
