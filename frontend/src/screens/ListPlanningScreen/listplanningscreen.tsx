@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  FormControl,
-  InputLabel,
-  Link,
-  MenuItem,
-  Select,
   Paper,
   TableContainer,
   Table,
@@ -13,10 +8,13 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  makeStyles
+  makeStyles,
+  Typography,
+  CircularProgress
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
-
+import { useLocation } from "wouter";
+import { SCREENROUTES } from "../../constants";
 
 type Plannings = {
   nr: string;
@@ -29,28 +27,37 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
     maxWidth: 1000
-  }
+  },
+  spinner: { maxWidth: 20, maxHeight: 20 }
 });
 
 const ListPlanningScreen: React.FC = (): JSX.Element => {
   const gStyles = useGStyles();
   const styles = useStyles();
-  const [plannings, setPlannings] = useState<Array<Plannings>>();
+  const [, setLocation] = useLocation();
+  const [plannings, setPlannings] = useState<Array<Plannings>>([]);
+  const [spinner, setSpinner] = useState<Boolean>(false);
 
-  useEffect(() => {
-    const loadData = async () => {
-      const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/plannings`);
+  const loadData = async () => {
+    setSpinner(true);
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_ENDPOINT}/api/plannings`
+      );
       const json = await res.json();
       console.log(json);
-
       setPlannings(json);
-    };
+    } catch (Error) {
+    } finally {
+      setTimeout(() => {
+        setSpinner(false);
+      }, 500);
+    }
+  };
+
+  useEffect(() => {
     loadData();
   }, []);
-
-  const downloadFile = async (id: string) => {
-    const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/plannings/${id}`);
-  };
 
   return (
     <div className={gStyles.columnFlexDiv}>
@@ -65,7 +72,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {plannings &&
+            {plannings.length > 0 ? (
               plannings.map(p => (
                 <TableRow key={p.id}>
                   <TableCell component="th" scope="row">
@@ -83,10 +90,33 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
                     </Button>
                   </TableCell>
                 </TableRow>
-              ))}
+              ))
+            ) : (
+              <TableRow>
+                <TableCell>
+                  <Typography variant="body1">
+                    Derzeit keine Planung vorhanden
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
+      <Button
+        type="submit"
+        className={`${gStyles.primaryButton}`}
+        onClick={() => {
+          loadData();
+        }}
+      >
+        Neu laden
+        {spinner && (
+          <div className={styles.spinner}>
+            {/* <CircularProgress /> */}
+          </div>
+        )}
+      </Button>
     </div>
   );
 };

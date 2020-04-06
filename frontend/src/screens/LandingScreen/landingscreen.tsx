@@ -16,7 +16,7 @@ const LandingScreen: React.FC = (): JSX.Element => {
             target="_blank"
             href={`${process.env.REACT_APP_API_ENDPOINT}/api/plannings/example`}
         >
-            Beispiel Dateien
+            Beispieldateien herunterladen
         </Button>
       <Button
         className={styles.primaryButton}
