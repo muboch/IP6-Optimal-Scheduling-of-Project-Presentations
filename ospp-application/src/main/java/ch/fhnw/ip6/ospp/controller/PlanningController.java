@@ -1,41 +1,22 @@
 package ch.fhnw.ip6.ospp.controller;
 
 import ch.fhnw.ip6.api.SolverContext;
-import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.Solution;
-import ch.fhnw.ip6.ospp.model.CSV;
-import ch.fhnw.ip6.ospp.service.PlannningServiceImpl;
-import ch.fhnw.ip6.ospp.service.client.LecturerService;
-import ch.fhnw.ip6.ospp.service.client.PlanningService;
-import ch.fhnw.ip6.ospp.service.client.PresentationService;
-import ch.fhnw.ip6.ospp.service.client.RoomService;
-import ch.fhnw.ip6.ospp.service.client.TimeslotService;
+import ch.fhnw.ip6.ospp.model.ExcelFile;
+import ch.fhnw.ip6.ospp.service.client.*;
 import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 
 @RestController
@@ -121,12 +102,12 @@ public class PlanningController {
     public ResponseEntity<Resource> downloadCsv(@PathVariable long id) throws IOException {
 
         // Load file as Resource
-        CSV csv = planningService.getFileById(id);
+        ExcelFile excelFile = planningService.getFileById(id);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.TEXT_PLAIN)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + csv.getName() + ".csv" + "\"")
-                .body(new ByteArrayResource(csv.getContent()));
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + excelFile.getName() + "\"")
+                .body(new ByteArrayResource(excelFile.getContent()));
     }
 
     @GetMapping("/plannings/example")

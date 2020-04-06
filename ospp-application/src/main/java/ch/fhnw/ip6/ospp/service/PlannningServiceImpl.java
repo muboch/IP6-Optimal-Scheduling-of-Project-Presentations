@@ -8,28 +8,34 @@ import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.mapper.RoomMapper;
 import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
-import ch.fhnw.ip6.ospp.model.CSV;
+import ch.fhnw.ip6.ospp.model.ExcelFile;
 import ch.fhnw.ip6.ospp.persistence.PlanningRepository;
 import ch.fhnw.ip6.ospp.service.client.*;
 import ch.fhnw.ip6.ospp.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.StringWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PlannningServiceImpl  extends AbstractService implements PlanningService {
+public class PlannningServiceImpl extends AbstractService implements PlanningService {
 
     private final PresentationService presentationService;
     private final LecturerService lecturerService;
@@ -53,6 +59,22 @@ public class PlannningServiceImpl  extends AbstractService implements PlanningSe
 
     @Value("${ospp.testmode}")
     private boolean testmode = true;
+
+    private static String[] columns = {"Nr", "Titel", "Name", "Klasse", "Name 2", "Klasse 2", "Betreuer", "Experte", "Zeit", "Raum"};
+
+    private boolean[][] createLocktimesMap(List<LecturerVO> lecturerVOs, int numberOfTimeslots) {
+
+        boolean[][] locktimes = new boolean[lecturerVOs.size()][numberOfTimeslots];
+
+        for (int l = 0; l < lecturerVOs.size(); l++) {
+            for (int t = 0; t < numberOfTimeslots; t++) {
+                int finalT = t;
+                locktimes[l][t] = lecturerVOs.get(l).getLocktimes().stream().filter(timeslotVO -> timeslotVO.getExternalId() == finalT).findFirst().isPresent();
+            }
+        }
+
+        return locktimes;
+    }
 
     @Override
     public Planning plan() throws Exception {
@@ -79,67 +101,92 @@ public class PlannningServiceImpl  extends AbstractService implements PlanningSe
             planning = getSolver().solve(presentations, lecturers, rooms, timeslots, locktimes);
         }
 
-        CSV csv = transformToCsv(planning);
+        ExcelFile excelFile = transformToCsv(planning);
 
         ch.fhnw.ip6.ospp.model.Planning planningEntity = new ch.fhnw.ip6.ospp.model.Planning();
         planningEntity.setNr(String.valueOf(planning.getNr()));
-        planningEntity.setData(csv.getContent());
-        planningEntity.setName(csv.getName());
+        planningEntity.setData(excelFile.getContent());
+        planningEntity.setName(excelFile.getName());
         planningRepository.save(planningEntity);
 
         return planning;
     }
 
-    private boolean[][] createLocktimesMap(List<LecturerVO> lecturerVOs, int numberOfTimeslots) {
+    private ExcelFile transformToCsv(Planning planning) {
+        try {
+            String fileName = "Planning_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + ".xlsx";
 
-        boolean[][] locktimes = new boolean[lecturerVOs.size()][numberOfTimeslots];
+            Workbook workbook = new XSSFWorkbook();
 
-        for (int l = 0; l < lecturerVOs.size(); l++) {
-            for (int t = 0; t < numberOfTimeslots; t++) {
-                int finalT = t;
-                locktimes[l][t] = lecturerVOs.get(l).getLocktimes().stream().filter(timeslotVO -> timeslotVO.getExternalId() == finalT).findFirst().isPresent();
+            // Create a Sheet
+            Sheet sheet = workbook.createSheet("Planung");
+
+            // Create a Font for styling header cells
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setFontHeightInPoints((short) 14);
+
+            // Create a CellStyle with the font
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            headerCellStyle.setFont(headerFont);
+
+            // Create a Row
+            Row headerRow = sheet.createRow(0);
+
+            // Create cells
+            for (int i = 0; i < columns.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(columns[i]);
+                cell.setCellStyle(headerCellStyle);
             }
+
+            // Create Other rows and cells with employees data
+            AtomicInteger rowNum = new AtomicInteger(1);
+            planning.getSolutions().stream().sorted(Comparator.comparing(o -> o.getTimeSlot().getDate())).forEach(solution -> {
+                        Row row = sheet.createRow(rowNum.getAndIncrement());
+
+                        row.createCell(0).setCellValue(solution.getPresentation().getNr());
+                        row.createCell(1).setCellValue(solution.getPresentation().getTitle());
+                        row.createCell(2).setCellValue(solution.getPresentation().getName());
+                        row.createCell(3).setCellValue(solution.getPresentation().getSchoolclass());
+                        row.createCell(4).setCellValue(solution.getPresentation().getName2());
+                        row.createCell(5).setCellValue(solution.getPresentation().getSchoolclass2());
+                        row.createCell(6).setCellValue(solution.getCoach().getName());
+                        row.createCell(7).setCellValue(solution.getExpert().getName());
+                        row.createCell(8).setCellValue(solution.getTimeSlot().getDate());
+                        row.createCell(9).setCellValue(solution.getRoom().getName());
+                    }
+
+            );
+
+            // Resize all columns to fit the content size
+            for (int i = 0; i < columns.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // Write the output to a file
+            FileOutputStream fileOut = new FileOutputStream(fileName);
+            workbook.write(fileOut);
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            workbook.write(bos);
+
+            byte[] content = bos.toByteArray();
+
+            bos.close();
+            fileOut.close();
+            workbook.close();
+
+            return ExcelFile.builder().name(fileName).content(content).build();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return locktimes;
-    }
-
-    private CSV transformToCsv(Planning planning) {
-
-        String fileName = "Planning_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-
-        StringWriter sw = new StringWriter();
-//        try {
-//            CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.EXCEL.withDelimiter(';').withHeader(
-//                    "nr", "title", "name", "schoolclass", "name2", "schoolclass2", "coach", "expert", "timeslot", "room"
-//            ));
-//
-//            planning.getSolutions().forEach(s -> {
-//                try {
-//                    csvPrinter.printRecord(
-//                            s.getPresentation().getNr(),
-//                            s.getPresentation().getTitle(),
-//                            s.getPresentation().getName(),
-//                            s.getPresentation().getSchoolclass(),
-//                            s.getPresentation().getName2(),
-//                            s.getPresentation().getSchoolclass2(),
-//                            s.getCoach().getName(),
-//                            s.getExpert().getName(),
-//                            s.getTimeSlot().getDate(),
-//                            s.getRoom().getName());
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//            sw.flush();
-//
-//            return CSV.builder().content(sw.toString().getBytes(StandardCharsets.UTF_8)).name(fileName).build();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         return null;
     }
+
 
     @Override
     public void firePlanning() throws Exception {
@@ -150,9 +197,9 @@ public class PlannningServiceImpl  extends AbstractService implements PlanningSe
     }
 
     @Override
-    public CSV getFileById(long id) {
+    public ExcelFile getFileById(long id) {
         ch.fhnw.ip6.ospp.model.Planning planning = planningRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No planning for id " + id));
-        return CSV.builder().name(planning.getName()).content(planning.getData()).build();
+        return ExcelFile.builder().name(planning.getName()).content(planning.getData()).build();
     }
 
     @Override

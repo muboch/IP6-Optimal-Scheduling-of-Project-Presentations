@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CSV {
+public class ExcelFile {
     private byte[] content;
     private String name;
 }
