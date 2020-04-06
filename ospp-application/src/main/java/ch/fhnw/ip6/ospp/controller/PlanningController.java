@@ -1,5 +1,6 @@
 package ch.fhnw.ip6.ospp.controller;
 
+import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.ospp.model.CSV;
@@ -49,12 +50,19 @@ public class PlanningController {
     private final RoomService roomService;
     private final TimeslotService timeslotService;
 
+    private final SolverContext solverContext;
+
     @PostMapping(value = "/plannings", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> importFiles(@RequestParam("presentations") MultipartFile presentations,
                                               @RequestParam("teachers") MultipartFile teachers,
                                               @RequestParam("rooms") MultipartFile rooms,
                                               @RequestParam("timeslots") MultipartFile timeslots,
                                               @RequestParam("locktimes") MultipartFile locktimes) {
+
+
+        if (solverContext.isSolving()) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Solver is already running.");
+        }
 
         deleteTables();
         log.info("previous data truncated");
@@ -67,7 +75,7 @@ public class PlanningController {
             log.info("event fired, solving in process");
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.PROCESSING).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(e.getMessage());
         }
 
         return ResponseEntity.ok().build();
