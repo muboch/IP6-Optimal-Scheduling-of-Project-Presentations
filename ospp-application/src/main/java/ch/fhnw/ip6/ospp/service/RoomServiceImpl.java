@@ -1,25 +1,28 @@
 package ch.fhnw.ip6.ospp.service;
 
 import ch.fhnw.ip6.ospp.model.Room;
-import ch.fhnw.ip6.ospp.model.Type;
 import ch.fhnw.ip6.ospp.persistence.RoomRepository;
 import ch.fhnw.ip6.ospp.service.client.RoomService;
 import ch.fhnw.ip6.ospp.vo.RoomVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RoomServiceImpl implements RoomService {
+public class RoomServiceImpl extends AbstractService implements RoomService {
 
     private final RoomRepository roomRepository;
 
@@ -36,25 +39,29 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void loadRooms(MultipartFile input) {
-        try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
+        try {
 
             deleteAll();
 
-            // TODO Carlo move delimiter to properties
-            Iterable<CSVRecord> records = CSVFormat.DEFAULT
-                    .withHeader("id", "name", "place", "type", "reserve")
-                    .withSkipHeaderRecord()
-                    .withDelimiter(';')
-                    .parse(is);
+            XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
+            XSSFSheet sheet = wb.getSheetAt(0);
 
-            for (CSVRecord record : records) {
-                // TODO Carlo move headers to properties
+            final Map<String, Integer> headerMap = new HashMap<>();
+
+            for (Row row : sheet) {
+
+                if (row.getRowNum() == 0) {
+                    createHeaderIndexMap(row, headerMap);
+                    continue;
+                }
+
+
                 Room room = Room.builder()
-                        .name(record.get("name"))
-                        .place(record.get("place"))
-                        .externalId(Integer.parseInt(record.get("id")))
-                        .type(record.get("type"))
-                        .reserve(Boolean.parseBoolean(record.get("reserve")))
+                        .name(row.getCell(headerMap.get("name")).getStringCellValue())
+                        .place(row.getCell(headerMap.get("place")).getStringCellValue())
+                        .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
+                        .type(row.getCell(headerMap.get("type")).getStringCellValue())
+                        .reserve(Boolean.parseBoolean(row.getCell(headerMap.get("reserve")).getStringCellValue()))
                         .build();
                 roomRepository.save(room);
             }

@@ -2,43 +2,25 @@ package ch.fhnw.ip6.ospp.service;
 
 import ch.fhnw.ip6.api.SolverApi;
 import ch.fhnw.ip6.api.SolverContext;
-import ch.fhnw.ip6.common.dto.Lecturer;
-import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
-import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.common.dto.*;
 import ch.fhnw.ip6.ospp.event.SolveEvent;
 import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
-import ch.fhnw.ip6.ospp.mapper.PlanningMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.mapper.RoomMapper;
 import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
 import ch.fhnw.ip6.ospp.model.CSV;
 import ch.fhnw.ip6.ospp.persistence.PlanningRepository;
-import ch.fhnw.ip6.ospp.service.client.LecturerService;
-import ch.fhnw.ip6.ospp.service.client.PlanningService;
-import ch.fhnw.ip6.ospp.service.client.PresentationService;
-import ch.fhnw.ip6.ospp.service.client.RoomService;
-import ch.fhnw.ip6.ospp.service.client.TimeslotService;
-import ch.fhnw.ip6.ospp.vo.LecturerVO;
-import ch.fhnw.ip6.ospp.vo.PlanningVO;
-import ch.fhnw.ip6.ospp.vo.PresentationVO;
-import ch.fhnw.ip6.ospp.vo.RoomVO;
-import ch.fhnw.ip6.ospp.vo.TimeslotVO;
+import ch.fhnw.ip6.ospp.service.client.*;
+import ch.fhnw.ip6.ospp.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -47,7 +29,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PlannningServiceImpl implements PlanningService {
+public class PlannningServiceImpl  extends AbstractService implements PlanningService {
 
     private final PresentationService presentationService;
     private final LecturerService lecturerService;
@@ -88,7 +70,7 @@ public class PlannningServiceImpl implements PlanningService {
 
 
         Planning planning;
-        if(solverContext.isSolving()){
+        if (solverContext.isSolving()) {
             throw new Exception("Solver is already running.");
         }
         if (testmode) {
@@ -112,8 +94,8 @@ public class PlannningServiceImpl implements PlanningService {
 
         boolean[][] locktimes = new boolean[lecturerVOs.size()][numberOfTimeslots];
 
-        for(int l = 0; l < lecturerVOs.size(); l++){
-            for(int t = 0; t < numberOfTimeslots; t++){
+        for (int l = 0; l < lecturerVOs.size(); l++) {
+            for (int t = 0; t < numberOfTimeslots; t++) {
                 int finalT = t;
                 locktimes[l][t] = lecturerVOs.get(l).getLocktimes().stream().filter(timeslotVO -> timeslotVO.getExternalId() == finalT).findFirst().isPresent();
             }
@@ -124,44 +106,44 @@ public class PlannningServiceImpl implements PlanningService {
 
     private CSV transformToCsv(Planning planning) {
 
-        String fileName = "Planning_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).toString();
+        String fileName = "Planning_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 
         StringWriter sw = new StringWriter();
-        try {
-            CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.EXCEL.withDelimiter(';').withHeader(
-                    "nr", "title", "name", "schoolclass", "name2", "schoolclass2", "coach", "expert", "timeslot", "room"
-            ));
-
-            planning.getSolutions().forEach(s -> {
-                try {
-                    csvPrinter.printRecord(
-                            s.getPresentation().getNr(),
-                            s.getPresentation().getTitle(),
-                            s.getPresentation().getName(),
-                            s.getPresentation().getSchoolclass(),
-                            s.getPresentation().getName2(),
-                            s.getPresentation().getSchoolclass2(),
-                            s.getCoach().getName(),
-                            s.getExpert().getName(),
-                            s.getTimeSlot().getDate(),
-                            s.getRoom().getName());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            sw.flush();
-
-            return CSV.builder().content(sw.toString().getBytes(StandardCharsets.UTF_8)).name(fileName).build();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.EXCEL.withDelimiter(';').withHeader(
+//                    "nr", "title", "name", "schoolclass", "name2", "schoolclass2", "coach", "expert", "timeslot", "room"
+//            ));
+//
+//            planning.getSolutions().forEach(s -> {
+//                try {
+//                    csvPrinter.printRecord(
+//                            s.getPresentation().getNr(),
+//                            s.getPresentation().getTitle(),
+//                            s.getPresentation().getName(),
+//                            s.getPresentation().getSchoolclass(),
+//                            s.getPresentation().getName2(),
+//                            s.getPresentation().getSchoolclass2(),
+//                            s.getCoach().getName(),
+//                            s.getExpert().getName(),
+//                            s.getTimeSlot().getDate(),
+//                            s.getRoom().getName());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//            sw.flush();
+//
+//            return CSV.builder().content(sw.toString().getBytes(StandardCharsets.UTF_8)).name(fileName).build();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         return null;
     }
 
     @Override
     public void firePlanning() throws Exception {
-        if(solverContext.isSolving()){
+        if (solverContext.isSolving()) {
             throw new Exception("Solver is already running.");
         }
         applicationEventPublisher.publishEvent(new SolveEvent(this));
@@ -181,7 +163,6 @@ public class PlannningServiceImpl implements PlanningService {
     private SolverApi getSolver() {
         return (SolverApi) applicationContext.getBean(solverName);
     }
-
 
 
 }

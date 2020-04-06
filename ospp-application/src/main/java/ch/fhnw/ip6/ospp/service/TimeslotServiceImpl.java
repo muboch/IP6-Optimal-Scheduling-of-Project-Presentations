@@ -8,22 +8,24 @@ import ch.fhnw.ip6.ospp.service.client.TimeslotService;
 import ch.fhnw.ip6.ospp.vo.TimeslotVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class TimeslotServiceImpl implements TimeslotService {
+public class TimeslotServiceImpl extends AbstractService implements TimeslotService {
 
     private final TimeslotRepository timeslotRepository;
     private final LecturerRepository lecturerRepository;
@@ -41,28 +43,38 @@ public class TimeslotServiceImpl implements TimeslotService {
     @Override
     public void loadLocktimes(MultipartFile input) {
 
-        try (InputStreamReader is = new InputStreamReader(input.getInputStream(), StandardCharsets.UTF_8)) {
-            CSVFormat csvFormat = CSVFormat.EXCEL
-                    .withHeader()
-                    .withDelimiter(';');
+        try {
 
-            CSVParser records = csvFormat.parse(is);
-            List<String> headers = records.getHeaderNames();
-            int timeslots = headers.size();
+            XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
+            XSSFSheet sheet = wb.getSheetAt(0);
 
-            for (CSVRecord r : records) {
-                Lecturer lecturer = lecturerRepository.readByInitials(r.get(0));
-                List<Timeslot> locktimes = new ArrayList<>();
-                for (int i = 1; i < timeslots; i++) {
-                    String val = r.get(i);
-                    if (val.toLowerCase().equals("x")) {
-                        Timeslot timeslot = timeslotRepository.findByExternalId(Integer.parseInt(headers.get(i)));
-                        locktimes.add(timeslot);
-                    }
+            int timeslots = sheet.getRow(0).getLastCellNum();
+
+            final Map<String, Integer> headerMap = new HashMap<>();
+
+            for (Row row : sheet) {
+
+                if (row.getRowNum() == 0) {
+                    continue;
                 }
-                lecturer.setLocktimes(locktimes);
-                log.warn(lecturer.toString());
-                lecturerRepository.save(lecturer);
+
+                Lecturer lecturer = lecturerRepository.readByInitials(row.getCell(0).getStringCellValue());
+                if (lecturer != null) {
+                    List<Timeslot> locktimes = new ArrayList<>();
+                    for (int i = 1; i < timeslots; i++) {
+                        if (row.getCell(i) == null) {
+                            continue;
+                        }
+                        String val = row.getCell(i).getStringCellValue();
+                        if (val.toLowerCase().equals("x")) {
+                            Timeslot timeslot = timeslotRepository.findByDate(sheet.getRow(0).getCell(i).getStringCellValue());
+                            locktimes.add(timeslot);
+                        }
+                    }
+                    lecturer.setLocktimes(locktimes);
+                    log.warn(lecturer.toString());
+                    lecturerRepository.save(lecturer);
+                }
             }
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
@@ -72,24 +84,27 @@ public class TimeslotServiceImpl implements TimeslotService {
     @Override
     public void loadTimeslots(MultipartFile input) {
 
-        try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
+        try {
 
             deleteAll();
 
-            // TODO Carlo move delimiter to properties
-            Iterable<CSVRecord> records = CSVFormat.DEFAULT
-                    .withHeader("id", "date", "block", "priority")
-                    .withDelimiter(';')
-                    .withSkipHeaderRecord().parse(is);
+            XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
+            XSSFSheet sheet = wb.getSheetAt(0);
 
-            for (CSVRecord record : records) {
+            final Map<String, Integer> headerMap = new HashMap<>();
 
-                // TODO Carlo move headers to properties
+            for (Row row : sheet) {
+
+                if (row.getRowNum() == 0) {
+                    createHeaderIndexMap(row, headerMap);
+                    continue;
+                }
+
                 Timeslot timeslot = Timeslot.builder()
-                        .date(record.get("date"))
-                        .externalId(Integer.parseInt(record.get("id")))
-                        .block(Integer.parseInt(record.get("block")))
-                        .priority(Integer.parseInt(record.get("priority")))
+                        .date(row.getCell(headerMap.get("date")).getStringCellValue())
+                        .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
+                        .block(Integer.parseInt(row.getCell(headerMap.get("block")).getStringCellValue()))
+                        .priority((int) row.getCell(headerMap.get("priority")).getNumericCellValue())
                         .build();
 
                 timeslotRepository.save(timeslot);

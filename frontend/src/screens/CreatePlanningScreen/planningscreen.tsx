@@ -106,7 +106,7 @@ const PlanningScreen: React.FC = (): JSX.Element => {
           return (
             <>
               <input
-                accept=".csv"
+                accept=".xlsx"
                 className={styles.input}
                 id={`${u.key}-file`}
                 type="file"

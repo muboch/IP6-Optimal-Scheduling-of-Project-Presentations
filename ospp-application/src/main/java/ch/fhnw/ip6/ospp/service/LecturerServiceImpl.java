@@ -6,19 +6,23 @@ import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.vo.LecturerVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class LecturerServiceImpl implements LecturerService {
+public class LecturerServiceImpl extends AbstractService implements LecturerService {
 
     private final LecturerRepository lecturerRepository;
 
@@ -39,25 +43,33 @@ public class LecturerServiceImpl implements LecturerService {
 
     @Override
     public void loadLecturer(MultipartFile input) {
-        try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
+        try {
 
             deleteAll();
 
-            Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("firstname", "lastname", "initials", "email", "id").withDelimiter(';').withSkipHeaderRecord().parse(is);
+            XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
+            XSSFSheet sheet = wb.getSheetAt(0);
 
-            for (CSVRecord record : records) {
+            final Map<String, Integer> headerMap = new HashMap<>();
 
-                // TODO Carlo move headers to properties
+            for (Row row : sheet) {
+
+                if (row.getRowNum() == 0) {
+                    createHeaderIndexMap(row, headerMap);
+                    continue;
+                }
+
                 Lecturer expert = Lecturer.lecturerBuilder()
-                        .initials(record.get("initials"))
-                        .email(record.get("email"))
-                        .lastname(record.get("lastname"))
-                        .firstname(record.get("firstname"))
-                        .externalId(Integer.parseInt(record.get("id")))
+                        .initials(row.getCell(headerMap.get("initials")).getStringCellValue())
+                        .email(row.getCell(headerMap.get("email")).getStringCellValue())
+                        .lastname(row.getCell(headerMap.get("lastname")).getStringCellValue())
+                        .firstname(row.getCell(headerMap.get("firstname")).getStringCellValue())
+                        .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
                         .build();
                 lecturerRepository.save(expert);
 
             }
+
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
