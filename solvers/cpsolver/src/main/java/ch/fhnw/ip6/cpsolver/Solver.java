@@ -226,10 +226,15 @@ public class Solver extends AbstractSolver {
             }
 
 /*
-                for (Timeslot t: timeslots){
-                     firstTimeslots[l.getId()] = model.newIntVar(0, timeslots.size(), "firstTimeslot"+l.getId());
-                     model.addMinEquality(firstTimeslots[l.getId()], [item for item in range()])
+                firstTimeslots[l.getId()] = model.newIntVar(0, timeslots.size(), "firstTimeslot"+l.getId());
+            ArrayList<IntVar> temp = new ArrayList<>();
 
+                for (Timeslot t: timeslots){
+                    if (lecturerTimeslot[l.getId()][t.getId()].equals(true)){
+                        temp.add(lecturerTimeslot[l.getId()][t.getId()]);
+                    }
+                    IntVar[] arr = temp.toArray(new IntVar[0]);
+                    model.addMinEquality(firstTimeslots[l.getId()], arr);
                 }
 */
 
@@ -316,11 +321,10 @@ public class Solver extends AbstractSolver {
 
         CpSolverStatus res = solver.searchAllSolutions(model, cb);
         System.out.println(res);
-
+        solverContext.setSolving(false);
         stopWatch.stop();
         Planning p = solverContext.getPlanning();
         p.setStatus(res.name());
-        solverContext.setSolving(false);
         return p;
     }
 }

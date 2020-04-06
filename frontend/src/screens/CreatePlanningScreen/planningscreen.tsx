@@ -71,7 +71,7 @@ const PlanningScreen: React.FC = (): JSX.Element => {
           body: formData
         }
       );
-      if (res.ok) {
+      if (checkStatus(res)) {
         setLocation(SCREENROUTES.uploadSucessful);
       }
     } catch (error) {
@@ -80,6 +80,19 @@ const PlanningScreen: React.FC = (): JSX.Element => {
       setSnackbarOpen(true);
 
       return;
+    }
+  };
+
+  const checkStatus = (res: Response) => {
+    if (res.status >= 200 && res.status < 300) {
+      return true;
+    } else {
+      if(res.status == 429){
+        let err = new Error(`Es wird bereits eine Planung erstellt. Bitte versuchen Sie es später nochmal`);
+        throw err;
+      }
+      let err = new Error(`${res.status}: ${res.statusText}`);
+      throw err;
     }
   };
 
