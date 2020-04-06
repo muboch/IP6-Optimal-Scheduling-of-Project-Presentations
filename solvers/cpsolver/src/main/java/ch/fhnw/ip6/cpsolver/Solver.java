@@ -56,7 +56,7 @@ public class Solver extends AbstractSolver {
     }
 
     @Override
-        public Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots, boolean[][] locktimes) {
+    public Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots, boolean[][] locktimes) {
         solverContext.setSolving(true);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -80,10 +80,10 @@ public class Solver extends AbstractSolver {
                     if (!p.getType().equals(r.getType())) { // If roomtype doesnt fit
                         continue;
                     }
-                    if(locktimes[p.getCoach().getId()][t.getId()] || locktimes[p.getExpert().getId()][t.getId()]){ // If coach is locked at this time
+                    if (locktimes[p.getCoach().getId()][t.getId()] || locktimes[p.getExpert().getId()][t.getId()]) { // If coach is locked at this time
                         continue;
                     }
-                        presRoomTime[p.getId()][r.getId()][t.getId()] = model.newBoolVar("presRoomTime_p" + p.getId() + "_r" + r.getId() + "_t" + t.getId());
+                    presRoomTime[p.getId()][r.getId()][t.getId()] = model.newBoolVar("presRoomTime_p" + p.getId() + "_r" + r.getId() + "_t" + t.getId());
                 }
             }
         }
@@ -99,7 +99,6 @@ public class Solver extends AbstractSolver {
         // Data structures for Objectives
         ArrayList<IntVar> objIntVars = new ArrayList<IntVar>();
         ArrayList<Integer> objIntCoeffs = new ArrayList<>();
-
 
 
         // START CONSTRAINT:  For each Presentation, there must be 1 (room,timeslot) pair. -> Each presentation must be presented in a room at a time
@@ -156,7 +155,7 @@ public class Solver extends AbstractSolver {
         int[] coachRoomCost = new int[rooms.size()];
         for (Lecturer l : lecturers) {
             for (Room r : rooms) {
-                coachRoom[l.getId()][r.getId()]  = model.newBoolVar("coach_"+l.getId()+"room_"+r.getId());
+                coachRoom[l.getId()][r.getId()] = model.newBoolVar("coach_" + l.getId() + "room_" + r.getId());
                 coachRoomCost[r.getId()] = ROOM_SWITCH_COST;
             }
         }
@@ -194,36 +193,36 @@ public class Solver extends AbstractSolver {
         IntVar[] firstTimeslots = new IntVar[lecturers.size()];
         IntVar[] lastTimeslots = new IntVar[lecturers.size()];
 
-        for (Lecturer l: lecturers) {
+        for (Lecturer l : lecturers) {
 
         }
 
-            // Differenz = # stunden an dem lecturer anwesend sein muss
+        // Differenz = # stunden an dem lecturer anwesend sein muss
         // implication
 
 
-        for (Lecturer l: lecturers){
-                for (Timeslot t: timeslots){
-                    lecturerTimeslot[l.getId()][t.getId()] = model.newBoolVar("lecturerTimeslot_"+l.getId()+"_" + t.getId());
+        for (Lecturer l : lecturers) {
+            for (Timeslot t : timeslots) {
+                lecturerTimeslot[l.getId()][t.getId()] = model.newBoolVar("lecturerTimeslot_" + l.getId() + "_" + t.getId());
 
-                    timeslotCost[t.getId()] = t.getPriority();
-                    ArrayList<IntVar> temp = new ArrayList<>();
+                timeslotCost[t.getId()] = t.getPriority();
+                ArrayList<IntVar> temp = new ArrayList<>();
 
-                    for (Room r:rooms){
+                for (Room r : rooms) {
 
-                        for (Presentation p: presentations){
+                    for (Presentation p : presentations) {
                         if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                         temp.add(presRoomTime[p.getId()][r.getId()][t.getId()]);
                     }
                 }
-                    IntVar[] arr = temp.toArray(new IntVar[0]);
-                    // Implement lecturerTimeslot[c][t] == (sum(arr) >= 1)
-                    model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(lecturerTimeslot[l.getId()][t.getId()]);
-                    model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(lecturerTimeslot[l.getId()][t.getId()].not());
+                IntVar[] arr = temp.toArray(new IntVar[0]);
+                // Implement lecturerTimeslot[c][t] == (sum(arr) >= 1)
+                model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(lecturerTimeslot[l.getId()][t.getId()]);
+                model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(lecturerTimeslot[l.getId()][t.getId()].not());
 
-                    //Add Objective
-                    objIntVars.add(lecturerTimeslot[l.getId()][t.getId()]);
-                    objIntCoeffs.add(timeslotCost[t.getId()]);
+                //Add Objective
+                objIntVars.add(lecturerTimeslot[l.getId()][t.getId()]);
+                objIntCoeffs.add(timeslotCost[t.getId()]);
             }
 
 /*
@@ -233,8 +232,6 @@ public class Solver extends AbstractSolver {
 
                 }
 */
-
-
 
 
             //model.minimize(LinearExpr.scalProd(lecturerTimeslot[l.getId()], timeslotCost));
@@ -305,7 +302,7 @@ public class Solver extends AbstractSolver {
 
 
         // Add the objective to the Solver, parse to array first because java is funny like that
-        int[] objIntCoeffsArr = objIntCoeffs.stream().mapToInt(i->i).toArray(); // objIntCoeffs.toArray(int[]::new);
+        int[] objIntCoeffsArr = objIntCoeffs.stream().mapToInt(i -> i).toArray(); // objIntCoeffs.toArray(int[]::new);
         IntVar[] objIntVarsArr = objIntVars.toArray(new IntVar[0]);
 
         // finally, minimize the objective
@@ -321,7 +318,7 @@ public class Solver extends AbstractSolver {
         System.out.println(res);
 
         stopWatch.stop();
-        Planning p =  solverContext.getPlanning();
+        Planning p = solverContext.getPlanning();
         p.setStatus(res.name());
         solverContext.setSolving(false);
         return p;

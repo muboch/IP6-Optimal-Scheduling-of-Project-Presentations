@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -41,23 +42,24 @@ public class TimeslotServiceImpl implements TimeslotService {
 
         try (InputStreamReader is = new InputStreamReader(input.getInputStream())) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
-                    .withDelimiter(';')
-                    .withSkipHeaderRecord();
-
-            int timeslots = csvFormat.getHeader().length - 1; // minus 1 cause first col is lecturers
+                    .withHeader()
+                    .withDelimiter(';');
 
             CSVParser records = csvFormat.parse(is);
-            int lecturers = records.getRecords().size();
+            List<String> headers = records.getHeaderNames();
+            int timeslots = headers.size();
 
-            for (int j = 0; j < lecturers; j++) {
-                Lecturer lecturer = lecturerRepository.readByInitials(records.getRecords().get(j).get(0));
-                for (int i = 0; i < timeslots; i++) {
-                    String val = records.getRecords().get(j).get(i);
-                    if(val.toLowerCase().equals("x")){
-                        Timeslot timeslot = timeslotRepository.findByExternalId(i);
-                        lecturer.getLocktimes().add(timeslot);
+            for(CSVRecord r : records){
+                Lecturer lecturer = lecturerRepository.readByInitials(r.get(0));
+                List<Timeslot> locktimes = new ArrayList<>();
+                for (int i = 1; i < timeslots; i++) {
+                    String val = r.get(i);
+                    if (val.toLowerCase().equals("x")) {
+                        Timeslot timeslot = timeslotRepository.findByExternalId(Integer.parseInt(headers.get(i)));
+                        locktimes.add(timeslot);
                     }
                 }
+                lecturer.setLocktimes(locktimes);
                 lecturerRepository.save(lecturer);
             }
         } catch (IOException e) {
