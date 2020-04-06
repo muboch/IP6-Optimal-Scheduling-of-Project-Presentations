@@ -8,8 +8,16 @@ const LandingScreen: React.FC = (): JSX.Element => {
   const styles = useGStyles();
   const [location, setLocation] = useLocation();
 
-  return (
+
+    return (
     <div className={styles.centerFlexDiv}>
+        <Button
+            className={styles.primaryButton}
+            target="_blank"
+            href={`${process.env.REACT_APP_API_ENDPOINT}/api/plannings/example`}
+        >
+            Beispiel Dateien
+        </Button>
       <Button
         className={styles.primaryButton}
         onClick={() => {

@@ -14,6 +14,7 @@ import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -126,6 +127,18 @@ public class PlanningController {
                 .contentType(MediaType.TEXT_PLAIN)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + csv.getName() + ".csv" + "\"")
                 .body(new ByteArrayResource(csv.getContent()));
+    }
+
+    @GetMapping("/plannings/example")
+    public ResponseEntity<Resource> downloadExample() throws IOException {
+
+        // Load file as Resource
+        ClassPathResource classPathResource = new ClassPathResource("beispieldaten.zip");
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=beispieldaten.zip")
+                .body(classPathResource);
     }
 
 }
