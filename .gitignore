@@ -21,3 +21,8 @@ frontend/node
 .Trashes
 ehthumbs.db
 Thumbs.db
+/solvers/cpsolver/target/
+/solvers/ilpsolver/target/
+/solvers/originalsolver/target/
+/solvers/solution-checker/target/
+/solvers/solverapi/target/
