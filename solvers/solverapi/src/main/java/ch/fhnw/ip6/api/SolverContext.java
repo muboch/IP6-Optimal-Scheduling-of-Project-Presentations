@@ -28,4 +28,12 @@ public class SolverContext {
         return this.planning;
     }
 
+    /**
+     * Clears an existing planning and resets the isSolving to false
+     */
+    public void reset(){
+        isSolving = false;
+        planning = null;
+    }
+
 }

@@ -69,7 +69,7 @@ public class PlannningServiceImpl extends AbstractService implements PlanningSer
         for (int l = 0; l < lecturerVOs.size(); l++) {
             for (int t = 0; t < numberOfTimeslots; t++) {
                 int finalT = t;
-                locktimes[l][t] = lecturerVOs.get(l).getLocktimes().stream().filter(timeslotVO -> timeslotVO.getExternalId() == finalT).findFirst().isPresent();
+                locktimes[l][t] = lecturerVOs.get(l).getLocktimes().stream().anyMatch(timeslotVO -> timeslotVO.getExternalId() == finalT);
             }
         }
 
@@ -98,6 +98,7 @@ public class PlannningServiceImpl extends AbstractService implements PlanningSer
         if (testmode) {
             planning = getSolver().testSolve();
         } else {
+            solverContext.reset();
             planning = getSolver().solve(presentations, lecturers, rooms, timeslots, locktimes);
         }
 
