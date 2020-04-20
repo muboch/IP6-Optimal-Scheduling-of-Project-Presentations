@@ -45,5 +45,6 @@ COPY --from=builder /deps/* /usr/lib/
 
 RUN apt-get update -y
 RUN apt-get install openjdk-11-jdk -y
+EXPOSE 8080
 
 ENTRYPOINT ["java","-Dspring.profiles.active=dev","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
