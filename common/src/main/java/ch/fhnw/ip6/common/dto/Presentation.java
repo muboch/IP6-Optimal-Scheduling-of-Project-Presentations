@@ -1,18 +1,15 @@
 package ch.fhnw.ip6.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Presentation {
 
     private int id;
@@ -30,4 +27,9 @@ public class Presentation {
     private String expertInitials;
     private String type;
 
+
+    @Override
+    public String toString() {
+        return String.format("P[id=%03d,nr=%s].E%s.C%s", id, nr, expert.toString(), coach.toString());
+    }
 }
