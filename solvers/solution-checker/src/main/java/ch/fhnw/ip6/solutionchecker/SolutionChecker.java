@@ -27,6 +27,7 @@ public class SolutionChecker {
         //int usedTimeslotCost = GetUsedTimeslots(solutions, timeslots) * USED_TIMESLOT_COST;
         int usedTimeslotCost = GetUsedTimeslots(solutions,timeslots);
 
+
         // total cost return
         return roomSwitchCost + roomDoubleBookedCost + usedRoomsCost + usedTimeslotCost;
     }
@@ -115,7 +116,7 @@ public class SolutionChecker {
                 System.out.println("Total: no switches.");
             }
         }
-        System.out.println("Total Switches over all Lecturers: " + totalSwitches);
+        System.out.println("Total Switches over all Lecturers: " + totalSwitches + " !!!!!! This number is wrong, we need to fix the checker: Peer, 23.04.2020");
         return totalSwitches;
     }
 
@@ -138,7 +139,7 @@ public class SolutionChecker {
                 }
             }
         }
-        System.out.println("Total Double Booked Presentations: " + numErrors);
+        System.out.println("Total Double Booked Presentations/Professors: " + numErrors);
         return numErrors > 0;
     }
 
