@@ -12,4 +12,5 @@ public interface PresentationRepository extends JpaRepository<Presentation, Long
 
     List<PresentationVO> findAllProjectedBy();
 
+    PresentationVO findByExternalId(int id);
 }

@@ -34,9 +34,7 @@ public class PresentationServiceImpl extends AbstractService implements Presenta
     @Override
     public void loadPresentation(MultipartFile input) {
 
-
         try {
-
             deleteAll();
 
             XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
@@ -90,6 +88,8 @@ public class PresentationServiceImpl extends AbstractService implements Presenta
         return null;
     }
 
+
+
     @Override
     public PresentationVO readById(long id) {
         return null;
@@ -98,6 +98,11 @@ public class PresentationServiceImpl extends AbstractService implements Presenta
     @Override
     public PresentationVO readByNr(String nr) {
         return null;
+    }
+
+    @Override
+    public PresentationVO readByExternalId(int id) {
+        return presentationRepository.findByExternalId(id);
     }
 
     @Override

@@ -4,7 +4,9 @@ import ch.fhnw.ip6.ospp.service.client.PresentationService;
 import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,6 +21,11 @@ public class PresentationController {
     @GetMapping
     public List<PresentationVO> findAll() {
         return presentationService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public PresentationVO findByExternalId(@PathVariable int id) {
+        return presentationService.readByExternalId(id);
     }
 
 }

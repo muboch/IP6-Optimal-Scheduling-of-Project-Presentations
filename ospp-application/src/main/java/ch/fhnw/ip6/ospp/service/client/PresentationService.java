@@ -16,6 +16,8 @@ public interface PresentationService {
 
     PresentationVO readByNr(String nr);
 
+    PresentationVO readByExternalId(int id);
+
     void deleteAll();
 
     List<PresentationVO> getAll();
