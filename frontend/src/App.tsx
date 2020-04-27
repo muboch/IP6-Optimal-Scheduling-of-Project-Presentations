@@ -7,17 +7,39 @@ import PlanningScreen from "./screens/CreatePlanningScreen/planningscreen";
 import ListPlanningScreen from "./screens/ListPlanningScreen/listplanningscreen";
 import { SCREENROUTES } from "./constants";
 import UploadSucessfulScreen from "./screens/UploadSucessful/UploadSucessfulScreen";
+import Sidebar from "./Components/sidebar";
+import EditScreen, { EditScreenProps } from "./screens/Edit Screens/editscreen";
 
 const App: React.FC = (): JSX.Element => {
   console.log("endpoint", process.env.REACT_APP_API_ENDPOINT);
   console.log("nodeenv", process.env.NODE_ENV);
 
   const styles = useGStyles();
+
   return (
     <div className={styles.root}>
       <ThemeProvider theme={theme}>
+        <Sidebar />
         <Switch>
           <Route path={SCREENROUTES.landingScreen} component={LandingScreen} />
+          <Route path={SCREENROUTES.presentations}>
+            {(params) => <EditScreen type={"presentations"}></EditScreen>}
+          </Route>
+          <Route path={SCREENROUTES.rooms}>
+            {(params) => <EditScreen type={"rooms"}></EditScreen>}
+          </Route>
+          <Route path={SCREENROUTES.timeslots}>
+            {(params) => <EditScreen type={"timeslots"}></EditScreen>}
+          </Route>
+          <Route path={SCREENROUTES.lecturers}>
+            {(params) => <EditScreen type={"lecturers"}></EditScreen>}
+          </Route>
+          <Route path={SCREENROUTES.offtimes}>
+            {(params) => <EditScreen type={"offtimes"}></EditScreen>}
+          </Route>          
+
+
+
           <Route
             path={SCREENROUTES.createPlanning}
             component={PlanningScreen}

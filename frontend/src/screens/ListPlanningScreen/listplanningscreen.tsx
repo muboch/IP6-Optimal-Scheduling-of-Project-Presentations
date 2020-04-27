@@ -14,7 +14,6 @@ import {
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import { useLocation } from "wouter";
-import { SCREENROUTES } from "../../constants";
 
 type Plannings = {
   nr: string;
