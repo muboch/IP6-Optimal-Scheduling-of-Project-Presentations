@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("student")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class StudentController {
 
     private final StudentRepository studentRepository;
 
-    @GetMapping
+    @GetMapping("/student")
     public List<StudentVO> findAll() {
         return studentRepository.findAllProjectedBy();
     }

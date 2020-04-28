@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("presentation")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class PresentationController {
 
     private final PresentationService presentationService;
 
-    @GetMapping
+    @GetMapping("/presentation")
     public List<PresentationVO> findAll() {
         return presentationService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/presentation/{id}")
     public PresentationVO findByExternalId(@PathVariable int id) {
         return presentationService.readByExternalId(id);
     }

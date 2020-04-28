@@ -27,7 +27,7 @@ export const theme = createMuiTheme({
 
 export const useGStyles = makeStyles((theme) => ({
   root: {
-    width: "100vw",
+    width: "100%",
     height: "100vh",
     display: "flex",
     alignContent: "center",
@@ -42,7 +42,9 @@ export const useGStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     "& > *": {
-      margin: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+
     },
   },
   columnFlexDiv: {
@@ -54,7 +56,8 @@ export const useGStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     "& > *": {
-      margin: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
     },
   },
   primaryButton: {

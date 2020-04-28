@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("room")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class RoomController {
 
     private final RoomService roomService;
 
-    @GetMapping
+    @GetMapping("/room")
     public List<RoomVO> findAll() {
         return roomService.getAll();
     }

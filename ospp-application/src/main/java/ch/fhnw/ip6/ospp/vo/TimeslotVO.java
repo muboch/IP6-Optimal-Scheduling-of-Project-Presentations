@@ -12,6 +12,6 @@ public interface TimeslotVO {
     int getBlock();
     int getExternalId();
 
-    List<PresentationVO> getPresentations();
+    //List<PresentationVO> getPresentations();
 
 }

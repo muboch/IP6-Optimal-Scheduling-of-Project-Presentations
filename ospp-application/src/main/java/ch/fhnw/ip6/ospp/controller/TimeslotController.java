@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("timeslot")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class TimeslotController {
 
     private final TimeslotService timeslotService;
 
-    @GetMapping
+    @GetMapping("/timeslot")
     public List<TimeslotVO> findAll() {
         return timeslotService.getAll();
     }

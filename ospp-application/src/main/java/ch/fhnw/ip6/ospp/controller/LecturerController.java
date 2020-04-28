@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("lecturer")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class LecturerController {
 
     private final LecturerService lecturerService;
 
-    @GetMapping
+    @GetMapping("/lecturer")
     public List<LecturerVO> findAll() {
         return lecturerService.getAll();
     }

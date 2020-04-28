@@ -23,19 +23,19 @@ const App: React.FC = (): JSX.Element => {
         <Switch>
           <Route path={SCREENROUTES.landingScreen} component={LandingScreen} />
           <Route path={SCREENROUTES.presentations}>
-            {(params) => <EditScreen type={"presentations"}></EditScreen>}
+            {(params) => <EditScreen type={"presentation"}></EditScreen>}
           </Route>
           <Route path={SCREENROUTES.rooms}>
-            {(params) => <EditScreen type={"rooms"}></EditScreen>}
+            {(params) => <EditScreen type={"room"}></EditScreen>}
           </Route>
           <Route path={SCREENROUTES.timeslots}>
-            {(params) => <EditScreen type={"timeslots"}></EditScreen>}
+            {(params) => <EditScreen type={"timeslot"}></EditScreen>}
           </Route>
           <Route path={SCREENROUTES.lecturers}>
-            {(params) => <EditScreen type={"lecturers"}></EditScreen>}
+            {(params) => <EditScreen type={"lecturer"}></EditScreen>}
           </Route>
           <Route path={SCREENROUTES.offtimes}>
-            {(params) => <EditScreen type={"offtimes"}></EditScreen>}
+            {(params) => <EditScreen type={"offtime"}></EditScreen>}
           </Route>          
 
 

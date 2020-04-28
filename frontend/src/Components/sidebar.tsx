@@ -22,7 +22,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
     },
     button: {
       width: "100%",
-      margin: "2px",
+      marginRight: "2px",
     },
   });
   const styles = useStyles();

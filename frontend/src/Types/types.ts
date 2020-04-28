@@ -1,4 +1,4 @@
-export type Presentations = {
+export type Presentation = {
   id: number; // id used in Database, 1 based
   type: "normal" | "art" | "dance" | "music";
   externalId: number; // id used in solver, 0 based
@@ -6,8 +6,8 @@ export type Presentations = {
   title: "string";
   coach: Lecturer;
   expert: Lecturer;
-  studentOne: string;
-  studentTwo: string;
+  studentOne: Student;
+  studentTwo: Student;
   room?: Room;
   timeslot: string;
 };
@@ -28,4 +28,10 @@ export type Lecturer = {
   lastname: string;
   email: string;
   initials: string;
+};
+
+export type Student = {
+  name: string;
+  id: number;
+  class: string;
 };
