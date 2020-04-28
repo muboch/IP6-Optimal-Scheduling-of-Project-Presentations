@@ -1,0 +1,27 @@
+{
+    // Launches Chromium against localhost 4200
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Launch Chromium against localhost 4200",
+        "url": "http://localhost:3000/#",
+        "webRoot": "${workspaceFolder}",
+        "runtimeExecutable": "/usr/bin/chromium",
+        "runtimeArgs": [
+          "--new-window",
+          "-user-data-dir=\"/${workspaceFolder}/DevProfile\"",
+          "--remote-debugging-port=9222"
+        ],
+        "skipFiles": [
+          "node_modules/**/*.js",
+          "lib/**/*.js",
+          "async_hooks.js",
+          "inspector_async_hook.js"
+        ]
+      }
+    ]
+  }
+  
+  
