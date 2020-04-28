@@ -277,8 +277,8 @@ public class Solver extends AbstractSolver {
             model.addEquality(numChangesForLecturer[l.getId()], LinearExpr.sum(roomDiffsBool[l.getId()])); // Add the equality
 
             // finally, add the objective
-            objIntVars.add(numChangesForLecturer[l.getId()]);
-            objIntCoeffs.add(ROOM_SWITCH_COST);
+            //objIntVars.add(numChangesForLecturer[l.getId()]);
+            //objIntCoeffs.add(ROOM_SWITCH_COST);
         }
 
 
