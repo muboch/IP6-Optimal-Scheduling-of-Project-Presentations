@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
-  Backdrop,
   makeStyles,
-  CircularProgress,
   TextField,
-  Paper,
   Button,
+  FormControl,
+  InputLabel,
+  NativeSelect,
 } from "@material-ui/core";
-import { useGStyles, theme } from "../../theme";
+import { useGStyles } from "../../theme";
 import { Presentation, Lecturer, Student } from "../../Types/types";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { loadLecturers } from "../../Services/lecturerService";
@@ -15,6 +15,7 @@ import { loadStudents } from "../../Services/studentService";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import { loadPresentationById } from "../../Services/presentationService";
+import { PRESENTATIONTYPES } from "../../constants";
 
 export interface PresentationEditFormProps {
   presentationId?: number; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
@@ -29,7 +30,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
 }) => {
   const useStyles = makeStyles({
     centerFlexDiv: {
-      margin: "10px",
+      margin: "20px",
     },
     closeButton: {
       margin: "10px",
@@ -42,6 +43,12 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
       position: "absolute",
       top: "60px",
       right: "10px",
+    },
+    textField50: {
+      minWidth: "50%",
+    },
+    textField80: {
+      minWidth: "80%",
     },
   });
 
@@ -93,6 +100,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
         <div className={gStyles.columnFlexDiv}>
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <TextField
+              className={styles.textField50}
               required
               label="ID"
               type="number"
@@ -107,8 +115,10 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
                 updatePresentationValue("nr", e.currentTarget.value);
               }}
               value={presentation.nr}
+              className={styles.textField50}
             ></TextField>
-
+          </div>
+          <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <TextField
               required
               label="Titel"
@@ -116,7 +126,28 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               onChange={(e: any) => {
                 updatePresentationValue("title", e.currentTarget.value);
               }}
+              className={styles.textField80}
             ></TextField>
+
+            <FormControl>
+              <InputLabel shrink htmlFor="age-native-label-placeholder">
+                Age
+              </InputLabel>
+              <NativeSelect
+                value={presentation.type}
+                onChange={(e: any) => {
+                  updatePresentationValue("type", e.currentTarget.value);
+                }}
+                inputProps={{
+                  name: "Type",
+                  id: "age-native-label-placeholder",
+                }}
+              >
+                {PRESENTATIONTYPES.map((p) => {
+                  return <option value={p}>{p}</option>;
+                })}
+              </NativeSelect>
+            </FormControl>
           </div>
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <Autocomplete

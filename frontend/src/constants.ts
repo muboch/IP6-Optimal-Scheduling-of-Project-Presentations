@@ -15,3 +15,5 @@ export const APIROUTES = {
   lecturer: `${process.env.REACT_APP_API_ENDPOINT}/api/lecturer`,
   student: `${process.env.REACT_APP_API_ENDPOINT}/api/student`,
 };
+
+export const PRESENTATIONTYPES = ["normal", "art", "music", "dance"];
