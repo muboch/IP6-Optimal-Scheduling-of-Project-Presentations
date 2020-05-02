@@ -13,8 +13,6 @@ import gurobi.GRBVar;
 public abstract class Constraint {
 
     private Model model;
-    private String constraintName;
-    private GRBVar[][][] X;
 
     public abstract void build();
 
@@ -52,7 +50,7 @@ public abstract class Constraint {
         return getModel().getLecturers().indexOf(lecturer);
     }
 
-    public  Constraint setModel(Model model){
+    public Constraint setModel(Model model) {
         this.model = model;
         return this;
     }

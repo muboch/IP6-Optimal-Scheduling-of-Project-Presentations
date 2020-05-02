@@ -8,6 +8,9 @@ import gurobi.GRB;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 
+/**
+ * 4. Alle Presentations müssen genau einem Timeslot und genau einem Room zugewiesen werden.
+ */
 public class OnlyOnePresentationPerRoomAndTimeslot extends Constraint {
 
     @Override

@@ -8,6 +8,9 @@ import gurobi.GRB;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 
+/**
+ * 3. Alle Presentations müssen stattfinden.
+ */
 public class AllPresentationsToRoomAndTimeslotAssigned extends Constraint {
 
     @Override
@@ -18,12 +21,14 @@ public class AllPresentationsToRoomAndTimeslotAssigned extends Constraint {
                 GRBLinExpr lhs = new GRBLinExpr();
                 for (Timeslot t : getModel().getTimeslots()) {
                     for (Room r : getModel().getRooms()) {
-                        lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        // 9. Eine Presentation kann nur in einem Room vom passenden RoomType stattfinden.
+                        if (r.getType().equals(p.getType()))
+                            lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }
                 }
                 addConstraint(lhs, GRB.EQUAL);
             }
-        }catch (GRBException e){
+        } catch (GRBException e) {
             e.printStackTrace();
         }
     }

@@ -9,6 +9,10 @@ import gurobi.GRB;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 
+/**
+ * 1. Ein Coach kann während eines Timeslots höchstens eine Presentation besuchen.
+ * 2. Ein Expert kann während eines Timeslots höchstens eine Presentation besuchen.
+ */
 public class LecturerNotMoreThanOnePresentationPerTimeslot extends Constraint {
 
     @Override

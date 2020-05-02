@@ -5,6 +5,7 @@ import ch.fhnw.ip6.common.dto.Lecturer;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
+import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.Timeslot;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
@@ -65,13 +66,22 @@ public class Solver implements SolverApi {
             double[][][] xd = grbModel.get(GRB.DoubleAttr.X, model.getX());
 
             System.out.println("#########################################   Solution   ###########################################");
+            Planning planning = new Planning();
+
+            planning.setTimeslots(ts);
+            planning.setRooms(rs);
+
             for (int p = 0; p < ps.size(); p++) {
                 for (int t = 0; t < ts.size(); t++) {
                     for (int r = 0; r < rs.size(); r++) {
-                        if (xd[p][t][r] != 0.0) System.out.println(vnames[p][t][r]);
+                        if (xd[p][t][r] != 0.0) {
+                            planning.getSolutions().add(new Solution(rs.get(r), ts.get(t), ps.get(p), ps.get(p).getExpert(), ps.get(p).getCoach()));
+                        }
+
                     }
                 }
             }
+            System.out.println(planning.toString());
             System.out.println("################################################################################################");
 
             // Dispose of model and environment
