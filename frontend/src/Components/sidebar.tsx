@@ -43,7 +43,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
-          setLocation(SCREENROUTES.createPlanning);
+          setLocation(SCREENROUTES.uploadFiles);
         }}
       >
         Daten hochladen
@@ -95,7 +95,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
           setLocation(SCREENROUTES.listPlanning);
         }}
       >
-        Planungen
+        Erstellte Planungen
       </Button>
     </div>
   );
