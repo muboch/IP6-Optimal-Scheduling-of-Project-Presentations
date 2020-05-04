@@ -1,13 +1,9 @@
-package ch.fhnw.ip6.ilpsolver;
+package ch.fhnw.ip6.common.model;
 
 import ch.fhnw.ip6.common.dto.Lecturer;
 import ch.fhnw.ip6.common.dto.Presentation;
 import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Timeslot;
-import gurobi.GRB;
-import gurobi.GRBException;
-import gurobi.GRBModel;
-import gurobi.GRBVar;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,26 +11,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Model {
+public abstract class Model<M, X> {
 
     private final List<Presentation> presentations;
     private final List<Lecturer> lecturers;
     private final List<Room> rooms;
     private final List<Timeslot> timeslots;
     private final Map<Lecturer, List<Presentation>> presentationsPerLecturer;
-    private final GRBModel grbModel;
+    private final M model;
+    private final boolean[][] offtimes;
     private List<Lecturer> coaches;
     private List<Lecturer> experts;
-    private final GRBVar[][][] X;
+    private final X[][][] X;
 
-    public Model(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots, boolean[][] locktimes, GRBModel grbModel) throws GRBException {
+    public Model(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots, boolean[][] offtimes, M model) {
         this.presentations = presentations;
         this.lecturers = lecturers;
         this.rooms = rooms;
         this.timeslots = timeslots;
-        this.grbModel = grbModel;
-        this.X = setupGrbVars();
-
+        this.offtimes = offtimes;
+        this.model = model;
+        this.X = setupVars();
 
         this.presentationsPerLecturer = new HashMap<>();
         for (Lecturer l : lecturers) {
@@ -43,19 +40,10 @@ public class Model {
 
     }
 
-    private GRBVar[][][] setupGrbVars() throws GRBException {
-        GRBVar[][][] X = new GRBVar[presentations.size()][timeslots.size()][rooms.size()];
-        for (int p = 0; p < presentations.size(); ++p) {
-            for (int t = 0; t < timeslots.size(); ++t) {
-                for (int r = 0; r < rooms.size(); ++r) {
-                    X[p][t][r] = grbModel.addVar(0, 1, 1.0, GRB.BINARY, presentations.get(p) + "." + timeslots.get(t) + "." + rooms.get(r));
-                }
-            }
-        }
-        return X;
-    }
+    protected abstract X[][][] setupVars();
 
-    public GRBVar[][][] getX() {
+
+    public X[][][] getX() {
         return X;
     }
 
@@ -73,6 +61,10 @@ public class Model {
 
     public List<Lecturer> getLecturers() {
         return Collections.unmodifiableList(lecturers);
+    }
+
+    public boolean[][] getOfftimes() {
+        return offtimes;
     }
 
     public List<Lecturer> getCoaches() {
@@ -93,7 +85,24 @@ public class Model {
         return presentationsPerLecturer;
     }
 
-    public GRBModel getGrbModel() {
-        return grbModel;
+    public M getModel() {
+        return model;
     }
+
+    public int indexOf(Timeslot slot) {
+        return getTimeslots().indexOf(slot);
+    }
+
+    public int indexOf(Room room) {
+        return getRooms().indexOf(room);
+    }
+
+    public int indexOf(Presentation presentation) {
+        return getPresentations().indexOf(presentation);
+    }
+
+    public int indexOf(Lecturer lecturer) {
+        return getLecturers().indexOf(lecturer);
+    }
+
 }
