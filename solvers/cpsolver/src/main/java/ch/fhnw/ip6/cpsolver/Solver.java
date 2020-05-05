@@ -95,7 +95,6 @@ public class Solver extends AbstractSolver {
                 }
             }
             IntVar[] arr = temp.toArray(new IntVar[0]);
-            model.addLinearConstraint(LinearExpr.sum(arr), 1, 1); // SUM OF ALL MUST EQUAL ONE
             cpModel.getModel().addLinearConstraint(LinearExpr.sum(arr), 1, 1); // SUM OF ALL MUST EQUAL ONE
         }
         // END CONSTRAINT
@@ -257,42 +256,6 @@ public class Solver extends AbstractSolver {
             //objIntVars.add(numChangesForLecturer[l.getId()]);
             //objIntCoeffs.add(ROOM_SWITCH_COST);
         }
-
-
-        // START CONSTRAINT Soft Constraint 1.2 Coaches should switch the rooms as little as possible
-        // Create (lecturer,room) booleans, minimize
-        /*
-        IntVar[][] coachRoom = new IntVar[lecturers.size()][rooms.size()];
-        int[] coachRoomCost = new int[rooms.size()];
-        for (Lecturer l : lecturers) {
-            for (Room r : rooms) {
-                coachRoom[l.getId()][r.getId()] = model.newBoolVar("coach_" + l.getId() + "room_" + r.getId());
-                coachRoomCost[r.getId()] = ROOM_SWITCH_COST;
-            }
-        }
-        for (Lecturer l : lecturers) {
-            for (Room r : rooms) {
-                List<IntVar> temp = new ArrayList<>();
-
-                for (Presentation p1 : presentationsPerLecturer[l.getId()]) {
-                    for (Timeslot t : timeslots) {
-                        if (presRoomTime[p1.getId()][r.getId()][t.getId()] == null) continue;
-                        temp.add(presRoomTime[p1.getId()][r.getId()][t.getId()]);
-                    }
-                }
-                IntVar[] arr = temp.toArray(new IntVar[0]);
-
-                // Implement coachRoom[l][r] == (sum(arr) >= 1).
-                model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(coachRoom[l.getId()][r.getId()]);
-                model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(coachRoom[l.getId()][r.getId()].not());
-
-                // Add to objective
-                objIntVars.add(coachRoom[l.getId()][r.getId()]);
-                objIntCoeffs.add(coachRoomCost[r.getId()]);
-
-            }
-        }
-        */
 
         // END CONSTRAINT
 
