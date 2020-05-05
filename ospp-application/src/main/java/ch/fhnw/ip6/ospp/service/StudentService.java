@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -19,12 +20,21 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
 
-    public Student save(Student student) {
-        return studentRepository.save(student);
+    public StudentVO save(StudentVO studentVO) {
+        Student student = studentMapper.fromVoToEntity(studentVO);
+        return studentMapper.fromEntityToVO(studentRepository.save(student));
+    }
+
+    public void delete(Long id){
+        studentRepository.deleteById(id);
     }
 
     public StudentVO findById(Long id) {
         Optional<Student> byId = studentRepository.findById(id);
         return byId.map(studentMapper::fromEntityToVO).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public List<StudentVO> getAll() {
+        return studentRepository.findAllProjectedBy();
     }
 }

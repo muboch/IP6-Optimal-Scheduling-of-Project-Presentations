@@ -22,7 +22,8 @@ public interface PresentationMapper {
     @Mapping(target = "expert", source = "presentation.expert.id")
     @Mapping(target = "timeslot", source = "presentation.timeslot.id")
     @Mapping(target = "room", source = "presentation.room.id")
-    PresentationVO fromEntityToVO(Presentation presentation);
+    PresentationVO fromEntityToVo(Presentation presentation);
 
+    Presentation fromVoToEntity(PresentationVO lecturerVO);
 
 }

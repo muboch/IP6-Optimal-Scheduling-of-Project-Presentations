@@ -32,7 +32,7 @@ public class LecturerController {
 
     @PostMapping("/lecturer")
     public LecturerVO save(@RequestParam LecturerVO lecturer) {
-        return lecturerService.saveLecturer(lecturer);
+        return lecturerService.save(lecturer);
     }
 
     @DeleteMapping("/lecturer/{id}")

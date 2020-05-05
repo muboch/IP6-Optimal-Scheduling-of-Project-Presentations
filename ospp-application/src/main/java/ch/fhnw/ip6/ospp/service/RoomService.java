@@ -25,7 +25,16 @@ import java.util.Optional;
 public class RoomService extends AbstractService {
 
     private final RoomRepository roomRepository;
-private final RoomMapper roomMapper;
+    private final RoomMapper roomMapper;
+
+    public RoomVO save(RoomVO roomVO) {
+        Room room = roomMapper.fromVoToEntity(roomVO);
+        return roomMapper.fromEntityToVO(roomRepository.save(room));
+    }
+
+    public void delete(Long id){
+        roomRepository.deleteById(id);
+    }
 
     public Room save(Room room) {
         return roomRepository.save(room);

@@ -36,6 +36,15 @@ public class TimeslotService extends AbstractService  {
         return byId.map(timeslotMapper::fromEntityToVO).orElseThrow(EntityNotFoundException::new);
     }
 
+    public TimeslotVO save(TimeslotVO timeslotVO) {
+        Timeslot timeslot = timeslotMapper.fromVoToEntity(timeslotVO);
+        return timeslotMapper.fromEntityToVO(timeslotRepository.save(timeslot));
+    }
+
+    public void delete(Long id){
+        timeslotRepository.deleteById(id);
+    }
+
     public void loadLocktimes(MultipartFile input) {
 
         try {

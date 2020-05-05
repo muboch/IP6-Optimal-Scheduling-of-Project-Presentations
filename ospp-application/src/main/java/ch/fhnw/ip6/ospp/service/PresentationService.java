@@ -32,6 +32,28 @@ public class PresentationService extends AbstractService {
     private final LecturerService lecturerService;
     private final PresentationMapper presentationMapper;
 
+    public PresentationVO findById(Long id) {
+        Optional<Presentation> byId = presentationRepository.findById(id);
+        return byId.map(presentationMapper::fromEntityToVo).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public List<PresentationVO> getAll() {
+        return presentationRepository.findAllProjectedBy();
+    }
+
+    public PresentationVO save(PresentationVO presentationVO) {
+        Presentation presentation = presentationMapper.fromVoToEntity(presentationVO);
+        return presentationMapper.fromEntityToVo(presentationRepository.save(presentation));
+    }
+
+    public void delete(Long id){
+        presentationRepository.deleteById(id);
+    }
+
+    public void deleteAll() {
+        presentationRepository.deleteAll();
+    }
+
     public void loadPresentation(MultipartFile input) {
 
         try {
@@ -83,16 +105,5 @@ public class PresentationService extends AbstractService {
         }
     }
 
-    public PresentationVO findById(Long id) {
-        Optional<Presentation> byId = presentationRepository.findById(id);
-        return byId.map(presentationMapper::fromEntityToVO).orElseThrow(EntityNotFoundException::new);
-    }
 
-    public void deleteAll() {
-        presentationRepository.deleteAll();
-    }
-
-    public List<PresentationVO> getAll() {
-        return presentationRepository.findAllProjectedBy();
-    }
 }

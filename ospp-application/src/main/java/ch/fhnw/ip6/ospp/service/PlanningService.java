@@ -226,4 +226,8 @@ public class PlanningService extends AbstractService {
     }
 
 
+    public void delete(Long id) {
+        planningRepository.deleteById(id);
+    }
+
 }

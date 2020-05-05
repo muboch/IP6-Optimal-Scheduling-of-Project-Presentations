@@ -3,9 +3,12 @@ package ch.fhnw.ip6.ospp.controller;
 import ch.fhnw.ip6.ospp.service.PresentationService;
 import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,6 +28,17 @@ public class PresentationController {
     @GetMapping("/presentation/{id}")
     public PresentationVO findByExternalId(@PathVariable Long id) {
         return presentationService.findById(id);
+    }
+
+
+    @PostMapping("/presentation")
+    public PresentationVO save(@RequestParam PresentationVO presentationVO) {
+        return presentationService.save(presentationVO);
+    }
+
+    @DeleteMapping("/presentation/{id}")
+    public void delete(@PathVariable Long id) {
+        presentationService.delete(id);
     }
 
 }
