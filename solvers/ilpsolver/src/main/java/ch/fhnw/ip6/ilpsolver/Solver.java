@@ -1,12 +1,12 @@
 package ch.fhnw.ip6.ilpsolver;
 
 import ch.fhnw.ip6.api.SolverApi;
-import ch.fhnw.ip6.common.dto.Lecturer;
+import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.Solution;
-import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.AllPresentationsToRoomAndTimeslotAssigned;
@@ -27,12 +27,12 @@ public class Solver implements SolverApi {
     public Planning testSolve() {
         JsonUtil util = new JsonUtil();
 
-        List<Presentation> presentations = util.getJsonAsList("presentations.json", Presentation.class);
-        List<Lecturer> lecturers = util.getJsonAsList("lecturers.json", Lecturer.class);
-        List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
-        List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
+        List<PresentationDto> presentations = util.getJsonAsList("presentations.json", PresentationDto.class);
+        List<LecturerDto> lecturers = util.getJsonAsList("lecturers.json", LecturerDto.class);
+        List<RoomDto> rooms = util.getJsonAsList("rooms.json", RoomDto.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
+        List<TimeslotDto> timeslots = util.getJsonAsList("timeslots.json", TimeslotDto.class);
 
-        for (Presentation p : presentations) {
+        for (PresentationDto p : presentations) {
             p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
             p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
         }
@@ -41,7 +41,7 @@ public class Solver implements SolverApi {
     }
 
     @Override
-    public Planning solve(List<Presentation> ps, List<Lecturer> ls, List<Room> rs, List<Timeslot> ts, boolean[][] locktimes) {
+    public Planning solve(List<PresentationDto> ps, List<LecturerDto> ls, List<RoomDto> rs, List<TimeslotDto> ts, boolean[][] locktimes) {
 
         try {
 

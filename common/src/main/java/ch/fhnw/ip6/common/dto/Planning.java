@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,8 +21,8 @@ public class Planning {
     private int nr;
     private int cost;
     private Set<Solution> solutions = new HashSet<>();
-    private List<Timeslot> timeslots = new ArrayList<>();
-    private List<Room> rooms = new ArrayList<>();
+    private List<TimeslotDto> timeslots = new ArrayList<>();
+    private List<RoomDto> rooms = new ArrayList<>();
     private String status;
 
     @Override
@@ -54,27 +57,27 @@ public class Planning {
         return sb.toString();
     }
 
-    static class TimeslotComparator implements Comparator<Timeslot> {
+    static class TimeslotComparator implements Comparator<TimeslotDto> {
 
-        public static int compareAnInt(Timeslot t1, Timeslot t2) {
+        public static int compareAnInt(TimeslotDto t1, TimeslotDto t2) {
             return t1.getId() - t2.getId();
         }
 
         @Override
-        public int compare(Timeslot t1, Timeslot t2) {
+        public int compare(TimeslotDto t1, TimeslotDto t2) {
             return compareAnInt(t1, t2);
         }
     }
 
 
-    static class RoomComparator implements Comparator<Room> {
+    static class RoomComparator implements Comparator<RoomDto> {
 
-        public static int compareAnInt(Room r1, Room r2) {
+        public static int compareAnInt(RoomDto r1, RoomDto r2) {
             return r1.getId() - r2.getId();
         }
 
         @Override
-        public int compare(Room r1, Room r2) {
+        public int compare(RoomDto r1, RoomDto r2) {
             return compareAnInt(r1, r2);
         }
     }

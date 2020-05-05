@@ -1,8 +1,8 @@
 package ch.fhnw.ip6.ospp.mapper;
 
+import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.vo.PresentationVO;
-import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
@@ -12,24 +12,17 @@ import org.springframework.stereotype.Component;
 public interface PresentationMapper {
 
 
-    @Mapping(target = "name", source = "presentation.studentOne.name")
-    @Mapping(target = "schoolclass", source = "presentation.studentOne.schoolclass")
-    @Mapping(target = "name2", source = "presentation.studentTwo.name")
-    @Mapping(target = "schoolclass2", source = "presentation.studentTwo.schoolclass")
     @Mapping(target = "coachInitials", source = "presentation.coach.initials")
     @Mapping(target = "expertInitials", source = "presentation.expert.initials")
-    @Mapping(target = "id", source = "presentation.externalId")
-    ch.fhnw.ip6.common.dto.Presentation toDto(Presentation presentation);
+    PresentationDto fromEntityToDto(Presentation presentation);
 
-    @Mapping(target = "type", source = "presentation.type")
-    @Mapping(target = "nr", source = "presentation.nr")
-    @Mapping(target = "name", source = "presentation.studentOne.name")
-    @Mapping(target = "schoolclass", source = "presentation.studentOne.schoolclass")
-    @Mapping(target = "name2", source = "presentation.studentTwo.name")
-    @Mapping(target = "schoolclass2", source = "presentation.studentTwo.schoolclass")
-    @Mapping(target = "coachInitials", source = "presentation.coach.initials")
-    @Mapping(target = "expertInitials", source = "presentation.expert.initials")
-    @Mapping(target = "id", source = "presentation.externalId")
-    ch.fhnw.ip6.common.dto.Presentation toDto(PresentationVO presentation);
+    @Mapping(target = "studentOne", source = "presentation.studentOne.id")
+    @Mapping(target = "studentTwo", source = "presentation.studentTwo.id")
+    @Mapping(target = "coach", source = "presentation.coach.id")
+    @Mapping(target = "expert", source = "presentation.expert.id")
+    @Mapping(target = "timeslot", source = "presentation.timeslot.id")
+    @Mapping(target = "room", source = "presentation.room.id")
+    PresentationVO fromEntityToVO(Presentation presentation);
+
 
 }

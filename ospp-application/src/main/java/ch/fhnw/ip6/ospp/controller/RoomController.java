@@ -1,7 +1,6 @@
 package ch.fhnw.ip6.ospp.controller;
 
-import ch.fhnw.ip6.ospp.service.client.RoomService;
-import ch.fhnw.ip6.ospp.vo.LecturerVO;
+import ch.fhnw.ip6.ospp.service.RoomService;
 import ch.fhnw.ip6.ospp.vo.RoomVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +21,10 @@ public class RoomController {
     public List<RoomVO> findAll() {
         return roomService.getAll();
     }
-    public RoomVO findByExternalId(@PathVariable int id) {
-        return roomService.readByExternalId(id);
+
+    @GetMapping("/room/{id}")
+    public RoomVO findById(@PathVariable Long id) {
+        return roomService.findById(id);
     }
 
 }

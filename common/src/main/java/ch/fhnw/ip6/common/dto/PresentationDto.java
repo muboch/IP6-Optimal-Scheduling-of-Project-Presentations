@@ -10,19 +10,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Presentation {
+public class PresentationDto implements P {
 
     private int id;
     private String nr;
-    private String name;
-    private String schoolclass;
-    private String name2;
-    private String schoolclass2;
-    private String title;
     @JsonIgnore
-    private Lecturer coach;
+    private LecturerDto coach;
     @JsonIgnore
-    private Lecturer expert;
+    private LecturerDto expert;
     private String coachInitials;
     private String expertInitials;
     private String type;

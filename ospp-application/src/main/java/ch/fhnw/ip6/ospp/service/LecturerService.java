@@ -1,10 +1,9 @@
 package ch.fhnw.ip6.ospp.service;
 
+import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
-import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.vo.LecturerVO;
-import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,43 +12,33 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
+import java.util.Optional;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class LecturerServiceImpl extends AbstractService implements LecturerService {
+public class LecturerService extends AbstractService  {
 
     private final LecturerRepository lecturerRepository;
+    private final LecturerMapper lecturerMapper;
 
-    @Override
-    public Lecturer addLecturer(Lecturer lecturer) {
-        return null;
+    public Lecturer save(Lecturer room) {
+        return lecturerRepository.save(room);
     }
 
-    @Override
-    public Lecturer readById(long id) {
-        return null;
+    public LecturerVO findById(Long id) {
+        Optional<Lecturer> byId = lecturerRepository.findById(id);
+        return byId.map(lecturerMapper::fromEntityToVo).orElseThrow(EntityNotFoundException::new);
     }
-
-    @Override
-    public LecturerVO readByExternalId(int id) {
-            return lecturerRepository.findByExternalId(id);
-
-
-    }
-
-    @Override
     public Lecturer readByInitials(String initials) {
         return lecturerRepository.readByInitials(initials);
     }
 
-    @Override
     public void loadLecturer(MultipartFile input) {
         try {
 
@@ -83,13 +72,20 @@ public class LecturerServiceImpl extends AbstractService implements LecturerServ
         }
     }
 
-    @Override
     public void deleteAll() {
         lecturerRepository.deleteAll();
     }
 
-    @Override
     public List<LecturerVO> getAll() {
         return lecturerRepository.findAllProjectedBy();
+    }
+
+    public LecturerVO saveLecturer(LecturerVO lecturer) {
+        Lecturer lecturerEntity = lecturerRepository.save(lecturerMapper.fromVoToEntity(lecturer));
+        return lecturerMapper.fromEntityToVo(lecturerEntity);
+    }
+
+    public void delete(Long id) {
+        lecturerRepository.deleteById(id);
     }
 }

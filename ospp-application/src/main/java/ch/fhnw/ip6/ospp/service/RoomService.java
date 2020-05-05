@@ -1,8 +1,8 @@
 package ch.fhnw.ip6.ospp.service;
 
+import ch.fhnw.ip6.ospp.mapper.RoomMapper;
 import ch.fhnw.ip6.ospp.model.Room;
 import ch.fhnw.ip6.ospp.persistence.RoomRepository;
-import ch.fhnw.ip6.ospp.service.client.RoomService;
 import ch.fhnw.ip6.ospp.vo.RoomVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,38 +12,30 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RoomServiceImpl extends AbstractService implements RoomService {
+public class RoomService extends AbstractService {
 
     private final RoomRepository roomRepository;
+private final RoomMapper roomMapper;
 
-
-    @Override
-    public Room addRoom(Room room) {
-        return null;
+    public Room save(Room room) {
+        return roomRepository.save(room);
     }
 
-    @Override
-    public Room readById(long id) {
-        return null;
+    public RoomVO findById(Long id) {
+        Optional<Room> byId = roomRepository.findById(id);
+        return byId.map(roomMapper::fromEntityToVO).orElseThrow(EntityNotFoundException::new);
     }
 
-    @Override
-    public RoomVO readByExternalId(int id) {
-        return roomRepository.findByExternalId(id);
-
-    }
-
-    @Override
     public void loadRooms(MultipartFile input) {
         try {
 
@@ -77,12 +69,10 @@ public class RoomServiceImpl extends AbstractService implements RoomService {
         }
     }
 
-    @Override
     public void deleteAll() {
         roomRepository.deleteAll();
     }
 
-    @Override
     public List<RoomVO> getAll() {
         return roomRepository.findAllProjectedBy();
     }

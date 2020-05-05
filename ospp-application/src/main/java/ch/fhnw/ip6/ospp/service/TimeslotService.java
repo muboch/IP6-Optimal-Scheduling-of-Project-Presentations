@@ -1,10 +1,10 @@
 package ch.fhnw.ip6.ospp.service;
 
+import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
 import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.model.Timeslot;
 import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
-import ch.fhnw.ip6.ospp.service.client.TimeslotService;
 import ch.fhnw.ip6.ospp.vo.TimeslotVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,38 +14,28 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
+import java.util.Optional;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class TimeslotServiceImpl extends AbstractService implements TimeslotService {
+public class TimeslotService extends AbstractService  {
 
     private final TimeslotRepository timeslotRepository;
     private final LecturerRepository lecturerRepository;
+    private final TimeslotMapper timeslotMapper;
 
-    @Override
-    public Timeslot addTimeslot(Timeslot timeslot) {
-        return null;
+    public TimeslotVO findById(Long id) {
+        Optional<Timeslot> byId = timeslotRepository.findById(id);
+        return byId.map(timeslotMapper::fromEntityToVO).orElseThrow(EntityNotFoundException::new);
     }
 
-    @Override
-    public Timeslot readById(long id) {
-        return null;
-    }
-
-    @Override
-    public TimeslotVO readByExternalId(long id) {
-        return timeslotRepository.findByExternalId(id);
-    }
-
-    @Override
     public void loadLocktimes(MultipartFile input) {
 
         try {
@@ -86,7 +76,6 @@ public class TimeslotServiceImpl extends AbstractService implements TimeslotServ
         }
     }
 
-    @Override
     public void loadTimeslots(MultipartFile input) {
 
         try {
@@ -120,12 +109,10 @@ public class TimeslotServiceImpl extends AbstractService implements TimeslotServ
         }
     }
 
-    @Override
     public void deleteAll() {
         timeslotRepository.deleteAll();
     }
 
-    @Override
     public List<TimeslotVO> getAll() {
         return timeslotRepository.findAllProjectedBy();
     }

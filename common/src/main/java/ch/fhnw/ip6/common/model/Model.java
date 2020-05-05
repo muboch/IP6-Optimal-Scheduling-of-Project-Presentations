@@ -1,9 +1,9 @@
 package ch.fhnw.ip6.common.model;
 
-import ch.fhnw.ip6.common.dto.Lecturer;
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
-import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.common.dto.L;
+import ch.fhnw.ip6.common.dto.P;
+import ch.fhnw.ip6.common.dto.R;
+import ch.fhnw.ip6.common.dto.T;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,18 +13,18 @@ import java.util.stream.Collectors;
 
 public abstract class Model<M, X> {
 
-    private final List<Presentation> presentations;
-    private final List<Lecturer> lecturers;
-    private final List<Room> rooms;
-    private final List<Timeslot> timeslots;
-    private final Map<Lecturer, List<Presentation>> presentationsPerLecturer;
+    private final List<? extends P> presentations;
+    private final List<? extends L> lecturers;
+    private final List<? extends R> rooms;
+    private final List<? extends T> timeslots;
+    private final Map<L, List<P>> presentationsPerLecturer;
     private final M model;
     private final boolean[][] offtimes;
-    private List<Lecturer> coaches;
-    private List<Lecturer> experts;
+    private List<L> coaches;
+    private List<L> experts;
     private final X[][][] X;
 
-    public Model(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots, boolean[][] offtimes, M model) {
+    public Model(List<? extends P> presentations, List<? extends L> lecturers, List<? extends R> rooms, List<? extends T> timeslots, boolean[][] offtimes, M model) {
         this.presentations = presentations;
         this.lecturers = lecturers;
         this.rooms = rooms;
@@ -34,7 +34,7 @@ public abstract class Model<M, X> {
         this.X = setupVars();
 
         this.presentationsPerLecturer = new HashMap<>();
-        for (Lecturer l : lecturers) {
+        for (L l : lecturers) {
             presentationsPerLecturer.put(l, presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList()));
         }
 
@@ -47,19 +47,19 @@ public abstract class Model<M, X> {
         return X;
     }
 
-    public List<Presentation> getPresentations() {
+    public List<ch.fhnw.ip6.common.dto.P> getPresentations() {
         return Collections.unmodifiableList(presentations);
     }
 
-    public List<Timeslot> getTimeslots() {
+    public List<T> getTimeslots() {
         return Collections.unmodifiableList(timeslots);
     }
 
-    public List<Room> getRooms() {
+    public List<R> getRooms() {
         return Collections.unmodifiableList(rooms);
     }
 
-    public List<Lecturer> getLecturers() {
+    public List<L> getLecturers() {
         return Collections.unmodifiableList(lecturers);
     }
 
@@ -67,21 +67,21 @@ public abstract class Model<M, X> {
         return offtimes;
     }
 
-    public List<Lecturer> getCoaches() {
+    public List<L> getCoaches() {
         if (coaches == null) {
-            coaches = getPresentations().stream().map(Presentation::getCoach).collect(Collectors.toList());
+            coaches = getPresentations().stream().map(P::getCoach).collect(Collectors.toList());
         }
         return Collections.unmodifiableList(coaches);
     }
 
-    public List<Lecturer> getExperts() {
+    public List<L> getExperts() {
         if (experts == null) {
-            experts = getPresentations().stream().map(Presentation::getExpert).collect(Collectors.toList());
+            experts = getPresentations().stream().map(P::getExpert).collect(Collectors.toList());
         }
         return Collections.unmodifiableList(experts);
     }
 
-    public Map<Lecturer, List<Presentation>> getPresentationsPerLecturer() {
+    public Map<L, List<P>> getPresentationsPerLecturer() {
         return presentationsPerLecturer;
     }
 
@@ -89,19 +89,19 @@ public abstract class Model<M, X> {
         return model;
     }
 
-    public int indexOf(Timeslot slot) {
+    public int indexOf(T slot) {
         return getTimeslots().indexOf(slot);
     }
 
-    public int indexOf(Room room) {
+    public int indexOf(R room) {
         return getRooms().indexOf(room);
     }
 
-    public int indexOf(Presentation presentation) {
+    public int indexOf(P presentation) {
         return getPresentations().indexOf(presentation);
     }
 
-    public int indexOf(Lecturer lecturer) {
+    public int indexOf(L lecturer) {
         return getLecturers().indexOf(lecturer);
     }
 

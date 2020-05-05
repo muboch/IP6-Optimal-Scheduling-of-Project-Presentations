@@ -1,12 +1,12 @@
 package ch.fhnw.ip6.cpsolver;
 
 import ch.fhnw.ip6.api.SolverContext;
-import ch.fhnw.ip6.common.dto.Lecturer;
+import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.Solution;
-import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
@@ -16,10 +16,10 @@ import java.util.List;
 
 public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     private final IntVar[][][] presRoomTime;
-    private final List<Presentation> presentations;
-    private final List<Lecturer> lecturers;
-    private final List<Timeslot> timeslots;
-    private final List<Room> rooms;
+    private final List<PresentationDto> presentations;
+    private final List<LecturerDto> lecturers;
+    private final List<TimeslotDto> timeslots;
+    private final List<RoomDto> rooms;
     private final StopWatch stopWatch;
     private final SolverContext solverContext;
     private final IntVar[] firstTimeslots;
@@ -64,8 +64,8 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         }*/
 
 
-        for (Lecturer l : lecturers) {
-            for (Timeslot t : timeslots) {
+        for (LecturerDto l : lecturers) {
+            for (TimeslotDto t : timeslots) {
                 System.out.println("Lecturer" + l.getId() + "at time " + t.getId() + " has room " + value(coachRoomTime[l.getId()][t.getId()]));
 
             }
@@ -82,9 +82,9 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         */
 
 
-        for (Lecturer l : lecturers) {
+        for (LecturerDto l : lecturers) {
 
-            for (Timeslot t : timeslots) {
+            for (TimeslotDto t : timeslots) {
                 System.out.println("RoomDiffsInt for lecturer " + l.getId() + " at time " + t.getId() + ": " + value(roomDiffsInt[l.getId()][t.getId()]));
                 //System.out.println("RoomDiffsBool for lecturer " + l.getId() + " at time " + t.getId() + ": " + booleanValue(roomDiffsBool[l.getId()][t.getId()]));
             }
@@ -94,9 +94,9 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         }
 
 
-        for (Timeslot t : timeslots) {
-            for (Room r : rooms) {
-                for (Presentation p : presentations) {
+        for (TimeslotDto t : timeslots) {
+            for (RoomDto r : rooms) {
+                for (PresentationDto p : presentations) {
                     if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
                     if (booleanValue(presRoomTime[p.getId()][r.getId()][t.getId()])) {
                         planning.getSolutions().add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
@@ -110,7 +110,7 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         solverContext.saveBestPlanning(planning);
     }
 
-    public PresentationSolutionObserver(IntVar[][][] presRoomTime, List<Lecturer> lecturers, List<Presentation> presentations, List<Timeslot> timeslots, List<Room> rooms, StopWatch stopWatch, SolverContext solverContext, IntVar[] firstTimeslots, IntVar[][] lecturerTimeslots, IntVar[] lastTimeslots, IntVar[] diffs, IntVar[][] coachRoomTime, IntVar[][] roomDiffsInt, IntVar[][] roomDiffsBool, IntVar[] numChangesForLecturer, IntVar[][][] coachTimeRoomBool) {
+    public PresentationSolutionObserver(IntVar[][][] presRoomTime, List<LecturerDto> lecturers, List<PresentationDto> presentations, List<TimeslotDto> timeslots, List<RoomDto> rooms, StopWatch stopWatch, SolverContext solverContext, IntVar[] firstTimeslots, IntVar[][] lecturerTimeslots, IntVar[] lastTimeslots, IntVar[] diffs, IntVar[][] coachRoomTime, IntVar[][] roomDiffsInt, IntVar[][] roomDiffsBool, IntVar[] numChangesForLecturer, IntVar[][][] coachTimeRoomBool) {
         this.presRoomTime = presRoomTime;
         this.lecturers = lecturers;
         this.presentations = presentations;

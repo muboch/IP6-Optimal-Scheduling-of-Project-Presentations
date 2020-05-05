@@ -2,19 +2,35 @@ package ch.fhnw.ip6.ospp.service;
 
 import ch.fhnw.ip6.api.SolverApi;
 import ch.fhnw.ip6.api.SolverContext;
-import ch.fhnw.ip6.common.dto.*;
+import ch.fhnw.ip6.common.dto.LecturerDto;
+import ch.fhnw.ip6.common.dto.Planning;
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.ospp.event.SolveEvent;
 import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.mapper.RoomMapper;
 import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
 import ch.fhnw.ip6.ospp.model.ExcelFile;
+import ch.fhnw.ip6.ospp.model.Lecturer;
+import ch.fhnw.ip6.ospp.model.Presentation;
+import ch.fhnw.ip6.ospp.model.Room;
+import ch.fhnw.ip6.ospp.model.Timeslot;
+import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import ch.fhnw.ip6.ospp.persistence.PlanningRepository;
-import ch.fhnw.ip6.ospp.service.client.*;
-import ch.fhnw.ip6.ospp.vo.*;
+import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
+import ch.fhnw.ip6.ospp.persistence.RoomRepository;
+import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
+import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -35,12 +51,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PlannningServiceImpl extends AbstractService implements PlanningService {
+public class PlanningService extends AbstractService {
 
-    private final PresentationService presentationService;
-    private final LecturerService lecturerService;
-    private final RoomService roomService;
-    private final TimeslotService timeslotService;
+    private final PresentationRepository presentationRepository;
+    private final LecturerRepository lecturerRepository;
+    private final RoomRepository roomRepository;
+    private final TimeslotRepository timeslotRepository;
 
     private final PlanningRepository planningRepository;
 
@@ -62,33 +78,33 @@ public class PlannningServiceImpl extends AbstractService implements PlanningSer
 
     private static String[] columns = {"Nr", "Titel", "Name", "Klasse", "Name 2", "Klasse 2", "Betreuer", "Experte", "Zeit", "Raum"};
 
-    private boolean[][] createLocktimesMap(List<LecturerVO> lecturerVOs, int numberOfTimeslots) {
+    private boolean[][] createLocktimesMap(List<Lecturer> lecturerVOs, int numberOfTimeslots) {
 
         boolean[][] locktimes = new boolean[lecturerVOs.size()][numberOfTimeslots];
 
-        for (int l = 0; l < lecturerVOs.size(); l++) {
-            for (int t = 0; t < numberOfTimeslots; t++) {
-                int finalT = t;
-                locktimes[l][t] = lecturerVOs.get(l).getLocktimes().stream().anyMatch(timeslotVO -> timeslotVO.getExternalId() == finalT);
-            }
-        }
+        // TODO Carlo fix that
+//        for (int l = 0; l < lecturerVOs.size(); l++) {
+//            for (int t = 0; t < numberOfTimeslots; t++) {
+//                Long finalT = t;
+//                locktimes[l][t] = lecturerVOs.get(l).getOfftimes().stream().anyMatch(ot -> ot.equals(finalT));
+//            }
+//        }
 
         return locktimes;
     }
 
-    @Override
     public Planning plan() throws Exception {
-        List<PresentationVO> presentationVOs = presentationService.getAll();
-        List<LecturerVO> lecturerVOs = lecturerService.getAll();
-        List<RoomVO> roomVOs = roomService.getAll();
-        List<TimeslotVO> timeslotVOs = timeslotService.getAll();
+        List<Presentation> presentations = presentationRepository.findAll();
+        List<Lecturer> lecturers = lecturerRepository.findAll();
+        List<Room> rooms = roomRepository.findAll();
+        List<Timeslot> timeslots = timeslotRepository.findAll();
 
-        List<Presentation> presentations = presentationVOs.stream().map(presentationMapper::toDto).collect(Collectors.toList());
-        List<Lecturer> lecturers = lecturerVOs.stream().map(lecturerMapper::toDto).collect(Collectors.toList());
-        List<Room> rooms = roomVOs.stream().map(roomMapper::toDto).collect(Collectors.toList());
-        List<Timeslot> timeslots = timeslotVOs.stream().map(timeslotMapper::toDto).collect(Collectors.toList());
+        List<PresentationDto> presentationDtos = presentations.stream().map(presentationMapper::fromEntityToDto).collect(Collectors.toList());
+        List<LecturerDto> lecturerDtos = lecturers.stream().map(lecturerMapper::fromEntityToDto).collect(Collectors.toList());
+        List<RoomDto> roomDtos = rooms.stream().map(roomMapper::fromEntityToDto).collect(Collectors.toList());
+        List<TimeslotDto> timeslotDtos = timeslots.stream().map(timeslotMapper::fromEntityToDto).collect(Collectors.toList());
 
-        boolean[][] locktimes = createLocktimesMap(lecturerVOs, timeslotVOs.size());
+        boolean[][] locktimes = createLocktimesMap(lecturers, timeslots.size());
 
 
         Planning planning;
@@ -99,7 +115,7 @@ public class PlannningServiceImpl extends AbstractService implements PlanningSer
             planning = getSolver().testSolve();
         } else {
             solverContext.reset();
-            planning = getSolver().solve(presentations, lecturers, rooms, timeslots, locktimes);
+            planning = getSolver().solve(presentationDtos, lecturerDtos, roomDtos, timeslotDtos, locktimes);
         }
 
         ExcelFile excelFile = transformToCsv(planning);
@@ -147,11 +163,12 @@ public class PlannningServiceImpl extends AbstractService implements PlanningSer
                         Row row = sheet.createRow(rowNum.getAndIncrement());
 
                         row.createCell(0).setCellValue(solution.getPresentation().getNr());
-                        row.createCell(1).setCellValue(solution.getPresentation().getTitle());
-                        row.createCell(2).setCellValue(solution.getPresentation().getName());
-                        row.createCell(3).setCellValue(solution.getPresentation().getSchoolclass());
-                        row.createCell(4).setCellValue(solution.getPresentation().getName2());
-                        row.createCell(5).setCellValue(solution.getPresentation().getSchoolclass2());
+                        // TODO fix that
+//                        row.createCell(1).setCellValue(solution.getPresentation().getTitle());
+//                        row.createCell(2).setCellValue(solution.getPresentation().getName());
+//                        row.createCell(3).setCellValue(solution.getPresentation().getSchoolclass());
+//                        row.createCell(4).setCellValue(solution.getPresentation().getName2());
+//                        row.createCell(5).setCellValue(solution.getPresentation().getSchoolclass2());
                         row.createCell(6).setCellValue(solution.getCoach().getName());
                         row.createCell(7).setCellValue(solution.getExpert().getName());
                         row.createCell(8).setCellValue(solution.getTimeSlot().getDate());
@@ -188,8 +205,6 @@ public class PlannningServiceImpl extends AbstractService implements PlanningSer
         return null;
     }
 
-
-    @Override
     public void firePlanning() throws Exception {
         if (solverContext.isSolving()) {
             throw new Exception("Solver is already running.");
@@ -197,13 +212,11 @@ public class PlannningServiceImpl extends AbstractService implements PlanningSer
         applicationEventPublisher.publishEvent(new SolveEvent(this));
     }
 
-    @Override
     public ExcelFile getFileById(long id) {
         ch.fhnw.ip6.ospp.model.Planning planning = planningRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No planning for id " + id));
         return ExcelFile.builder().name(planning.getName()).content(planning.getData()).build();
     }
 
-    @Override
     public List<PlanningVO> getAllPlannings() {
         return planningRepository.findAllProjectedBy();
     }

@@ -1,9 +1,9 @@
 package ch.fhnw.ip6.ilpsolver.constraint.soft;
 
-import ch.fhnw.ip6.common.dto.Lecturer;
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
-import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.common.dto.LecturerDto;
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import gurobi.GRB;
 import gurobi.GRBException;
@@ -20,16 +20,16 @@ public class MinRoomSwitches extends Constraint {
     public void build() {
         try {
             GRBVar[][] coachRoom = new GRBVar[getModel().getLecturers().size()][getModel().getRooms().size()];
-            for (Lecturer l : getModel().getLecturers()) {
-                for (Room r : getModel().getRooms()) {
+            for (LecturerDto l : getModel().getLecturers()) {
+                for (RoomDto r : getModel().getRooms()) {
                     coachRoom[l.getId()][r.getId()] = getGrbModel().addVar(0.0, 1.0, 1.0, GRB.EQUAL, l + "." + r);
                 }
             }
-            for (Lecturer l : getModel().getLecturers()) {
-                for (Room r : getModel().getRooms()) {
+            for (LecturerDto l : getModel().getLecturers()) {
+                for (RoomDto r : getModel().getRooms()) {
                     GRBLinExpr lhs = new GRBLinExpr();
-                    for (Presentation p1 : getModel().getPresentationsPerLecturer().get(l)) {
-                        for (Timeslot t : getModel().getTimeslots()) {
+                    for (PresentationDto p1 : getModel().getPresentationsPerLecturer().get(l)) {
+                        for (TimeslotDto t : getModel().getTimeslots()) {
                             if (getX()[p1.getId()][r.getId()][t.getId()] == null) continue;
                             lhs.addTerm(ROOM_SWITCH_COST, getX()[p1.getId()][r.getId()][t.getId()]);
                         }

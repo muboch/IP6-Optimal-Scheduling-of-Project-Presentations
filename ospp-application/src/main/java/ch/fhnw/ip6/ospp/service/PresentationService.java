@@ -1,11 +1,10 @@
 package ch.fhnw.ip6.ospp.service;
 
+import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Student;
 import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
-import ch.fhnw.ip6.ospp.service.client.LecturerService;
-import ch.fhnw.ip6.ospp.service.client.PresentationService;
 import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,22 +15,23 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PresentationServiceImpl extends AbstractService implements PresentationService {
+public class PresentationService extends AbstractService {
 
     private final PresentationRepository presentationRepository;
     private final LecturerService lecturerService;
+    private final PresentationMapper presentationMapper;
 
-
-    @Override
     public void loadPresentation(MultipartFile input) {
 
         try {
@@ -83,34 +83,15 @@ public class PresentationServiceImpl extends AbstractService implements Presenta
         }
     }
 
-    @Override
-    public PresentationVO addPresentation(Presentation presentation) {
-        return null;
+    public PresentationVO findById(Long id) {
+        Optional<Presentation> byId = presentationRepository.findById(id);
+        return byId.map(presentationMapper::fromEntityToVO).orElseThrow(EntityNotFoundException::new);
     }
 
-
-
-    @Override
-    public PresentationVO readById(long id) {
-        return null;
-    }
-
-    @Override
-    public PresentationVO readByNr(String nr) {
-        return null;
-    }
-
-    @Override
-    public PresentationVO readByExternalId(int id) {
-        return presentationRepository.findByExternalId(id);
-    }
-
-    @Override
     public void deleteAll() {
         presentationRepository.deleteAll();
     }
 
-    @Override
     public List<PresentationVO> getAll() {
         return presentationRepository.findAllProjectedBy();
     }

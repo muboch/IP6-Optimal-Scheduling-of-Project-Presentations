@@ -12,7 +12,7 @@ public interface TimeslotRepository extends JpaRepository<Timeslot, Long> {
 
     List<TimeslotVO> findAllProjectedBy();
 
-    TimeslotVO findByExternalId(long externalId);
+    TimeslotVO readById(Long id);
 
     Timeslot findByDate(String date);
 }

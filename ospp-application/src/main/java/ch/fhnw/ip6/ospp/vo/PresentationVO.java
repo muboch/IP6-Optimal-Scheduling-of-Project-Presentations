@@ -1,27 +1,30 @@
 package ch.fhnw.ip6.ospp.vo;
 
-public interface PresentationVO {
+import lombok.Getter;
+import lombok.Setter;
 
-    int getId();
+@Getter
+@Setter
+public class PresentationVO {
 
-    RoomVO getRoom();
+    private Long id;
 
-    String getNr();
+    private Long room;
 
-    int getExternalId();
+    private String nr;
 
-    String getType();
+    private String type;
 
-    String getTitle();
+    private String title;
 
-    StudentVO getStudentOne();
+    private Long studentOne;
 
-    StudentVO getStudentTwo();
+    private Long studentTwo;
 
-    LecturerVO getCoach();
+    private Long coach;
 
-    LecturerVO getExpert();
+    private Long expert;
 
-    TimeslotVO getTimeslot();
+    private Long timeslot;
 
 }

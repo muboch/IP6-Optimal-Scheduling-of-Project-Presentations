@@ -13,9 +13,9 @@ import lombok.ToString;
 @ToString
 public class Solution {
 
-    private Room room;
-    private Timeslot timeSlot;
-    private Presentation presentation;
-    private Lecturer expert;
-    private Lecturer coach;
+    private RoomDto room;
+    private TimeslotDto timeSlot;
+    private PresentationDto presentation;
+    private LecturerDto expert;
+    private LecturerDto coach;
 }

@@ -2,7 +2,11 @@ package ch.fhnw.ip6.ospp.controller;
 
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.ospp.model.ExcelFile;
-import ch.fhnw.ip6.ospp.service.client.*;
+import ch.fhnw.ip6.ospp.service.LecturerService;
+import ch.fhnw.ip6.ospp.service.PlanningService;
+import ch.fhnw.ip6.ospp.service.PresentationService;
+import ch.fhnw.ip6.ospp.service.RoomService;
+import ch.fhnw.ip6.ospp.service.TimeslotService;
 import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,6 @@
 package ch.fhnw.ip6.ospp.controller;
 
-import ch.fhnw.ip6.ospp.service.client.TimeslotService;
-import ch.fhnw.ip6.ospp.vo.RoomVO;
+import ch.fhnw.ip6.ospp.service.TimeslotService;
 import ch.fhnw.ip6.ospp.vo.TimeslotVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +21,10 @@ public class TimeslotController {
     public List<TimeslotVO> findAll() {
         return timeslotService.getAll();
     }
-    public TimeslotVO findByExternalId(@PathVariable int id) {
-        return timeslotService.readByExternalId(id);
+
+    @GetMapping("/timeslot/{id}")
+    public TimeslotVO findByExternalId(@PathVariable Long id) {
+        return timeslotService.findById(id);
     }
 
 }

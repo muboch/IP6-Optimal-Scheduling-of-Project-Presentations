@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Lecturer {
+public class LecturerDto implements L{
 
     private int id;
     private String firstname;
@@ -22,7 +22,6 @@ public class Lecturer {
     public String getName(){
         return lastname + " " + firstname;
     }
-
 
     @Override
     public String toString() {

@@ -1,10 +1,10 @@
 package ch.fhnw.ip6.ilpsolver.constraint;
 
-import ch.fhnw.ip6.common.dto.Lecturer;
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
-import ch.fhnw.ip6.common.dto.Timeslot;
-import ch.fhnw.ip6.ilpsolver.Model;
+import ch.fhnw.ip6.common.dto.LecturerDto;
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.ilpsolver.ILPModel;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
@@ -12,45 +12,45 @@ import gurobi.GRBVar;
 
 public abstract class Constraint {
 
-    private Model model;
+    private ILPModel model;
 
     public abstract void build();
 
     protected abstract String getConstraintName();
 
     protected void addConstraint(GRBLinExpr lhs, char type) throws GRBException {
-        getModel().getGrbModel().addConstr(lhs, type, 1.0, getConstraintName());
+        model.getModel().addConstr(lhs, type, 1.0, getConstraintName());
     }
 
-    protected Model getModel() {
+    protected ILPModel getModel() {
         return model;
     }
 
     protected GRBModel getGrbModel() {
-        return getModel().getGrbModel();
+        return model.getModel();
     }
 
     protected GRBVar[][][] getX() {
         return getModel().getX();
     }
 
-    public int indexOf(Timeslot slot) {
+    public int indexOf(TimeslotDto slot) {
         return getModel().getTimeslots().indexOf(slot);
     }
 
-    public int indexOf(Room room) {
+    public int indexOf(RoomDto room) {
         return getModel().getRooms().indexOf(room);
     }
 
-    public int indexOf(Presentation presentation) {
+    public int indexOf(PresentationDto presentation) {
         return getModel().getPresentations().indexOf(presentation);
     }
 
-    public int indexOf(Lecturer lecturer) {
+    public int indexOf(LecturerDto lecturer) {
         return getModel().getLecturers().indexOf(lecturer);
     }
 
-    public Constraint setModel(Model model) {
+    public Constraint setModel(ILPModel model) {
         this.model = model;
         return this;
     }

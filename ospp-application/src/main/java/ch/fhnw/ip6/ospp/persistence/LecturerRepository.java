@@ -13,7 +13,7 @@ public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
 
     Lecturer readByInitials(String initials);
 
-    Lecturer readById(Long id);
+    LecturerVO readById(Long id);
 
     LecturerVO findByExternalId(int externalId);
 
