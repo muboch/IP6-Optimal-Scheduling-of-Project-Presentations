@@ -19,4 +19,8 @@ public class Timeslot {
      private int block;
      private int priority;
 
+     @Override
+     public String toString() {
+          return String.format("T[id=%03d,dt='%s']", id, date);
+     }
 }
