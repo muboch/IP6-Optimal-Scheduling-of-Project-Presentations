@@ -3,9 +3,9 @@ package ch.fhnw.ip6.ospp.mapper;
 import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Room;
-import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import ch.fhnw.ip6.ospp.vo.RoomVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -22,6 +22,7 @@ public interface RoomMapper {
 
     RoomDto fromVoToDto(RoomVO roomVO);
 
+    @Mapping(target="presentations", ignore=true)
     Room fromVoToEntity(RoomVO presentationVO);
 
     default List<Long> mapPresentations(List<Presentation> presentations) {

@@ -24,6 +24,12 @@ public interface PresentationMapper {
     @Mapping(target = "room", source = "presentation.room.id")
     PresentationVO fromEntityToVo(Presentation presentation);
 
+    @Mapping(target="room", ignore=true)
+    @Mapping(target="studentOne", ignore=true)
+    @Mapping(target="studentTwo", ignore=true)
+    @Mapping(target="coach", ignore=true)
+    @Mapping(target="expert", ignore=true)
+    @Mapping(target="timeslot", ignore=true)
     Presentation fromVoToEntity(PresentationVO lecturerVO);
 
 }
