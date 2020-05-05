@@ -17,7 +17,10 @@ import { makeStyles } from "@material-ui/styles";
 import { useGStyles } from "../../../theme";
 import { stableSort, getComparator, Order } from "../../../Helpers/helpers";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+
 import LecturerEditForm from "./lecturerEditForm";
+import { deleteLecturerById } from "../../../Services/lecturerService";
 
 export interface LecturerTableProps {
   lecturers: Array<Lecturer>;
@@ -73,7 +76,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
     rowsPerPage - Math.min(rowsPerPage, lecturers.length - page * rowsPerPage);
   const rows: Array<lecturerRow> = lecturers.map((l) => {
     return {
-      id: l.externalId!,
+      id: l.id!,
       lastName: l.lastname,
       firstName: l.firstname,
       email: l.email,
@@ -94,6 +97,8 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
                 <TableCell align="right">Vorname</TableCell>
                 <TableCell align="right">Email</TableCell>
                 <TableCell align="right">Kürzel</TableCell>
+                <TableCell align="right">Bearbeiten</TableCell>
+                <TableCell align="right">Löschen</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -119,6 +124,14 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
                             <EditIcon />
                           </Button>
                         </TableCell>
+                        <TableCell align="right">
+                          <Button
+                            className={gStyles.secondaryButton}
+                            onClick={() => deleteLecturerById(l.id)}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     );
                   })
@@ -126,7 +139,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
                 <TableRow>
                   <TableCell>
                     <Typography variant="body1">
-                      Derzeit keine Präsentation vorhanden
+                      Derzeit keine Dozenten erfasst
                     </Typography>
                   </TableCell>
                 </TableRow>

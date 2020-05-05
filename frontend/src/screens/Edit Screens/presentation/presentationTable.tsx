@@ -81,7 +81,7 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
     Math.min(rowsPerPage, presentations.length - page * rowsPerPage);
   const rows: Array<presentationRow> = presentations.map((p) => {
     return {
-      id: p.externalId!,
+      id: p.id!,
       title: p.title,
       studentOne: p.studentOne!.name,
       studentTwo: p.studentTwo ? p.studentTwo?.name : "",

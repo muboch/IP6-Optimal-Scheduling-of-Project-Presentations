@@ -1,17 +1,17 @@
 import React, { useState, FormEvent } from "react";
-import { Button, makeStyles, Snackbar } from "@material-ui/core";
+import { Button, makeStyles, Snackbar, Typography } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { Redirect, useLocation } from "wouter";
 import { SCREENROUTES } from "../../constants";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   input: {
-    display: "none"
+    display: "none",
   },
   button: {
-    width: "400px"
-  }
+    width: "400px",
+  },
 }));
 
 const UploadFilesScreen: React.FC = (): JSX.Element => {
@@ -24,7 +24,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
     presentations: undefined,
     rooms: undefined,
     timeslots: undefined,
-    teachers: undefined
+    teachers: undefined,
   });
 
   type UploadInfo = {
@@ -44,7 +44,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
     { key: "rooms", label: "Räume" },
     { key: "timeslots", label: "Zeitslots" },
     { key: "teachers", label: "Lehrpersonen" },
-    { key: "locktimes", label: "Sperrzeiten für Dozenten" }
+    { key: "locktimes", label: "Sperrzeiten für Dozenten" },
   ];
   const getKeyValue = (key: keyof Files) => {
     return files[key] !== undefined;
@@ -68,7 +68,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         {
           // content-type header should not be specified!
           method: "POST",
-          body: formData
+          body: formData,
         }
       );
       if (checkStatus(res)) {
@@ -87,8 +87,10 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
     if (res.status >= 200 && res.status < 300) {
       return true;
     } else {
-      if(res.status == 429){
-        let err = new Error(`Es wird bereits eine Planung erstellt. Bitte versuchen Sie es später nochmal`);
+      if (res.status == 429) {
+        let err = new Error(
+          `Es wird bereits eine Planung erstellt. Bitte versuchen Sie es später nochmal`
+        );
         throw err;
       }
       let err = new Error(`${res.status}: ${res.statusText}`);
@@ -102,7 +104,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         className={gStyles.columnFlexDiv}
         onSubmit={(e: FormEvent<HTMLFormElement>) => uploadFiles(e)}
       >
-        {uploadInfos.map(u => {
+        {uploadInfos.map((u) => {
           return (
             <>
               <input
@@ -110,7 +112,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
                 className={styles.input}
                 id={`${u.key}-file`}
                 type="file"
-                onChange={e => {
+                onChange={(e) => {
                   setFileForKey(u.key, e.target.files![0]);
                 }}
               />
@@ -138,8 +140,11 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
             !getKeyValue("locktimes")
           }
         >
-          Planung erstellen
+          Daten Importieren
         </Button>
+        <Typography variant="subtitle1" style={{ color: "red" }} gutterBottom>
+          Achtung: Beim Import werden alle Daten überschrieben!
+        </Typography>
       </form>
       <Snackbar
         open={snackbarOpen}

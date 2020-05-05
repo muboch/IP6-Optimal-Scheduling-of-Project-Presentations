@@ -5,9 +5,11 @@ import { Lecturer, Student } from "../../../Types/types";
 import {
   loadLecturerById,
   loadLecturers,
+  addLecturer,
 } from "../../../Services/lecturerService";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
+import { addPresentation } from "../../../Services/presentationService";
 
 export interface LecturerEditFormProps {
   lecturerId?: number; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
@@ -94,10 +96,13 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
     return true;
   };
 
-  const onSaveForm = () => {};
+  const onSaveForm = (e: any) => {
+    e.preventDefault();
+    addLecturer(lecturer!);
+  };
 
   return (
-    <form>
+    <form onSubmit={onSaveForm}>
       <Tooltip title="Abbrechen und Schliessen">
         <Button
           className={`${gStyles.secondaryButton} ${styles.closeButton}`}
@@ -110,7 +115,6 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
         <Button
           type="submit"
           className={`${gStyles.primaryButton} ${styles.saveButton}`}
-          onClick={onSaveForm}
         >
           <SaveIcon />
         </Button>
@@ -149,8 +153,9 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
             ></TextField>
             <TextField
               required
+              type="email"
               label="Email"
-              value={lecturer.lastname}
+              value={lecturer.email}
               onChange={(e: any) => {
                 updateLecturerValue("email", e.currentTarget.value);
               }}
