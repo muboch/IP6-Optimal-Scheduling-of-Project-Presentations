@@ -44,7 +44,6 @@ export const useGStyles = makeStyles((theme) => ({
     "& > *": {
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
-
     },
   },
   columnFlexDiv: {
@@ -67,6 +66,7 @@ export const useGStyles = makeStyles((theme) => ({
     "&.Mui-disabled": {
       background: "#AAB9AE",
     },
+    margin: "8px",
   },
 
   secondaryButton: {
@@ -75,5 +75,18 @@ export const useGStyles = makeStyles((theme) => ({
     borderWidth: "1px",
     borderColor: theme.palette.primary.main,
     padding: "4px",
+    margin: "8px",
+  },
+
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+    padding: 0,
+    margin: 0,
+  },
+  paper: {
+    minWidth: 650,
+    maxWidth: 1000,
+    padding: "20px",
   },
 }));

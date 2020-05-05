@@ -6,16 +6,17 @@ import {
   FormControl,
   InputLabel,
   NativeSelect,
+  Tooltip,
 } from "@material-ui/core";
-import { useGStyles } from "../../theme";
-import { Presentation, Lecturer, Student } from "../../Types/types";
+import { useGStyles } from "../../../theme";
+import { Presentation, Lecturer, Student } from "../../../Types/types";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { loadLecturers } from "../../Services/lecturerService";
-import { loadStudents } from "../../Services/studentService";
+import { loadLecturers } from "../../../Services/lecturerService";
+import { loadStudents } from "../../../Services/studentService";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
-import { loadPresentationById } from "../../Services/presentationService";
-import { PRESENTATIONTYPES } from "../../constants";
+import { loadPresentationById } from "../../../Services/presentationService";
+import { PRESENTATIONTYPES } from "../../../constants";
 
 export interface PresentationEditFormProps {
   presentationId?: number; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
@@ -45,10 +46,13 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
       right: "10px",
     },
     textField50: {
-      minWidth: "50%",
+      width: "50%",
     },
     textField80: {
-      minWidth: "80%",
+      width: "80%",
+    },
+    textField20: {
+      width: "20%",
     },
   });
 
@@ -63,6 +67,15 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
     setStudents(await loadStudents());
     if (presentationId !== undefined && editPresentation) {
       setPresentation(await loadPresentationById(presentationId));
+    } else {
+      setPresentation({
+        // type: PRESENTATIONTYPES[0],
+        nr: "",
+        title: "",
+        type: "normal",
+
+        // externalId: undefined
+      });
     }
   };
 
@@ -83,19 +96,23 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
 
   return (
     <form>
-      <Button
-        className={`${gStyles.secondaryButton} ${styles.closeButton}`}
-        onClick={onExitForm}
-      >
-        <CloseIcon />
-      </Button>
-      <Button
-        type="submit"
-        className={`${gStyles.primaryButton} ${styles.saveButton}`}
-        onClick={onSaveForm}
-      >
-        <SaveIcon />
-      </Button>
+      <Tooltip title="Abbrechen und Schliessen">
+        <Button
+          className={`${gStyles.secondaryButton} ${styles.closeButton}`}
+          onClick={onExitForm}
+        >
+          <CloseIcon />
+        </Button>
+      </Tooltip>
+      <Tooltip title="Speichern">
+        <Button
+          type="submit"
+          className={`${gStyles.primaryButton} ${styles.saveButton}`}
+          onClick={onSaveForm}
+        >
+          <SaveIcon />
+        </Button>
+      </Tooltip>
       {presentation && students && lecturers && (
         <div className={gStyles.columnFlexDiv}>
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
@@ -122,19 +139,19 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
             <TextField
               required
               label="Titel"
-              value={presentation.title}
+              value={presentation.title || ""}
               onChange={(e: any) => {
                 updatePresentationValue("title", e.currentTarget.value);
               }}
               className={styles.textField80}
             ></TextField>
 
-            <FormControl>
+            <FormControl className={styles.textField20}>
               <InputLabel shrink htmlFor="age-native-label-placeholder">
-                Age
+                Type
               </InputLabel>
               <NativeSelect
-                value={presentation.type}
+                value={presentation.type || PRESENTATIONTYPES[0]}
                 onChange={(e: any) => {
                   updatePresentationValue("type", e.currentTarget.value);
                 }}
@@ -151,31 +168,47 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
           </div>
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <Autocomplete
+              className={styles.textField50}
               id="combo-box-demo"
               options={lecturers}
               getOptionLabel={(lecturer: Lecturer) =>
                 `${lecturer.lastname}, ${lecturer.firstname}`
               }
-              style={{ width: 300 }}
-              value={presentation?.coach}
+              value={presentation?.coach || null}
               onChange={(_: any, newValue: Lecturer | null) => {
                 updatePresentationValue("coach", newValue);
               }}
               renderInput={(params) => (
-                <TextField {...params} label="Coach" variant="outlined" />
+                <TextField
+                  {...params}
+                  error={
+                    presentation.coach &&
+                    presentation.coach?.id === presentation.expert?.id
+                  }
+                  label="Coach"
+                  variant="outlined"
+                />
               )}
             />
 
             <Autocomplete
+              className={styles.textField50}
               id="combo-box-demo"
               options={lecturers}
               getOptionLabel={(lecturer: Lecturer) =>
                 `${lecturer.lastname}, ${lecturer.firstname}`
               }
-              style={{ width: 300 }}
-              value={presentation.expert}
+              value={presentation.expert || null}
               renderInput={(params) => (
-                <TextField {...params} label="Expert" variant="outlined" />
+                <TextField
+                  {...params}
+                  error={
+                    presentation.expert &&
+                    presentation.coach?.id === presentation.expert?.id
+                  }
+                  label="Expert"
+                  variant="outlined"
+                />
               )}
               onChange={(_: any, newValue: Lecturer | null) => {
                 updatePresentationValue("expert", newValue);
@@ -184,15 +217,23 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
           </div>
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <Autocomplete
+              className={styles.textField50}
               id="combo-box-demo"
               options={students}
               getOptionLabel={(student: Student) => {
                 return student.name;
               }}
-              style={{ width: 300 }}
-              value={presentation.studentOne}
+              value={presentation.studentOne || null}
               renderInput={(params) => (
-                <TextField {...params} label="Schüler 1" variant="outlined" />
+                <TextField
+                  {...params}
+                  error={
+                    presentation.studentOne &&
+                    presentation.studentOne?.id === presentation.studentTwo?.id
+                  }
+                  label="Schüler 1"
+                  variant="outlined"
+                />
               )}
               onChange={(_: any, newValue: Student | null) => {
                 updatePresentationValue("studentOne", newValue);
@@ -200,14 +241,23 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
             />
             <Autocomplete
               id="combo-box-demo"
+              className={styles.textField50}
               options={students}
               getOptionLabel={(student: Student) => {
                 return student.name;
               }}
-              style={{ width: 300 }}
-              value={presentation.studentTwo}
+              value={presentation.studentTwo || null}
               renderInput={(params) => (
-                <TextField {...params} label="Schüler 2" variant="outlined" />
+                <TextField
+                  error={
+                    presentation.studentOne &&
+                    presentation.studentOne?.id === presentation.studentTwo?.id
+                  }
+                  helperText=""
+                  {...params}
+                  label="Schüler 2"
+                  variant="outlined"
+                />
               )}
               onChange={(_: any, newValue: Student | null) => {
                 updatePresentationValue("studentTwo", newValue);

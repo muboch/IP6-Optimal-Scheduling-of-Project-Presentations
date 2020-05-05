@@ -72,7 +72,7 @@ public class Solver extends AbstractSolver {
         IntVar[][][] presRoomTime = cpModel.getX();
 
         System.out.println("Setup completed");
-        // For each presentations, list the presentations that are not allowed to overlap
+        // For each lecturer, list the presentations that are not allowed to overlap
         List<Presentation>[] presentationsPerLecturer = new ArrayList[lecturers.size()];
         for (Lecturer l : lecturers) {
             presentationsPerLecturer[cpModel.indexOf(l)] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList());
@@ -131,7 +131,7 @@ public class Solver extends AbstractSolver {
         }
         // END CONSTRAINT
 
-        // START CONSTRAINT 2. Coaches should have as little free timeslots between presentations as possible.
+        // START CONSTRAINT 1. Coaches should have as little free timeslots between presentations as possible.
         IntVar[][] lecturerTimeslot = new IntVar[lecturers.size()][timeslots.size()]; // Coach has a presentation at timeslot
         int[] timeslotCost = new int[timeslots.size()];
 

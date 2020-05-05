@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useGStyles, theme } from "../../theme";
-import PresentationEditForm from "./presentationEditForm";
+import PresentationEditForm from "./presentation/presentationEditForm";
 import { makeStyles, Backdrop, Paper } from "@material-ui/core";
-import PresentationTable from "./presentationTable";
+import PresentationTable from "./presentation/presentationTable";
 import { Presentation } from "../../Types/types";
 import { loadLecturers } from "../../Services/lecturerService";
 import { loadStudents } from "../../Services/studentService";
 import { loadPresentations } from "../../Services/presentationService";
+import LecturerTable from "./lecturer/lecturerTable";
 
 export interface EditScreenProps {
   type:
@@ -25,21 +26,10 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
       minWidth: 650,
       maxWidth: 1000,
     },
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: "#fff",
-    },
-    paper: {
-      minWidth: 650,
-      maxWidth: 1000,
-      minHeight: 650,
-      maxHeight: 1000,
-    },
   });
   const styles = useStyles();
-  const [showEditForm, setShowEditForm] = useState<boolean>(false);
-  const [presentationToEdit, setPresentationToEdit] = useState<number>();
-  const [data, setData] = useState<Array<Presentation>>([]);
+  const [data, setData] = useState<Array<any>>([]);
+  const [loadedType, setLoadedType] = useState("");
 
   // const loadFunction = {
   //   lecturer: loadLecturers,
@@ -47,46 +37,44 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
   //   presentation: loadPresentations,
   // }[`${type}` as string];
 
-  const loadData = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_ENDPOINT}/api/${type}`
-      );
-      const json = await res.json();
-      console.log(json);
-      if (res.ok) {
-        setData(json);
-      }
-    } catch (Error) {}
-  };
-
   useEffect(() => {
-    loadData();
-  }, []);
-  const tables = { PresentationTable };
+    setData([]);
 
+    const loadData = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}/api/${type}`
+        );
+        const json = await res.json();
+        console.log(json);
+        if (res.ok) {
+          setData(json);
+        }
+      } catch (Error) {}
+      setLoadedType(type);
+    };
+
+    loadData();
+  }, [type]);
+  const tables = {
+    presentation: <PresentationTable presentations={data} />,
+    lecturer: <LecturerTable lecturers={data} />,
+    room: <></>,
+    offtime: <></>,
+    timeslot: <></>,
+    Student: <></>,
+  };
+  const getTableToRender = () => {
+    return tables[type];
+  };
   return (
-    <div className={gStyles.centerFlexDiv}>
-      <PresentationTable
-        presentations={data}
-        setPresentationToEdit={setPresentationToEdit}
-      />
-      <Backdrop
-        className={styles.backdrop}
-        open={presentationToEdit !== undefined}
-        //onClick={() => setPresentationToEdit(undefined)}
-      >
-        <Paper className={styles.paper}>
-          <PresentationEditForm
-            onExitForm={() => setPresentationToEdit(undefined)}
-            presentationId={presentationToEdit}
-            editPresentation={
-              presentationToEdit! < data.length
-            }
-          ></PresentationEditForm>
-        </Paper>
-      </Backdrop>
-    </div>
+    <>
+      {loadedType === type && (
+        <div className={gStyles.centerFlexDiv}>
+          {data && getTableToRender()}
+        </div>
+      )}
+    </>
   );
 };
 

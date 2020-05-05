@@ -1,6 +1,6 @@
 export const SCREENROUTES = {
   uploadSucessful: "/uploadSucessful",
-  createPlanning: "/createPlanning",
+  uploadFiles: "/upload",
   listPlanning: "/listPlanning",
   landingScreen: "/",
   presentations: "/presentations",

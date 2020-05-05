@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PlanningScreen: React.FC = (): JSX.Element => {
+const UploadFilesScreen: React.FC = (): JSX.Element => {
   const [location, setLocation] = useLocation();
   const gStyles = useGStyles();
   const styles = useStyles();
@@ -154,4 +154,4 @@ const PlanningScreen: React.FC = (): JSX.Element => {
   );
 };
 
-export default PlanningScreen;
+export default UploadFilesScreen;

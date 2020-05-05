@@ -21,7 +21,7 @@ const LandingScreen: React.FC = (): JSX.Element => {
       <Button
         className={styles.primaryButton}
         onClick={() => {
-          setLocation(SCREENROUTES.createPlanning);
+          setLocation(SCREENROUTES.uploadFiles);
         }}
       >
         Neue Planung erstellen
