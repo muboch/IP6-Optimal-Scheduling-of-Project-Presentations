@@ -98,7 +98,7 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
 
   const onSaveForm = (e: any) => {
     e.preventDefault();
-    addLecturer(lecturer!);
+    addLecturer(lecturer!, lecturer!.id);
   };
 
   return (
