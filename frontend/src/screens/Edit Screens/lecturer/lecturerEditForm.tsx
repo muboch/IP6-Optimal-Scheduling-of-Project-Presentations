@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { makeStyles, TextField, Button, Tooltip } from "@material-ui/core";
 import { useGStyles } from "../../../theme";
 import { Lecturer, Student } from "../../../Types/types";
-import { loadLecturerById } from "../../../Services/lecturerService";
+import {
+  loadLecturerById,
+  loadLecturers,
+} from "../../../Services/lecturerService";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 
@@ -46,10 +49,13 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
 
   const styles = useStyles();
   const gStyles = useGStyles();
+  const [lecturers, setLecturers] = useState<Array<Lecturer>>([]);
   const [lecturer, setLecturer] = useState<Lecturer>();
   console.log(lecturerId);
 
   const loadDataAsync = async () => {
+    setLecturers(await loadLecturers());
+
     if (lecturerId !== undefined && editLecturer) {
       setLecturer(await loadLecturerById(lecturerId));
     } else {
@@ -80,6 +86,14 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
     setLecturer({ ...lecturer!, [key]: value });
   };
 
+  const validateInitials = () => {
+    const index = lecturers.findIndex((l) => l.initials === lecturer!.initials);
+    if (index === -1 || index === lecturerId) {
+      return false;
+    }
+    return true;
+  };
+
   const onSaveForm = () => {};
 
   return (
@@ -101,7 +115,7 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
           <SaveIcon />
         </Button>
       </Tooltip>
-      {lecturer && (
+      {lecturer && lecturers && (
         <div className={gStyles.columnFlexDiv}>
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <TextField
@@ -151,6 +165,8 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
               onChange={(e: any) => {
                 updateLecturerValue("initials", e.currentTarget.value);
               }}
+              error={validateInitials()}
+              helperText={validateInitials() && "Kürzel wird bereits verwendet"}
               className={styles.textField50}
             ></TextField>
           </div>

@@ -179,7 +179,15 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
                 updatePresentationValue("coach", newValue);
               }}
               renderInput={(params) => (
-                <TextField {...params} label="Coach" variant="outlined" />
+                <TextField
+                  {...params}
+                  error={
+                    presentation.coach &&
+                    presentation.coach?.id === presentation.expert?.id
+                  }
+                  label="Coach"
+                  variant="outlined"
+                />
               )}
             />
 
@@ -192,7 +200,15 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               }
               value={presentation.expert || null}
               renderInput={(params) => (
-                <TextField {...params} label="Expert" variant="outlined" />
+                <TextField
+                  {...params}
+                  error={
+                    presentation.expert &&
+                    presentation.coach?.id === presentation.expert?.id
+                  }
+                  label="Expert"
+                  variant="outlined"
+                />
               )}
               onChange={(_: any, newValue: Lecturer | null) => {
                 updatePresentationValue("expert", newValue);
@@ -209,7 +225,15 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               }}
               value={presentation.studentOne || null}
               renderInput={(params) => (
-                <TextField {...params} label="Schüler 1" variant="outlined" />
+                <TextField
+                  {...params}
+                  error={
+                    presentation.studentOne &&
+                    presentation.studentOne?.id === presentation.studentTwo?.id
+                  }
+                  label="Schüler 1"
+                  variant="outlined"
+                />
               )}
               onChange={(_: any, newValue: Student | null) => {
                 updatePresentationValue("studentOne", newValue);
@@ -224,7 +248,16 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               }}
               value={presentation.studentTwo || null}
               renderInput={(params) => (
-                <TextField {...params} label="Schüler 2" variant="outlined" />
+                <TextField
+                  error={
+                    presentation.studentOne &&
+                    presentation.studentOne?.id === presentation.studentTwo?.id
+                  }
+                  helperText=""
+                  {...params}
+                  label="Schüler 2"
+                  variant="outlined"
+                />
               )}
               onChange={(_: any, newValue: Student | null) => {
                 updatePresentationValue("studentTwo", newValue);
