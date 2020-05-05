@@ -67,6 +67,15 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
     setStudents(await loadStudents());
     if (presentationId !== undefined && editPresentation) {
       setPresentation(await loadPresentationById(presentationId));
+    } else {
+      setPresentation({
+        // type: PRESENTATIONTYPES[0],
+        nr: "",
+        title: "",
+        type: "normal",
+
+        // externalId: undefined
+      });
     }
   };
 
@@ -130,7 +139,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
             <TextField
               required
               label="Titel"
-              value={presentation.title}
+              value={presentation.title || ""}
               onChange={(e: any) => {
                 updatePresentationValue("title", e.currentTarget.value);
               }}
@@ -142,7 +151,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
                 Type
               </InputLabel>
               <NativeSelect
-                value={presentation.type}
+                value={presentation.type || PRESENTATIONTYPES[0]}
                 onChange={(e: any) => {
                   updatePresentationValue("type", e.currentTarget.value);
                 }}
@@ -165,7 +174,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               getOptionLabel={(lecturer: Lecturer) =>
                 `${lecturer.lastname}, ${lecturer.firstname}`
               }
-              value={presentation?.coach}
+              value={presentation?.coach || null}
               onChange={(_: any, newValue: Lecturer | null) => {
                 updatePresentationValue("coach", newValue);
               }}
@@ -181,7 +190,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               getOptionLabel={(lecturer: Lecturer) =>
                 `${lecturer.lastname}, ${lecturer.firstname}`
               }
-              value={presentation.expert}
+              value={presentation.expert || null}
               renderInput={(params) => (
                 <TextField {...params} label="Expert" variant="outlined" />
               )}
@@ -198,7 +207,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               getOptionLabel={(student: Student) => {
                 return student.name;
               }}
-              value={presentation.studentOne}
+              value={presentation.studentOne || null}
               renderInput={(params) => (
                 <TextField {...params} label="Schüler 1" variant="outlined" />
               )}
@@ -213,7 +222,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               getOptionLabel={(student: Student) => {
                 return student.name;
               }}
-              value={presentation.studentTwo}
+              value={presentation.studentTwo || null}
               renderInput={(params) => (
                 <TextField {...params} label="Schüler 2" variant="outlined" />
               )}

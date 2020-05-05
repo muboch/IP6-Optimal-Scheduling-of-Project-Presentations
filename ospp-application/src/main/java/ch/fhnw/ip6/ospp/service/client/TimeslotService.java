@@ -11,6 +11,7 @@ public interface TimeslotService {
     Timeslot addTimeslot(Timeslot timeslot);
 
     Timeslot readById(long id);
+    TimeslotVO readByExternalId(long id);
 
     void loadTimeslots(MultipartFile file);
 

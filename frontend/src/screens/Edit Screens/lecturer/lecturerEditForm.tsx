@@ -47,15 +47,28 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
   const styles = useStyles();
   const gStyles = useGStyles();
   const [lecturer, setLecturer] = useState<Lecturer>();
+  console.log(lecturerId);
 
   const loadDataAsync = async () => {
     if (lecturerId !== undefined && editLecturer) {
       setLecturer(await loadLecturerById(lecturerId));
+    } else {
+      setLecturer({
+        email: "",
+        initials: "",
+        firstname: "",
+        lastname: "",
+        // id: undefined,
+        // externalId: undefined
+      });
     }
   };
 
   useEffect(() => {
-    console.log("loadDataAsync");
+    if (lecturerId === undefined) {
+      setLecturer(undefined);
+      return;
+    }
 
     loadDataAsync();
   }, [lecturerId]);
@@ -134,7 +147,7 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
             <TextField
               required
               label="Kürzel"
-              value={lecturer.lastname}
+              value={lecturer.initials}
               onChange={(e: any) => {
                 updateLecturerValue("initials", e.currentTarget.value);
               }}

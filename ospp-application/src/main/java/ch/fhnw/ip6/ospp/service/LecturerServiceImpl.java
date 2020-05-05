@@ -4,6 +4,7 @@ import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import ch.fhnw.ip6.ospp.service.client.LecturerService;
 import ch.fhnw.ip6.ospp.vo.LecturerVO;
+import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
@@ -34,6 +35,13 @@ public class LecturerServiceImpl extends AbstractService implements LecturerServ
     @Override
     public Lecturer readById(long id) {
         return null;
+    }
+
+    @Override
+    public LecturerVO readByExternalId(int id) {
+            return lecturerRepository.findByExternalId(id);
+
+
     }
 
     @Override

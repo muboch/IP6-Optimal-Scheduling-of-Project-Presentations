@@ -15,7 +15,7 @@ public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
 
     Lecturer readById(Long id);
 
-    Lecturer findByExternalId(int externalId);
+    LecturerVO findByExternalId(int externalId);
 
     List<LecturerVO> findAllProjectedBy();
 }

@@ -85,7 +85,7 @@ public class Solver extends AbstractSolver {
         }
 
         System.out.println("Setup completed");
-        // For each presentations, list the presentations that are not allowed to overlap
+        // For each lecturer, list the presentations that are not allowed to overlap
         List<Presentation>[] presentationsPerLecturer = new ArrayList[lecturers.size()];
         for (Lecturer l : lecturers) {
             presentationsPerLecturer[l.getId()] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList());
@@ -144,7 +144,7 @@ public class Solver extends AbstractSolver {
         }
         // END CONSTRAINT
 
-        // START CONSTRAINT 2. Coaches should have as little free timeslots between presentations as possible.
+        // START CONSTRAINT 1. Coaches should have as little free timeslots between presentations as possible.
         IntVar[][] lecturerTimeslot = new IntVar[lecturers.size()][timeslots.size()]; // Coach has a presentation at timeslot
         int[] timeslotCost = new int[timeslots.size()];
 
@@ -152,9 +152,6 @@ public class Solver extends AbstractSolver {
         IntVar[] diffs = new IntVar[lecturers.size()];
         IntVar[] lastTimeslots = new IntVar[lecturers.size()];
 
-        for (Lecturer l : lecturers) {
-
-        }
         for (Lecturer l : lecturers) {
             for (Timeslot t : timeslots) {
                 lecturerTimeslot[l.getId()][t.getId()] = model.newBoolVar("lecturerTimeslot_" + l.getId() + "_" + t.getId());

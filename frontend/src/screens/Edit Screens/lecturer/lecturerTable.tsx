@@ -1,4 +1,4 @@
-import { Presentation, Lecturer } from "../../../Types/types";
+import { Lecturer } from "../../../Types/types";
 import {
   TableContainer,
   Paper,
@@ -17,7 +17,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useGStyles } from "../../../theme";
 import { stableSort, getComparator, Order } from "../../../Helpers/helpers";
 import EditIcon from "@material-ui/icons/Edit";
-import PresentationEditForm from "../presentation/presentationEditForm";
+import LecturerEditForm from "./lecturerEditForm";
 
 export interface LecturerTableProps {
   lecturers: Array<Lecturer>;
@@ -73,7 +73,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
     rowsPerPage - Math.min(rowsPerPage, lecturers.length - page * rowsPerPage);
   const rows: Array<lecturerRow> = lecturers.map((l) => {
     return {
-      id: l.externalId,
+      id: l.externalId!,
       lastName: l.lastname,
       firstName: l.firstname,
       email: l.email,
@@ -143,6 +143,14 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        <div>
+          <Button
+            className={gStyles.primaryButton}
+            onClick={() => setLecturerToEdit(lecturers.length)}
+          >
+            Dozent Hinzufügen
+          </Button>
+        </div>
       </div>
       <Backdrop
         className={gStyles.backdrop}
@@ -150,11 +158,11 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
         //onClick={() => setPresentationToEdit(undefined)}
       >
         <Paper className={gStyles.paper}>
-          <PresentationEditForm
+          <LecturerEditForm
             onExitForm={() => setLecturerToEdit(undefined)}
-            presentationId={lecturerToEdit}
-            editPresentation={lecturerToEdit! < lecturers.length}
-          ></PresentationEditForm>
+            lecturerId={lecturerToEdit}
+            editLecturer={lecturerToEdit! < lecturers.length}
+          ></LecturerEditForm>
         </Paper>
       </Backdrop>
     </>

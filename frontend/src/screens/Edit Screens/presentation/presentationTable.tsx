@@ -17,7 +17,9 @@ import { makeStyles } from "@material-ui/styles";
 import { useGStyles } from "../../../theme";
 import { stableSort, getComparator, Order } from "../../../Helpers/helpers";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import PresentationEditForm from "./presentationEditForm";
+import { deletePresentationById } from "../../../Services/presentationService";
 
 export interface PresentationTableProps {
   presentations: Array<Presentation>;
@@ -79,12 +81,12 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
     Math.min(rowsPerPage, presentations.length - page * rowsPerPage);
   const rows: Array<presentationRow> = presentations.map((p) => {
     return {
-      id: p.externalId,
+      id: p.externalId!,
       title: p.title,
-      studentOne: p.studentOne.name,
-      studentTwo: p.studentTwo?.name,
-      coach: `${p.coach.lastname}, ${p.coach.firstname}`,
-      expert: `${p.expert.lastname}, ${p.expert.firstname}`,
+      studentOne: p.studentOne!.name,
+      studentTwo: p.studentTwo ? p.studentTwo?.name : "",
+      coach: `${p.coach!.lastname}, ${p.coach!.firstname}`,
+      expert: `${p.expert!.lastname}, ${p.expert!.firstname}`,
       type: p.type as string,
       nr: p.nr,
     };
@@ -106,6 +108,7 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
                 <TableCell align="right">Expert</TableCell>
                 <TableCell align="right">Typ</TableCell>
                 <TableCell align="right">Bearbeiten</TableCell>
+                <TableCell align="right">Löschen</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -134,6 +137,14 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
                             <EditIcon />
                           </Button>
                         </TableCell>
+                        <TableCell align="right">
+                          <Button
+                            className={gStyles.secondaryButton}
+                            onClick={() => deletePresentationById(p.id)}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     );
                   })
@@ -158,6 +169,12 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        <Button
+          className={gStyles.primaryButton}
+          onClick={() => setPresentationToEdit(presentations.length)}
+        >
+          Präsentation Hinzufügen
+        </Button>
       </div>
 
       <Backdrop

@@ -28,8 +28,8 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
     },
   });
   const styles = useStyles();
-  const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [data, setData] = useState<Array<any>>([]);
+  const [loadedType, setLoadedType] = useState("");
 
   // const loadFunction = {
   //   lecturer: loadLecturers,
@@ -51,6 +51,7 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
           setData(json);
         }
       } catch (Error) {}
+      setLoadedType(type);
     };
 
     loadData();
@@ -67,7 +68,13 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
     return tables[type];
   };
   return (
-    <div className={gStyles.centerFlexDiv}>{data && getTableToRender()}</div>
+    <>
+      {loadedType === type && (
+        <div className={gStyles.centerFlexDiv}>
+          {data && getTableToRender()}
+        </div>
+      )}
+    </>
   );
 };
 

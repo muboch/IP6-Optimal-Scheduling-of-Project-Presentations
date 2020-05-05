@@ -38,6 +38,12 @@ public class RoomServiceImpl extends AbstractService implements RoomService {
     }
 
     @Override
+    public RoomVO readByExternalId(int id) {
+        return roomRepository.findByExternalId(id);
+
+    }
+
+    @Override
     public void loadRooms(MultipartFile input) {
         try {
 

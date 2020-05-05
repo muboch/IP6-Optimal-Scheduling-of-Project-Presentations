@@ -41,6 +41,11 @@ public class TimeslotServiceImpl extends AbstractService implements TimeslotServ
     }
 
     @Override
+    public TimeslotVO readByExternalId(long id) {
+        return timeslotRepository.findByExternalId(id);
+    }
+
+    @Override
     public void loadLocktimes(MultipartFile input) {
 
         try {
