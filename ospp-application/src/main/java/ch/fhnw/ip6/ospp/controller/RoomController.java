@@ -35,7 +35,7 @@ public class RoomController {
         return roomService.save(roomVO);
     }
 
-    @DeleteMapping("/student/{id}")
+    @DeleteMapping("/room/{id}")
     public void delete(@PathVariable Long id) {
         roomService.delete(id);
     }
