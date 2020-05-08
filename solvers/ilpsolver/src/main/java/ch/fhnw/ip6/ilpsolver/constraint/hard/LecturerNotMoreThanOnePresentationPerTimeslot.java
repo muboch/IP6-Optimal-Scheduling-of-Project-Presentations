@@ -18,11 +18,11 @@ public class LecturerNotMoreThanOnePresentationPerTimeslot extends Constraint {
     @Override
     public void build() {
         try {
-            for (LecturerDto l : getModel().getLecturers()) {
-                for (TimeslotDto t : getModel().getTimeslots()) {
+            for (LecturerDto l : getIlpModel().getLecturers()) {
+                for (TimeslotDto t : getIlpModel().getTimeslots()) {
                     GRBLinExpr lhs = new GRBLinExpr();
-                    for (RoomDto r : getModel().getRooms()) {
-                        for (PresentationDto p : getModel().getPresentationsPerLecturer().get(l)) {
+                    for (RoomDto r : getIlpModel().getRooms()) {
+                        for (PresentationDto p : getIlpModel().getPresentationsPerLecturer().get(l)) {
                             lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                         }
                     }

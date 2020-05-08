@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ch.fhnw.ip6.common.util.CostUtil.*;
 
 public class SolutionChecker {
-
 
 
     public static int getSolutionCost(Set<Solution> solutions, List<LecturerDto> lecturers, List<PresentationDto> presentations, List<TimeslotDto> timeslots, List<RoomDto> rooms) {
@@ -24,9 +24,7 @@ public class SolutionChecker {
         int roomDoubleBookedCost = CheckRoomUsedMaxOncePerTime(solutions, rooms, timeslots) * ROOM_DOUBLE_BOOKED_COST;
         int roomSwitchCost = GetRoomSwitches(solutions, lecturers, timeslots) * ROOM_SWITCH_COST;
         int usedRoomsCost = GetUsedRooms(solutions, rooms) * USED_ROOM_COST;
-        //int usedTimeslotCost = GetUsedTimeslots(solutions, timeslots) * USED_TIMESLOT_COST;
-        int usedTimeslotCost = GetUsedTimeslots(solutions,timeslots);
-
+        int usedTimeslotCost = GetUsedTimeslots(solutions, timeslots);
 
         // total cost return
         return roomSwitchCost + roomDoubleBookedCost + usedRoomsCost + usedTimeslotCost;
@@ -46,7 +44,7 @@ public class SolutionChecker {
             }
         }
         //return timeslotsUsed;
-        return  timeslotsCost;
+        return timeslotsCost;
     }
 
     private static int GetUsedRooms(Set<Solution> solutions, List<RoomDto> rooms) {

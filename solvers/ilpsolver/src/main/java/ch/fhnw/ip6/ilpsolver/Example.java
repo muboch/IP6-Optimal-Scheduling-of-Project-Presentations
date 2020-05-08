@@ -1,9 +1,4 @@
-package ch.fhnw.ip6.ilpsolver;/* Copyright 2020, Gurobi Optimization, LLC */
-
-/* Assign workers to shifts; each worker may or may not be available on a
-   particular day. If the problem cannot be solved, use IIS to find a set of
-   conflicting constraints. Note that there may be additional conflicts
-   besides what is reported via IIS. */
+package ch.fhnw.ip6.ilpsolver;
 
 import gurobi.GRB;
 import gurobi.GRBEnv;

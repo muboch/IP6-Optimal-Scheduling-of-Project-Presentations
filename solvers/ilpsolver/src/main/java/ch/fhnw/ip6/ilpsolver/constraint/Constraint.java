@@ -22,7 +22,7 @@ public abstract class Constraint {
         model.getModel().addConstr(lhs, type, 1.0, getConstraintName());
     }
 
-    protected ILPModel getModel() {
+    protected ILPModel getIlpModel() {
         return model;
     }
 
@@ -31,23 +31,23 @@ public abstract class Constraint {
     }
 
     protected GRBVar[][][] getX() {
-        return getModel().getX();
+        return model.getX();
     }
 
     public int indexOf(TimeslotDto slot) {
-        return getModel().getTimeslots().indexOf(slot);
+        return model.getTimeslots().indexOf(slot);
     }
 
     public int indexOf(RoomDto room) {
-        return getModel().getRooms().indexOf(room);
+        return model.getRooms().indexOf(room);
     }
 
     public int indexOf(PresentationDto presentation) {
-        return getModel().getPresentations().indexOf(presentation);
+        return model.getPresentations().indexOf(presentation);
     }
 
     public int indexOf(LecturerDto lecturer) {
-        return getModel().getLecturers().indexOf(lecturer);
+        return model.getLecturers().indexOf(lecturer);
     }
 
     public Constraint setModel(ILPModel model) {
