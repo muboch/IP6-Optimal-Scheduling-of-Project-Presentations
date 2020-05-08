@@ -17,10 +17,10 @@ public class AllPresentationsToRoomAndTimeslotAssigned extends Constraint {
     public void build() {
 
         try {
-            for (Presentation p : getModel().getPresentations()) {
+            for (Presentation p : getIlpModel().getPresentations()) {
                 GRBLinExpr lhs = new GRBLinExpr();
-                for (Timeslot t : getModel().getTimeslots()) {
-                    for (Room r : getModel().getRooms()) {
+                for (Timeslot t : getIlpModel().getTimeslots()) {
+                    for (Room r : getIlpModel().getRooms()) {
                         // 9. Eine Presentation kann nur in einem Room vom passenden RoomType stattfinden.
                         if (r.getType().equals(p.getType()))
                             lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);

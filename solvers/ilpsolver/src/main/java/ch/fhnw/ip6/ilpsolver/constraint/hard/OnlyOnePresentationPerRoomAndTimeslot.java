@@ -16,10 +16,10 @@ public class OnlyOnePresentationPerRoomAndTimeslot extends Constraint {
     @Override
     public void build() {
         try {
-            for (Timeslot t : getModel().getTimeslots()) {
-                for (Room r : getModel().getRooms()) {
+            for (Timeslot t : getIlpModel().getTimeslots()) {
+                for (Room r : getIlpModel().getRooms()) {
                     GRBLinExpr lhs = new GRBLinExpr();
-                    for (Presentation p : getModel().getPresentations()) {
+                    for (Presentation p : getIlpModel().getPresentations()) {
                         lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }
                     addConstraint(lhs, GRB.LESS_EQUAL);

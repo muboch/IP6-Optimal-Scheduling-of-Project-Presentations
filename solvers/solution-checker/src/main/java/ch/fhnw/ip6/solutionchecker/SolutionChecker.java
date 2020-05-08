@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ch.fhnw.ip6.common.util.CostUtil.*;
 
 public class SolutionChecker {
-
 
 
     public static int getSolutionCost(Set<Solution> solutions, List<Lecturer> lecturers, List<Presentation> presentations, List<Timeslot> timeslots, List<Room> rooms) {
@@ -24,9 +24,7 @@ public class SolutionChecker {
         int roomDoubleBookedCost = CheckRoomUsedMaxOncePerTime(solutions, rooms, timeslots) * ROOM_DOUBLE_BOOKED_COST;
         int roomSwitchCost = GetRoomSwitches(solutions, lecturers, timeslots) * ROOM_SWITCH_COST;
         int usedRoomsCost = GetUsedRooms(solutions, rooms) * USED_ROOM_COST;
-        //int usedTimeslotCost = GetUsedTimeslots(solutions, timeslots) * USED_TIMESLOT_COST;
-        int usedTimeslotCost = GetUsedTimeslots(solutions,timeslots);
-
+        int usedTimeslotCost = GetUsedTimeslots(solutions, timeslots);
 
         // total cost return
         return roomSwitchCost + roomDoubleBookedCost + usedRoomsCost + usedTimeslotCost;
@@ -46,7 +44,7 @@ public class SolutionChecker {
             }
         }
         //return timeslotsUsed;
-        return  timeslotsCost;
+        return timeslotsCost;
     }
 
     private static int GetUsedRooms(Set<Solution> solutions, List<Room> rooms) {
@@ -103,20 +101,20 @@ public class SolutionChecker {
 
         int totalSwitches = 0;
         System.out.println("RoomSwitches Per Lecturer:");
-        for (Lecturer l : lecturers) {
-            System.out.print("L: " + l.getId() + " :");
-            for (Room rs : roomsPerLecturer[l.getId()]) {
-                System.out.print(rs.getId() + "->");
-            }
-            int switches = (roomsPerLecturer[l.getId()].size() - 1);
-            if (switches > 0) {
-                System.out.println("Total: " + switches + " switches.");
-                totalSwitches += switches;
-            } else {
-                System.out.println("Total: no switches.");
-            }
-        }
-        System.out.println("Total Switches over all Lecturers: " + totalSwitches + " !!!!!! This number is wrong, we need to fix the checker: Peer, 23.04.2020");
+        lecturers.stream().filter(l -> roomsPerLecturer[l.getId()].size() > 1).forEach(l -> {
+            AtomicInteger roomSwitches = new AtomicInteger();
+            System.out.print(l.getInitials() +": ");
+            System.out.print(roomsPerLecturer[l.getId()].get(0).getName());
+            roomsPerLecturer[l.getId()].stream().reduce((r1, r2) -> {
+                if (r1 != r2) {
+                    roomSwitches.getAndIncrement();
+                    System.out.print("->" + r2.getName());
+                    return r2;
+                }
+                return r1;
+            });
+            System.out.println("    Total Switches: " + roomSwitches.get());
+        });
         return totalSwitches;
     }
 
