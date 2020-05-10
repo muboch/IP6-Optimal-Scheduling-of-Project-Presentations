@@ -11,9 +11,9 @@ export const SCREENROUTES = {
 };
 
 export const APIROUTES = {
-  presentation: `${process.env.REACT_APP_API_ENDPOINT}/api/presentation`,
-  lecturer: `${process.env.REACT_APP_API_ENDPOINT}/api/lecturer`,
-  student: `${process.env.REACT_APP_API_ENDPOINT}/api/student`,
+  presentation: `${process.env.REACT_APP_API_ENDPOINT}/presentation`,
+  lecturer: `${process.env.REACT_APP_API_ENDPOINT}/lecturer`,
+  student: `${process.env.REACT_APP_API_ENDPOINT}/student`,
 };
 
 export const PRESENTATIONTYPES = ["normal", "art", "music", "dance"];

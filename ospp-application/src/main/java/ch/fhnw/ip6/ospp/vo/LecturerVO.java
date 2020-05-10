@@ -18,7 +18,7 @@ public class LecturerVO {
 
     private String lastname;
 
-    private List<Long> offtimes;
+    private List<TimeslotVO> offtimes;
 
 
 }

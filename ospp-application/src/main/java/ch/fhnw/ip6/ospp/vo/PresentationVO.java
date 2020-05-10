@@ -17,9 +17,9 @@ public class PresentationVO {
 
     private String title;
 
-    private Long studentOne;
+    private String studentOne;
 
-    private Long studentTwo;
+    private String studentTwo;
 
     private Long coach;
 

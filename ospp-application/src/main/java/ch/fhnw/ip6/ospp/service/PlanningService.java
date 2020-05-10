@@ -43,6 +43,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -217,8 +218,8 @@ public class PlanningService {
         return ExcelFile.builder().name(planning.getName()).content(planning.getData()).build();
     }
 
-    public List<PlanningVO> getAllPlannings() {
-        return planningRepository.findAllProjectedBy();
+    public List<ch.fhnw.ip6.ospp.model.Planning> getAll() {
+        return planningRepository.findAll();
     }
 
     private SolverApi getSolver() {

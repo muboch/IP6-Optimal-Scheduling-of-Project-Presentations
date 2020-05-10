@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Mapper
 public interface RoomMapper {
 
-    RoomVO fromEntityToVO(Room room);
+    RoomVO fromEntityToVo(Room room);
 
     RoomDto fromEntityToDto(Room room);
 

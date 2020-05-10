@@ -10,9 +10,4 @@ import java.util.List;
 @Component
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-    List<RoomVO> findAllProjectedBy();
-
-    RoomVO readById(Long id);
-
-
 }

@@ -9,7 +9,4 @@ import java.util.List;
 
 @Component
 public interface PlanningRepository extends JpaRepository<Planning, Long> {
-
-    List<PlanningVO> findAllProjectedBy();
-
 }

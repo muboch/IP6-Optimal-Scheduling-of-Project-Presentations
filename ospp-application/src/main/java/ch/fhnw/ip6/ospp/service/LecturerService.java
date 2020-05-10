@@ -3,12 +3,10 @@ package ch.fhnw.ip6.ospp.service;
 import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
-import ch.fhnw.ip6.ospp.vo.LecturerVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +16,9 @@ import java.util.Optional;
 public class LecturerService {
 
     private final LecturerRepository lecturerRepository;
-    private final LecturerMapper lecturerMapper;
 
-    public LecturerVO save(Lecturer lecturer) {
-        return lecturerMapper.fromEntityToVo(lecturerRepository.save(lecturer));
+    public Lecturer save(Lecturer lecturer) {
+        return lecturerRepository.save(lecturer);
     }
 
     public void delete(Long id) {
@@ -32,17 +29,16 @@ public class LecturerService {
         lecturerRepository.deleteAll();
     }
 
-    public List<LecturerVO> getAll() {
-        return lecturerRepository.findAllProjectedBy();
+    public List<Lecturer> getAll() {
+        return lecturerRepository.findAll();
     }
 
-    public LecturerVO findById(Long id) {
-        Optional<Lecturer> byId = lecturerRepository.findById(id);
-        return byId.map(lecturerMapper::fromEntityToVo).orElseThrow(EntityNotFoundException::new);
+    public Optional<Lecturer> findById(Long id) {
+        return lecturerRepository.findById(id);
     }
 
-    public Lecturer readByInitials(String initials) {
-        return lecturerRepository.readByInitials(initials);
+    public Optional<Lecturer> readByInitials(String initials) {
+        return lecturerRepository.findByInitials(initials);
     }
 
 }

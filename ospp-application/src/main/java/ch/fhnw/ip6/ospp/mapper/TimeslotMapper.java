@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface TimeslotMapper {
 
-    TimeslotVO fromEntityToVO(Timeslot byId);
+    TimeslotVO fromEntityToVo(Timeslot byId);
 
     TimeslotDto fromEntityToDto(Timeslot timeslot);
 

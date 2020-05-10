@@ -50,11 +50,13 @@ public class Presentation {
 
     private String title;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Student studentOne;
+    private String studentOne;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Student studentTwo;
+    private String studentOneClass;
+
+    private String studentTwo;
+
+    private String studentTwoClass;
 
     @ManyToOne
     private Lecturer coach;

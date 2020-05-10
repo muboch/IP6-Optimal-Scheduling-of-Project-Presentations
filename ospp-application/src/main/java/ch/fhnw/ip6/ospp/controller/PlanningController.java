@@ -1,6 +1,7 @@
 package ch.fhnw.ip6.ospp.controller;
 
 import ch.fhnw.ip6.api.SolverContext;
+import ch.fhnw.ip6.ospp.mapper.PlanningMapper;
 import ch.fhnw.ip6.ospp.model.ExcelFile;
 import ch.fhnw.ip6.ospp.service.LecturerService;
 import ch.fhnw.ip6.ospp.service.PlanningService;
@@ -12,6 +13,7 @@ import ch.fhnw.ip6.ospp.service.load.PresentationLoadService;
 import ch.fhnw.ip6.ospp.service.load.RoomLoadService;
 import ch.fhnw.ip6.ospp.service.load.TimeslotLoadService;
 import ch.fhnw.ip6.ospp.vo.PlanningVO;
+import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
@@ -33,10 +35,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/planning")
 @RequiredArgsConstructor
 @Slf4j
 public class PlanningController {
@@ -52,10 +55,11 @@ public class PlanningController {
     private final RoomLoadService roomLoadService;
     private final TimeslotLoadService timeslotLoadService;
 
+    private final PlanningMapper planningMapper;
 
     private final SolverContext solverContext;
 
-    @PostMapping(value = "/plannings", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> importFiles(@RequestParam("presentations") MultipartFile presentations,
                                               @RequestParam("teachers") MultipartFile teachers,
                                               @RequestParam("rooms") MultipartFile rooms,
@@ -114,12 +118,16 @@ public class PlanningController {
         timeslotService.deleteAll();
     }
 
-    @GetMapping(value = "/plannings")
-    public List<PlanningVO> getPlannings() {
-        return planningService.getAllPlannings();
+    @GetMapping
+    public ResponseEntity<List<PlanningVO>> findAll() {
+        return ResponseEntity
+                .ok()
+                .body(
+                        planningService.getAll()
+                                .stream().map(planningMapper::toVO).collect(Collectors.toList()));
     }
 
-    @GetMapping("/plannings/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Resource> downloadCsv(@PathVariable long id) throws IOException {
 
         // Load file as Resource
@@ -131,7 +139,7 @@ public class PlanningController {
                 .body(new ByteArrayResource(excelFile.getContent()));
     }
 
-    @GetMapping("/plannings/example")
+    @GetMapping("/example")
     public ResponseEntity<Resource> downloadExample() throws IOException {
 
         // Load file as Resource
@@ -143,7 +151,7 @@ public class PlanningController {
                 .body(classPathResource);
     }
 
-    @DeleteMapping("/plannings/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         planningService.delete(id);
     }

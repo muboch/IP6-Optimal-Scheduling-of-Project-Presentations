@@ -18,32 +18,24 @@ import java.util.Optional;
 public class RoomService {
 
     private final RoomRepository roomRepository;
-    private final RoomMapper roomMapper;
 
-    public RoomVO save(RoomVO roomVO) {
-        Room room = roomMapper.fromVoToEntity(roomVO);
-        return roomMapper.fromEntityToVO(roomRepository.save(room));
+    public Room save(Room room) {
+        return roomRepository.save(room);
     }
 
     public void delete(Long id) {
         roomRepository.deleteById(id);
     }
 
-    public Room save(Room room) {
-        return roomRepository.save(room);
+    public Optional<Room> findById(Long id) {
+        return roomRepository.findById(id);
     }
-
-    public RoomVO findById(Long id) {
-        Optional<Room> byId = roomRepository.findById(id);
-        return byId.map(roomMapper::fromEntityToVO).orElseThrow(EntityNotFoundException::new);
-    }
-
 
     public void deleteAll() {
         roomRepository.deleteAll();
     }
 
-    public List<RoomVO> getAll() {
-        return roomRepository.findAllProjectedBy();
+    public List<Room> getAll() {
+        return roomRepository.findAll();
     }
 }

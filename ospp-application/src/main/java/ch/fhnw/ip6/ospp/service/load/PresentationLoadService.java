@@ -41,31 +41,23 @@ public class PresentationLoadService extends AbstractLoadService {
                     continue;
                 }
 
-
-                Lecturer coach = lecturerService.readByInitials(row.getCell(headerMap.get("coachInitials")).getStringCellValue());
-                Lecturer expert = lecturerService.readByInitials(row.getCell(headerMap.get("expertInitials")).getStringCellValue());
-
-                Student studentOne = Student.studentBuilder()
-                        .name(row.getCell(headerMap.get("name")).getStringCellValue())
-                        .schoolclass(row.getCell(headerMap.get("schoolclass")).getStringCellValue())
-                        .build();
+                Lecturer coach = lecturerService.readByInitials(row.getCell(headerMap.get("coachInitials")).getStringCellValue()).orElse(null);
+                Lecturer expert = lecturerService.readByInitials(row.getCell(headerMap.get("expertInitials")).getStringCellValue()).orElse(null);
 
                 Presentation presentation = Presentation.builder()
                         .nr(row.getCell(headerMap.get("nr")).getStringCellValue())
                         .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
                         .title(row.getCell(headerMap.get("title")).getStringCellValue())
                         .type(row.getCell(headerMap.get("type")).getStringCellValue())
-                        .studentOne(studentOne)
+                        .studentOne(row.getCell(headerMap.get("name")).getStringCellValue())
+                        .studentOneClass(row.getCell(headerMap.get("schoolclass")).getStringCellValue())
                         .expert(expert)
                         .coach(coach)
                         .build();
 
                 if (StringUtils.isNotEmpty(row.getCell(headerMap.get("name2")).getStringCellValue())) {
-                    Student studentTwo = Student.studentBuilder()
-                            .name(row.getCell(headerMap.get("name2")).getStringCellValue())
-                            .schoolclass(row.getCell(headerMap.get("schoolclass")).getStringCellValue())
-                            .build();
-                    presentation.setStudentTwo(studentTwo);
+                    presentation.setStudentTwo(row.getCell(headerMap.get("name2")).getStringCellValue());
+                    presentation.setStudentTwoClass(row.getCell(headerMap.get("schoolclass2")).getStringCellValue());
                 }
 
                 presentationRepository.save(presentation);

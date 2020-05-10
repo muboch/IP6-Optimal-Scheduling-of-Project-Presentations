@@ -43,7 +43,7 @@ public class TimeslotLoadService extends AbstractLoadService {
                     continue;
                 }
 
-                Lecturer lecturer = lecturerService.readByInitials(row.getCell(0).getStringCellValue());
+                Lecturer lecturer = lecturerService.readByInitials(row.getCell(0).getStringCellValue()).orElse(null);
                 if (lecturer != null) {
                     List<Timeslot> offtimes = new ArrayList<>();
                     for (int i = 1; i < timeslots; i++) {

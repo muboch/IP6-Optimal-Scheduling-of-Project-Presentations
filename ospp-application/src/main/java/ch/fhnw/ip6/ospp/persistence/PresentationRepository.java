@@ -10,7 +10,4 @@ import java.util.List;
 @Component
 public interface PresentationRepository extends JpaRepository<Presentation, Long> {
 
-    List<PresentationVO> findAllProjectedBy();
-
-    PresentationVO readById(Long id);
 }

@@ -2,6 +2,7 @@ package ch.fhnw.ip6.ospp.service;
 
 import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
 import ch.fhnw.ip6.ospp.model.Lecturer;
+import ch.fhnw.ip6.ospp.model.Room;
 import ch.fhnw.ip6.ospp.model.Timeslot;
 import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
@@ -28,28 +29,26 @@ import java.util.Optional;
 public class TimeslotService   {
 
     private final TimeslotRepository timeslotRepository;
-    private final LecturerRepository lecturerRepository;
-    private final TimeslotMapper timeslotMapper;
 
-    public TimeslotVO findById(Long id) {
-        Optional<Timeslot> byId = timeslotRepository.findById(id);
-        return byId.map(timeslotMapper::fromEntityToVO).orElseThrow(EntityNotFoundException::new);
+    public Timeslot save(Timeslot timeslot) {
+        return timeslotRepository.save(timeslot);
     }
 
-    public TimeslotVO save(TimeslotVO timeslotVO) {
-        Timeslot timeslot = timeslotMapper.fromVoToEntity(timeslotVO);
-        return timeslotMapper.fromEntityToVO(timeslotRepository.save(timeslot));
-    }
-
-    public void delete(Long id){
+    public void delete(Long id) {
         timeslotRepository.deleteById(id);
+    }
+
+    public Optional<Timeslot> findById(Long id) {
+        return timeslotRepository.findById(id);
     }
 
     public void deleteAll() {
         timeslotRepository.deleteAll();
     }
 
-    public List<TimeslotVO> getAll() {
-        return timeslotRepository.findAllProjectedBy();
+    public List<Timeslot> getAll() {
+        return timeslotRepository.findAll();
     }
+
+
 }

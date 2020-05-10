@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ExcelFile {
-    private byte[] content;
-    private String name;
+    private final byte[] content;
+    private final String name;
 }
