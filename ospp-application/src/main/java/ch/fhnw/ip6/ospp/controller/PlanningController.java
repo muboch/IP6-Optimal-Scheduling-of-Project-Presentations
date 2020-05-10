@@ -7,6 +7,10 @@ import ch.fhnw.ip6.ospp.service.PlanningService;
 import ch.fhnw.ip6.ospp.service.PresentationService;
 import ch.fhnw.ip6.ospp.service.RoomService;
 import ch.fhnw.ip6.ospp.service.TimeslotService;
+import ch.fhnw.ip6.ospp.service.load.LecturerLoadService;
+import ch.fhnw.ip6.ospp.service.load.PresentationLoadService;
+import ch.fhnw.ip6.ospp.service.load.RoomLoadService;
+import ch.fhnw.ip6.ospp.service.load.TimeslotLoadService;
 import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +46,12 @@ public class PlanningController {
     private final PlanningService planningService;
     private final RoomService roomService;
     private final TimeslotService timeslotService;
+
+    private final PresentationLoadService presentationLoadService;
+    private final LecturerLoadService lecturerLoadService;
+    private final RoomLoadService roomLoadService;
+    private final TimeslotLoadService timeslotLoadService;
+
 
     private final SolverContext solverContext;
 
@@ -90,11 +100,11 @@ public class PlanningController {
 
 
     private void loadFiles(MultipartFile presentations, MultipartFile teachers, MultipartFile rooms, MultipartFile timeslots, MultipartFile locktimes) {
-        lecturerService.loadLecturer(teachers);
-        presentationService.loadPresentation(presentations);
-        roomService.loadRooms(rooms);
-        timeslotService.loadTimeslots(timeslots);
-        timeslotService.loadLocktimes(locktimes);
+        lecturerLoadService.loadLecturer(teachers);
+        presentationLoadService.loadPresentation(presentations);
+        roomLoadService.loadRooms(rooms);
+        timeslotLoadService.loadTimeslots(timeslots);
+        timeslotLoadService.loadOfftimes(locktimes);
     }
 
     private void deleteTables() {
