@@ -1,9 +1,9 @@
 package ch.fhnw.ip6.common.model;
 
-import ch.fhnw.ip6.common.dto.L;
-import ch.fhnw.ip6.common.dto.P;
-import ch.fhnw.ip6.common.dto.R;
-import ch.fhnw.ip6.common.dto.T;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,7 +47,7 @@ public abstract class Model<M, X> {
         return X;
     }
 
-    public List<ch.fhnw.ip6.common.dto.P> getPresentations() {
+    public List<P> getPresentations() {
         return Collections.unmodifiableList(presentations);
     }
 

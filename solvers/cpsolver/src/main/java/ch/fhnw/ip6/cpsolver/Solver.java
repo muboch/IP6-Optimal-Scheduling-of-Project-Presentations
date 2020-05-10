@@ -2,14 +2,14 @@ package ch.fhnw.ip6.cpsolver;
 
 import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverContext;
-import ch.fhnw.ip6.common.dto.L;
+import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.LecturerDto;
-import ch.fhnw.ip6.common.dto.P;
+import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.R;
+import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.RoomDto;
-import ch.fhnw.ip6.common.dto.T;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import com.google.ortools.sat.CpModel;

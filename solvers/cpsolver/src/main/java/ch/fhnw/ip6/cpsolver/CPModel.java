@@ -1,9 +1,9 @@
 package ch.fhnw.ip6.cpsolver;
 
-import ch.fhnw.ip6.common.dto.L;
-import ch.fhnw.ip6.common.dto.P;
-import ch.fhnw.ip6.common.dto.R;
-import ch.fhnw.ip6.common.dto.T;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.model.Model;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;

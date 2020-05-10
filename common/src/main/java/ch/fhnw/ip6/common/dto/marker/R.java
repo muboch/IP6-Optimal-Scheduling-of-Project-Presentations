@@ -1,4 +1,4 @@
-package ch.fhnw.ip6.common.dto;
+package ch.fhnw.ip6.common.dto.marker;
 
 public interface R {
 

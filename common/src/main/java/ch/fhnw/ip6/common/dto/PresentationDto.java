@@ -1,5 +1,6 @@
 package ch.fhnw.ip6.common.dto;
 
+import ch.fhnw.ip6.common.dto.marker.P;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

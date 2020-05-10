@@ -1,5 +1,6 @@
 package ch.fhnw.ip6.common.dto;
 
+import ch.fhnw.ip6.common.dto.marker.L;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class LecturerDto implements L{
+public class LecturerDto implements L {
 
     private int id;
     private String firstname;
