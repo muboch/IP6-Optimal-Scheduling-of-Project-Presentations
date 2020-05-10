@@ -6,23 +6,16 @@ import ch.fhnw.ip6.ospp.persistence.RoomRepository;
 import ch.fhnw.ip6.ospp.vo.RoomVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RoomService extends AbstractService {
+public class RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
@@ -32,7 +25,7 @@ public class RoomService extends AbstractService {
         return roomMapper.fromEntityToVO(roomRepository.save(room));
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         roomRepository.deleteById(id);
     }
 
@@ -45,38 +38,6 @@ public class RoomService extends AbstractService {
         return byId.map(roomMapper::fromEntityToVO).orElseThrow(EntityNotFoundException::new);
     }
 
-    public void loadRooms(MultipartFile input) {
-        try {
-
-            deleteAll();
-
-            XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
-            XSSFSheet sheet = wb.getSheetAt(0);
-
-            final Map<String, Integer> headerMap = new HashMap<>();
-
-            for (Row row : sheet) {
-
-                if (row.getRowNum() == 0) {
-                    createHeaderIndexMap(row, headerMap);
-                    continue;
-                }
-
-
-                Room room = Room.builder()
-                        .name(row.getCell(headerMap.get("name")).getStringCellValue())
-                        .place(row.getCell(headerMap.get("place")).getStringCellValue())
-                        .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
-                        .type(row.getCell(headerMap.get("type")).getStringCellValue())
-                        .reserve(Boolean.parseBoolean(row.getCell(headerMap.get("reserve")).getStringCellValue()))
-                        .build();
-                roomRepository.save(room);
-            }
-
-        } catch (IOException e) {
-            log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
-        }
-    }
 
     public void deleteAll() {
         roomRepository.deleteAll();

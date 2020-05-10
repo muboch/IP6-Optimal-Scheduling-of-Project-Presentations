@@ -28,16 +28,16 @@ public class Lecturer extends User {
     private String lastname;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Timeslot> locktimes;
+    private List<Timeslot> offtimes;
 
     @Builder(builderMethodName = "lecturerBuilder")
-    public Lecturer(long id, String firstname, String lastname, String email, List<Presentation> presentationsAsExaminator, List<Presentation> presentationsAsExpert, List<Timeslot> locktimes, String initials, int externalId) {
+    public Lecturer(long id, String firstname, String lastname, String email, List<Presentation> presentationsAsExaminator, List<Presentation> presentationsAsExpert, List<Timeslot> offtimes, String initials, int externalId) {
         super(id, email);
         this.firstname = firstname;
         this.externalId = externalId;
         this.lastname = lastname;
         this.initials = initials;
-        this.locktimes = locktimes;
+        this.offtimes = offtimes;
     }
 
 }

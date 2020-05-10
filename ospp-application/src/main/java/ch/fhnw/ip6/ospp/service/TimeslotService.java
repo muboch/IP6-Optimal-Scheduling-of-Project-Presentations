@@ -25,7 +25,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class TimeslotService extends AbstractService  {
+public class TimeslotService   {
 
     private final TimeslotRepository timeslotRepository;
     private final LecturerRepository lecturerRepository;
@@ -43,79 +43,6 @@ public class TimeslotService extends AbstractService  {
 
     public void delete(Long id){
         timeslotRepository.deleteById(id);
-    }
-
-    public void loadLocktimes(MultipartFile input) {
-
-        try {
-
-            XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
-            XSSFSheet sheet = wb.getSheetAt(0);
-
-            int timeslots = sheet.getRow(0).getLastCellNum();
-
-            final Map<String, Integer> headerMap = new HashMap<>();
-
-            for (Row row : sheet) {
-
-                if (row.getRowNum() == 0) {
-                    continue;
-                }
-
-                Lecturer lecturer = lecturerRepository.readByInitials(row.getCell(0).getStringCellValue());
-                if (lecturer != null) {
-                    List<Timeslot> locktimes = new ArrayList<>();
-                    for (int i = 1; i < timeslots; i++) {
-                        if (row.getCell(i) == null) {
-                            continue;
-                        }
-                        String val = row.getCell(i).getStringCellValue();
-                        if (val.toLowerCase().equals("x")) {
-                            Timeslot timeslot = timeslotRepository.findByDate(sheet.getRow(0).getCell(i).getStringCellValue());
-                            locktimes.add(timeslot);
-                        }
-                    }
-                    lecturer.setLocktimes(locktimes);
-                    log.warn(lecturer.toString());
-                    lecturerRepository.save(lecturer);
-                }
-            }
-        } catch (IOException e) {
-            log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
-        }
-    }
-
-    public void loadTimeslots(MultipartFile input) {
-
-        try {
-
-            deleteAll();
-
-            XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
-            XSSFSheet sheet = wb.getSheetAt(0);
-
-            final Map<String, Integer> headerMap = new HashMap<>();
-
-            for (Row row : sheet) {
-
-                if (row.getRowNum() == 0) {
-                    createHeaderIndexMap(row, headerMap);
-                    continue;
-                }
-
-                Timeslot timeslot = Timeslot.builder()
-                        .date(row.getCell(headerMap.get("date")).getStringCellValue())
-                        .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
-                        .block(Integer.parseInt(row.getCell(headerMap.get("block")).getStringCellValue()))
-                        .priority((int) row.getCell(headerMap.get("priority")).getNumericCellValue())
-                        .build();
-
-                timeslotRepository.save(timeslot);
-            }
-
-        } catch (IOException e) {
-            log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
-        }
     }
 
     public void deleteAll() {

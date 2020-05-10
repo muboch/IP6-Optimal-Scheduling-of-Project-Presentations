@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PlanningService extends AbstractService {
+public class PlanningService {
 
     private final PresentationRepository presentationRepository;
     private final LecturerRepository lecturerRepository;

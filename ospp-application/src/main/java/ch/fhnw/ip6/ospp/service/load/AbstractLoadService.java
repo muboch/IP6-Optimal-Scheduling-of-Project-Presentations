@@ -1,10 +1,10 @@
-package ch.fhnw.ip6.ospp.service;
+package ch.fhnw.ip6.ospp.service.load;
 
 import org.apache.poi.ss.usermodel.Row;
 
 import java.util.Map;
 
-public class AbstractService {
+public class AbstractLoadService {
 
     void createHeaderIndexMap(Row row, Map<String, Integer> headerMap) {
         int col = 0;
