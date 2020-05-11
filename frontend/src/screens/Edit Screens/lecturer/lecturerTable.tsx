@@ -92,13 +92,12 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell align="right">ID</TableCell>
-                <TableCell align="right">Nachname</TableCell>
-                <TableCell align="right">Vorname</TableCell>
-                <TableCell align="right">Email</TableCell>
-                <TableCell align="right">Kürzel</TableCell>
-                <TableCell align="right">Bearbeiten</TableCell>
-                <TableCell align="right">Löschen</TableCell>
+                <TableCell>Nachname</TableCell>
+                <TableCell>Vorname</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Kürzel</TableCell>
+                <TableCell>Bearbeiten</TableCell>
+                <TableCell>Löschen</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
