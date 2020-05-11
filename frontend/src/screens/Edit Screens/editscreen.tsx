@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useGStyles, theme } from "../../theme";
-import PresentationEditForm from "./presentation/presentationEditForm";
-import { makeStyles, Backdrop, Paper } from "@material-ui/core";
+import { useGStyles } from "../../theme";
+import { makeStyles } from "@material-ui/core";
 import PresentationTable from "./presentation/presentationTable";
-import { Presentation } from "../../Types/types";
-import { loadLecturers } from "../../Services/lecturerService";
-import { loadStudents } from "../../Services/studentService";
-import { loadPresentations } from "../../Services/presentationService";
 import LecturerTable from "./lecturer/lecturerTable";
 
 export interface EditScreenProps {
@@ -27,7 +22,6 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
       maxWidth: 1000,
     },
   });
-  const styles = useStyles();
   const [data, setData] = useState<Array<any>>([]);
   const [loadedType, setLoadedType] = useState("");
 

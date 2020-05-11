@@ -3,7 +3,7 @@ import { Button, makeStyles, Snackbar, Typography } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { Redirect, useLocation } from "wouter";
-import { SCREENROUTES } from "../../constants";
+import { SCREENROUTES, APIROUTES } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -63,14 +63,11 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
     }
 
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_ENDPOINT}/api/plannings`,
-        {
-          // content-type header should not be specified!
-          method: "POST",
-          body: formData,
-        }
-      );
+      const res = await fetch(APIROUTES.planning, {
+        // content-type header should not be specified!
+        method: "POST",
+        body: formData,
+      });
       if (checkStatus(res)) {
         setLocation(SCREENROUTES.uploadSucessful);
       }

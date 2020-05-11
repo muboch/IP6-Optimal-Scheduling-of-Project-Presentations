@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import { useLocation } from "wouter";
-import { SCREENROUTES } from "../../constants";
+import { SCREENROUTES, APIROUTES } from "../../constants";
 
 const LandingScreen: React.FC = (): JSX.Element => {
   const styles = useGStyles();
@@ -14,7 +14,7 @@ const LandingScreen: React.FC = (): JSX.Element => {
         <Button
             className={styles.primaryButton}
             target="_blank"
-            href={`${process.env.REACT_APP_API_ENDPOINT}/api/plannings/example`}
+            href={`${APIROUTES.planning}/example`}
         >
             Beispieldateien herunterladen
         </Button>
