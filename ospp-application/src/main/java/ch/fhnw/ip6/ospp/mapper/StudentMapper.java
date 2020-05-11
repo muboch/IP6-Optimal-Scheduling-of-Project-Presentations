@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface StudentMapper {
 
-    StudentVO fromEntityToVO(Student student);
+    StudentVO fromEntityToVo(Student student);
 
     Student fromVoToEntity(StudentVO studentVO);
 }
