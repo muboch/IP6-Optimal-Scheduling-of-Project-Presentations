@@ -10,7 +10,7 @@ export interface SidebarProps {}
 const Sidebar: React.SFC<SidebarProps> = () => {
   const useStyles = makeStyles({
     sidebar: {
-      width: 200,
+      width: 210,
       height: "100%",
       backgroundColor: "#eee",
       marginRight: "10px",
@@ -20,6 +20,12 @@ const Sidebar: React.SFC<SidebarProps> = () => {
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "column",
+    },
+    spacer: {
+      padding: 0,
+      margin: 0,
+      width: "100%",
+      borderBottom: "1px solid black",
     },
     button: {
       width: "100%",
@@ -49,7 +55,24 @@ const Sidebar: React.SFC<SidebarProps> = () => {
       >
         Daten hochladen
       </Button>
+      <Button
+        className={`${gStyles.primaryButton} ${styles.button}`}
+        onClick={() => {
+          setLocation(SCREENROUTES.listPlanning);
+        }}
+      >
+        Erstellte Planungen
+      </Button>
+        <Button
+          className={`${gStyles.primaryButton} ${styles.button}`}
+          onClick={() => {
+            setLocation(SCREENROUTES.createPlanning);
+          }}
+        >
+          Planung erstellen
+        </Button>
 
+          <p className={styles.spacer}/>
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
@@ -89,14 +112,6 @@ const Sidebar: React.SFC<SidebarProps> = () => {
         }}
       >
         Sperrzeiten
-      </Button>
-      <Button
-        className={`${gStyles.primaryButton} ${styles.button}`}
-        onClick={() => {
-          setLocation(SCREENROUTES.listPlanning);
-        }}
-      >
-        Erstellte Planungen
       </Button>
     </div>
   );

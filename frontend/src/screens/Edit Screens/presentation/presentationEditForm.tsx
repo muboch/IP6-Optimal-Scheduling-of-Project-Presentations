@@ -15,7 +15,10 @@ import { loadLecturers } from "../../../Services/lecturerService";
 import { loadStudents } from "../../../Services/studentService";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
-import { loadPresentationById } from "../../../Services/presentationService";
+import {
+  loadPresentationById,
+  addPresentation,
+} from "../../../Services/presentationService";
 import { PRESENTATIONTYPES } from "../../../constants";
 
 export interface PresentationEditFormProps {
@@ -92,7 +95,10 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
     setPresentation({ ...presentation!, [key]: value });
   };
 
-  const onSaveForm = () => {};
+  const onSaveForm = (e: any) => {
+    e.preventDefault();
+    addPresentation(presentation!, presentation!.id);
+  };
 
   return (
     <form>

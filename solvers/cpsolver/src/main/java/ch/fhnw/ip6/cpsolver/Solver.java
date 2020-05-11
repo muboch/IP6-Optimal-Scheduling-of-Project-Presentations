@@ -25,8 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ch.fhnw.ip6.common.util.CostUtil.LECTURER_PER_LESSON_COST;
-import static ch.fhnw.ip6.common.util.CostUtil.USED_ROOM_COST;
+import static ch.fhnw.ip6.common.util.CostUtil.*;
 
 @Component("ch.fhnw.ip6.cpsolver.Solver")
 public class Solver extends AbstractSolver {
@@ -242,7 +241,7 @@ public class Solver extends AbstractSolver {
                 LinearExpr diffExpr = LinearExpr.scalProd(new IntVar[]{coachRoomTime[cpModel.indexOf(l)][cpModel.indexOf(t)], coachRoomTime[cpModel.indexOf(l)][cpModel.indexOf(t) - 1]}, new int[]{1, -1}); // current timeslot room ID - previous timeslot room ID
 
 
-                IntVar absDiffInt = cpModel.getModel().newIntVar(-100000000L, 100000000L, "DiffInt_l" + cpModel.indexOf(l) + "t_" + t.getId());
+                IntVar absDiffInt = cpModel.getModel().newIntVar(-10000L, 10000L, "DiffInt_l" + cpModel.indexOf(l) + "t_" + t.getId());
                 cpModel.getModel().addEquality(diffExpr, absDiffInt);
                 cpModel.getModel().addAbsEquality(roomDiffsInt[cpModel.indexOf(l)][cpModel.indexOf(t)], absDiffInt);
 
@@ -257,8 +256,8 @@ public class Solver extends AbstractSolver {
             cpModel.getModel().addEquality(numChangesForLecturer[cpModel.indexOf(l)], LinearExpr.sum(roomDiffsBool[cpModel.indexOf(l)])); // Add the equality
 
             // finally, add the objective
-            //objIntVars.add(numChangesForLecturer[l.getId()]);
-            //objIntCoeffs.add(ROOM_SWITCH_COST);
+            objIntVars.add(numChangesForLecturer[l.getId()]);
+            objIntCoeffs.add(ROOM_SWITCH_COST);
         }
 
         // END CONSTRAINT
