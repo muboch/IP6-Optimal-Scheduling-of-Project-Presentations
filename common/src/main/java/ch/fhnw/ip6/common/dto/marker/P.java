@@ -6,6 +6,16 @@ package ch.fhnw.ip6.common.dto.marker;
 
      String getNr();
 
+     String getName();
+
+     String getSchoolclass();
+
+     String getName2();
+
+     String getSchoolclass2();
+
+     String getTitle();
+
      String getExpertInitials();
 
      String getCoachInitials();
