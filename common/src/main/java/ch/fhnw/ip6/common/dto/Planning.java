@@ -1,5 +1,7 @@
 package ch.fhnw.ip6.common.dto;
 
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +23,8 @@ public class Planning {
     private int nr;
     private int cost;
     private Set<Solution> solutions = new HashSet<>();
-    private List<TimeslotDto> timeslots = new ArrayList<>();
-    private List<RoomDto> rooms = new ArrayList<>();
+    private List<? extends T> timeslots = new ArrayList<>();
+    private List<? extends R> rooms = new ArrayList<>();
     private String status;
 
     @Override

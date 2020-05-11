@@ -4,6 +4,10 @@ import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ilpsolver.ILPModel;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
@@ -22,7 +26,7 @@ public abstract class Constraint {
         model.getModel().addConstr(lhs, type, 1.0, getConstraintName());
     }
 
-    protected ILPModel getModel() {
+    protected ILPModel getIlpModel() {
         return model;
     }
 
@@ -31,23 +35,23 @@ public abstract class Constraint {
     }
 
     protected GRBVar[][][] getX() {
-        return getModel().getX();
+        return model.getX();
     }
 
-    public int indexOf(TimeslotDto slot) {
-        return getModel().getTimeslots().indexOf(slot);
+    public int indexOf(T slot) {
+        return model.getTimeslots().indexOf(slot);
     }
 
-    public int indexOf(RoomDto room) {
-        return getModel().getRooms().indexOf(room);
+    public int indexOf(R room) {
+        return model.getRooms().indexOf(room);
     }
 
-    public int indexOf(PresentationDto presentation) {
-        return getModel().getPresentations().indexOf(presentation);
+    public int indexOf(P presentation) {
+        return model.getPresentations().indexOf(presentation);
     }
 
-    public int indexOf(LecturerDto lecturer) {
-        return getModel().getLecturers().indexOf(lecturer);
+    public int indexOf(L lecturer) {
+        return model.getLecturers().indexOf(lecturer);
     }
 
     public Constraint setModel(ILPModel model) {

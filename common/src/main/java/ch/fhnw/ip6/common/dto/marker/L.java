@@ -12,4 +12,9 @@ public interface L {
 
     String getInitials();
 
+    default String getName(){
+        return getLastname() + " " + getFirstname();
+    }
+
+
 }

@@ -1,8 +1,8 @@
 package ch.fhnw.ip6.ilpsolver.constraint.hard;
 
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import gurobi.GRB;
 import gurobi.GRBException;
@@ -17,10 +17,10 @@ public class AllPresentationsToRoomAndTimeslotAssigned extends Constraint {
     public void build() {
 
         try {
-            for (PresentationDto p : getModel().getPresentations()) {
+            for (P p : getIlpModel().getPresentations()) {
                 GRBLinExpr lhs = new GRBLinExpr();
-                for (TimeslotDto t : getModel().getTimeslots()) {
-                    for (RoomDto r : getModel().getRooms()) {
+                for (T t : getIlpModel().getTimeslots()) {
+                    for (R r : getIlpModel().getRooms()) {
                         // 9. Eine Presentation kann nur in einem Room vom passenden RoomType stattfinden.
                         if (r.getType().equals(p.getType()))
                             lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);

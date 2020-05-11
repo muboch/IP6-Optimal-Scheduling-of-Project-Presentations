@@ -1,9 +1,9 @@
 package ch.fhnw.ip6.ilpsolver.constraint.hard;
 
-import ch.fhnw.ip6.common.dto.LecturerDto;
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import gurobi.GRB;
 import gurobi.GRBException;
@@ -18,11 +18,11 @@ public class LecturerNotMoreThanOnePresentationPerTimeslot extends Constraint {
     @Override
     public void build() {
         try {
-            for (LecturerDto l : getModel().getLecturers()) {
-                for (TimeslotDto t : getModel().getTimeslots()) {
+            for (L l : getIlpModel().getLecturers()) {
+                for (T t : getIlpModel().getTimeslots()) {
                     GRBLinExpr lhs = new GRBLinExpr();
-                    for (RoomDto r : getModel().getRooms()) {
-                        for (PresentationDto p : getModel().getPresentationsPerLecturer().get(l)) {
+                    for (R r : getIlpModel().getRooms()) {
+                        for (P p : getIlpModel().getPresentationsPerLecturer().get(l)) {
                             lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                         }
                     }
