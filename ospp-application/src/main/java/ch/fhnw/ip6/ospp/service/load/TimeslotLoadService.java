@@ -13,10 +13,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -26,16 +31,18 @@ public class TimeslotLoadService extends AbstractLoadService {
     private final LecturerService lecturerService;
     private final TimeslotRepository timeslotRepository;
 
-    public void loadOfftimes(MultipartFile input) {
+    public Set<Lecturer> loadOfftimes(MultipartFile input, Set<Lecturer> lecturers, Set<Timeslot> timeslots) {
 
         try {
 
             XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
             XSSFSheet sheet = wb.getSheetAt(0);
 
-            int timeslots = sheet.getRow(0).getLastCellNum();
+            int numOfTimeslots = sheet.getRow(0).getLastCellNum();
 
             final Map<String, Integer> headerMap = new HashMap<>();
+
+            Set<Lecturer> offtimesLecturers = new HashSet<>();
 
             for (Row row : sheet) {
 
@@ -43,30 +50,36 @@ public class TimeslotLoadService extends AbstractLoadService {
                     continue;
                 }
 
-                Lecturer lecturer = lecturerService.readByInitials(row.getCell(0).getStringCellValue()).orElse(null);
+                Map<String, Timeslot> timeslotsMap = timeslots.stream().collect(Collectors.toMap(Timeslot::getDate, t -> t));
+                Map<String, Lecturer> lecturersMap = lecturers.stream().collect(Collectors.toMap(Lecturer::getInitials, l -> l));
+                Lecturer lecturer = lecturersMap.get(row.getCell(0).getStringCellValue());
+
                 if (lecturer != null) {
                     List<Timeslot> offtimes = new ArrayList<>();
-                    for (int i = 1; i < timeslots; i++) {
+                    for (int i = 1; i < numOfTimeslots; i++) {
                         if (row.getCell(i) == null) {
                             continue;
                         }
                         String val = row.getCell(i).getStringCellValue();
                         if (val.toLowerCase().equals("x")) {
-                            Timeslot timeslot = timeslotRepository.findByDate(sheet.getRow(0).getCell(i).getStringCellValue());
-                            offtimes.add(timeslot);
+                            String cellValue = sheet.getRow(0).getCell(i).getStringCellValue();
+                            Timeslot timeslot = timeslotsMap.get(cellValue);
+                            offtimes.add(timeslot != null ? timeslot : Timeslot.builder().date(cellValue).build());
                         }
                     }
                     lecturer.setOfftimes(offtimes);
-                    log.warn(lecturer.toString());
-                    lecturerService.save(lecturer);
+                    offtimesLecturers.add(lecturer);
                 }
+
             }
+            return offtimesLecturers;
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
+        return Collections.emptySet();
     }
 
-    public void loadTimeslots(MultipartFile input) {
+    public Set<Timeslot> loadTimeslots(MultipartFile input) {
 
         try {
 
@@ -75,6 +88,8 @@ public class TimeslotLoadService extends AbstractLoadService {
 
             final Map<String, Integer> headerMap = new HashMap<>();
 
+
+            Set<Timeslot> timeslots = new HashSet<>();
             for (Row row : sheet) {
 
                 if (row.getRowNum() == 0) {
@@ -89,11 +104,12 @@ public class TimeslotLoadService extends AbstractLoadService {
                         .priority((int) row.getCell(headerMap.get("priority")).getNumericCellValue())
                         .build();
 
-                timeslotRepository.save(timeslot);
+                timeslots.add(timeslot);
             }
-
+            return timeslots;
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
+        return Collections.emptySet();
     }
 }

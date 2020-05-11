@@ -3,6 +3,12 @@ package ch.fhnw.ip6.ospp.controller;
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.ospp.mapper.PlanningMapper;
 import ch.fhnw.ip6.ospp.model.ExcelFile;
+import ch.fhnw.ip6.ospp.model.Lecturer;
+import ch.fhnw.ip6.ospp.model.Presentation;
+import ch.fhnw.ip6.ospp.model.Room;
+import ch.fhnw.ip6.ospp.model.Timeslot;
+import ch.fhnw.ip6.ospp.service.ConsistencyError;
+import ch.fhnw.ip6.ospp.service.ConsistencyService;
 import ch.fhnw.ip6.ospp.service.LecturerService;
 import ch.fhnw.ip6.ospp.service.PlanningService;
 import ch.fhnw.ip6.ospp.service.PresentationService;
@@ -13,7 +19,6 @@ import ch.fhnw.ip6.ospp.service.load.PresentationLoadService;
 import ch.fhnw.ip6.ospp.service.load.RoomLoadService;
 import ch.fhnw.ip6.ospp.service.load.TimeslotLoadService;
 import ch.fhnw.ip6.ospp.vo.PlanningVO;
-import ch.fhnw.ip6.ospp.vo.PresentationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
@@ -34,7 +39,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -54,6 +61,7 @@ public class PlanningController {
     private final LecturerLoadService lecturerLoadService;
     private final RoomLoadService roomLoadService;
     private final TimeslotLoadService timeslotLoadService;
+    private final ConsistencyService consistencyService;
 
     private final PlanningMapper planningMapper;
 
@@ -71,21 +79,14 @@ public class PlanningController {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Solver is already running.");
         }
 
-        deleteTables();
-        log.info("previous data truncated");
-        loadFiles(presentations, teachers, rooms, timeslots, locktimes);
-        log.info("data upload completed");
+        List<ConsistencyError> errors = loadFiles(presentations, teachers, rooms, timeslots, locktimes);
 
-        log.info("fire planning event");
-        try {
-            planningService.firePlanning();
-            log.info("event fired, solving in process");
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(e.getMessage());
+        if (errors.isEmpty()) {
+            log.info("data upload completed");
+            return ResponseEntity.ok("Uploaded Files are consistent and are persisted to the database");
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.badRequest().body(errors);
 
     }
 
@@ -103,12 +104,32 @@ public class PlanningController {
     }
 
 
-    private void loadFiles(MultipartFile presentations, MultipartFile teachers, MultipartFile rooms, MultipartFile timeslots, MultipartFile locktimes) {
-        lecturerLoadService.loadLecturer(teachers);
-        presentationLoadService.loadPresentation(presentations);
-        roomLoadService.loadRooms(rooms);
-        timeslotLoadService.loadTimeslots(timeslots);
-        timeslotLoadService.loadOfftimes(locktimes);
+    private List<ConsistencyError> loadFiles(MultipartFile presentationsInput, MultipartFile lecturersInput, MultipartFile roomsInput, MultipartFile timeslotsInput, MultipartFile offtimesInput) {
+        Set<Lecturer> lecturers = lecturerLoadService.loadLecturer(lecturersInput);
+        Set<Presentation> presentations = presentationLoadService.loadPresentation(presentationsInput, lecturers);
+        Set<Room> rooms = roomLoadService.loadRooms(roomsInput);
+        Set<Timeslot> timeslots = timeslotLoadService.loadTimeslots(timeslotsInput);
+        Set<Lecturer> offtimesLectrures = timeslotLoadService.loadOfftimes(offtimesInput, lecturers, timeslots);
+        Set<Timeslot> offtimesTimeslots = offtimesLectrures.stream().map(Lecturer::getOfftimes).flatMap(List::stream).collect(Collectors.toSet());
+
+        log.info("check for consistency");
+        List<ConsistencyError> errors = consistencyService.checkConsistencyOfLecturers(presentations, lecturers, offtimesLectrures);
+        errors.addAll(consistencyService.checkConsistencyOfTimeslots(timeslots, offtimesTimeslots));
+
+        if (errors.isEmpty()) {
+            log.info("import data is consistent");
+
+            deleteTables();
+            log.info("previous data truncated");
+
+            lecturers.forEach(lecturerService::save);
+            presentations.forEach(presentationService::save);
+            rooms.forEach(roomService::save);
+            timeslots.forEach(timeslotService::save);
+
+        }
+        return errors;
+
     }
 
     private void deleteTables() {
@@ -155,6 +176,11 @@ public class PlanningController {
     public void delete(@PathVariable Long id) {
         planningService.delete(id);
     }
-    
+
+    @GetMapping("/consistency")
+    public ResponseEntity<List<String>> consistency() {
+        Set<Presentation> presentations = new HashSet<>(presentationService.getAll());
+        return ResponseEntity.badRequest().body(consistencyService.checkConsistencyOfPresentations(presentations));
+    }
 
 }

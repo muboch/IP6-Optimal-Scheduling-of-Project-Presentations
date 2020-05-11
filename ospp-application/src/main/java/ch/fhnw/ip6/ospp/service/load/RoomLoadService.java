@@ -11,8 +11,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -21,13 +24,15 @@ public class RoomLoadService extends AbstractLoadService {
 
     private final RoomRepository roomRepository;
 
-    public void loadRooms(MultipartFile input) {
+    public Set<Room> loadRooms(MultipartFile input) {
         try {
 
             XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
             XSSFSheet sheet = wb.getSheetAt(0);
 
             final Map<String, Integer> headerMap = new HashMap<>();
+
+            Set<Room> rooms = new HashSet<>();
 
             for (Row row : sheet) {
 
@@ -44,12 +49,14 @@ public class RoomLoadService extends AbstractLoadService {
                         .type(row.getCell(headerMap.get("type")).getStringCellValue())
                         .reserve(Boolean.parseBoolean(row.getCell(headerMap.get("reserve")).getStringCellValue()))
                         .build();
-                roomRepository.save(room);
+                rooms.add(room);
             }
 
+            return rooms;
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
+        return Collections.emptySet();
     }
 
 }

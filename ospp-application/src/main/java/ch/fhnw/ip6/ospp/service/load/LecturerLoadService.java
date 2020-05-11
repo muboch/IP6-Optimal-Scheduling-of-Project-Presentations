@@ -11,23 +11,26 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class LecturerLoadService extends AbstractLoadService {
 
-    private final LecturerRepository lecturerRepository;
-
-    public void loadLecturer(MultipartFile input) {
+    public Set<Lecturer> loadLecturer(MultipartFile input) {
         try {
 
             XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
             XSSFSheet sheet = wb.getSheetAt(0);
 
             final Map<String, Integer> headerMap = new HashMap<>();
+
+            Set<Lecturer> lecturers = new HashSet<>();
 
             for (Row row : sheet) {
 
@@ -36,20 +39,22 @@ public class LecturerLoadService extends AbstractLoadService {
                     continue;
                 }
 
-                Lecturer expert = Lecturer.lecturerBuilder()
+                Lecturer lecturer = Lecturer.lecturerBuilder()
                         .initials(row.getCell(headerMap.get("initials")).getStringCellValue())
                         .email(row.getCell(headerMap.get("email")).getStringCellValue())
                         .lastname(row.getCell(headerMap.get("lastname")).getStringCellValue())
                         .firstname(row.getCell(headerMap.get("firstname")).getStringCellValue())
                         .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
                         .build();
-                lecturerRepository.save(expert);
+                lecturers.add(lecturer);
 
             }
+            return lecturers;
 
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
+        return Collections.emptySet();
     }
 
 }

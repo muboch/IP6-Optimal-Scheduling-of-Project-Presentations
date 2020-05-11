@@ -77,7 +77,7 @@ public class PlanningService {
     @Value("${ospp.testmode}")
     private boolean testmode = true;
 
-    private static String[] columns = {"Nr", "Titel", "Name", "Klasse", "Name 2", "Klasse 2", "Betreuer", "Experte", "Zeit", "Raum"};
+    private static final String[] columns = {"Nr", "Titel", "Name", "Klasse", "Name 2", "Klasse 2", "Betreuer", "Experte", "Zeit", "Raum"};
 
     private boolean[][] createLocktimesMap(List<Lecturer> lecturerVOs, int numberOfTimeslots) {
 
@@ -164,12 +164,11 @@ public class PlanningService {
                         Row row = sheet.createRow(rowNum.getAndIncrement());
 
                         row.createCell(0).setCellValue(solution.getPresentation().getNr());
-                        // TODO fix that
-//                        row.createCell(1).setCellValue(solution.getPresentation().getTitle());
-//                        row.createCell(2).setCellValue(solution.getPresentation().getName());
-//                        row.createCell(3).setCellValue(solution.getPresentation().getSchoolclass());
-//                        row.createCell(4).setCellValue(solution.getPresentation().getName2());
-//                        row.createCell(5).setCellValue(solution.getPresentation().getSchoolclass2());
+                        row.createCell(1).setCellValue(solution.getPresentation().getTitle());
+                        row.createCell(2).setCellValue(solution.getPresentation().getName());
+                        row.createCell(3).setCellValue(solution.getPresentation().getSchoolclass());
+                        row.createCell(4).setCellValue(solution.getPresentation().getName2());
+                        row.createCell(5).setCellValue(solution.getPresentation().getSchoolclass2());
                         row.createCell(6).setCellValue(solution.getCoach().getName());
                         row.createCell(7).setCellValue(solution.getExpert().getName());
                         row.createCell(8).setCellValue(solution.getTimeSlot().getDate());

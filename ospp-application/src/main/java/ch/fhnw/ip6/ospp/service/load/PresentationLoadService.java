@@ -15,18 +15,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class PresentationLoadService extends AbstractLoadService {
 
-    private final PresentationRepository presentationRepository;
     private final LecturerService lecturerService;
 
-    public void loadPresentation(MultipartFile input) {
+    public Set<Presentation> loadPresentation(MultipartFile input, Set<Lecturer> lecturers) {
 
         try {
             XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
@@ -34,6 +37,8 @@ public class PresentationLoadService extends AbstractLoadService {
 
             final Map<String, Integer> headerMap = new HashMap<>();
 
+            Set<Presentation> presentations = new HashSet<>();
+            
             for (Row row : sheet) {
 
                 if (row.getRowNum() == 0) {
@@ -41,9 +46,9 @@ public class PresentationLoadService extends AbstractLoadService {
                     continue;
                 }
 
-
-                Lecturer coach = lecturerService.readByInitials(row.getCell(headerMap.get("coachInitials")).getStringCellValue()).orElse(null);
-                Lecturer expert = lecturerService.readByInitials(row.getCell(headerMap.get("expertInitials")).getStringCellValue()).orElse(null);
+                Map<String, Lecturer> lecturersMap = lecturers.stream().collect(Collectors.toMap(Lecturer::getInitials, l -> l));
+                Lecturer coach = lecturersMap.get(row.getCell(headerMap.get("coachInitials")).getStringCellValue());
+                Lecturer expert = lecturersMap.get(row.getCell(headerMap.get("expertInitials")).getStringCellValue());
 
                 Student studentOne = Student.studentBuilder()
                         .name(row.getCell(headerMap.get("name")).getStringCellValue())
@@ -67,11 +72,12 @@ public class PresentationLoadService extends AbstractLoadService {
                             .build();
                     presentation.setStudentTwo(studentTwo);
                 }
-
-                presentationRepository.save(presentation);
+                presentations.add(presentation);
             }
+            return presentations;
         } catch (IOException e) {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
+        return Collections.emptySet();
     }
 }

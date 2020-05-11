@@ -1,6 +1,5 @@
 package ch.fhnw.ip6.ospp.service;
 
-import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import lombok.RequiredArgsConstructor;
