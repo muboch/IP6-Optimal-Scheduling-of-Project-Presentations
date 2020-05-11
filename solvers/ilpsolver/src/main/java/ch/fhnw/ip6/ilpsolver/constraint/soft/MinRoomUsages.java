@@ -24,12 +24,12 @@ public class MinRoomUsages extends SoftConstraint {
 
             for (R r : getIlpModel().getRooms()) {
 
-                GRBLinExpr lhs = new GRBLinExpr();
+                GRBLinExpr innerLhs = new GRBLinExpr();
 
                 for (T t : getIlpModel().getTimeslots()) {
                     for (P p : getIlpModel().getPresentations()) {
                         if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] == null) continue;
-                        lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        innerLhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }
                 }
                 // if lhs >= 1 then roomUsed
@@ -39,8 +39,11 @@ public class MinRoomUsages extends SoftConstraint {
                 // A - B <= M1*(1-P) - 1
                 // B - A <= M2*P - 1
                 //lhs.addTerm(-1.0, roomUsed[indexOf(r)]);
-                getGrbModel().addGenConstrIndicator(roomUsed[indexOf(r)], 0, lhs, GRB.LESS_EQUAL, 0.0, "notUsed" + r.getName());
-                getGrbModel().addGenConstrIndicator(roomUsed[indexOf(r)], 1, lhs, GRB.GREATER_EQUAL, 1.0, "used" + r.getName());
+                GRBLinExpr lhs = new GRBLinExpr();
+                lhs.multAdd(1.0, lhs);
+                lhs.addTerm(-100.0, roomUsed[indexOf(r)]);
+                getGrbModel().addConstr(lhs, GRB.LESS_EQUAL, 0.0, "notUsed");
+                getGrbModel().addConstr(lhs, GRB.GREATER_EQUAL, 1.0, "used");
                 getObjectives().addTerm(USED_ROOM_COST, roomUsed[indexOf(r)]);
 
             }
