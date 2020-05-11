@@ -101,20 +101,20 @@ public class SolutionChecker {
 
         int totalSwitches = 0;
         System.out.println("RoomSwitches Per Lecturer:");
-        for (LecturerDto l : lecturers) {
-            System.out.print("L: " + l.getId() + " :");
-            for (RoomDto rs : roomsPerLecturer[l.getId()]) {
-                System.out.print(rs.getId() + "->");
-            }
-            int switches = (roomsPerLecturer[l.getId()].size() - 1);
-            if (switches > 0) {
-                System.out.println("Total: " + switches + " switches.");
-                totalSwitches += switches;
-            } else {
-                System.out.println("Total: no switches.");
-            }
-        }
-        System.out.println("Total Switches over all Lecturers: " + totalSwitches + " !!!!!! This number is wrong, we need to fix the checker: Peer, 23.04.2020");
+        lecturers.stream().filter(l -> roomsPerLecturer[l.getId()].size() > 1).forEach(l -> {
+            AtomicInteger roomSwitches = new AtomicInteger();
+            System.out.print(l.getInitials() +": ");
+            System.out.print(roomsPerLecturer[l.getId()].get(0).getName());
+            roomsPerLecturer[l.getId()].stream().reduce((r1, r2) -> {
+                if (r1 != r2) {
+                    roomSwitches.getAndIncrement();
+                    System.out.print("->" + r2.getName());
+                    return r2;
+                }
+                return r1;
+            });
+            System.out.println("    Total Switches: " + roomSwitches.get());
+        });
         return totalSwitches;
     }
 

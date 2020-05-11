@@ -36,7 +36,6 @@
         <module>common</module>
         <module>solvers/solverapi</module>
         <module>solvers/ilpsolver</module>
-        <module>solvers/cpsolver</module>
         <module>solvers/originalsolver</module>
         <module>solvers/solution-checker</module>
         <module>ospp-application</module>
