@@ -11,5 +11,4 @@ public interface StudentMapper {
 
     StudentVO fromEntityToVo(Student student);
 
-    Student fromVoToEntity(StudentVO studentVO);
 }

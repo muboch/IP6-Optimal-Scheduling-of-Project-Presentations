@@ -20,11 +20,6 @@ public interface RoomMapper {
 
     RoomDto fromEntityToDto(Room room);
 
-    RoomDto fromVoToDto(RoomVO roomVO);
-
-    @Mapping(target="presentations", ignore=true)
-    Room fromVoToEntity(RoomVO presentationVO);
-
     default List<Long> mapPresentations(List<Presentation> presentations) {
         if (presentations == null || presentations.isEmpty()) {
             return Collections.emptyList();

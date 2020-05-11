@@ -14,5 +14,4 @@ public interface TimeslotMapper {
 
     TimeslotDto fromEntityToDto(Timeslot timeslot);
 
-    Timeslot fromVoToEntity(TimeslotVO studentVO);
 }

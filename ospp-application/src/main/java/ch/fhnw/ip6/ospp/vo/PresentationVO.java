@@ -17,13 +17,13 @@ public class PresentationVO {
 
     private String title;
 
-    private Long studentOne;
+    private StudentVO studentOne;
 
-    private Long studentTwo;
+    private StudentVO studentTwo;
 
-    private Long coach;
+    private LecturerVO coach;
 
-    private Long expert;
+    private LecturerVO expert;
 
     private Long timeslot;
 

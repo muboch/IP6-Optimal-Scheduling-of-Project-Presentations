@@ -6,13 +6,11 @@ import ch.fhnw.ip6.ospp.service.TimeslotService;
 import ch.fhnw.ip6.ospp.vo.LecturerVO;
 import org.mapstruct.Mapper;
 
-@Mapper(uses = TimeslotService.class)
+@Mapper
 public interface LecturerMapper {
 
     LecturerDto fromEntityToDto(Lecturer lecturer);
 
     LecturerVO fromEntityToVo(Lecturer lecturer);
-
-    Lecturer fromVoToEntity(LecturerVO lecturer);
 
 }
