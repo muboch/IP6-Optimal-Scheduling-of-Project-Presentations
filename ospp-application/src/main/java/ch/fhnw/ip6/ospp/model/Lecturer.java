@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import java.util.List;
 
 @Entity
@@ -27,7 +30,7 @@ public class Lecturer extends User {
 
     private String lastname;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Timeslot> offtimes;
 
     @Builder(builderMethodName = "lecturerBuilder")

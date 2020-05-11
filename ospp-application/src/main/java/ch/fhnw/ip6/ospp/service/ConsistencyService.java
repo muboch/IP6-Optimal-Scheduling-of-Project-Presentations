@@ -23,9 +23,9 @@ import static ch.fhnw.ip6.ospp.service.ConsistencyError.Status.WARN;
 @RequiredArgsConstructor
 public class ConsistencyService {
 
-    public List<String> checkConsistencyOfPresentations(Set<Presentation> presentations) {
+    public List<ConsistencyError> checkConsistencyOfPresentations(Set<Presentation> presentations) {
 
-        List<String> errors = new ArrayList<>();
+        List<ConsistencyError> errors = new ArrayList<>();
 
         for (Presentation p : presentations) {
             List<String> missingObjects = new ArrayList<>();
@@ -38,7 +38,8 @@ public class ConsistencyService {
             if (p.getExpert() == null) {
                 missingObjects.add("Experte");
             }
-            errors.add(String.format("Bei Präsentation %s fehlt %s", p.getNr(), StringUtils.joinWith(",", missingObjects)));
+            if (!missingObjects.isEmpty())
+                errors.add(new ConsistencyError(ERROR, String.format("Bei Präsentation %s fehlt %s", p.getNr(), StringUtils.joinWith(",", missingObjects))));
         }
         return errors;
     }
@@ -58,7 +59,7 @@ public class ConsistencyService {
 
         for (Lecturer l : lecturersOfPresentations) {
             if (lecturerMap.get(l.getInitials()) == null) {
-                errors.add(new ConsistencyError(ERROR, String.format("Lehrerperson mit Kürzel '%s' ist nicht in der Liste aller Lehrer.", l.getInitials())));
+                errors.add(new ConsistencyError(ERROR, String.format("Lehrerperson mit Kürzel '%s' ist nicht in der Liste aller Lehrerpersonen.", l.getInitials())));
             }
         }
 

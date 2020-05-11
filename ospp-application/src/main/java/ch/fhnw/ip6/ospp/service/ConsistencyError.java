@@ -13,7 +13,7 @@ public class ConsistencyError {
     @JsonProperty
     private String message;
 
-    enum Status {
+    public enum Status {
         WARN,
         ERROR
     }

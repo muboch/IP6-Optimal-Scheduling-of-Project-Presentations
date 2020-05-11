@@ -39,10 +39,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static ch.fhnw.ip6.ospp.service.ConsistencyError.Status.ERROR;
 
 @RestController
 @CrossOrigin
@@ -81,9 +84,9 @@ public class PlanningController {
 
         List<ConsistencyError> errors = loadFiles(presentations, teachers, rooms, timeslots, locktimes);
 
-        if (errors.isEmpty()) {
+        if (errors.isEmpty() || errors.stream().noneMatch(e -> e.getStatus() == ERROR)) {
             log.info("data upload completed");
-            return ResponseEntity.ok("Uploaded Files are consistent and are persisted to the database");
+            return ResponseEntity.ok().body(errors);
         }
 
         return ResponseEntity.badRequest().body(errors);
@@ -116,7 +119,7 @@ public class PlanningController {
         List<ConsistencyError> errors = consistencyService.checkConsistencyOfLecturers(presentations, lecturers, offtimesLectrures);
         errors.addAll(consistencyService.checkConsistencyOfTimeslots(timeslots, offtimesTimeslots));
 
-        if (errors.isEmpty()) {
+        if (errors.isEmpty() || errors.stream().noneMatch(e -> e.getStatus() == ERROR)) {
             log.info("import data is consistent");
 
             deleteTables();
@@ -178,9 +181,14 @@ public class PlanningController {
     }
 
     @GetMapping("/consistency")
-    public ResponseEntity<List<String>> consistency() {
+    public ResponseEntity<List<ConsistencyError>> consistency() {
         Set<Presentation> presentations = new HashSet<>(presentationService.getAll());
-        return ResponseEntity.badRequest().body(consistencyService.checkConsistencyOfPresentations(presentations));
+        Set<Lecturer> lecturers = new HashSet<>(lecturerService.getAll());
+
+        List<ConsistencyError> errors = consistencyService.checkConsistencyOfPresentations(presentations);
+        errors.addAll(consistencyService.checkConsistencyOfLecturers(presentations, lecturers, Collections.emptySet()));
+
+        return ResponseEntity.ok().body(errors);
     }
 
 }
