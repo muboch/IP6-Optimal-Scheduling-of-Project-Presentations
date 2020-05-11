@@ -50,10 +50,10 @@ public class Presentation {
 
     private String title;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Student studentOne;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Student studentTwo;
 
     @ManyToOne

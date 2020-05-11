@@ -18,6 +18,8 @@ public class LecturerVO {
 
     private String lastname;
 
+    private String email;
+
     private List<TimeslotVO> offtimes;
 
 
