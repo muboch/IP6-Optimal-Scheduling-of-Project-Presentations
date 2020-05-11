@@ -1,10 +1,10 @@
 package ch.fhnw.ip6.ilpsolver.callback;
 
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Solution;
-import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ilpsolver.ILPModel;
 import gurobi.GRB;
 import gurobi.GRBCallback;
@@ -16,12 +16,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class PresentationSolutionObserver extends GRBCallback {
+public class ILPSolverCallback extends GRBCallback {
 
     private final GRBVar[][][] x;
-    private final List<Presentation> presentations;
-    private final List<Timeslot> timeslots;
-    private final List<Room> rooms;
+    private final List<P> presentations;
+    private final List<T> timeslots;
+    private final List<R> rooms;
     private final GRBModel model;
 
     @SneakyThrows
@@ -33,9 +33,9 @@ public class PresentationSolutionObserver extends GRBCallback {
             planning.setRooms(rooms);
             planning.setTimeslots(timeslots);
             Set<Solution> solutions = new HashSet<>();
-            for (Presentation p : presentations) {
-                for (Timeslot t : timeslots) {
-                    for (Room r : rooms) {
+            for (P p : presentations) {
+                for (T t : timeslots) {
+                    for (R r : rooms) {
                         if (getSolution(x[presentations.indexOf(p)][timeslots.indexOf(t)][rooms.indexOf(r)]) == 1.0) {
                             System.out.println(x[presentations.indexOf(p)][timeslots.indexOf(t)][rooms.indexOf(r)].get(GRB.StringAttr.VarName) + " " + 1.0);
                             solutions.add(new Solution(r, t, p, p.getCoach(), p.getExpert()));
@@ -48,7 +48,7 @@ public class PresentationSolutionObserver extends GRBCallback {
         }
     }
 
-    public PresentationSolutionObserver(ILPModel model) {
+    public ILPSolverCallback(ILPModel model) {
         this.x = model.getX();
         this.presentations = model.getPresentations();
         this.timeslots = model.getTimeslots();

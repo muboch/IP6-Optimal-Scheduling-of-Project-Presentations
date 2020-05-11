@@ -1,16 +1,13 @@
 package ch.fhnw.ip6.ilpsolver.constraint.soft;
 
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
-import ch.fhnw.ip6.common.dto.Timeslot;
-import ch.fhnw.ip6.common.util.CostUtil;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import gurobi.GRB;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBVar;
-
-import static ch.fhnw.ip6.common.util.CostUtil.USED_ROOM_COST;
 
 public class MinTimeslotUsages extends SoftConstraint {
     @Override
@@ -18,14 +15,14 @@ public class MinTimeslotUsages extends SoftConstraint {
 
         try {
             GRBVar[] timeslotUsed = new GRBVar[getIlpModel().getTimeslots().size()];
-            for (Timeslot t : getIlpModel().getTimeslots()) {
+            for (T t : getIlpModel().getTimeslots()) {
                 timeslotUsed[indexOf(t)] = getGrbModel().addVar(0, 1, 1.0, GRB.BINARY, t.toString());
             }
 
-            for (Timeslot t : getIlpModel().getTimeslots()) {
+            for (T t : getIlpModel().getTimeslots()) {
                 GRBLinExpr lhs = new GRBLinExpr();
-                for (Room r : getIlpModel().getRooms()) {
-                    for (Presentation p : getIlpModel().getPresentations()) {
+                for (R r : getIlpModel().getRooms()) {
+                    for (P p : getIlpModel().getPresentations()) {
                         lhs.addTerm(t.getPriority(), getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }
                 }

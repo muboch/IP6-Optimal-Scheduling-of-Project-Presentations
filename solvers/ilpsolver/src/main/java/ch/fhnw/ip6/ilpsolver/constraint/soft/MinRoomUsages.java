@@ -1,8 +1,8 @@
 package ch.fhnw.ip6.ilpsolver.constraint.soft;
 
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
-import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import gurobi.GRB;
 import gurobi.GRBException;
@@ -18,16 +18,16 @@ public class MinRoomUsages extends SoftConstraint {
         try {
             GRBVar[] roomUsed = new GRBVar[getIlpModel().getRooms().size()];
 
-            for (Room r : getIlpModel().getRooms()) {
+            for (R r : getIlpModel().getRooms()) {
                 roomUsed[indexOf(r)] = getGrbModel().addVar(0, 1, 1.0, GRB.BINARY, r.toString());
             }
 
-            for (Room r : getIlpModel().getRooms()) {
+            for (R r : getIlpModel().getRooms()) {
 
                 GRBLinExpr lhs = new GRBLinExpr();
 
-                for (Timeslot t : getIlpModel().getTimeslots()) {
-                    for (Presentation p : getIlpModel().getPresentations()) {
+                for (T t : getIlpModel().getTimeslots()) {
+                    for (P p : getIlpModel().getPresentations()) {
                         if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] == null) continue;
                         lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }

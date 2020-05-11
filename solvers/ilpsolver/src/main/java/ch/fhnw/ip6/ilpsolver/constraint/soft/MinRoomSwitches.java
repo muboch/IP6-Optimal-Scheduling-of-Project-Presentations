@@ -1,16 +1,17 @@
 package ch.fhnw.ip6.ilpsolver.constraint.soft;
 
-import ch.fhnw.ip6.common.dto.LecturerDto;
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import gurobi.GRB;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBVar;
 
-import static ch.fhnw.ip6.common.util.CostUtil.ROOM_SWITCH_COST;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 1. Coaches sollen den Room möglichst selten wechseln.
@@ -18,30 +19,7 @@ import static ch.fhnw.ip6.common.util.CostUtil.ROOM_SWITCH_COST;
 public class MinRoomSwitches extends SoftConstraint {
     @Override
     public void build() {
-        try {
-            GRBVar[][] coachRoom = new GRBVar[getIlpModel().getLecturers().size()][getIlpModel().getRooms().size()];
-            for (LecturerDto l : getIlpModel().getLecturers()) {
-                for (RoomDto r : getIlpModel().getRooms()) {
-                    coachRoom[l.getId()][r.getId()] = getGrbModel().addVar(0.0, 1.0, 1.0, GRB.EQUAL, l + "." + r);
-                }
-            }
-            for (LecturerDto l : getIlpModel().getLecturers()) {
-                for (RoomDto r : getIlpModel().getRooms()) {
-                    GRBLinExpr lhs = new GRBLinExpr();
-                    for (PresentationDto p1 : getIlpModel().getPresentationsPerLecturer().get(l)) {
-                        for (TimeslotDto t : getIlpModel().getTimeslots()) {
-                            if (getX()[p1.getId()][r.getId()][t.getId()] == null) continue;
-                            lhs.addTerm(ROOM_SWITCH_COST, getX()[p1.getId()][r.getId()][t.getId()]);
-                        }
-                    }
 
-                    getGrbModel().addGenConstrIndicator(coachRoom[indexOf(l)][indexOf(r)], 1, lhs, GRB.GREATER_EQUAL, 1.0, getConstraintName());
-                    getGrbModel().setObjectiveN(lhs, indexOf(r), 1, 1, 1.0, 1.0, r.toString() + "." + l.toString());
-                }
-            }
-        } catch (GRBException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

@@ -5,6 +5,8 @@ import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,24 +67,24 @@ public class SolutionChecker {
      *
      *  */
     private static int GetRoomSwitches(Set<Solution> solutions, List<LecturerDto> lecturers, List<TimeslotDto> timeslots) {
-        List<RoomDto>[] roomsPerLecturer = new List[lecturers.size()];
+        List<R>[] roomsPerLecturer = new List[lecturers.size()];
         // Initialize ArrayLists
         for (LecturerDto l : lecturers) {
             roomsPerLecturer[l.getId()] = new ArrayList<>();
         }
 
 
-        for (TimeslotDto t : timeslots) {
+        for (T t : timeslots) {
             // Get solutions for current timeslot
             List<Solution> solForTime = solutions.stream().filter(s -> s.getTimeSlot().getId() == t.getId()).collect(Collectors.toList());
             for (Solution s : solForTime) {
                 // If the last room for the lecturer is different than the room of the solution, add it. Else, don't, as the lecturer didnt switch rooms
-                Optional<RoomDto> lastExpertRoom = Optional.empty();
+                Optional<R> lastExpertRoom = Optional.empty();
                 if (roomsPerLecturer[s.getExpert().getId()] != null) {
                     lastExpertRoom = roomsPerLecturer[s.getExpert().getId()].stream().reduce((first, second) -> second); // Get last element in array (sequential)
                 }
 
-                Optional<RoomDto> lastCoachRoom = Optional.empty();
+                Optional<R> lastCoachRoom = Optional.empty();
                 if (roomsPerLecturer[s.getCoach().getId()] != null) {
                     lastCoachRoom = roomsPerLecturer[s.getCoach().getId()].stream().reduce((first, second) -> second); // Get last element in array (sequential)
                 }

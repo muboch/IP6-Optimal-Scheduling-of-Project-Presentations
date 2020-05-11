@@ -8,7 +8,7 @@ import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.util.JsonUtil;
-import ch.fhnw.ip6.ilpsolver.callback.PresentationSolutionObserver;
+import ch.fhnw.ip6.ilpsolver.callback.ILPSolverCallback;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.AllPresentationsToRoomAndTimeslotAssigned;
@@ -73,7 +73,7 @@ public class Solver implements SolverApi {
                 c.setModel(model).build();
             });
 
-            grbModel.setCallback(new PresentationSolutionObserver(model));
+            grbModel.setCallback(new ILPSolverCallback(model));
             grbModel.setObjective(objective);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.update();
@@ -102,7 +102,7 @@ public class Solver implements SolverApi {
         return null;
     }
 
-    private void printSolution(List<Presentation> ps, List<Room> rs, List<Timeslot> ts, GRBModel grbModel, ILPModel model, Planning planning) throws GRBException {
+    private void printSolution(List<PresentationDto> ps, List<RoomDto> rs, List<TimeslotDto> ts, GRBModel grbModel, ILPModel model, Planning planning) throws GRBException {
         double[][][] xd = grbModel.get(GRB.DoubleAttr.X, model.getX());
         for (int p = 0; p < ps.size(); p++) {
             for (int t = 0; t < ts.size(); t++) {

@@ -1,11 +1,11 @@
 package ch.fhnw.ip6.solutionchecker;
 
-import ch.fhnw.ip6.common.dto.Lecturer;
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
 import ch.fhnw.ip6.common.dto.Solution;
-import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.ArrayList;
@@ -22,10 +22,10 @@ import static ch.fhnw.ip6.common.util.CostUtil.*;
 
 public class SolutionCheckerCarlo {
 
-    private final List<Room> rooms;
-    private final List<Timeslot> timeslots;
-    private final List<Presentation> presentations;
-    private final List<Lecturer> lecturers;
+    private final List<? extends R> rooms;
+    private final List<? extends T> timeslots;
+    private final List<? extends P> presentations;
+    private final List<? extends L> lecturers;
     private final Planning planning;
 
     private int roomSwitchCosts;
@@ -33,7 +33,7 @@ public class SolutionCheckerCarlo {
     private int usedRoomsCosts;
     private int usedTimeslotCosts;
 
-    public SolutionCheckerCarlo(Planning planning, List<Lecturer> lecturers, List<Presentation> presentations, List<Timeslot> timeslots, List<Room> rooms) {
+    public SolutionCheckerCarlo(Planning planning, List<? extends L> lecturers, List<? extends P> presentations, List<? extends T> timeslots, List<? extends R> rooms) {
         this.planning = planning;
         this.lecturers = lecturers;
         this.presentations = presentations;
@@ -43,9 +43,9 @@ public class SolutionCheckerCarlo {
 
     public void check() {
         checkPassed(checkOnePresentationPerTimeslotForProfessor(), "Check Double Booked Presentaions/Professors: ");
-        checkPassed(checkEachPresentationOnce(), "Check Each Presentation Once: ");
-        checkPassed(checkRoomUsedMaxOncePerTime(), "Check Room Used Max Once Per Time: ");
-        checkPassed(checkRoomSwitches(), "Check Room Switched: ");
+        checkPassed(checkEachPresentationOnce(), "Check Each P Once: ");
+        checkPassed(checkRoomUsedMaxOncePerTime(), "Check R Used Max Once Per Time: ");
+        checkPassed(checkRoomSwitches(), "Check R Switched: ");
         checkPassed(checkUsedTimeslots(), "Check Timeslots used: ");
         checkPassed(checkUsedRooms(), "Check Rooms used: ");
     }
@@ -68,7 +68,7 @@ public class SolutionCheckerCarlo {
         }
         int timeslotsCost = 0;
         for (int i = 0; i < presentationsPerTimeslot.length; i++) {
-            if (presentationsPerTimeslot[i] > 0) { // Timeslot has at least 1 presentation
+            if (presentationsPerTimeslot[i] > 0) { // T has at least 1 presentation
                 timeslotsCost += timeslots.get(i).getPriority();
             }
         }
@@ -83,7 +83,7 @@ public class SolutionCheckerCarlo {
         }
         int roomsUsed = 0;
         for (int t : presentationsPerRoom) {
-            if (t > 0) { // Timeslot has at least 1 presentation
+            if (t > 0) { // T has at least 1 presentation
                 roomsUsed++;
             }
         }
@@ -93,24 +93,24 @@ public class SolutionCheckerCarlo {
 
     private ImmutablePair<Boolean, Integer> checkRoomSwitches() {
 
-        List<Room>[] roomsPerLecturer = new List[lecturers.size()];
+        List<R>[] roomsPerLecturer = new List[lecturers.size()];
         // Initialize ArrayLists
-        for (Lecturer l : lecturers) {
+        for (L l : lecturers) {
             roomsPerLecturer[l.getId()] = new ArrayList<>();
         }
 
 
-        for (Timeslot t : timeslots) {
+        for (T t : timeslots) {
             // Get solutions for current timeslot
             List<Solution> solForTime = planning.getSolutions().stream().filter(s -> s.getTimeSlot().getId() == t.getId()).collect(Collectors.toList());
             for (Solution s : solForTime) {
                 // If the last room for the lecturer is different than the room of the solution, add it. Else, don't, as the lecturer didnt switch rooms
-                Optional<Room> lastExpertRoom = Optional.empty();
+                Optional<R> lastExpertRoom = Optional.empty();
                 if (roomsPerLecturer[s.getExpert().getId()] != null) {
                     lastExpertRoom = roomsPerLecturer[s.getExpert().getId()].stream().reduce((first, second) -> second); // Get last element in array (sequential)
                 }
 
-                Optional<Room> lastCoachRoom = Optional.empty();
+                Optional<R> lastCoachRoom = Optional.empty();
                 if (roomsPerLecturer[s.getCoach().getId()] != null) {
                     lastCoachRoom = roomsPerLecturer[s.getCoach().getId()].stream().reduce((first, second) -> second); // Get last element in array (sequential)
                 }
@@ -128,10 +128,10 @@ public class SolutionCheckerCarlo {
         }
 
         int totalSwitches = 0;
-        System.out.println("RoomSwitches Per Lecturer:");
+        System.out.println("RoomSwitches Per L:");
         lecturers.stream().filter(l -> roomsPerLecturer[l.getId()].size() > 1).forEach(l -> {
             AtomicInteger roomSwitches = new AtomicInteger();
-            System.out.print(l.getInitials() +": ");
+            System.out.print(l.getInitials() + ": ");
             System.out.print(roomsPerLecturer[l.getId()].get(0).getName());
             roomsPerLecturer[l.getId()].stream().reduce((r1, r2) -> {
                 if (r1 != r2) {
@@ -149,7 +149,7 @@ public class SolutionCheckerCarlo {
 
     private ImmutablePair<Boolean, Integer> checkOnePresentationPerTimeslotForProfessor() {
 
-        Map<Lecturer, List<Timeslot>> lecturerTimeslots = new HashMap<>();
+        Map<L, List<T>> lecturerTimeslots = new HashMap<>();
         for (Solution s : planning.getSolutions()) {
             lecturerTimeslots.compute(s.getCoach(), (k, v) -> v == null ? new ArrayList<>() : v).add(s.getTimeSlot());
             lecturerTimeslots.compute(s.getExpert(), (k, v) -> v == null ? new ArrayList<>() : v).add(s.getTimeSlot());
@@ -160,7 +160,7 @@ public class SolutionCheckerCarlo {
                     int frequency = Collections.frequency(ts, t);
                     if (frequency > 1) {
                         errors.getAndIncrement();
-                        System.out.println("   Error: Lecturer " + l + " has " + frequency + " presentations at time " + t.getDate());
+                        System.out.println("   Error: L " + l + " has " + frequency + " presentations at time " + t.getDate());
 
                     }
                 })
@@ -169,7 +169,7 @@ public class SolutionCheckerCarlo {
     }
 
     private ImmutablePair<Boolean, Integer> checkEachPresentationOnce() {
-        Map<Presentation, Integer> presentationsScheduledTime = new HashMap<>();
+        Map<P, Integer> presentationsScheduledTime = new HashMap<>();
         for (Solution result : planning.getSolutions()) {
             presentationsScheduledTime.compute(result.getPresentation(), (key, val) -> val == null ? val = 1 : val++);
         }
@@ -177,7 +177,7 @@ public class SolutionCheckerCarlo {
         AtomicInteger parallelPresentations = new AtomicInteger();
         presentationsScheduledTime.forEach((p, n) -> {
             if (n > 1) {
-                System.out.println("PresentationNotOnceError: Presentation " + p + " is scheduled " + n + " times.");
+                System.out.println("PresentationNotOnceError: P " + p + " is scheduled " + n + " times.");
                 passed.set(false);
                 parallelPresentations.getAndIncrement();
             }
@@ -186,7 +186,7 @@ public class SolutionCheckerCarlo {
     }
 
     private ImmutablePair<Boolean, Integer> checkRoomUsedMaxOncePerTime() {
-        Map<Room, List<Timeslot>> roomTimeslots = new HashMap<>();
+        Map<R, List<T>> roomTimeslots = new HashMap<>();
 
         AtomicInteger doubleBookings = new AtomicInteger();
 
@@ -197,7 +197,7 @@ public class SolutionCheckerCarlo {
                 int frequency = Collections.frequency(timeslots, t);
                 if (frequency > 1) {
                     doubleBookings.getAndIncrement();
-                    System.out.println("   Error: Room " + r + " has " + frequency + " presentations at time " + t.getDate());
+                    System.out.println("   Error: R " + r + " has " + frequency + " presentations at time " + t.getDate());
                 }
             });
         });
