@@ -9,6 +9,7 @@ import { SCREENROUTES } from "./constants";
 import UploadSucessfulScreen from "./screens/UploadSucessful/UploadSucessfulScreen";
 import Sidebar from "./Components/sidebar";
 import EditScreen, { EditScreenProps } from "./screens/Edit Screens/editscreen";
+import CreatePlanning from "./screens/CreatePlanning/createPlanning";
 
 const App: React.FC = (): JSX.Element => {
   console.log("endpoint", process.env.REACT_APP_API_ENDPOINT);
@@ -51,6 +52,10 @@ const App: React.FC = (): JSX.Element => {
           <Route
             path={SCREENROUTES.uploadSucessful}
             component={UploadSucessfulScreen}
+          />
+                    <Route
+            path={SCREENROUTES.createPlanning}
+            component={CreatePlanning}
           />
           <Route
             path="/:rest*"

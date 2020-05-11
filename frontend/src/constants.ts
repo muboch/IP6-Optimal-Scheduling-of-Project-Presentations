@@ -2,6 +2,7 @@ export const SCREENROUTES = {
   uploadSucessful: "/uploadSucessful",
   uploadFiles: "/upload",
   listPlanning: "/listPlanning",
+  createPlanning: "/createPlanning",
   landingScreen: "/",
   presentations: "/presentations",
   rooms: "/rooms",

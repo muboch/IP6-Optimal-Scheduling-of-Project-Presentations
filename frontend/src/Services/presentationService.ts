@@ -34,9 +34,14 @@ export const loadPresentationById = async (
 // ADD/UPDATE Presentation. If number is passed, then update existing, otherwise add new presentation
 export const addPresentation = async (
   pres: Presentation,
+  id?: number
 ): Promise<void> => {
+  const url = id
+    ? `${APIROUTES.presentation}/${id}`
+    : `${APIROUTES.presentation}`;
+
   // Default options are marked with *
-  const response = await fetch(`${APIROUTES.presentation}`, {
+  const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
