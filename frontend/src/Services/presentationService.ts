@@ -36,9 +36,7 @@ export const addPresentation = async (
   pres: Presentation,
   id?: number
 ): Promise<void> => {
-  const url = id
-    ? `${APIROUTES.presentation}/${id}`
-    : `${APIROUTES.presentation}`;
+  const url = `${APIROUTES.presentation}`;
 
   // Default options are marked with *
   const response = await fetch(url, {
