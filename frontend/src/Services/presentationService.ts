@@ -34,7 +34,6 @@ export const loadPresentationById = async (
 // ADD/UPDATE Presentation. If number is passed, then update existing, otherwise add new presentation
 export const addPresentation = async (
   pres: Presentation,
-  id?: number
 ): Promise<void> => {
   const url = `${APIROUTES.presentation}`;
 

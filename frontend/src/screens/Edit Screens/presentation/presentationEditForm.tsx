@@ -18,6 +18,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import {
   loadPresentationById,
   addPresentation,
+  loadPresentations,
 } from "../../../Services/presentationService";
 import { PRESENTATIONTYPES } from "../../../constants";
 
@@ -63,11 +64,13 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
   const gStyles = useGStyles();
   const [lecturers, setLecturers] = useState<Array<Lecturer>>([]);
   const [students, setStudents] = useState<Array<Student>>([]);
+  const [presentations, setPresentations] = useState<Array<Presentation>>([]);
   const [presentation, setPresentation] = useState<Presentation>();
 
   const loadDataAsync = async () => {
     setLecturers(await loadLecturers());
     setStudents(await loadStudents());
+    setPresentations(await loadPresentations());
     if (presentationId !== undefined && editPresentation) {
       setPresentation(await loadPresentationById(presentationId));
     } else {
@@ -97,7 +100,25 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
 
   const onSaveForm = (e: any) => {
     e.preventDefault();
-    addPresentation(presentation!, presentation!.id);
+    addPresentation(presentation!);
+  };
+
+  const studentHasError = (student?: Student) => {
+    if (!student) {
+      return false;
+    }
+    const presentationsForStudent = presentations
+      .filter(
+        (p) =>
+          p.studentOne?.id === presentation?.studentOne?.id ||
+          p.studentOne?.id === presentation?.studentTwo?.id
+      ) // Get all presentations where studentOne is assigned
+      .filter((p) => p.id !== presentation?.id); // Remove current presentation from array
+
+    return (
+      presentation!.studentOne?.id === presentation!.studentTwo?.id || // StudentOne and StudentTwo are the same
+      presentationsForStudent.length > 0 // Too many presentations for student
+    );
   };
 
   return (
@@ -224,7 +245,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <Autocomplete
               className={styles.textField50}
-              id="combo-box-demo"
+              id="combo-box-s1"
               options={students}
               getOptionLabel={(student: Student) => {
                 return student.name;
@@ -233,12 +254,10 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  error={
-                    presentation.studentOne &&
-                    presentation.studentOne?.id === presentation.studentTwo?.id
-                  }
+                  error={studentHasError(presentation.studentOne!)}
                   label="Schüler 1"
                   variant="outlined"
+                  helperText="Ein Schüler darf nur einer Präsentation zugewiesen werden"
                 />
               )}
               onChange={(_: any, newValue: Student | null) => {
@@ -246,7 +265,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               }}
             />
             <Autocomplete
-              id="combo-box-demo"
+              id="combo-box-s2"
               className={styles.textField50}
               options={students}
               getOptionLabel={(student: Student) => {
@@ -255,11 +274,8 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               value={presentation.studentTwo || null}
               renderInput={(params) => (
                 <TextField
-                  error={
-                    presentation.studentOne &&
-                    presentation.studentOne?.id === presentation.studentTwo?.id
-                  }
-                  helperText=""
+                  error={studentHasError(presentation.studentTwo!)}
+                  helperText="Ein Schüler darf nur einer Präsentation zugewiesen werden"
                   {...params}
                   label="Schüler 2"
                   variant="outlined"
