@@ -1,9 +1,23 @@
 import { APIROUTES } from "../constants";
-import { Lecturer } from "../Types/types";
+import { Lecturer, ConsistencyError } from "../Types/types";
 
 export const loadPlannings = async (): Promise<Array<Lecturer>> => {
   try {
     const res = await fetch(`${APIROUTES.planning}`);
+    const json = await res.json();
+    console.log(json);
+    if (res.ok) {
+      return json;
+    }
+    throw "Fehler beim laden der Dozenten";
+  } catch (Error) {
+    throw Error;
+  }
+};
+
+export const loadConsistency = async (): Promise<Array<ConsistencyError>> => {
+  try {
+    const res = await fetch(`${APIROUTES.planning}/consistency`);
     const json = await res.json();
     console.log(json);
     if (res.ok) {
@@ -28,7 +42,6 @@ export const getPlanningById = async (id: number): Promise<Lecturer> => {
     throw Error;
   }
 };
-
 
 export const deletePlanningById = async (id: number): Promise<void> => {
   // Default options are marked with *

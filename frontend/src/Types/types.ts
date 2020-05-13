@@ -11,6 +11,11 @@ export type Presentation = {
   timeslot?: string;
 };
 
+export type ConsistencyError = {
+  status: "ERROR" | "WARN";
+  message: string;
+};
+
 export type Room = {
   name: string;
   id?: number; // id used in Database, 1 based
