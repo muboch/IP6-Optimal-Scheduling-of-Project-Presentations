@@ -37,9 +37,7 @@ const App: React.FC = (): JSX.Element => {
           </Route>
           <Route path={SCREENROUTES.offtimes}>
             {(params) => <EditScreen type={"offtime"}></EditScreen>}
-          </Route>          
-
-
+          </Route>
 
           <Route
             path={SCREENROUTES.uploadFiles}
@@ -53,7 +51,7 @@ const App: React.FC = (): JSX.Element => {
             path={SCREENROUTES.uploadSucessful}
             component={UploadSucessfulScreen}
           />
-                    <Route
+          <Route
             path={SCREENROUTES.createPlanning}
             component={CreatePlanning}
           />

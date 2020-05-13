@@ -10,11 +10,12 @@ import {
   TableCell,
   TableBody,
   makeStyles,
+  Snackbar,
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import { useLocation } from "wouter";
 import { SCREENROUTES, APIROUTES } from "../../constants";
-import { loadConsistency } from "../../Services/planningService";
+import { loadConsistency, firePlanning } from "../../Services/planningService";
 import { ConsistencyError } from "../../Types/types";
 import WarningIcon from "@material-ui/icons/Warning";
 import ErrorIcon from "@material-ui/icons/Error";
@@ -23,7 +24,10 @@ import { yellow } from "@material-ui/core/colors";
 const CreatePlanning: React.FC = (): JSX.Element => {
   const gStyles = useGStyles();
   const [location, setLocation] = useLocation();
+  const [bDisabled, setBDisabled] = useState(false);
   const [consistencyChecks, setConsistencyChecks] = useState<Array<any>>([]);
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
     const load = async () => {
@@ -82,11 +86,30 @@ const CreatePlanning: React.FC = (): JSX.Element => {
 
         <Button
           className={gStyles.primaryButton}
-          target="_blank"
-          href={`${APIROUTES.planning}/example`}
+          disabled={bDisabled}
+          onClick={() => {
+            setBDisabled(true);
+            try {
+              firePlanning();
+            } catch (error) {
+              setSnackbarOpen(true);
+              setErrorMsg(error);
+            } finally {
+              setBDisabled(false);
+            }
+          }}
         >
           Planung erstellen
         </Button>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={10000}
+          onClose={() => {
+            setSnackbarOpen(false);
+            setErrorMsg("");
+          }}
+          message={`Fehler beim starten der Planung: ${errorMsg}`}
+        />
       </div>
     </div>
   );

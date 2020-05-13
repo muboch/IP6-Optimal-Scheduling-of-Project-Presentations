@@ -23,7 +23,19 @@ export const loadConsistency = async (): Promise<Array<ConsistencyError>> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Dozenten";
+    throw "Fehler beim laden des ConsistencyChecks";
+  } catch (Error) {
+    throw Error;
+  }
+};
+
+export const firePlanning = async (): Promise<void> => {
+  try {
+    const res = await fetch(`${APIROUTES.planning}/solve`);
+    if (res.ok) {
+      return;
+    }
+    throw "Fehler beim starten des solvers";
   } catch (Error) {
     throw Error;
   }
