@@ -15,7 +15,7 @@ export const loadLecturers = async (): Promise<Array<Lecturer>> => {
   }
 };
 
-export const loadLecturerById = async (id: number): Promise<Lecturer> => {
+export const _loadLecturerById = async (id: number): Promise<Lecturer> => {
   try {
     const res = await fetch(`${APIROUTES.lecturer}/${id}`);
     const json = await res.json();
@@ -23,6 +23,7 @@ export const loadLecturerById = async (id: number): Promise<Lecturer> => {
     if (res.ok) {
       return json;
     }
+
     throw "Fehler beim laden des Dozenten";
   } catch (Error) {
     throw Error;
@@ -30,12 +31,9 @@ export const loadLecturerById = async (id: number): Promise<Lecturer> => {
 };
 
 // ADD/UPDATE Presentation. If number is passed, then update existing, otherwise add new presentation
-export const addLecturer = async (
-  lect: Lecturer,
-  id?: number
-): Promise<void> => {
+export const _addLecturer = async (lect: Lecturer): Promise<void> => {
   // Default options are marked with *
-  const url = id ? `${APIROUTES.lecturer}/${id}` : `${APIROUTES.lecturer}`;
+  const url = `${APIROUTES.lecturer}`;
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
@@ -52,7 +50,7 @@ export const addLecturer = async (
   return response.json(); // parses JSON response into native JavaScript objects
 };
 
-export const deleteLecturerById = async (id: number): Promise<void> => {
+export const _deleteLecturerById = async (id: number): Promise<void> => {
   // Default options are marked with *
   try {
     const res = await fetch(`${APIROUTES.lecturer}/${id}`, {
@@ -70,8 +68,9 @@ export const deleteLecturerById = async (id: number): Promise<void> => {
     if (res.ok) {
       return;
     }
-    throw "Fehler beim laden des Dozenten";
-  } catch (Error) {
-    throw Error;
+    const json = await res.json();
+    throw json.message;
+  } catch (error) {
+    throw error;
   }
 };

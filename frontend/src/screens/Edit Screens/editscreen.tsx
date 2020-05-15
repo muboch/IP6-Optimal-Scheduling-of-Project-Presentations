@@ -3,6 +3,7 @@ import { useGStyles } from "../../theme";
 import { makeStyles } from "@material-ui/core";
 import PresentationTable from "./presentation/presentationTable";
 import LecturerTable from "./lecturer/lecturerTable";
+import LecturerContainer from "../../states/lecturerState";
 
 export interface EditScreenProps {
   type:
@@ -52,7 +53,7 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
   }, [type]);
   const tables = {
     presentation: <PresentationTable presentations={data} />,
-    lecturer: <LecturerTable lecturers={data} />,
+    lecturer: <LecturerTable />,
     room: <></>,
     offtime: <></>,
     timeslot: <></>,
@@ -65,7 +66,9 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
     <>
       {loadedType === type && (
         <div className={gStyles.centerFlexDiv}>
-          {data && getTableToRender()}
+          <LecturerContainer.Provider>
+            {data && getTableToRender()}
+          </LecturerContainer.Provider>
         </div>
       )}
     </>

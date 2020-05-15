@@ -3,16 +3,17 @@ import { makeStyles, TextField, Button, Tooltip } from "@material-ui/core";
 import { useGStyles } from "../../../theme";
 import { Lecturer, Student } from "../../../Types/types";
 import {
-  loadLecturerById,
+  _loadLecturerById,
   loadLecturers,
-  addLecturer,
+  _addLecturer,
 } from "../../../Services/lecturerService";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import { addPresentation } from "../../../Services/presentationService";
+import LecturerContainer from "../../../states/lecturerState";
 
 export interface LecturerEditFormProps {
-  lecturerId?: number; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
+  lecturerId?: number | undefined; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
   onExitForm: () => void;
   editLecturer: boolean;
 }
@@ -51,35 +52,35 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
 
   const styles = useStyles();
   const gStyles = useGStyles();
-  const [lecturers, setLecturers] = useState<Array<Lecturer>>([]);
+  const lecStore = LecturerContainer.useContainer();
   const [lecturer, setLecturer] = useState<Lecturer>();
   console.log(lecturerId);
 
-  const loadDataAsync = async () => {
-    setLecturers(await loadLecturers());
-
-    if (lecturerId !== undefined && editLecturer) {
-      setLecturer(await loadLecturerById(lecturerId));
-    } else {
-      setLecturer({
-        email: "",
-        initials: "",
-        firstname: "",
-        lastname: "",
-        // id: undefined,
-        // externalId: undefined
-      });
-    }
-  };
-
   useEffect(() => {
-    if (lecturerId === undefined) {
-      setLecturer(undefined);
+    if (!lecStore) {
       return;
     }
 
+    const loadDataAsync = async () => {
+      if (lecturerId !== undefined && editLecturer) {
+        setLecturer(await lecStore.loadLecturerById(lecturerId));
+      } else {
+        setLecturer({
+          email: "",
+          initials: "",
+          firstname: "",
+          lastname: "",
+        });
+      }
+    };
+
+    // if (lecturerId === undefined) {
+    //   // setLecturer(undefined);
+    //   return;
+    // }
+
     loadDataAsync();
-  }, [lecturerId]);
+  }, [lecturerId, editLecturer, lecStore]);
 
   const updateLecturerValue = (
     key: keyof Lecturer,
@@ -99,8 +100,11 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
     );
 
   const initialsHasError = () => {
-    const indexes: Array<number> = indexOfAllInitials(lecturers, lecturer!);
-    const indexOfLecturer = lecturers.findIndex(
+    const indexes: Array<number> = indexOfAllInitials(
+      lecStore.lecturers,
+      lecturer!
+    );
+    const indexOfLecturer = lecStore.lecturers.findIndex(
       (l) => l.email === lecturer!.email
     );
     console.log("indexes: ", indexes);
@@ -115,9 +119,12 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
     return false;
   };
 
-  const onSaveForm = (e: any) => {
+  const onSaveForm = async (e: any) => {
     e.preventDefault();
-    addLecturer(lecturer!, lecturer!.id);
+    try {
+      await lecStore.addLecturer(lecturer!);
+      onExitForm();
+    } catch (error) {}
   };
 
   return (
@@ -138,7 +145,7 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
           <SaveIcon />
         </Button>
       </Tooltip>
-      {lecturer && lecturers && (
+      {lecturer && lecStore.lecturers && (
         <div className={gStyles.columnFlexDiv}>
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <TextField

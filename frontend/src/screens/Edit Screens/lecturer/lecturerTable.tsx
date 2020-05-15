@@ -12,7 +12,7 @@ import {
   TablePagination,
   Backdrop,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useGStyles } from "../../../theme";
 import { stableSort, getComparator, Order } from "../../../Helpers/helpers";
@@ -20,13 +20,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import LecturerEditForm from "./lecturerEditForm";
-import { deleteLecturerById } from "../../../Services/lecturerService";
+import { _deleteLecturerById } from "../../../Services/lecturerService";
+import MessageContainer from "../../../states/messageState";
+import LecturerContainer from "../../../states/lecturerState";
 
-export interface LecturerTableProps {
-  lecturers: Array<Lecturer>;
-}
+export interface LecturerTableProps {}
 
-const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
+const LecturerTable: React.SFC<LecturerTableProps> = () => {
   const useStyles = makeStyles({
     table: {
       minWidth: 900,
@@ -35,6 +35,8 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
   });
   const styles = useStyles();
   const gStyles = useGStyles();
+  const lecStore = LecturerContainer.useContainer();
+  const msgStore = MessageContainer.useContainer();
 
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof lecturerRow>("id");
@@ -42,8 +44,8 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const [lecturerToEdit, setLecturerToEdit] = useState<number>();
+  const [rows, setRows] = useState<Array<lecturerRow>>([]);
+  const [lecturerToEdit, setLecturerToEdit] = useState<Lecturer>();
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -73,16 +75,24 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
   };
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, lecturers.length - page * rowsPerPage);
-  const rows: Array<lecturerRow> = lecturers.map((l) => {
-    return {
-      id: l.id!,
-      lastName: l.lastname,
-      firstName: l.firstname,
-      email: l.email,
-      initials: l.initials,
+    rowsPerPage -
+    Math.min(rowsPerPage, lecStore.lecturers.length - page * rowsPerPage);
+
+  useEffect(() => {
+    const loadRows = async () => {
+      const rows: Array<lecturerRow> = lecStore.lecturers.map((l) => {
+        return {
+          id: l.id!,
+          lastName: l.lastname,
+          firstName: l.firstname,
+          email: l.email,
+          initials: l.initials,
+        };
+      });
+      setRows(rows);
     };
-  });
+    loadRows();
+  }, [lecStore.lecturers]);
 
   return (
     <>
@@ -101,7 +111,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.length > 0 ? (
+              {rows!.length > 0 ? (
                 stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((l: lecturerRow, index: number) => {
@@ -111,22 +121,28 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
                         <TableCell component="th" scope="row">
                           {l.id}
                         </TableCell>
-                        <TableCell align="right">{l.lastName}</TableCell>
-                        <TableCell align="right">{l.firstName}</TableCell>
-                        <TableCell align="right">{l.email}</TableCell>
-                        <TableCell align="right">{l.initials}</TableCell>
-                        <TableCell align="right">
+                        <TableCell>{l.lastName}</TableCell>
+                        <TableCell>{l.firstName}</TableCell>
+                        <TableCell>{l.email}</TableCell>
+                        <TableCell>{l.initials}</TableCell>
+                        <TableCell>
                           <Button
                             className={gStyles.primaryButton}
-                            onClick={() => setLecturerToEdit(l.id)}
+                            onClick={() =>
+                              setLecturerToEdit(
+                                lecStore.lecturers.find((le) => le.id === l.id)
+                              )
+                            }
                           >
                             <EditIcon />
                           </Button>
                         </TableCell>
-                        <TableCell align="right">
+                        <TableCell>
                           <Button
                             className={gStyles.secondaryButton}
-                            onClick={() => deleteLecturerById(l.id)}
+                            onClick={() => {
+                              lecStore.deleteLecturerById(l.id);
+                            }}
                           >
                             <DeleteIcon />
                           </Button>
@@ -149,7 +165,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={lecturers.length}
+          count={lecStore.lecturers.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -158,7 +174,14 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
         <div>
           <Button
             className={gStyles.primaryButton}
-            onClick={() => setLecturerToEdit(lecturers.length)}
+            onClick={() =>
+              setLecturerToEdit({
+                email: "",
+                firstname: "",
+                initials: "",
+                lastname: "",
+              })
+            }
           >
             Dozent Hinzufügen
           </Button>
@@ -172,8 +195,8 @@ const LecturerTable: React.SFC<LecturerTableProps> = ({ lecturers }) => {
         <Paper className={gStyles.paper}>
           <LecturerEditForm
             onExitForm={() => setLecturerToEdit(undefined)}
-            lecturerId={lecturerToEdit}
-            editLecturer={lecturerToEdit! < lecturers.length}
+            lecturerId={lecturerToEdit?.id}
+            editLecturer={lecturerToEdit?.id !== undefined}
           ></LecturerEditForm>
         </Paper>
       </Backdrop>
