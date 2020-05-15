@@ -53,8 +53,13 @@ public class LecturerController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        lecturerService.delete(id);
+    public ResponseEntity delete(@PathVariable Long id) {
+        try {
+            lecturerService.delete(id);
+            return ResponseEntity.ok().body("Lehrperson wurde gelöscht.");
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }
