@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -36,10 +37,15 @@ public class PresentationService {
             if (presentation.getStudentOne() != null) {
                 Student studentOne = studentRepository.findById(presentation.getStudentOne().getId()).orElse(presentation.getStudentOne());
                 presentation.setStudentOne(studentOne);
+            } else {
+                throw new FachlicheException("Schüler 1 muss vorhanden sein.");
             }
             if (presentation.getStudentTwo() != null) {
                 Student studentTwo = studentRepository.findById(presentation.getStudentTwo().getId()).orElse(presentation.getStudentTwo());
                 presentation.setStudentTwo(studentTwo);
+            }
+            if (Objects.equals(presentation.getStudentOne(),presentation.getStudentTwo())) {
+                throw new FachlicheException("Schüler 1 und Schüler 2 dürfen nicht identisch sein.");
             }
             if (presentation.getCoach() != null) {
                 Lecturer coach = lecturerRepository.findById(presentation.getCoach().getId()).orElse(presentation.getCoach());
@@ -48,7 +54,9 @@ public class PresentationService {
             if (presentation.getExpert() != null) {
                 Lecturer expert = lecturerRepository.findById(presentation.getExpert().getId()).orElse(presentation.getExpert());
                 presentation.setExpert(expert);
-
+            }
+            if (Objects.equals(presentation.getCoach(),presentation.getExpert())) {
+                throw new FachlicheException("Coach und Experte dürfen nicht identisch sein.");
             }
         }
         return presentationRepository.save(presentation);
