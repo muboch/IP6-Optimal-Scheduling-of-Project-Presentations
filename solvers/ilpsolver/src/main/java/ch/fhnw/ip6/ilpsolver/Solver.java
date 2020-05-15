@@ -1,12 +1,18 @@
 package ch.fhnw.ip6.ilpsolver;
 
+import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverApi;
+import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import ch.fhnw.ip6.ilpsolver.callback.ILPSolverCallback;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
@@ -23,33 +29,21 @@ import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Solver implements SolverApi {
+@Component("ch.fhnw.ip6.ilpsolver.Solver")
+public class Solver extends AbstractSolver {
 
-
-    @Override
-    public Planning testSolve() {
-        JsonUtil util = new JsonUtil();
-
-        List<PresentationDto> presentations = util.getJsonAsList("presentations.json", PresentationDto.class);
-        List<LecturerDto> lecturers = util.getJsonAsList("lecturers.json", LecturerDto.class);
-        List<RoomDto> rooms = util.getJsonAsList("rooms.json", RoomDto.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
-        List<TimeslotDto> timeslots = util.getJsonAsList("timeslots.json", TimeslotDto.class);
-
-        for (PresentationDto p : presentations) {
-            p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
-            p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
-        }
-
-        return solve(presentations, lecturers, rooms, timeslots, new boolean[0][0]);
+    public Solver(SolverContext solverContext) {
+        super(solverContext);
     }
 
     @Override
-    public Planning solve(List<PresentationDto> ps, List<LecturerDto> ls, List<RoomDto> rs, List<TimeslotDto> ts, boolean[][] locktimes) {
+    public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
 
         try {
 
@@ -57,7 +51,7 @@ public class Solver implements SolverApi {
             GRBModel grbModel = new GRBModel(env);
             grbModel.set(GRB.StringAttr.ModelName, "ospp-fms");
 
-            ILPModel model = new ILPModel(ps, ls, rs, ts, locktimes, grbModel);
+            ILPModel model = new ILPModel(ps, ls, rs, ts, offTimes, grbModel);
 
             GRBLinExpr objective = new GRBLinExpr();
 
@@ -102,7 +96,7 @@ public class Solver implements SolverApi {
         return null;
     }
 
-    private void printSolution(List<PresentationDto> ps, List<RoomDto> rs, List<TimeslotDto> ts, GRBModel grbModel, ILPModel model, Planning planning) throws GRBException {
+    private void printSolution(List<P> ps, List<R> rs, List<T> ts, GRBModel grbModel, ILPModel model, Planning planning) throws GRBException {
         double[][][] xd = grbModel.get(GRB.DoubleAttr.X, model.getX());
         for (int p = 0; p < ps.size(); p++) {
             for (int t = 0; t < ts.size(); t++) {

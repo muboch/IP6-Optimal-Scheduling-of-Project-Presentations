@@ -14,8 +14,8 @@ import java.util.List;
 
 public class ILPModel extends Model<GRBModel, GRBVar> {
 
-    public ILPModel(List<? extends P> presentations, List<? extends L> lecturers, List<? extends R> rooms, List<? extends T> timeslots, boolean[][] locktimes, GRBModel model) {
-        super(presentations, lecturers, rooms, timeslots, locktimes, model);
+    public ILPModel(List<? extends P> presentations, List<? extends L> lecturers, List<? extends R> rooms, List<? extends T> timeslots, boolean[][] offTimes, GRBModel model) {
+        super(presentations, lecturers, rooms, timeslots, offTimes, model);
     }
 
     @Override

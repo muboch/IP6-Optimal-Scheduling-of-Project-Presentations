@@ -54,5 +54,7 @@
             <artifactId>protobuf</artifactId>
             <version>v7.6.7691</version>
         </dependency>
+
     </dependencies>
+
 </project>

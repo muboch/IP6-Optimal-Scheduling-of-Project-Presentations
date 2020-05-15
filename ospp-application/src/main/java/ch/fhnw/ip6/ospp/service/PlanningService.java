@@ -7,6 +7,10 @@ import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ospp.event.SolveEvent;
 import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
@@ -79,6 +83,7 @@ public class PlanningService {
 
     /**
      * Create a two-dimensional array of boolean. A field is true if the lecturer has a timeslot as offtime defined.
+     *
      * @param lecturers
      * @param timeslots
      * @return
@@ -103,10 +108,10 @@ public class PlanningService {
         List<Room> rooms = roomRepository.findAll();
         List<Timeslot> timeslots = timeslotRepository.findAll();
 
-        List<PresentationDto> presentationDtos = presentations.stream().map(presentationMapper::fromEntityToDto).collect(Collectors.toList());
-        List<LecturerDto> lecturerDtos = lecturers.stream().map(lecturerMapper::fromEntityToDto).collect(Collectors.toList());
-        List<RoomDto> roomDtos = rooms.stream().map(roomMapper::fromEntityToDto).collect(Collectors.toList());
-        List<TimeslotDto> timeslotDtos = timeslots.stream().map(timeslotMapper::fromEntityToDto).collect(Collectors.toList());
+        List<P> presentationDtos = presentations.stream().map(presentationMapper::fromEntityToDto).collect(Collectors.toList());
+        List<L> lecturerDtos = lecturers.stream().map(lecturerMapper::fromEntityToDto).collect(Collectors.toList());
+        List<R> roomDtos = rooms.stream().map(roomMapper::fromEntityToDto).collect(Collectors.toList());
+        List<T> timeslotDtos = timeslots.stream().map(timeslotMapper::fromEntityToDto).collect(Collectors.toList());
 
         boolean[][] offTimes = createOffTimesMap(lecturers, timeslots);
 

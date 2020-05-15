@@ -1,9 +1,6 @@
 package ch.fhnw.ip6.solutionchecker;
 
-import ch.fhnw.ip6.common.dto.LecturerDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.Solution;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
