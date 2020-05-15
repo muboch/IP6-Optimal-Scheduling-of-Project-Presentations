@@ -88,12 +88,31 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
     setLecturer({ ...lecturer!, [key]: value });
   };
 
-  const validateInitials = () => {
-    const index = lecturers.findIndex((l) => l.initials === lecturer!.initials);
-    if (index === -1 || index === lecturerId) {
-      return false;
+  const indexOfAllInitials = (
+    arr: Array<Lecturer>,
+    val: Lecturer
+  ): Array<number> =>
+    arr.reduce(
+      (acc: Array<number>, el, i) =>
+        el.initials === val.initials ? [...acc, i] : acc,
+      []
+    );
+
+  const initialsHasError = () => {
+    const indexes: Array<number> = indexOfAllInitials(lecturers, lecturer!);
+    const indexOfLecturer = lecturers.findIndex(
+      (l) => l.email === lecturer!.email
+    );
+    console.log("indexes: ", indexes);
+    console.log("lecindex: ", indexOfLecturer);
+
+    if (indexes.length > 1) {
+      return true;
     }
-    return true;
+    if (indexes.length > 0 && !indexes.includes(indexOfLecturer)) {
+      return true;
+    }
+    return false;
   };
 
   const onSaveForm = (e: any) => {
@@ -170,8 +189,8 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
               onChange={(e: any) => {
                 updateLecturerValue("initials", e.currentTarget.value);
               }}
-              error={validateInitials()}
-              helperText={validateInitials() && "Kürzel wird bereits verwendet"}
+              error={initialsHasError()}
+              helperText={initialsHasError() && "Kürzel wird bereits verwendet"}
               className={styles.textField50}
             ></TextField>
           </div>

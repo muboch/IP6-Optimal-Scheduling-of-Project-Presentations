@@ -4,6 +4,7 @@ import { useGStyles } from "../../theme";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { Redirect, useLocation } from "wouter";
 import { SCREENROUTES, APIROUTES } from "../../constants";
+import MessageContainer from "../../states/messageState";
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -15,11 +16,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UploadFilesScreen: React.FC = (): JSX.Element => {
+  const msgStore = MessageContainer.useContainer();
   const [location, setLocation] = useLocation();
   const gStyles = useGStyles();
   const styles = useStyles();
-  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>();
   const [files, setFiles] = useState<Files>({
     presentations: undefined,
     rooms: undefined,
@@ -61,6 +61,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
       formData.append(key, value as Blob);
       console.log(`${key}: ${value}`);
     }
+    msgStore.setMessage(`Daten werden hochgeladen`);
 
     try {
       const res = await fetch(APIROUTES.planning, {
@@ -72,11 +73,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         setLocation(SCREENROUTES.uploadSucessful);
       }
     } catch (error) {
-      console.log("error", error);
-      setErrorMsg(error);
-      setSnackbarOpen(true);
-
-      return;
+      msgStore.setMessage(`Fehler beim upload der Dateien: ${error}`);
     }
   };
 
@@ -143,7 +140,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
           Achtung: Beim Import werden alle Daten überschrieben!
         </Typography>
       </form>
-      <Snackbar
+      {/* <Snackbar
         open={snackbarOpen}
         autoHideDuration={10000}
         onClose={() => {
@@ -151,7 +148,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
           setErrorMsg("");
         }}
         message={`Fehler beim upload der Dateien: ${errorMsg}`}
-      />
+      /> */}
     </>
   );
 };
