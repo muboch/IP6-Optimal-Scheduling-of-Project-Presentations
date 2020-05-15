@@ -15,6 +15,11 @@ public class PresentationDto implements P {
 
     private int id;
     private String nr;
+    private String name;
+    private String schoolclass;
+    private String name2;
+    private String schoolclass2;
+    private String title;
     @JsonIgnore
     private LecturerDto coach;
     @JsonIgnore
@@ -22,7 +27,6 @@ public class PresentationDto implements P {
     private String coachInitials;
     private String expertInitials;
     private String type;
-
 
     @Override
     public String toString() {

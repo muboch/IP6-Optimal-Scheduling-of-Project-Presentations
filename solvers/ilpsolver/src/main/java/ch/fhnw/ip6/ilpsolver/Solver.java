@@ -14,9 +14,10 @@ import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.AllPresentationsToRoomAndTimeslotAssigned;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.LecturerNotMoreThanOnePresentationPerTimeslot;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.OnlyOnePresentationPerRoomAndTimeslot;
+import ch.fhnw.ip6.ilpsolver.constraint.soft.MinFreeTimeslots;
+import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomSwitches;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomUsages;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinTimeslotUsages;
-import ch.fhnw.ip6.solutionchecker.SolutionCheckerCarlo;
 import gurobi.GRB;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
@@ -66,6 +67,8 @@ public class Solver implements SolverApi {
             constraints.add(new OnlyOnePresentationPerRoomAndTimeslot());
             constraints.add(new MinTimeslotUsages());
             constraints.add(new MinRoomUsages());
+            constraints.add(new MinFreeTimeslots());
+            constraints.add(new MinRoomSwitches());
             constraints.forEach(c -> {
                 if (c instanceof SoftConstraint) {
                     ((SoftConstraint) c).setObjectives(objective);
@@ -85,9 +88,6 @@ public class Solver implements SolverApi {
             planning.setTimeslots(ts);
             planning.setRooms(rs);
             printSolution(ps, rs, ts, grbModel, model, planning);
-            SolutionCheckerCarlo solutionChecker = new SolutionCheckerCarlo(planning, ls, ps, ts, rs);
-            solutionChecker.check();
-            planning.setCost(solutionChecker.getCost());
             System.out.println(planning.toString());
             System.out.println("################################################################################################");
 
