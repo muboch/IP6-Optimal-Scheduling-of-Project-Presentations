@@ -28,7 +28,6 @@ public class PresentationDto implements P {
     private String expertInitials;
     private String type;
 
-
     @Override
     public String toString() {
         return String.format("P[id=%03d,nr=%s].E%s.C%s", id, nr, expert.toString(), coach.toString());

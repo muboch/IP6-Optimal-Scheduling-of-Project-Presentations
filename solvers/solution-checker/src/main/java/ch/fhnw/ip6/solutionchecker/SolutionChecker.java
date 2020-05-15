@@ -1,10 +1,11 @@
 package ch.fhnw.ip6.solutionchecker;
 
 import ch.fhnw.ip6.common.dto.LecturerDto;
-import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 
@@ -20,7 +21,7 @@ import static ch.fhnw.ip6.common.util.CostUtil.*;
 public class SolutionChecker {
 
 
-    public static int getSolutionCost(Set<Solution> solutions, List<LecturerDto> lecturers, List<PresentationDto> presentations, List<TimeslotDto> timeslots, List<RoomDto> rooms) {
+    public static int getSolutionCost(Set<Solution> solutions, List<L> lecturers, List<P> presentations, List<T> timeslots, List<R> rooms) {
         CheckOnePresentationPerTimeslotForProfessor(solutions, presentations, timeslots, lecturers);
         CheckEachPresentationOnce(solutions, presentations);
         int roomDoubleBookedCost = CheckRoomUsedMaxOncePerTime(solutions, rooms, timeslots) * ROOM_DOUBLE_BOOKED_COST;
@@ -32,7 +33,7 @@ public class SolutionChecker {
         return roomSwitchCost + roomDoubleBookedCost + usedRoomsCost + usedTimeslotCost;
     }
 
-    private static int GetUsedTimeslots(Set<Solution> solutions, List<TimeslotDto> timeslots) {
+    private static int GetUsedTimeslots(Set<Solution> solutions, List<T> timeslots) {
         int[] presentationsPerTimeslot = new int[timeslots.size()];
         for (Solution s : solutions) {
             presentationsPerTimeslot[s.getTimeSlot().getId()]++;
@@ -49,7 +50,7 @@ public class SolutionChecker {
         return timeslotsCost;
     }
 
-    private static int GetUsedRooms(Set<Solution> solutions, List<RoomDto> rooms) {
+    private static int GetUsedRooms(Set<Solution> solutions, List<R> rooms) {
         int[] presentationsPerRoom = new int[rooms.size()];
         for (Solution s : solutions) {
             presentationsPerRoom[s.getTimeSlot().getId()]++;
@@ -66,10 +67,10 @@ public class SolutionChecker {
     /*
      *
      *  */
-    private static int GetRoomSwitches(Set<Solution> solutions, List<LecturerDto> lecturers, List<TimeslotDto> timeslots) {
+    private static int GetRoomSwitches(Set<Solution> solutions, List<L> lecturers, List<T> timeslots) {
         List<R>[] roomsPerLecturer = new List[lecturers.size()];
         // Initialize ArrayLists
-        for (LecturerDto l : lecturers) {
+        for (L l : lecturers) {
             roomsPerLecturer[l.getId()] = new ArrayList<>();
         }
 
@@ -105,7 +106,7 @@ public class SolutionChecker {
         System.out.println("RoomSwitches Per Lecturer:");
         lecturers.stream().filter(l -> roomsPerLecturer[l.getId()].size() > 1).forEach(l -> {
             AtomicInteger roomSwitches = new AtomicInteger();
-            System.out.print(l.getInitials() +": ");
+            System.out.print(l.getInitials() + ": ");
             System.out.print(roomsPerLecturer[l.getId()].get(0).getName());
             roomsPerLecturer[l.getId()].stream().reduce((r1, r2) -> {
                 if (r1 != r2) {
@@ -120,7 +121,7 @@ public class SolutionChecker {
         return totalSwitches;
     }
 
-    private static Boolean CheckOnePresentationPerTimeslotForProfessor(Set<Solution> results, List<PresentationDto> presentations, List<TimeslotDto> timeslots, List<LecturerDto> lecturers) {
+    private static Boolean CheckOnePresentationPerTimeslotForProfessor(Set<Solution> results, List<P> presentations, List<T> timeslots, List<L> lecturers) {
 
         int[][] profTimeslot = new int[lecturers.size()][timeslots.size()];
         for (Solution r : results) {
@@ -143,7 +144,7 @@ public class SolutionChecker {
         return numErrors > 0;
     }
 
-    private static Boolean CheckEachPresentationOnce(Set<Solution> results, List<PresentationDto> presentations) {
+    private static Boolean CheckEachPresentationOnce(Set<Solution> results, List<P> presentations) {
         int[] presentationsScheduledTime = new int[presentations.size()];
         for (Solution result : results) {
             presentationsScheduledTime[result.getPresentation().getId()]++;
@@ -159,8 +160,7 @@ public class SolutionChecker {
         return true;
     }
 
-    private static int CheckRoomUsedMaxOncePerTime(Set<Solution> results, List<RoomDto> rooms,
-                                                   List<TimeslotDto> timeslots) {
+    private static int CheckRoomUsedMaxOncePerTime(Set<Solution> results, List<R> rooms, List<T> timeslots) {
         int[][] roomPerTime = new int[timeslots.size()][rooms.size()];
         int doubleBookings = 0;
         for (Solution r : results) {

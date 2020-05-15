@@ -1,5 +1,6 @@
 package ch.fhnw.ip6.common.dto;
 
+import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import lombok.AllArgsConstructor;
@@ -9,8 +10,10 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,8 +39,14 @@ public class Planning {
         sb.append("Planning Nr. ").append(nr).append(" with cost ").append(cost).append(System.lineSeparator());
         sb.append("         |");
 
-        rooms.forEach(r -> sb.append(r.getName()).append("|"));
+        rooms.forEach(r -> sb.append("    ").append(r.getName()).append("     |"));
         sb.append(System.lineSeparator());
+
+        Map<L, Integer> numOfPresentations = new HashMap<>();
+        solutions.stream().forEach(s -> {
+            numOfPresentations.merge(s.getExpert(), 1, Integer::sum);
+            numOfPresentations.merge(s.getCoach(), 1, Integer::sum);
+        });
 
         timeslots.forEach(t -> {
             sb.append(t.getDate()).append(" |");
@@ -46,10 +55,29 @@ public class Planning {
                         .stream()
                         .filter(s -> s.getRoom().equals(r) && s.getTimeSlot().equals(t))
                         .findFirst();
-                if (o.isPresent())
-                    sb.append(String.format("%03d", o.get().getPresentation().getId())).append("|");
-                else
-                    sb.append("   |");
+                if (o.isPresent()) {
+                    sb.append(String.format("%03d", o.get().getPresentation().getId()));
+                    if (numOfPresentations.get(o.get().getCoach()) >= 1 || numOfPresentations.get(o.get().getExpert()) >= 1) {
+                        sb.append("[");
+                        if (numOfPresentations.get(o.get().getCoach()) > 1) {
+                            sb.append(String.format("%03d", o.get().getCoach().getId()));
+                        } else {
+                            sb.append("   ");
+                        }
+                        sb.append("|");
+                        if (numOfPresentations.get(o.get().getExpert()) > 1) {
+                            sb.append(String.format("%03d", o.get().getExpert().getId()));
+                        } else {
+                            sb.append("   ");
+                        }
+                        sb.append("]").append("|");
+                    } else {
+                        sb.append("            |");
+                    }
+                } else {
+                    sb.append("            |");
+                }
+
             });
 
             sb.append(System.lineSeparator());

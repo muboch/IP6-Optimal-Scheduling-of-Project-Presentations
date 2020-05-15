@@ -39,11 +39,9 @@ public class MinRoomUsages extends SoftConstraint {
                 // A - B <= M1*(1-P) - 1
                 // B - A <= M2*P - 1
                 //lhs.addTerm(-1.0, roomUsed[indexOf(r)]);
-                GRBLinExpr lhs = new GRBLinExpr();
-                lhs.multAdd(1.0, lhs);
-                lhs.addTerm(-100.0, roomUsed[indexOf(r)]);
-                getGrbModel().addConstr(lhs, GRB.LESS_EQUAL, 0.0, "notUsed");
-                getGrbModel().addConstr(lhs, GRB.GREATER_EQUAL, 1.0, "used");
+                getGrbModel().addGenConstrIndicator(roomUsed[indexOf(r)], 0, innerLhs, GRB.LESS_EQUAL, 0.0, "notUsed" + r.getName());
+                getGrbModel().addGenConstrIndicator(roomUsed[indexOf(r)], 1, innerLhs, GRB.GREATER_EQUAL, 1.0, "used" + r.getName());
+
                 getObjectives().addTerm(USED_ROOM_COST, roomUsed[indexOf(r)]);
 
             }
