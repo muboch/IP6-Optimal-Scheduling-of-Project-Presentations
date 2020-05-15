@@ -94,6 +94,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
         onClick={() => {
           setLocation(SCREENROUTES.rooms);
         }}
+        disabled
       >
         Räume
       </Button>
@@ -102,6 +103,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
         onClick={() => {
           setLocation(SCREENROUTES.timeslots);
         }}
+        disabled
       >
         Zeitslots
       </Button>
@@ -110,6 +112,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
         onClick={() => {
           setLocation(SCREENROUTES.offtimes);
         }}
+        disabled
       >
         Sperrzeiten
       </Button>

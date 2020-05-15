@@ -122,14 +122,14 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
                         <TableCell component="th" scope="row">
                           {p.id}
                         </TableCell>
-                        <TableCell align="right">{p.nr}</TableCell>
-                        <TableCell align="right">{p.title}</TableCell>
-                        <TableCell align="right">{p.studentOne}</TableCell>
-                        <TableCell align="right">{p.studentTwo}</TableCell>
-                        <TableCell align="right">{p.coach}</TableCell>
-                        <TableCell align="right">{p.expert}</TableCell>
-                        <TableCell align="right">{p.type}</TableCell>
-                        <TableCell align="right">
+                        <TableCell>{p.nr}</TableCell>
+                        <TableCell>{p.title}</TableCell>
+                        <TableCell>{p.studentOne}</TableCell>
+                        <TableCell>{p.studentTwo}</TableCell>
+                        <TableCell>{p.coach}</TableCell>
+                        <TableCell>{p.expert}</TableCell>
+                        <TableCell>{p.type}</TableCell>
+                        <TableCell>
                           <Button
                             className={gStyles.primaryButton}
                             onClick={() => setPresentationToEdit(p.id)}
@@ -137,7 +137,7 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
                             <EditIcon />
                           </Button>
                         </TableCell>
-                        <TableCell align="right">
+                        <TableCell>
                           <Button
                             className={gStyles.secondaryButton}
                             onClick={() => deletePresentationById(p.id)}
