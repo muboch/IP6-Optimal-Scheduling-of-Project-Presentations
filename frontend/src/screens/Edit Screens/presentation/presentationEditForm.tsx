@@ -11,19 +11,20 @@ import {
 import { useGStyles } from "../../../theme";
 import { Presentation, Lecturer, Student } from "../../../Types/types";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { loadLecturers } from "../../../Services/lecturerService";
-import { loadStudents } from "../../../Services/studentService";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import {
-  loadPresentationById,
-  addPresentation,
-  loadPresentations,
+  _loadPresentationById,
+  _addPresentation,
+  _loadPresentations,
 } from "../../../Services/presentationService";
 import { PRESENTATIONTYPES } from "../../../constants";
+import PresentationContainer from "../../../states/presentationState";
+import LecturerContainer from "../../../states/lecturerState";
+import { loadStudents } from "../../../Services/studentService";
 
 export interface PresentationEditFormProps {
-  presentationId?: number; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
+  presentationId?: number | undefined; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
   onExitForm: () => void;
   editPresentation: boolean;
 }
@@ -62,34 +63,38 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
 
   const styles = useStyles();
   const gStyles = useGStyles();
-  const [lecturers, setLecturers] = useState<Array<Lecturer>>([]);
   const [students, setStudents] = useState<Array<Student>>([]);
-  const [presentations, setPresentations] = useState<Array<Presentation>>([]);
   const [presentation, setPresentation] = useState<Presentation>();
 
-  const loadDataAsync = async () => {
-    setLecturers(await loadLecturers());
-    setStudents(await loadStudents());
-    setPresentations(await loadPresentations());
-    if (presentationId !== undefined && editPresentation) {
-      setPresentation(await loadPresentationById(presentationId));
-    } else {
-      setPresentation({
-        // type: PRESENTATIONTYPES[0],
-        nr: "",
-        title: "",
-        type: "normal",
-
-        // externalId: undefined
-      });
-    }
-  };
+  const presStore = PresentationContainer.useContainer();
+  const lectStore = LecturerContainer.useContainer();
 
   useEffect(() => {
+    if (!presStore) {
+      return;
+    }
+
+    const loadDataAsync = async () => {
+      setStudents(await loadStudents());
+
+      if (presentationId !== undefined && editPresentation) {
+        setPresentation(await presStore.loadPresentationById(presentationId));
+      } else {
+        setPresentation({
+          // type: PRESENTATIONTYPES[0],
+          id: undefined,
+          nr: "",
+          title: "",
+          type: "normal",
+
+          // externalId: undefined
+        });
+      }
+    };
     console.log("loadDataAsync");
 
     loadDataAsync();
-  }, [presentationId]);
+  }, [presentationId, editPresentation, presStore]);
 
   const updatePresentationValue = (
     key: keyof Presentation,
@@ -98,20 +103,23 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
     setPresentation({ ...presentation!, [key]: value });
   };
 
-  const onSaveForm = (e: any) => {
+  const onSaveForm = async (e: any) => {
     e.preventDefault();
-    addPresentation(presentation!);
+    try {
+      await presStore.addPresentation(presentation!);
+      onExitForm();
+    } catch (error) {}
   };
 
   const studentHasError = (student?: Student) => {
     if (!student) {
       return false;
     }
-    const presentationsForStudent = presentations
+    const presentationsForStudent = presStore.presentations
       .filter(
         (p) =>
-          p.studentOne?.id === presentation?.studentOne?.id ||
-          p.studentOne?.id === presentation?.studentTwo?.id
+          p.studentOne?.id === student.id || p.studentTwo?.id === student.id
+        // p.studentOne?.id === presentation?.studentTwo?.id
       ) // Get all presentations where studentOne is assigned
       .filter((p) => p.id !== presentation?.id); // Remove current presentation from array
 
@@ -140,7 +148,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
           <SaveIcon />
         </Button>
       </Tooltip>
-      {presentation && students && lecturers && (
+      {presentation && students && lectStore.lecturers && (
         <div className={gStyles.columnFlexDiv}>
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <TextField
@@ -197,7 +205,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
             <Autocomplete
               className={styles.textField50}
               id="combo-box-demo"
-              options={lecturers}
+              options={lectStore.lecturers}
               getOptionLabel={(lecturer: Lecturer) =>
                 `${lecturer.lastname}, ${lecturer.firstname}`
               }
@@ -221,7 +229,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
             <Autocomplete
               className={styles.textField50}
               id="combo-box-demo"
-              options={lecturers}
+              options={lectStore.lecturers}
               getOptionLabel={(lecturer: Lecturer) =>
                 `${lecturer.lastname}, ${lecturer.firstname}`
               }
@@ -257,7 +265,10 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
                   error={studentHasError(presentation.studentOne!)}
                   label="Schüler 1"
                   variant="outlined"
-                  helperText="Ein Schüler darf nur einer Präsentation zugewiesen werden"
+                  helperText={
+                    studentHasError(presentation.studentOne!) &&
+                    "Ein Schüler darf nur einer Präsentation zugewiesen werden"
+                  }
                 />
               )}
               onChange={(_: any, newValue: Student | null) => {
@@ -275,7 +286,10 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({
               renderInput={(params) => (
                 <TextField
                   error={studentHasError(presentation.studentTwo!)}
-                  helperText="Ein Schüler darf nur einer Präsentation zugewiesen werden"
+                  helperText={
+                    studentHasError(presentation.studentTwo!) &&
+                    "Ein Schüler darf nur einer Präsentation zugewiesen werden"
+                  }
                   {...params}
                   label="Schüler 2"
                   variant="outlined"

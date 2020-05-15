@@ -9,7 +9,7 @@ import {
 } from "../../../Services/lecturerService";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
-import { addPresentation } from "../../../Services/presentationService";
+import { _addPresentation } from "../../../Services/presentationService";
 import LecturerContainer from "../../../states/lecturerState";
 
 export interface LecturerEditFormProps {
