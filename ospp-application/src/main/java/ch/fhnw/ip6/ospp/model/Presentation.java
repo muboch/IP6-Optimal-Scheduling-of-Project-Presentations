@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -43,13 +44,16 @@ public class Presentation {
     @Version
     private int version;
 
+    @NotNull(message = "Nr ist zwingend.")
     private String nr;
 
     @ManyToOne
     private Room room;
 
+    @NotNull(message = "Titel ist zwingend.")
     private String title;
 
+    @NotNull(message = "Schüler 1 ist zwingend.")
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
     private Student studentOne;
 
@@ -65,6 +69,7 @@ public class Presentation {
     @ManyToOne
     private Timeslot timeslot;
 
+    @NotNull(message = "Typ ist zwingend.")
     private String type;
 
 }

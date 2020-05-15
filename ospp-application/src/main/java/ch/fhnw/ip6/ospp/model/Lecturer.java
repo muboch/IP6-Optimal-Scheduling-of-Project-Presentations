@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -22,12 +23,15 @@ import java.util.List;
 @ToString(callSuper = true)
 public class Lecturer extends User {
 
+    @NotNull(message = "Initialen ist zwingend.")
     private String initials;
 
     private int externalId;
 
+    @NotNull(message = "Vorname ist zwingend.")
     private String firstname;
 
+    @NotNull(message = "Nachname ist zwingend.")
     private String lastname;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
