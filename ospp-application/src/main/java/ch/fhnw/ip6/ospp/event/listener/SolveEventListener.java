@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SolveEventListener implements ApplicationListener<SolveEvent> {
 
-    private PlanningService planningService;
+    private final PlanningService planningService;
 
     @Override
     public void onApplicationEvent(SolveEvent event) {

@@ -22,7 +22,6 @@ import ch.fhnw.ip6.ospp.persistence.PlanningRepository;
 import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
 import ch.fhnw.ip6.ospp.persistence.RoomRepository;
 import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
-import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
@@ -43,7 +42,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -79,19 +77,24 @@ public class PlanningService {
 
     private static final String[] columns = {"Nr", "Titel", "Name", "Klasse", "Name 2", "Klasse 2", "Betreuer", "Experte", "Zeit", "Raum"};
 
-    private boolean[][] createLocktimesMap(List<Lecturer> lecturerVOs, int numberOfTimeslots) {
+    /**
+     * Create a two-dimensional array of boolean. A field is true if the lecturer has a timeslot as offtime defined.
+     * @param lecturers
+     * @param timeslots
+     * @return
+     */
+    private boolean[][] createOffTimesMap(List<Lecturer> lecturers, List<Timeslot> timeslots) {
 
-        boolean[][] locktimes = new boolean[lecturerVOs.size()][numberOfTimeslots];
+        boolean[][] offTimes = new boolean[lecturers.size()][timeslots.size()];
 
-        // TODO Carlo fix that
-//        for (int l = 0; l < lecturerVOs.size(); l++) {
-//            for (int t = 0; t < numberOfTimeslots; t++) {
-//                Long finalT = t;
-//                locktimes[l][t] = lecturerVOs.get(l).getOfftimes().stream().anyMatch(ot -> ot.equals(finalT));
-//            }
-//        }
+        for (int l = 0; l < lecturers.size(); l++) {
+            List<Timeslot> offTimesOfLecturer = lecturers.get(l).getOfftimes();
+            for (int t = 0; t < timeslots.size(); t++) {
+                offTimes[l][t] = offTimesOfLecturer.contains(timeslots.get(t));
+            }
+        }
 
-        return locktimes;
+        return offTimes;
     }
 
     public Planning plan() throws Exception {
@@ -105,8 +108,7 @@ public class PlanningService {
         List<RoomDto> roomDtos = rooms.stream().map(roomMapper::fromEntityToDto).collect(Collectors.toList());
         List<TimeslotDto> timeslotDtos = timeslots.stream().map(timeslotMapper::fromEntityToDto).collect(Collectors.toList());
 
-        boolean[][] locktimes = createLocktimesMap(lecturers, timeslots.size());
-
+        boolean[][] offTimes = createOffTimesMap(lecturers, timeslots);
 
         Planning planning;
         if (solverContext.isSolving()) {
@@ -116,7 +118,7 @@ public class PlanningService {
             planning = getSolver().testSolve();
         } else {
             solverContext.reset();
-            planning = getSolver().solve(presentationDtos, lecturerDtos, roomDtos, timeslotDtos, locktimes);
+            planning = getSolver().solve(presentationDtos, lecturerDtos, roomDtos, timeslotDtos, offTimes);
         }
 
         ExcelFile excelFile = transformToCsv(planning);
@@ -205,9 +207,9 @@ public class PlanningService {
         return null;
     }
 
-    public void firePlanning() throws Exception {
+    public void firePlanning() {
         if (solverContext.isSolving()) {
-            throw new Exception("Solver is already running.");
+            throw new FachlicheException("Es wird bereits eine Planung erstellt.");
         }
         applicationEventPublisher.publishEvent(new SolveEvent(this));
     }
