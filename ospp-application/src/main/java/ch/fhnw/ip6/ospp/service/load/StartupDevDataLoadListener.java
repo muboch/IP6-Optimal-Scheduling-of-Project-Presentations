@@ -65,6 +65,7 @@ public class StartupDevDataLoadListener implements ApplicationListener<ContextRe
         FileInputStream roomsInput = new FileInputStream(rooms);
         MultipartFile roomsMultipartFile = new MockMultipartFile("rooms", rooms.getName(), "text/plain", IOUtils.toByteArray(roomsInput));
         Set<Room> allRooms = roomLoadService.loadRooms(roomsMultipartFile);
+        allRooms.forEach(roomService::save);
         log.info("Rooms loaded ({})", allRooms.size());
 
         classPathResource = new ClassPathResource("devdata/timeslots.xlsx");
