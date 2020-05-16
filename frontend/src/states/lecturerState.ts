@@ -53,7 +53,6 @@ const lecturerState = () => {
   const loadLecturerById = async (id: number) => {
     try {
       const lect = await _loadLecturerById(id);
-      msgStore.setMessage(`Dozent mit id ${id} geladen`);
       return lect;
     } catch (error) {
       msgStore.setMessage(`Konnte Dozent mit id ${id} nicht laden: ${error}`);

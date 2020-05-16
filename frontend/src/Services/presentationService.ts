@@ -1,7 +1,7 @@
 import { APIROUTES } from "../constants";
 import { Presentation } from "../Types/types";
 
-export const loadPresentations = async (): Promise<Array<Presentation>> => {
+export const _loadPresentations = async (): Promise<Array<Presentation>> => {
   try {
     const res = await fetch(`${APIROUTES.presentation}`);
     const json = await res.json();
@@ -15,7 +15,7 @@ export const loadPresentations = async (): Promise<Array<Presentation>> => {
   }
 };
 
-export const loadPresentationById = async (
+export const _loadPresentationById = async (
   id: number
 ): Promise<Presentation> => {
   try {
@@ -32,7 +32,7 @@ export const loadPresentationById = async (
 };
 
 // ADD/UPDATE Presentation. If number is passed, then update existing, otherwise add new presentation
-export const addPresentation = async (
+export const _addPresentation = async (
   pres: Presentation,
 ): Promise<void> => {
   const url = `${APIROUTES.presentation}`;
@@ -51,10 +51,16 @@ export const addPresentation = async (
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(pres), // body data type must match "Content-Type" header
   });
+  if(response.ok){
+    return
+  } 
+  throw ""
+
+
   return response.json(); // parses JSON response into native JavaScript objectsu
 };
 
-export const deletePresentationById = async (id: number): Promise<void> => {
+export const _deletePresentationById = async (id: number): Promise<void> => {
   try {
     const res = await fetch(`${APIROUTES.presentation}/${id}`, {
       method: "DELETE", // *GET, POST, PUT, DELETE, etc.

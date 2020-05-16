@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import PresentationTable from "./presentation/presentationTable";
 import LecturerTable from "./lecturer/lecturerTable";
 import LecturerContainer from "../../states/lecturerState";
+import PresentationContainer from "../../states/presentationState";
 
 export interface EditScreenProps {
   type:
@@ -67,7 +68,9 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
       {loadedType === type && (
         <div className={gStyles.centerFlexDiv}>
           <LecturerContainer.Provider>
-            {data && getTableToRender()}
+            <PresentationContainer.Provider>
+              {data && getTableToRender()}
+            </PresentationContainer.Provider>
           </LecturerContainer.Provider>
         </div>
       )}

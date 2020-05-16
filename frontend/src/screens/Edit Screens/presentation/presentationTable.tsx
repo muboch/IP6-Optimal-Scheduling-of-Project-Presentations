@@ -12,14 +12,15 @@ import {
   TablePagination,
   Backdrop,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useGStyles } from "../../../theme";
 import { stableSort, getComparator, Order } from "../../../Helpers/helpers";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PresentationEditForm from "./presentationEditForm";
-import { deletePresentationById } from "../../../Services/presentationService";
+import PresentationContainer from "../../../states/presentationState";
+import LecturerContainer from "../../../states/lecturerState";
 
 export interface PresentationTableProps {
   presentations: Array<Presentation>;
@@ -43,8 +44,10 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const [presentationToEdit, setPresentationToEdit] = useState<number>();
+  const [presentationToEdit, setPresentationToEdit] = useState<Presentation>();
+  const [rows, setRows] = useState<Array<presentationRow>>([]);
+  const presStore = PresentationContainer.useContainer();
+  const lectStore = LecturerContainer.useContainer();
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -76,21 +79,28 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
     nr: string;
   };
 
+  useEffect(() => {
+    const loadRows = () => {
+      const rows: Array<presentationRow> = presStore.presentations.map((p) => {
+        return {
+          id: p.id!,
+          title: p.title,
+          studentOne: p.studentOne!.name,
+          studentTwo: p.studentTwo ? p.studentTwo?.name : "",
+          coach: `${p.coach!.lastname}, ${p.coach!.firstname}`,
+          expert: `${p.expert!.lastname}, ${p.expert!.firstname}`,
+          type: p.type as string,
+          nr: p.nr,
+        };
+      });
+      setRows(rows);
+    };
+    loadRows();
+  }, [presStore.presentations]);
+
   const emptyRows =
     rowsPerPage -
     Math.min(rowsPerPage, presentations.length - page * rowsPerPage);
-  const rows: Array<presentationRow> = presentations.map((p) => {
-    return {
-      id: p.id!,
-      title: p.title,
-      studentOne: p.studentOne!.name,
-      studentTwo: p.studentTwo ? p.studentTwo?.name : "",
-      coach: `${p.coach!.lastname}, ${p.coach!.firstname}`,
-      expert: `${p.expert!.lastname}, ${p.expert!.firstname}`,
-      type: p.type as string,
-      nr: p.nr,
-    };
-  });
 
   return (
     <>
@@ -112,8 +122,8 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.length > 0 ? (
-                stableSort(rows, getComparator(order, orderBy))
+              {rows!.length > 0 ? (
+                stableSort(rows!, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((p: presentationRow, index: number) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -132,7 +142,11 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
                         <TableCell>
                           <Button
                             className={gStyles.primaryButton}
-                            onClick={() => setPresentationToEdit(p.id)}
+                            onClick={() =>
+                              setPresentationToEdit(
+                                presentations.find((pres) => pres.id === p.id)
+                              )
+                            }
                           >
                             <EditIcon />
                           </Button>
@@ -140,7 +154,9 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
                         <TableCell>
                           <Button
                             className={gStyles.secondaryButton}
-                            onClick={() => deletePresentationById(p.id)}
+                            onClick={() =>
+                              presStore.deletePresentationById(p.id)
+                            }
                           >
                             <DeleteIcon />
                           </Button>
@@ -171,7 +187,15 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
         />
         <Button
           className={gStyles.primaryButton}
-          onClick={() => setPresentationToEdit(presentations.length)}
+          onClick={() =>
+            setPresentationToEdit({
+              title: "",
+              type: "normal",
+              nr: "",
+              studentOne: undefined,
+              studentTwo: undefined,
+            })
+          }
         >
           Präsentation Hinzufügen
         </Button>
@@ -185,8 +209,8 @@ const PresentationTable: React.SFC<PresentationTableProps> = ({
         <Paper className={gStyles.paper}>
           <PresentationEditForm
             onExitForm={() => setPresentationToEdit(undefined)}
-            presentationId={presentationToEdit}
-            editPresentation={presentationToEdit! < presentations.length}
+            presentationId={presentationToEdit?.id}
+            editPresentation={presentationToEdit?.id !== undefined}
           ></PresentationEditForm>
         </Paper>
       </Backdrop>
