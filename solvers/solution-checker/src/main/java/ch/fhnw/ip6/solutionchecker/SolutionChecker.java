@@ -33,7 +33,7 @@ public class SolutionChecker {
     private static int GetUsedTimeslots(Set<Solution> solutions, List<T> timeslots) {
         int[] presentationsPerTimeslot = new int[timeslots.size()];
         for (Solution s : solutions) {
-            presentationsPerTimeslot[s.getTimeSlot().getId()]++;
+            presentationsPerTimeslot[timeslots.indexOf(s.getTimeSlot())]++;
         }
         int timeslotsUsed = 0;
         int timeslotsCost = 0;
@@ -50,7 +50,7 @@ public class SolutionChecker {
     private static int GetUsedRooms(Set<Solution> solutions, List<R> rooms) {
         int[] presentationsPerRoom = new int[rooms.size()];
         for (Solution s : solutions) {
-            presentationsPerRoom[s.getTimeSlot().getId()]++;
+            presentationsPerRoom[rooms.indexOf(s.getRoom())]++;
         }
         int roomsUsed = 0;
         for (int t : presentationsPerRoom) {
@@ -68,7 +68,7 @@ public class SolutionChecker {
         List<R>[] roomsPerLecturer = new List[lecturers.size()];
         // Initialize ArrayLists
         for (L l : lecturers) {
-            roomsPerLecturer[l.getId()] = new ArrayList<>();
+            roomsPerLecturer[lecturers.indexOf(l)] = new ArrayList<>();
         }
 
 
@@ -78,22 +78,22 @@ public class SolutionChecker {
             for (Solution s : solForTime) {
                 // If the last room for the lecturer is different than the room of the solution, add it. Else, don't, as the lecturer didnt switch rooms
                 Optional<R> lastExpertRoom = Optional.empty();
-                if (roomsPerLecturer[s.getExpert().getId()] != null) {
-                    lastExpertRoom = roomsPerLecturer[s.getExpert().getId()].stream().reduce((first, second) -> second); // Get last element in array (sequential)
+                if (roomsPerLecturer[lecturers.indexOf(s.getExpert())] != null) {
+                    lastExpertRoom = roomsPerLecturer[lecturers.indexOf(s.getExpert())].stream().reduce((first, second) -> second); // Get last element in array (sequential)
                 }
 
                 Optional<R> lastCoachRoom = Optional.empty();
-                if (roomsPerLecturer[s.getCoach().getId()] != null) {
-                    lastCoachRoom = roomsPerLecturer[s.getCoach().getId()].stream().reduce((first, second) -> second); // Get last element in array (sequential)
+                if (roomsPerLecturer[lecturers.indexOf(s.getCoach())] != null) {
+                    lastCoachRoom = roomsPerLecturer[lecturers.indexOf(s.getCoach())].stream().reduce((first, second) -> second); // Get last element in array (sequential)
                 }
 
 
                 if (!lastExpertRoom.isPresent() || lastExpertRoom.get().getId() != s.getRoom().getId()) {
-                    roomsPerLecturer[s.getExpert().getId()].add(s.getRoom());
+                    roomsPerLecturer[lecturers.indexOf(s.getExpert())].add(s.getRoom());
                 }
 
                 if (!lastCoachRoom.isPresent() || lastCoachRoom.get().getId() != s.getRoom().getId()) {
-                    roomsPerLecturer[s.getCoach().getId()].add(s.getRoom());
+                    roomsPerLecturer[lecturers.indexOf(s.getCoach())].add(s.getRoom());
                 }
 
             }
@@ -101,11 +101,11 @@ public class SolutionChecker {
 
         int totalSwitches = 0;
         System.out.println("RoomSwitches Per Lecturer:");
-        lecturers.stream().filter(l -> roomsPerLecturer[l.getId()].size() > 1).forEach(l -> {
+        lecturers.stream().filter(l -> roomsPerLecturer[lecturers.indexOf(l)].size() > 1).forEach(l -> {
             AtomicInteger roomSwitches = new AtomicInteger();
             System.out.print(l.getInitials() + ": ");
-            System.out.print(roomsPerLecturer[l.getId()].get(0).getName());
-            roomsPerLecturer[l.getId()].stream().reduce((r1, r2) -> {
+            System.out.print(roomsPerLecturer[lecturers.indexOf(l)].get(0).getName());
+            roomsPerLecturer[lecturers.indexOf(l)].stream().reduce((r1, r2) -> {
                 if (r1 != r2) {
                     roomSwitches.getAndIncrement();
                     System.out.print("->" + r2.getName());
@@ -122,8 +122,8 @@ public class SolutionChecker {
 
         int[][] profTimeslot = new int[lecturers.size()][timeslots.size()];
         for (Solution r : results) {
-            profTimeslot[r.getCoach().getId()][r.getTimeSlot().getId()]++;
-            profTimeslot[r.getExpert().getId()][r.getTimeSlot().getId()]++;
+            profTimeslot[lecturers.indexOf(r.getCoach())][timeslots.indexOf(r.getTimeSlot())]++;
+            profTimeslot[lecturers.indexOf(r.getExpert())][timeslots.indexOf(r.getTimeSlot())]++;
         }
 
         int numErrors = 0;
@@ -144,7 +144,7 @@ public class SolutionChecker {
     private static Boolean CheckEachPresentationOnce(Set<Solution> results, List<P> presentations) {
         int[] presentationsScheduledTime = new int[presentations.size()];
         for (Solution result : results) {
-            presentationsScheduledTime[result.getPresentation().getId()]++;
+            presentationsScheduledTime[presentations.indexOf(result.getPresentation())]++;
         }
 
         for (int i = 0; i < presentationsScheduledTime.length; i++) {
@@ -161,10 +161,10 @@ public class SolutionChecker {
         int[][] roomPerTime = new int[timeslots.size()][rooms.size()];
         int doubleBookings = 0;
         for (Solution r : results) {
-            if (roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] == 0) {
-                roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] = r.getPresentation().getId();
+            if (roomPerTime[timeslots.indexOf(r.getTimeSlot())][rooms.indexOf(r.getRoom())] == 0) {
+                roomPerTime[timeslots.indexOf(r.getTimeSlot())][rooms.indexOf(r.getRoom())] = r.getPresentation().getId();
             } else {
-                System.out.println("RoomDoubleUseError: Room " + r.getRoom().getId() + " at time " + r.getTimeSlot().getDate() + " is already in use for presentation " + roomPerTime[r.getTimeSlot().getId()][r.getRoom().getId()] + ". Can't add Presentation " + r.getPresentation().getId() + " at the same time! ");
+                System.out.println("RoomDoubleUseError: Room " + r.getRoom().getId() + " at time " + r.getTimeSlot().getDate() + " is already in use for presentation " + roomPerTime[timeslots.indexOf(r.getTimeSlot())][rooms.indexOf(r.getRoom())]  + ". Can't add Presentation " + r.getPresentation().getId() + " at the same time! ");
                 doubleBookings++;
             }
 

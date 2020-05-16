@@ -7,7 +7,6 @@ import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.model.Model;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.IntVar;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -26,17 +25,21 @@ public class CPModel extends Model<CpModel, IntVar> {
                     if (!p.getType().equals(r.getType())) { // If roomtype doesnt fit
                         continue;
                     }
-                    if (getOfftimes()[p.getCoach().getId()][t.getId()] || getOfftimes()[p.getExpert().getId()][t.getId()]) { // If coach is locked at this time
+                    if (getOfftimes()[idxLec(p.getCoach())][indexOf(t)] || getOfftimes()[idxLec(p.getExpert())][indexOf(t)]) { // If coach is locked at this time
                         continue;
                     }
-                    presRoomTime[p.getId()][r.getId()][t.getId()] = getModel().newBoolVar("presRoomTime_p" + p.getId() + "_r" + r.getId() + "_t" + t.getId());
+                    presRoomTime[indexOf(p)][indexOf(r)][indexOf(t)] = getModel().newBoolVar("presRoomTime_p" + p.getId() + "_r" + r.getId() + "_t" + t.getId());
                 }
             }
         }
         return presRoomTime;
     }
 
-    public IntVar[][][] getPresRoomTime(){
+    public IntVar[][][] getPresRoomTime() {
         return getX();
+    }
+
+    private int idxLec(L lecturer) {
+        return getLecturers().indexOf(getLecturers().stream().filter(l -> l.getId() == lecturer.getId()).findFirst().get());
     }
 }

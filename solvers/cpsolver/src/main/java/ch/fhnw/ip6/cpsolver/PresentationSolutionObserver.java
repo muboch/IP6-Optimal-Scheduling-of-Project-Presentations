@@ -56,8 +56,8 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         for (T t : timeslots) {
             for (R r : rooms) {
                 for (P p : presentations) {
-                    if (presRoomTime[p.getId()][r.getId()][t.getId()] == null) continue;
-                    if (booleanValue(presRoomTime[p.getId()][r.getId()][t.getId()])) {
+                    if (presRoomTime[presentations.indexOf(p)][rooms.indexOf(r)][timeslots.indexOf(t)] == null) continue;
+                    if (booleanValue(presRoomTime[presentations.indexOf(p)][rooms.indexOf(r)][timeslots.indexOf(t)] )) {
                         planning.getSolutions().add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
                     }
                 }

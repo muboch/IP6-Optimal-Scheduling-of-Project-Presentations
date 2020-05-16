@@ -2,23 +2,17 @@ package ch.fhnw.ip6.cpsolver;
 
 import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverContext;
-import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
-import ch.fhnw.ip6.common.util.JsonUtil;
 import com.google.ortools.sat.CpModel;
 import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverStatus;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import org.apache.commons.lang3.time.StopWatch;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -60,7 +54,7 @@ public class Solver extends AbstractSolver {
         // For each lecturer, list the presentations that are not allowed to overlap
         List<P>[] presentationsPerLecturer = new ArrayList[lecturers.size()];
         for (L l : lecturers) {
-            presentationsPerLecturer[cpModel.indexOf(l)] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList());
+            presentationsPerLecturer[idx(l)] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList());
         }
         System.out.println("Overlap calculation completed");
 
@@ -136,9 +130,9 @@ public class Solver extends AbstractSolver {
             List<IntVar> temp = new ArrayList<>();
             for (T t : timeslots) {
                 for (R r : rooms) {
-                    if (presRoomTime[cpModel.indexOf(p)][cpModel.indexOf(r)][cpModel.indexOf(t)] == null) continue;
+                    if (presRoomTime[idx(p)][idx(r)][idx(t)] == null) continue;
 
-                    temp.add(presRoomTime[cpModel.indexOf(p)][cpModel.indexOf(r)][cpModel.indexOf(t)]);
+                    temp.add(presRoomTime[idx(p)][idx(r)][idx(t)]);
                 }
             }
             IntVar[] arr = temp.toArray(new IntVar[0]);
@@ -151,8 +145,8 @@ public class Solver extends AbstractSolver {
             for (T t : timeslots) {
                 List<IntVar> temp = new ArrayList<>();
                 for (P p : presentations) {
-                    if (presRoomTime[cpModel.indexOf(p)][cpModel.indexOf(r)][cpModel.indexOf(t)] == null) continue;
-                    temp.add(presRoomTime[cpModel.indexOf(p)][cpModel.indexOf(r)][cpModel.indexOf(t)]);
+                    if (presRoomTime[idx(p)][idx(r)][idx(t)] == null) continue;
+                    temp.add(presRoomTime[idx(p)][idx(r)][idx(t)]);
                 }
                 IntVar[] arr = temp.toArray(new IntVar[0]);
                 getModel().addLinearConstraint(LinearExpr.sum(arr), 0, 1);
@@ -165,9 +159,9 @@ public class Solver extends AbstractSolver {
             for (T t : timeslots) {
                 List<IntVar> temp = new ArrayList<>();
                 for (R r : rooms) {
-                    for (P p1 : presentationsPerLecturer[cpModel.indexOf(l)]) {
-                        if (presRoomTime[p1.getId()][cpModel.indexOf(r)][cpModel.indexOf(t)] == null) continue;
-                        temp.add(presRoomTime[p1.getId()][cpModel.indexOf(r)][cpModel.indexOf(t)]);
+                    for (P p1 : presentationsPerLecturer[idx(l)]) {
+                        if (presRoomTime[idx(p1)][idx(r)][idx(t)] == null) continue;
+                        temp.add(presRoomTime[idx(p1)][idx(r)][idx(t)]);
                     }
                 }
                 IntVar[] arr = temp.toArray(new IntVar[0]);
@@ -236,8 +230,8 @@ public class Solver extends AbstractSolver {
                 for (R r : rooms) {
                     List<IntVar> temp = new ArrayList<>();
                     for (P p1 : presentationsPerLecturer[idx(l)]) {
-                        if (presRoomTime[p1.getId()][idx(r)][idx(t)] == null) continue;
-                        temp.add(presRoomTime[p1.getId()][idx(r)][idx(t)]);
+                        if (presRoomTime[idx(p1)][idx(r)][idx(t)] == null) continue;
+                        temp.add(presRoomTime[idx(p1)][idx(r)][idx(t)]);
                     }
                     IntVar[] arr = temp.toArray(new IntVar[0]);
                     // If a presentation is happening in room at time, true, else false.
@@ -289,7 +283,7 @@ public class Solver extends AbstractSolver {
             getModel().addEquality(numChangesForLecturer[idx(l)], LinearExpr.sum(roomDiffsBool[idx(l)])); // Add the equality
 
             // finally, add the objective
-            objIntVars.add(numChangesForLecturer[l.getId()]);
+            objIntVars.add(numChangesForLecturer[idx(l)]);
             objIntCoeffs.add(ROOM_SWITCH_COST);
         }
     }
@@ -297,7 +291,7 @@ public class Solver extends AbstractSolver {
     private void buildConstraintMinUsedTimeslots(List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][][] presRoomTime, ArrayList<IntVar> objIntVars, ArrayList<Integer> objIntCoeffs, int[] timeslotCost) {
         IntVar[] timeslotUsed = new IntVar[timeslots.size()];
         for (T t : timeslots) {
-            timeslotUsed[cpModel.indexOf(t)] = getModel().newBoolVar("timeslotUsed_" + t.getId());
+            timeslotUsed[idx(t)] = getModel().newBoolVar("timeslotUsed_" + t.getId());
         }
 
         for (T t : timeslots) {
@@ -305,19 +299,19 @@ public class Solver extends AbstractSolver {
 
             for (R r : rooms) {
                 for (P p : presentations) {
-                    if (presRoomTime[cpModel.indexOf(p)][cpModel.indexOf(r)][cpModel.indexOf(t)] == null) continue;
-                    temp.add(presRoomTime[cpModel.indexOf(p)][cpModel.indexOf(r)][cpModel.indexOf(t)]);
+                    if (presRoomTime[idx(p)][idx(r)][idx(t)] == null) continue;
+                    temp.add(presRoomTime[idx(p)][idx(r)][idx(t)]);
                 }
             }
             IntVar[] arr = temp.toArray(new IntVar[0]);
             /// IF SUM ARR > 0 add boolean timeslotUsed TRUE else FALSE;
             // Implement timeslotUsed[t] == (sum(arr) >= 1).
-            getModel().addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(timeslotUsed[cpModel.indexOf(t)]);
-            getModel().addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(timeslotUsed[cpModel.indexOf(t)].not());
+            getModel().addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(timeslotUsed[idx(t)]);
+            getModel().addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(timeslotUsed[idx(t)].not());
 
             //Add Objective
-            objIntVars.add(timeslotUsed[cpModel.indexOf(t)]);
-            objIntCoeffs.add(timeslotCost[cpModel.indexOf(t)]);
+            objIntVars.add(timeslotUsed[idx(t)]);
+            objIntCoeffs.add(timeslotCost[idx(t)]);
         }
     }
 
@@ -325,8 +319,8 @@ public class Solver extends AbstractSolver {
         IntVar[] roomUsed = new IntVar[rooms.size()];
         int[] roomCost = new int[rooms.size()];
         for (R r : rooms) {
-            roomUsed[cpModel.indexOf(r)] = getModel().newBoolVar("roomUsed_" + r.getId());
-            roomCost[cpModel.indexOf(r)] = USED_ROOM_COST;
+            roomUsed[idx(r)] = getModel().newBoolVar("roomUsed_" + r.getId());
+            roomCost[idx(r)] = USED_ROOM_COST;
         }
 
         for (R r : rooms) {
@@ -334,20 +328,20 @@ public class Solver extends AbstractSolver {
 
             for (T t : timeslots) {
                 for (P p : presentations) {
-                    if (presRoomTime[cpModel.indexOf(p)][cpModel.indexOf(r)][cpModel.indexOf(t)] == null) continue;
-                    temp.add(presRoomTime[cpModel.indexOf(p)][cpModel.indexOf(r)][cpModel.indexOf(t)]);
+                    if (presRoomTime[idx(p)][idx(r)][idx(t)] == null) continue;
+                    temp.add(presRoomTime[idx(p)][idx(r)][idx(t)]);
                 }
             }
             IntVar[] arr = temp.toArray(new IntVar[0]);
             /// IF SUM ARR > 0 add boolean roomUsed TRUE else FALSE;
             // Implement timeslotUsed[t] == (sum(arr) >= 1).
             // If A then B
-            getModel().addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(roomUsed[cpModel.indexOf(r)]);
-            getModel().addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(roomUsed[cpModel.indexOf(r)].not());
+            getModel().addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(roomUsed[idx(r)]);
+            getModel().addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(roomUsed[idx(r)].not());
 
             //Add Objective
-            objIntVars.add(roomUsed[cpModel.indexOf(r)]);
-            objIntCoeffs.add(roomCost[cpModel.indexOf(r)]);
+            objIntVars.add(roomUsed[idx(r)]);
+            objIntCoeffs.add(roomCost[idx(r)]);
         }
     }
 
