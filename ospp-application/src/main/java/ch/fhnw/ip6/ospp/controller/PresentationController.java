@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/presentation")
+@RequestMapping("/api/presentation")
 @RequiredArgsConstructor
 public class PresentationController {
 

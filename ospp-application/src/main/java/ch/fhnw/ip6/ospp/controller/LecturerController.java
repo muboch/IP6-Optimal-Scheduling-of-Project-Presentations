@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/lecturer")
+@RequestMapping("/api/lecturer")
 @RequiredArgsConstructor
 public class LecturerController {
 

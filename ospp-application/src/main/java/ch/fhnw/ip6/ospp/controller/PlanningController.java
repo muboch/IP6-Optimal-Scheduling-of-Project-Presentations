@@ -49,7 +49,7 @@ import static ch.fhnw.ip6.ospp.service.ConsistencyError.Status.ERROR;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/planning")
+@RequestMapping("/api/planning")
 @RequiredArgsConstructor
 @Slf4j
 public class PlanningController {
