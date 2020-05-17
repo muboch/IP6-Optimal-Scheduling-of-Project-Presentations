@@ -216,7 +216,7 @@ public class Solver extends AbstractSolver {
         for (L l : lecturers) {
             for (T t : timeslots) {
                 coachRoomTime[idx(l)][idx(t)] = getModel().newIntVar(-1, rooms.size(), "coach_" + idx(l) + "time_" + t.getId()); // Number of room lecturer has at room/time
-                roomDiffsInt[idx(l)][idx(t)] = getModel().newIntVar(0, 100000000L, "coach_" + idx(l) + "time_" + t.getId()); // Room ID difference between presentations
+                roomDiffsInt[idx(l)][idx(t)] = getModel().newIntVar(0, 200L, "coach_" + idx(l) + "time_" + t.getId()); // Room ID difference between presentations
                 roomDiffsBool[idx(l)][idx(t)] = getModel().newBoolVar("coach_" + idx(l) + "switchAt_time_" + t.getId()); // TRUE if coach switches rooms at time, FALSE if not
                 for (R r : rooms) {
                     coachTimeRoomBool[idx(l)][idx(t)][idx(r)] = getModel().newBoolVar("coach_" + idx(l) + "time_" + idx(t) + "room_" + r.getId()); //Boolean if leturer has pres at room in time
@@ -268,7 +268,7 @@ public class Solver extends AbstractSolver {
                 LinearExpr diffExpr = LinearExpr.scalProd(new IntVar[]{coachRoomTime[idx(l)][idx(t)], coachRoomTime[idx(l)][idx(t) - 1]}, new int[]{1, -1}); // current timeslot room ID - previous timeslot room ID
 
 
-                IntVar absDiffInt = getModel().newIntVar(-10000L, 10000L, "DiffInt_l" + idx(l) + "t_" + t.getId());
+                IntVar absDiffInt = getModel().newIntVar(-100L, 100L, "DiffInt_l" + idx(l) + "t_" + t.getId());
                 getModel().addEquality(diffExpr, absDiffInt);
                 getModel().addAbsEquality(roomDiffsInt[idx(l)][idx(t)], absDiffInt);
 
@@ -283,8 +283,8 @@ public class Solver extends AbstractSolver {
             getModel().addEquality(numChangesForLecturer[idx(l)], LinearExpr.sum(roomDiffsBool[idx(l)])); // Add the equality
 
             // finally, add the objective
-            objIntVars.add(numChangesForLecturer[idx(l)]);
-            objIntCoeffs.add(ROOM_SWITCH_COST);
+            //objIntVars.add(numChangesForLecturer[l.getId()]);
+            //objIntCoeffs.add(ROOM_SWITCH_COST);
         }
     }
 
