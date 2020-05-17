@@ -1,12 +1,18 @@
 package ch.fhnw.ip6.ospp.vo;
 
-public interface PlanningVO {
+import lombok.Getter;
+import lombok.Setter;
 
-    String getId();
+@Getter
+@Setter
+public class PlanningVO {
 
-    String getNr();
+    private Long id;
 
-    String getName();
+    private String nr;
 
-    String getStatus();
+    private String name;
+
+    private String status;
+
 }

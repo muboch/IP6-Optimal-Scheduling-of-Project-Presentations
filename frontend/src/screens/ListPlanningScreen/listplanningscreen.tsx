@@ -10,10 +10,11 @@ import {
   TableBody,
   makeStyles,
   Typography,
-  CircularProgress
+  CircularProgress,
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import { useLocation } from "wouter";
+import { APIROUTES } from "../../constants";
 
 type Plannings = {
   nr: string;
@@ -25,9 +26,9 @@ type Plannings = {
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
-    maxWidth: 1000
+    maxWidth: 1000,
   },
-  spinner: { maxWidth: 20, maxHeight: 20 }
+  spinner: { maxWidth: 20, maxHeight: 20 },
 });
 
 const ListPlanningScreen: React.FC = (): JSX.Element => {
@@ -40,9 +41,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
   const loadData = async () => {
     setSpinner(true);
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_ENDPOINT}/api/plannings`
-      );
+      const res = await fetch(APIROUTES.planning);
       const json = await res.json();
       console.log(json);
       setPlannings(json);
@@ -72,7 +71,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
           </TableHead>
           <TableBody>
             {plannings.length > 0 ? (
-              plannings.map(p => (
+              plannings.map((p) => (
                 <TableRow key={p.id}>
                   <TableCell component="th" scope="row">
                     {p.name}
@@ -83,7 +82,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
                     <Button
                       className={gStyles.primaryButton}
                       target="_blank"
-                      href={`${process.env.REACT_APP_API_ENDPOINT}/api/plannings/${p.id}`}
+                      href={`${APIROUTES.planning}/${p.id}`}
                     >
                       Planung Herunterladen
                     </Button>
@@ -111,9 +110,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
       >
         Neu laden
         {spinner && (
-          <div className={styles.spinner}>
-            {/* <CircularProgress /> */}
-          </div>
+          <div className={styles.spinner}>{/* <CircularProgress /> */}</div>
         )}
       </Button>
     </div>

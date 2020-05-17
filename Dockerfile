@@ -7,13 +7,13 @@ RUN mkdir /target
 RUN apt-get update && apt-get install -y wget git && rm -rf /var/lib/apt/lists/*
 
 # Get google or tools libs
-RUN wget https://github.com/google/or-tools/releases/download/v7.5/or-tools_ubuntu-18.04_v7.5.7466.tar.gz
-RUN tar -xzf or-tools_ubuntu-18.04_v7.5.7466.tar.gz
+RUN wget https://github.com/google/or-tools/releases/download/v7.6/or-tools_ubuntu-18.04_v7.6.7691.tar.gz
+RUN tar -xzf or-tools_ubuntu-18.04_v7.6.7691.tar.gz
 # move jni libs
 RUN mkdir /jni
-RUN cp -r or-tools_Ubuntu-18.04-64bit_v7.5.7466/lib/ /deps
+RUN cp -r or-tools_Ubuntu-18.04-64bit_v7.6.7691/lib/ /deps
 # cleanup
-RUN rm -r or-tools_Ubuntu-18.04-64bit_v7.5.7466
+RUN rm -r or-tools_Ubuntu-18.04-64bit_v7.6.7691
 
 RUN mkdir /root/.ssh/
 # Copy over private key, and set permissions

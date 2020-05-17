@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
@@ -32,6 +33,7 @@ public abstract class User {
     @Version
     private int version;
 
+    //@NotNull(message = "E-Mail ist zwingend.")
     private String email;
 
     public User(long id, String email) {

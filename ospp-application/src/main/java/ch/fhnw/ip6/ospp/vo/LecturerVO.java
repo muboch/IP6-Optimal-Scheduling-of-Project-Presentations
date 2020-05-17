@@ -1,25 +1,26 @@
 package ch.fhnw.ip6.ospp.vo;
 
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-public interface LecturerVO {
+@Getter
+@Setter
+public class LecturerVO {
 
-    @Value("#{target.externalId}")
-    int getId();
+    private Long id;
 
-    int getExternalId();
+    private String initials;
 
-    String getFirstname();
+    private String firstname;
 
-    String getLastname();
+    private String lastname;
 
-    String getEmail();
+    private String email;
 
-    String getInitials();
+    private List<TimeslotVO> offtimes;
 
-    List<TimeslotVO> getLocktimes();
 
 }

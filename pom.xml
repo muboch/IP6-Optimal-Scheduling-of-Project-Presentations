@@ -35,8 +35,8 @@
     <modules>
         <module>common</module>
         <module>solvers/solverapi</module>
-        <module>solvers/ilpsolver</module>
         <module>solvers/cpsolver</module>
+        <module>solvers/ilpsolver</module>
         <module>solvers/originalsolver</module>
         <module>solvers/solution-checker</module>
         <module>ospp-application</module>
@@ -84,6 +84,23 @@
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.13.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.13.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>2.13.2</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -114,39 +131,6 @@
                         </compilerArg>
                     </compilerArgs>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>${docker.jib.version}</version>
-                <configuration>
-                    <from>
-                        <image>bananenh/pf/openjdk:11</image>
-                    </from>
-                    <to>
-                        <image>${docker.registry}/${docker.name}</image>
-                    </to>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>${maven-dependency-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${dir.javaLibs}</outputDirectory>
-                            <stripVersion>true</stripVersion>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

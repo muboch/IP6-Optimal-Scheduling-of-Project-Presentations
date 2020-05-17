@@ -1,20 +1,24 @@
 package ch.fhnw.ip6.ospp.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
+public class RoomVO {
 
-public interface RoomVO {
+    private Long id;
 
-    int getId();
+    private String name;
 
-    String getName();
+    private String place;
 
-    String getPlace();
-    int getExternalId();
-    String getType();
+    private String type;
 
-    boolean isReserve();
+    private boolean reserve;
 
-    List<PresentationVO> getPresentations();
+    private List<Long> presentations;
 
 }

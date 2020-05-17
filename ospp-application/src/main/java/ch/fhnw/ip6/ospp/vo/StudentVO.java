@@ -1,14 +1,18 @@
 package ch.fhnw.ip6.ospp.vo;
 
 
-public interface StudentVO {
+import lombok.Getter;
+import lombok.Setter;
 
-    int getId();
-    String getName();
+@Getter
+@Setter
+public class StudentVO {
 
-    String getEmail();
+    private Long id;
 
-    String getSchoolclass();
+    private String name;
 
+    private String email;
 
+    private String schoolclass;
 }

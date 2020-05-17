@@ -11,16 +11,15 @@ const UploadSucessfulScreen: React.FC = (): JSX.Element => {
   return (
     <div className={gStyles.centerFlexDiv}>
       <p>
-          Die Dateien wurden hochgeladen und die Plannung wird erstellt. Nach
-          Abschluss wird sie auf der Übersichtsseite sichtbar.
+          Die Dateien wurden hochgeladen. Die Entitäten können nun bearbeitet werden.
       </p>
       <Button
         className={gStyles.primaryButton}
         onClick={() => {
-          setLocation(SCREENROUTES.listPlanning);
+          setLocation(SCREENROUTES.createPlanning);
         }}
       >
-        Zur Übersichtsseite / Planungen anzeigen
+        Eine Planung erstellen
       </Button>
     </div>
   );

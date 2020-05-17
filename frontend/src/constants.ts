@@ -1,7 +1,8 @@
 export const SCREENROUTES = {
   uploadSucessful: "/uploadSucessful",
-  createPlanning: "/createPlanning",
+  uploadFiles: "/upload",
   listPlanning: "/listPlanning",
+  createPlanning: "/createPlanning",
   landingScreen: "/",
   presentations: "/presentations",
   rooms: "/rooms",
@@ -11,5 +12,10 @@ export const SCREENROUTES = {
 };
 
 export const APIROUTES = {
-  presentations: `${process.env.REACT_APP_API_ENDPOINT}/api/presentations`,
+  presentation: `${process.env.REACT_APP_API_ENDPOINT}/api/presentation`,
+  lecturer: `${process.env.REACT_APP_API_ENDPOINT}/api/lecturer`,
+  student: `${process.env.REACT_APP_API_ENDPOINT}/api/student`,
+  planning: `${process.env.REACT_APP_API_ENDPOINT}/api/planning`,
 };
+
+export const PRESENTATIONTYPES = ["normal", "art", "music", "dance"];

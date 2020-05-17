@@ -1,17 +1,16 @@
 package ch.fhnw.ip6.ospp.vo;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+public class TimeslotVO {
 
-public interface TimeslotVO {
+    private Long id;
 
-    int getId();
+    private String date;
 
-    String getDate();
-
-    int getBlock();
-    int getExternalId();
-
-    List<PresentationVO> getPresentations();
+    private int block;
 
 }

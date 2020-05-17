@@ -27,7 +27,7 @@ export const theme = createMuiTheme({
 
 export const useGStyles = makeStyles((theme) => ({
   root: {
-    width: "100vw",
+    width: "100%",
     height: "100vh",
     display: "flex",
     alignContent: "center",
@@ -42,7 +42,8 @@ export const useGStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     "& > *": {
-      margin: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
     },
   },
   columnFlexDiv: {
@@ -54,7 +55,8 @@ export const useGStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     "& > *": {
-      margin: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
     },
   },
   primaryButton: {
@@ -64,6 +66,7 @@ export const useGStyles = makeStyles((theme) => ({
     "&.Mui-disabled": {
       background: "#AAB9AE",
     },
+    margin: "8px",
   },
 
   secondaryButton: {
@@ -72,5 +75,18 @@ export const useGStyles = makeStyles((theme) => ({
     borderWidth: "1px",
     borderColor: theme.palette.primary.main,
     padding: "4px",
+    margin: "8px",
+  },
+
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+    padding: 0,
+    margin: 0,
+  },
+  paper: {
+    minWidth: 650,
+    maxWidth: 1000,
+    padding: "20px",
   },
 }));

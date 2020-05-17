@@ -1,10 +1,14 @@
 package ch.fhnw.ip6.api;
 
-import ch.fhnw.ip6.common.dto.Lecturer;
+import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.Presentation;
-import ch.fhnw.ip6.common.dto.Room;
-import ch.fhnw.ip6.common.dto.Timeslot;
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,18 +17,17 @@ import java.util.List;
 public interface SolverApi {
 
 
-
     /**
      * Builds the model and calls the solver and returns a solution.
      *
-     * @param presentations {@link List} of {@link Presentation}
-     * @param lecturers     {@link List} of {@link Lecturer}
-     * @param rooms         {@link List} of {@link Room}
-     * @param timeslots     {@link List} of {@link Timeslot}
-     * @param locktimes
+     * @param presentations {@link List} of {@link P}
+     * @param lecturers     {@link List} of {@link L}
+     * @param rooms         {@link List} of {@link R}
+     * @param timeslots     {@link List} of {@link T}
+     * @param offTimes
      * @return Solution
      */
-    Planning solve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots, boolean[][] locktimes);
+    Planning solve(List<P> presentations, List<L> lecturers, List<R> rooms, List<T> timeslots, boolean[][] offTimes);
 
 
     /**
@@ -33,7 +36,6 @@ public interface SolverApi {
      * @return
      */
     Planning testSolve();
-
 
 
 }

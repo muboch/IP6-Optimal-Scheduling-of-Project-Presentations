@@ -9,10 +9,6 @@ import java.util.List;
 
 @Component
 public interface TimeslotRepository extends JpaRepository<Timeslot, Long> {
-
-    List<TimeslotVO> findAllProjectedBy();
-
-    Timeslot findByExternalId(int externalId);
-
+    
     Timeslot findByDate(String date);
 }
