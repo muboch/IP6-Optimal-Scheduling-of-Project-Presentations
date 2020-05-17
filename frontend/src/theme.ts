@@ -78,13 +78,14 @@ export const useGStyles = makeStyles((theme) => ({
     margin: "8px",
   },
 
-  backdrop: {
+  myBackdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-    padding: 0,
-    margin: 0,
   },
-  paper: {
+  myPaper: {
+    // position: "absolute",
+    // left: 0,
+    // top: 0,
+    // zIndex: 201,
     minWidth: 650,
     maxWidth: 1000,
     padding: "20px",

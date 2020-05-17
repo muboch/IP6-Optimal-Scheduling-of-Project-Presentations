@@ -53,7 +53,12 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
   const styles = useStyles();
   const gStyles = useGStyles();
   const lecStore = LecturerContainer.useContainer();
-  const [lecturer, setLecturer] = useState<Lecturer>();
+  const [lecturer, setLecturer] = useState<Lecturer>({
+    email: "",
+    initials: "",
+    firstname: "",
+    lastname: "",
+  });
   console.log(lecturerId);
 
   useEffect(() => {
@@ -63,7 +68,9 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
 
     const loadDataAsync = async () => {
       if (lecturerId !== undefined && editLecturer) {
-        setLecturer(await lecStore.loadLecturerById(lecturerId));
+        console.log(lecturerId);
+
+        setLecturer((await lecStore.loadLecturerById(lecturerId))!);
       } else {
         setLecturer({
           email: "",
@@ -145,7 +152,7 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
           <SaveIcon />
         </Button>
       </Tooltip>
-      {lecturer && lecStore.lecturers && (
+      {lecStore.lecturers && (
         <div className={gStyles.columnFlexDiv}>
           <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
             <TextField
