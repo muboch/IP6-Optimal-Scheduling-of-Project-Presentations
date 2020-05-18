@@ -63,16 +63,16 @@ const Sidebar: React.SFC<SidebarProps> = () => {
       >
         Erstellte Planungen
       </Button>
-        <Button
-          className={`${gStyles.primaryButton} ${styles.button}`}
-          onClick={() => {
-            setLocation(SCREENROUTES.createPlanning);
-          }}
-        >
-          Planung erstellen
-        </Button>
+      <Button
+        className={`${gStyles.primaryButton} ${styles.button}`}
+        onClick={() => {
+          setLocation(SCREENROUTES.createPlanning);
+        }}
+      >
+        Planung erstellen
+      </Button>
 
-          <p className={styles.spacer}/>
+      <p className={styles.spacer} />
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
@@ -87,14 +87,13 @@ const Sidebar: React.SFC<SidebarProps> = () => {
           setLocation(SCREENROUTES.lecturers);
         }}
       >
-        Lehrer
+        Lehrpersonen
       </Button>
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
           setLocation(SCREENROUTES.rooms);
         }}
-        disabled
       >
         Räume
       </Button>

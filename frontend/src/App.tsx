@@ -6,6 +6,7 @@ import { theme, useGStyles } from "./theme";
 import UploadFilesScreen from "./screens/UploadFilesScreen/upload-files-screen";
 import ListPlanningScreen from "./screens/ListPlanningScreen/listplanningscreen";
 import { SCREENROUTES } from "./constants";
+
 import UploadSucessfulScreen from "./screens/UploadSucessful/UploadSucessfulScreen";
 import Sidebar from "./Components/sidebar";
 import CreatePlanning from "./screens/CreatePlanning/createPlanning";
@@ -19,6 +20,9 @@ import PresentationEditForm from "./screens/Edit Screens/presentation/presentati
 import LecturerEditForm from "./screens/Edit Screens/lecturer/lecturerEditForm";
 import { create } from "jss";
 import { StylesProvider, jssPreset } from "@material-ui/core/styles";
+import RoomTable from "./screens/Edit Screens/room/roomTable";
+import RoomEditForm from "./screens/Edit Screens/room/roomEditForm";
+import RoomContainer from "./states/roomState";
 
 const App: React.FC = (): JSX.Element => {
   console.log("endpoint", process.env.REACT_APP_API_ENDPOINT);
@@ -31,38 +35,52 @@ const App: React.FC = (): JSX.Element => {
       <MessageContainer.Provider>
         <LecturerContainer.Provider>
           <PresentationContainer.Provider>
-            <ThemeProvider theme={theme}>
-              <Sidebar />
-              <div style={{ width: "100%", height: "100%" }}>
-                <Switch>
-                  <Route
-                    path={SCREENROUTES.landingScreen}
-                    component={LandingScreen}
-                  />
-                  {/* Presentations */}
-                  <Route path={SCREENROUTES.presentations}>
-                    {(params) => <PresentationTable />}
-                  </Route>
-                  <Route path={`${SCREENROUTES.presentations}/edit/:id`}>
-                    {(params) => (
-                      <PresentationEditForm id={parseInt(params.id)} />
-                    )}
-                  </Route>
-                  <Route path={`${SCREENROUTES.presentations}/edit`}>
-                    {(params) => <PresentationEditForm id={undefined} />}
-                  </Route>
-                  {/* End Presentations */}
+            <RoomContainer.Provider>
+              <ThemeProvider theme={theme}>
+                <Sidebar />
+                <div style={{ width: "100%", height: "100%" }}>
+                  <Switch>
+                    <Route
+                      path={SCREENROUTES.landingScreen}
+                      component={LandingScreen}
+                    />
+                    {/* Presentations */}
+                    <Route path={SCREENROUTES.presentations}>
+                      {(params) => <PresentationTable />}
+                    </Route>
+                    <Route path={`${SCREENROUTES.presentations}/edit/:id`}>
+                      {(params) => (
+                        <PresentationEditForm id={parseInt(params.id)} />
+                      )}
+                    </Route>
+                    <Route path={`${SCREENROUTES.presentations}/edit`}>
+                      {(params) => <PresentationEditForm id={undefined} />}
+                    </Route>
+                    {/* End Presentations */}
+                    {/* Lecturers */}
+                    <Route path={SCREENROUTES.lecturers}>
+                      {(params) => <LecturerTable />}
+                    </Route>
+                    <Route path={`${SCREENROUTES.lecturers}/edit/:id`}>
+                      {(params) => (
+                        <LecturerEditForm id={parseInt(params.id)} />
+                      )}
+                    </Route>
+                    <Route path={`${SCREENROUTES.lecturers}/edit`}>
+                      {(params) => <LecturerEditForm id={undefined} />}
+                    </Route>
+                    {/* Rooms */}
+                    <Route path={SCREENROUTES.rooms}>
+                      {(params) => <RoomTable />}
+                    </Route>
+                    <Route path={`${SCREENROUTES.rooms}/edit/:id`}>
+                      {(params) => <RoomEditForm id={parseInt(params.id)} />}
+                    </Route>
+                    <Route path={`${SCREENROUTES.rooms}/edit`}>
+                      {(params) => <RoomEditForm id={undefined} />}
+                    </Route>
 
-                  <Route path={SCREENROUTES.lecturers}>
-                    {(params) => <LecturerTable />}
-                  </Route>
-                  <Route path={`${SCREENROUTES.lecturers}/edit/:id`}>
-                    {(params) => <LecturerEditForm id={parseInt(params.id)} />}
-                  </Route>
-                  <Route path={`${SCREENROUTES.lecturers}/edit`}>
-                    {(params) => <LecturerEditForm id={undefined} />}
-                  </Route>
-                  {/* <Route path={SCREENROUTES.rooms}>
+                    {/* <Route path={SCREENROUTES.rooms}>
                     {(params) => <EditScreen type={"room"}></EditScreen>}
                   </Route>
                   <Route path={SCREENROUTES.timeslots}>
@@ -72,32 +90,33 @@ const App: React.FC = (): JSX.Element => {
                     {(params) => <EditScreen type={"offtime"}></EditScreen>}
                   </Route> */}
 
-                  <Route
-                    path={SCREENROUTES.uploadFiles}
-                    component={UploadFilesScreen}
-                  />
-                  <Route
-                    path={SCREENROUTES.listPlanning}
-                    component={ListPlanningScreen}
-                  />
-                  <Route
-                    path={SCREENROUTES.uploadSucessful}
-                    component={UploadSucessfulScreen}
-                  />
-                  <Route
-                    path={SCREENROUTES.createPlanning}
-                    component={CreatePlanning}
-                  />
-                  <Route
-                    path="/:rest*"
-                    component={() => (
-                      <Redirect to={SCREENROUTES.landingScreen}></Redirect>
-                    )}
-                  ></Route>
-                </Switch>
-              </div>
-              <Notifier />
-            </ThemeProvider>
+                    <Route
+                      path={SCREENROUTES.uploadFiles}
+                      component={UploadFilesScreen}
+                    />
+                    <Route
+                      path={SCREENROUTES.listPlanning}
+                      component={ListPlanningScreen}
+                    />
+                    <Route
+                      path={SCREENROUTES.uploadSucessful}
+                      component={UploadSucessfulScreen}
+                    />
+                    <Route
+                      path={SCREENROUTES.createPlanning}
+                      component={CreatePlanning}
+                    />
+                    <Route
+                      path="/:rest*"
+                      component={() => (
+                        <Redirect to={SCREENROUTES.landingScreen}></Redirect>
+                      )}
+                    ></Route>
+                  </Switch>
+                </div>
+                <Notifier />
+              </ThemeProvider>
+            </RoomContainer.Provider>
           </PresentationContainer.Provider>
         </LecturerContainer.Provider>
       </MessageContainer.Provider>
