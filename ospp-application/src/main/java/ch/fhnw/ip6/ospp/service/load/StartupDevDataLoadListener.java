@@ -15,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.Set;
 
 @Profile("dev")
@@ -40,9 +42,16 @@ public class StartupDevDataLoadListener implements ApplicationListener<ContextRe
     private final LecturerService lecturerService;
     private final TimeslotService timeslotService;
 
+    private final Environment environment;
+
     @SneakyThrows
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        
+        if (!Arrays.asList(environment.getActiveProfiles()).contains("dev")) {
+            log.info("No dev dataload cause profile is not 'dev'");
+            return;
+        }
 
         ClassPathResource classPathResource = new ClassPathResource("devdata/lecturers.xlsx");
         File lecturers = classPathResource.getFile();
