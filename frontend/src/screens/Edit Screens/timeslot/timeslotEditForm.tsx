@@ -1,28 +1,19 @@
 import React, { useState, useEffect } from "react";
-import {
-  makeStyles,
-  TextField,
-  Button,
-  Tooltip,
-  Checkbox,
-  NativeSelect,
-  FormControlLabel,
-  InputLabel,
-} from "@material-ui/core";
+import { makeStyles, TextField, Button, Tooltip } from "@material-ui/core";
 import { useGStyles } from "../../../theme";
-import { Lecturer, Student, Room } from "../../../Types/types";
+import { Lecturer, Student, Timeslot } from "../../../Types/types";
 
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
-import { SCREENROUTES, PRESENTATIONTYPES } from "../../../constants";
+import { SCREENROUTES } from "../../../constants";
 import { useLocation } from "wouter";
-import RoomContainer from "../../../states/roomState";
+import TimeslotContainer from "../../../states/timeslotState";
 
-export interface LecturerEditFormProps {
+export interface EditFormProps {
   id?: number | undefined; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
 }
 
-const RoomEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
+const TimeslotEditForm: React.SFC<EditFormProps> = ({ id }) => {
   const useStyles = makeStyles({
     centerFlexDiv: {
       margin: "20px",
@@ -52,43 +43,42 @@ const RoomEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
 
   const gStyles = useGStyles();
   const styles = useStyles();
-  const roomStore = RoomContainer.useContainer();
-  const [room, setRoom] = useState<Room>({
-    name: "",
-    type: "normal",
-    place: "",
-    reserve: false,
+  const timeslotStore = TimeslotContainer.useContainer();
+  const [timeslot, setTimeslot] = useState<Timeslot>({
+    block: 1,
+    priority: 50,
+    date: "",
   });
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    if (!roomStore) {
+    if (!timeslotStore) {
       return;
     }
 
     const loadDataAsync = async () => {
       if (id !== undefined) {
-        setRoom((await roomStore.loadById(id))!);
+        setTimeslot((await timeslotStore.loadById(id))!);
       }
     };
     loadDataAsync();
-  }, [id, roomStore]);
+  }, [id, timeslotStore]);
 
   const updateValue = (
-    key: keyof Room,
+    key: keyof Timeslot,
     value: string | number | Lecturer | Student | boolean | null
   ) => {
-    setRoom({ ...room!, [key]: value });
+    setTimeslot({ ...timeslot!, [key]: value });
   };
 
   const onExitForm = () => {
-    setLocation(SCREENROUTES.rooms);
+    setLocation(SCREENROUTES.timeslots);
   };
 
   const onSaveForm = async (e: any) => {
     e.preventDefault();
     try {
-      await roomStore.add(room!);
+      await timeslotStore.add(timeslot!);
       onExitForm();
     } catch (error) {}
   };
@@ -112,7 +102,7 @@ const RoomEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
             <SaveIcon />
           </Button>
         </Tooltip>
-        {roomStore.rooms && (
+        {timeslotStore.timeslots && (
           <div className={gStyles.columnFlexDiv}>
             <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
               <TextField
@@ -126,11 +116,11 @@ const RoomEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
               ></TextField>
               <TextField
                 required
-                label="Name"
+                label="Startzeit"
                 onChange={(e: any) => {
-                  updateValue("name", e.currentTarget.value);
+                  updateValue("date", e.currentTarget.value);
                 }}
-                value={room.name}
+                value={timeslot.date}
                 className={styles.textField50}
               ></TextField>
             </div>
@@ -138,40 +128,23 @@ const RoomEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
               <TextField
                 required
                 label="Ort"
-                value={room.place}
+                type="number"
+                value={timeslot.block}
                 onChange={(e: any) => {
-                  updateValue("place", e.currentTarget.value);
+                  updateValue("block", e.currentTarget.value);
                 }}
                 className={styles.textField50}
               ></TextField>
-              <InputLabel shrink htmlFor="reserve-label">
-                Reserve
-              </InputLabel>
-              <Checkbox
-                checked={room.reserve}
-                onChange={(event) => {
-                  updateValue("reserve", event.target.checked);
-                }}
-                inputProps={{ id: "reserve-label", "aria-label": "Reserve" }}
-              />
-
-              <InputLabel shrink htmlFor="age-native-label-placeholder">
-                Type
-              </InputLabel>
-              <NativeSelect
-                value={room.type || PRESENTATIONTYPES[0]}
+              <TextField
+                required
+                label="Kosten"
+                type="number"
+                value={timeslot.priority}
                 onChange={(e: any) => {
-                  updateValue("type", e.currentTarget.value);
+                  updateValue("priority", e.currentTarget.value);
                 }}
-                inputProps={{
-                  name: "Type",
-                  id: "age-native-label-placeholder",
-                }}
-              >
-                {PRESENTATIONTYPES.map((p) => {
-                  return <option value={p}>{p}</option>;
-                })}
-              </NativeSelect>
+                className={styles.textField50}
+              ></TextField>
             </div>
           </div>
         )}
@@ -180,4 +153,4 @@ const RoomEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
   );
 };
 
-export default RoomEditForm;
+export default TimeslotEditForm;

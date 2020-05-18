@@ -1,40 +1,39 @@
 import { APIROUTES } from "../constants";
-import { Student } from "../Types/types";
+import { Timeslot } from "../Types/types";
 
-export const loadStudents = async (): Promise<Array<Student>> => {
+export const loadTimeslots = async (): Promise<Array<Timeslot>> => {
   try {
-    const res = await fetch(`${APIROUTES.student}`);
+    const res = await fetch(`${APIROUTES.timeslot}`);
     const json = await res.json();
     console.log(json);
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Schüler";
+    throw "Fehler beim laden der Zeitslots";
   } catch (Error) {
     throw Error;
   }
 };
 
-
-export const _loadStudentById = async (id: number): Promise<Student> => {
+export const _loadTimeslotById = async (id: number): Promise<Timeslot> => {
   try {
-    const res = await fetch(`${APIROUTES.student}/${id}`);
+    const res = await fetch(`${APIROUTES.timeslot}/${id}`);
     const json = await res.json();
     console.log(json);
     if (res.ok) {
       return json;
     }
 
-    throw "Fehler beim laden des Schülers";
+    throw "Fehler beim laden des Zeitslots";
   } catch (Error) {
     throw Error;
   }
 };
 
 // ADD/UPDATE Presentation. If number is passed, then update existing, otherwise add new presentation
-export const _addStudent = async (stud: Student): Promise<void> => {
+export const _addTimeslot = async (stud: Timeslot): Promise<void> => {
   // Default options are marked with *
-  const url = `${APIROUTES.student}`;
+  const url = `${APIROUTES.timeslot}`;
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
@@ -51,10 +50,10 @@ export const _addStudent = async (stud: Student): Promise<void> => {
   return response.json(); // parses JSON response into native JavaScript objects
 };
 
-export const _deleteStudentById = async (id: number): Promise<void> => {
+export const _deleteTimeslotById = async (id: number): Promise<void> => {
   // Default options are marked with *
   try {
-    const res = await fetch(`${APIROUTES.student}/${id}`, {
+    const res = await fetch(`${APIROUTES.timeslot}/${id}`, {
       method: "DELETE", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

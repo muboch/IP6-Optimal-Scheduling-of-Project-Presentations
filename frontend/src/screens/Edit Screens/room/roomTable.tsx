@@ -48,12 +48,12 @@ const RoomTable: React.SFC<LecturerTableProps> = () => {
 
   const columns = [
     {
-      title: "Name",
-      field: "name",
-    },
-    {
       title: "id",
       field: "id",
+    },
+    {
+      title: "Name",
+      field: "name",
     },
     {
       title: "Typ",

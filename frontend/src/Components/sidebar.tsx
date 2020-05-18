@@ -87,7 +87,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
           setLocation(SCREENROUTES.lecturers);
         }}
       >
-        Lehrpersonen
+        Dozenten
       </Button>
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
@@ -100,9 +100,16 @@ const Sidebar: React.SFC<SidebarProps> = () => {
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
+          setLocation(SCREENROUTES.students);
+        }}
+      >
+        Schüler
+      </Button>
+      <Button
+        className={`${gStyles.primaryButton} ${styles.button}`}
+        onClick={() => {
           setLocation(SCREENROUTES.timeslots);
         }}
-        disabled
       >
         Zeitslots
       </Button>
@@ -111,7 +118,6 @@ const Sidebar: React.SFC<SidebarProps> = () => {
         onClick={() => {
           setLocation(SCREENROUTES.offtimes);
         }}
-        disabled
       >
         Sperrzeiten
       </Button>
