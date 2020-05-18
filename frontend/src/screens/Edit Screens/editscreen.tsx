@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useGStyles } from "../../theme";
-import { makeStyles } from "@material-ui/core";
 import PresentationTable from "./presentation/presentationTable";
 import LecturerTable from "./lecturer/lecturerTable";
 import LecturerContainer from "../../states/lecturerState";
@@ -18,12 +17,6 @@ export interface EditScreenProps {
 
 const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
   const gStyles = useGStyles();
-  const useStyles = makeStyles({
-    table: {
-      minWidth: 650,
-      maxWidth: 1000,
-    },
-  });
   const [data, setData] = useState<Array<any>>([]);
   const [loadedType, setLoadedType] = useState("");
 
@@ -33,27 +26,8 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
   //   presentation: loadPresentations,
   // }[`${type}` as string];
 
-  useEffect(() => {
-    setData([]);
-
-    const loadData = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.REACT_APP_API_ENDPOINT}/api/${type}`
-        );
-        const json = await res.json();
-        console.log(json);
-        if (res.ok) {
-          setData(json);
-        }
-      } catch (Error) {}
-      setLoadedType(type);
-    };
-
-    loadData();
-  }, [type]);
   const tables = {
-    presentation: <PresentationTable presentations={data} />,
+    presentation: <PresentationTable />,
     lecturer: <LecturerTable />,
     room: <></>,
     offtime: <></>,
@@ -65,15 +39,7 @@ const EditScreen: React.SFC<EditScreenProps> = ({ type }) => {
   };
   return (
     <>
-      {loadedType === type && (
-        <div className={gStyles.centerFlexDiv}>
-          <LecturerContainer.Provider>
-            <PresentationContainer.Provider>
-              {data && getTableToRender()}
-            </PresentationContainer.Provider>
-          </LecturerContainer.Provider>
-        </div>
-      )}
+      <div className={gStyles.centerFlexDiv}>{getTableToRender()}</div>
     </>
   );
 };

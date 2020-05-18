@@ -23,6 +23,8 @@ import LecturerEditForm from "./lecturerEditForm";
 import { _deleteLecturerById } from "../../../Services/lecturerService";
 import MessageContainer from "../../../states/messageState";
 import LecturerContainer from "../../../states/lecturerState";
+import { useLocation } from "wouter";
+import { SCREENROUTES } from "../../../constants";
 
 export interface LecturerTableProps {}
 
@@ -33,8 +35,8 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
       maxWidth: 1200,
     },
   });
-  const styles = useStyles();
   const gStyles = useGStyles();
+  const styles = useStyles();
   const lecStore = LecturerContainer.useContainer();
   const msgStore = MessageContainer.useContainer();
 
@@ -46,6 +48,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = useState<Array<lecturerRow>>([]);
   const [lecturerToEdit, setLecturerToEdit] = useState<Lecturer>();
+  const [, setLocation] = useLocation();
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -97,109 +100,98 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
   return (
     <>
       <div className={gStyles.columnFlexDiv}>
-        <TableContainer component={Paper} className={styles.table}>
-          <Table aria-label="simple table" size={"small"}>
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Nachname</TableCell>
-                <TableCell>Vorname</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Kürzel</TableCell>
-                <TableCell>Bearbeiten</TableCell>
-                <TableCell>Löschen</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows!.length > 0 ? (
-                stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((l: lecturerRow, index: number) => {
-                    const labelId = `enhanced-table-checkbox-${index}`;
-                    return (
-                      <TableRow key={l.id}>
-                        <TableCell component="th" scope="row">
-                          {l.id}
-                        </TableCell>
-                        <TableCell>{l.lastName}</TableCell>
-                        <TableCell>{l.firstName}</TableCell>
-                        <TableCell>{l.email}</TableCell>
-                        <TableCell>{l.initials}</TableCell>
-                        <TableCell>
-                          <Button
-                            className={gStyles.primaryButton}
-                            onClick={() =>
-                              setLecturerToEdit(
-                                lecStore.lecturers.find((le) => le.id === l.id)
-                              )
-                            }
-                          >
-                            <EditIcon />
-                          </Button>
-                        </TableCell>
-                        <TableCell>
-                          <Button
-                            className={gStyles.secondaryButton}
-                            onClick={() => {
-                              lecStore.deleteLecturerById(l.id);
-                            }}
-                          >
-                            <DeleteIcon />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-              ) : (
-                <TableRow>
-                  <TableCell>
-                    <Typography variant="body1">
-                      Derzeit keine Dozenten erfasst
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={lecStore.lecturers.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-        <div>
-          <Button
-            className={gStyles.primaryButton}
-            onClick={() =>
-              setLecturerToEdit({
-                email: "",
-                firstname: "",
-                initials: "",
-                lastname: "",
-              })
-            }
-          >
-            Dozent Hinzufügen
-          </Button>
-        </div>
+        {lecturerToEdit == undefined && (
+          <>
+            <TableContainer component={Paper} className={styles.table}>
+              <Table aria-label="simple table" size={"small"}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Nachname</TableCell>
+                    <TableCell>Vorname</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Kürzel</TableCell>
+                    <TableCell>Bearbeiten</TableCell>
+                    <TableCell>Löschen</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows!.length > 0 ? (
+                    stableSort(rows, getComparator(order, orderBy))
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((l: lecturerRow, index: number) => {
+                        const labelId = `enhanced-table-checkbox-${index}`;
+                        return (
+                          <TableRow key={l.id}>
+                            <TableCell component="th" scope="row">
+                              {l.id}
+                            </TableCell>
+                            <TableCell>{l.lastName}</TableCell>
+                            <TableCell>{l.firstName}</TableCell>
+                            <TableCell>{l.email}</TableCell>
+                            <TableCell>{l.initials}</TableCell>
+                            <TableCell>
+                              <Button
+                                className={gStyles.primaryButton}
+                                onClick={() =>
+                                  setLocation(
+                                    `${SCREENROUTES.lecturers}/edit/${l.id}`
+                                  )
+                                }
+                              >
+                                <EditIcon />
+                              </Button>
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                className={gStyles.secondaryButton}
+                                onClick={() => {
+                                  lecStore.deleteLecturerById(l.id);
+                                }}
+                              >
+                                <DeleteIcon />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                  ) : (
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="body1">
+                          Derzeit keine Dozenten erfasst
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={lecStore.lecturers.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+            <div>
+              <Button
+                className={gStyles.primaryButton}
+                onClick={() => {
+                  setLocation(`${SCREENROUTES.lecturers}/edit`);
+                }}
+              >
+                Dozent Hinzufügen
+              </Button>
+            </div>
+          </>
+        )}
       </div>
-      <Backdrop
-        className={gStyles.backdrop}
-        open={lecturerToEdit !== undefined}
-        //onClick={() => setPresentationToEdit(undefined)}
-      >
-        <Paper className={gStyles.paper}>
-          <LecturerEditForm
-            onExitForm={() => setLecturerToEdit(undefined)}
-            lecturerId={lecturerToEdit?.id}
-            editLecturer={lecturerToEdit?.id !== undefined}
-          ></LecturerEditForm>
-        </Paper>
-      </Backdrop>
     </>
   );
 };

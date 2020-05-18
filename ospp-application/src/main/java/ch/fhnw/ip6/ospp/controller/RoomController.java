@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/room")
+@RequestMapping("/api/room")
 @RequiredArgsConstructor
 public class RoomController {
 

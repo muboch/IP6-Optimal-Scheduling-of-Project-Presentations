@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/timeslot")
+@RequestMapping("/api/timeslot")
 @RequiredArgsConstructor
 public class TimeslotController {
 
