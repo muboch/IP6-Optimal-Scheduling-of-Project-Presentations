@@ -11,18 +11,14 @@ import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import { _addPresentation } from "../../../Services/presentationService";
 import LecturerContainer from "../../../states/lecturerState";
+import { SCREENROUTES } from "../../../constants";
+import { useLocation } from "wouter";
 
 export interface LecturerEditFormProps {
-  lecturerId?: number | undefined; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
-  onExitForm: () => void;
-  editLecturer: boolean;
+  id?: number | undefined; // Optional. If passed, we're editing an existing presentation, otherwise creating a new one
 }
 
-const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
-  lecturerId,
-  onExitForm,
-  editLecturer,
-}) => {
+const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
   const useStyles = makeStyles({
     centerFlexDiv: {
       margin: "20px",
@@ -50,8 +46,8 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
     },
   });
 
-  const styles = useStyles();
   const gStyles = useGStyles();
+  const styles = useStyles();
   const lecStore = LecturerContainer.useContainer();
   const [lecturer, setLecturer] = useState<Lecturer>({
     email: "",
@@ -59,7 +55,7 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
     firstname: "",
     lastname: "",
   });
-  console.log(lecturerId);
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     if (!lecStore) {
@@ -67,27 +63,12 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
     }
 
     const loadDataAsync = async () => {
-      if (lecturerId !== undefined && editLecturer) {
-        console.log(lecturerId);
-
-        setLecturer((await lecStore.loadLecturerById(lecturerId))!);
-      } else {
-        setLecturer({
-          email: "",
-          initials: "",
-          firstname: "",
-          lastname: "",
-        });
+      if (id !== undefined) {
+        setLecturer((await lecStore.loadLecturerById(id))!);
       }
     };
-
-    // if (lecturerId === undefined) {
-    //   // setLecturer(undefined);
-    //   return;
-    // }
-
     loadDataAsync();
-  }, [lecturerId, editLecturer, lecStore]);
+  }, [id, lecStore]);
 
   const updateLecturerValue = (
     key: keyof Lecturer,
@@ -112,7 +93,7 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
       lecturer!
     );
     const indexOfLecturer = lecStore.lecturers.findIndex(
-      (l) => l.email === lecturer!.email
+      (l) => l.id === lecturer!.id
     );
     console.log("indexes: ", indexes);
     console.log("lecindex: ", indexOfLecturer);
@@ -125,6 +106,9 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
     }
     return false;
   };
+  const onExitForm = () => {
+    setLocation(SCREENROUTES.lecturers);
+  };
 
   const onSaveForm = async (e: any) => {
     e.preventDefault();
@@ -135,82 +119,86 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({
   };
 
   return (
-    <form onSubmit={onSaveForm}>
-      <Tooltip title="Abbrechen und Schliessen">
-        <Button
-          className={`${gStyles.secondaryButton} ${styles.closeButton}`}
-          onClick={onExitForm}
-        >
-          <CloseIcon />
-        </Button>
-      </Tooltip>
-      <Tooltip title="Speichern">
-        <Button
-          type="submit"
-          className={`${gStyles.primaryButton} ${styles.saveButton}`}
-        >
-          <SaveIcon />
-        </Button>
-      </Tooltip>
-      {lecStore.lecturers && (
-        <div className={gStyles.columnFlexDiv}>
-          <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
-            <TextField
-              className={styles.textField50}
-              required
-              label="ID"
-              type="number"
-              disabled
-              value={lecturerId}
-              InputLabelProps={{ shrink: true }}
-            ></TextField>
-            <TextField
-              required
-              label="Vorname"
-              onChange={(e: any) => {
-                updateLecturerValue("firstname", e.currentTarget.value);
-              }}
-              value={lecturer.firstname}
-              className={styles.textField50}
-            ></TextField>
+    <div className={gStyles.centerFlexDiv}>
+      <form onSubmit={onSaveForm} style={{ maxWidth: "1200px", width: "100%" }}>
+        <Tooltip title="Abbrechen und Schliessen">
+          <Button
+            className={`${gStyles.secondaryButton} ${styles.closeButton}`}
+            onClick={onExitForm}
+          >
+            <CloseIcon />
+          </Button>
+        </Tooltip>
+        <Tooltip title="Speichern">
+          <Button
+            type="submit"
+            className={`${gStyles.primaryButton} ${styles.saveButton}`}
+          >
+            <SaveIcon />
+          </Button>
+        </Tooltip>
+        {lecStore.lecturers && (
+          <div className={gStyles.columnFlexDiv}>
+            <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
+              <TextField
+                className={styles.textField50}
+                required
+                label="ID"
+                type="number"
+                disabled
+                value={id}
+                InputLabelProps={{ shrink: true }}
+              ></TextField>
+              <TextField
+                required
+                label="Vorname"
+                onChange={(e: any) => {
+                  updateLecturerValue("firstname", e.currentTarget.value);
+                }}
+                value={lecturer.firstname}
+                className={styles.textField50}
+              ></TextField>
+            </div>
+            <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
+              <TextField
+                required
+                label="Nachname"
+                value={lecturer.lastname}
+                onChange={(e: any) => {
+                  updateLecturerValue("lastname", e.currentTarget.value);
+                }}
+                className={styles.textField50}
+              ></TextField>
+              <TextField
+                required
+                type="email"
+                label="Email"
+                value={lecturer.email}
+                onChange={(e: any) => {
+                  updateLecturerValue("email", e.currentTarget.value);
+                }}
+                className={styles.textField50}
+              ></TextField>
+            </div>
+            <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
+              <TextField
+                required
+                label="Kürzel"
+                value={lecturer.initials}
+                onChange={(e: any) => {
+                  updateLecturerValue("initials", e.currentTarget.value);
+                }}
+                error={initialsHasError()}
+                helperText={
+                  initialsHasError() && "Kürzel wird bereits verwendet"
+                }
+                className={styles.textField50}
+              ></TextField>
+            </div>
           </div>
-          <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
-            <TextField
-              required
-              label="Nachname"
-              value={lecturer.lastname}
-              onChange={(e: any) => {
-                updateLecturerValue("lastname", e.currentTarget.value);
-              }}
-              className={styles.textField50}
-            ></TextField>
-            <TextField
-              required
-              type="email"
-              label="Email"
-              value={lecturer.email}
-              onChange={(e: any) => {
-                updateLecturerValue("email", e.currentTarget.value);
-              }}
-              className={styles.textField50}
-            ></TextField>
-          </div>
-          <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
-            <TextField
-              required
-              label="Kürzel"
-              value={lecturer.initials}
-              onChange={(e: any) => {
-                updateLecturerValue("initials", e.currentTarget.value);
-              }}
-              error={initialsHasError()}
-              helperText={initialsHasError() && "Kürzel wird bereits verwendet"}
-              className={styles.textField50}
-            ></TextField>
-          </div>
-        </div>
-      )}
-    </form>
+        )}
+      </form>
+    </div>
   );
 };
 

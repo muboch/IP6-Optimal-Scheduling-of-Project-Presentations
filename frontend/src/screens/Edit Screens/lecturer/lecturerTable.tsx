@@ -23,6 +23,8 @@ import LecturerEditForm from "./lecturerEditForm";
 import { _deleteLecturerById } from "../../../Services/lecturerService";
 import MessageContainer from "../../../states/messageState";
 import LecturerContainer from "../../../states/lecturerState";
+import { useLocation } from "wouter";
+import { SCREENROUTES } from "../../../constants";
 
 export interface LecturerTableProps {}
 
@@ -33,8 +35,8 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
       maxWidth: 1200,
     },
   });
-  const styles = useStyles();
   const gStyles = useGStyles();
+  const styles = useStyles();
   const lecStore = LecturerContainer.useContainer();
   const msgStore = MessageContainer.useContainer();
 
@@ -46,6 +48,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = useState<Array<lecturerRow>>([]);
   const [lecturerToEdit, setLecturerToEdit] = useState<Lecturer>();
+  const [, setLocation] = useLocation();
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -134,10 +137,8 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
                               <Button
                                 className={gStyles.primaryButton}
                                 onClick={() =>
-                                  setLecturerToEdit(
-                                    lecStore.lecturers.find(
-                                      (le) => le.id === l.id
-                                    )
+                                  setLocation(
+                                    `${SCREENROUTES.lecturers}/edit/${l.id}`
                                   )
                                 }
                               >
@@ -181,29 +182,14 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
             <div>
               <Button
                 className={gStyles.primaryButton}
-                onClick={() =>
-                  setLecturerToEdit({
-                    email: "",
-                    firstname: "",
-                    initials: "",
-                    lastname: "",
-                  })
-                }
+                onClick={() => {
+                  setLocation(`${SCREENROUTES.lecturers}/edit`);
+                }}
               >
                 Dozent Hinzufügen
               </Button>
             </div>
           </>
-        )}
-
-        {lecturerToEdit !== undefined && (
-          <Paper className={gStyles.myPaper}>
-            <LecturerEditForm
-              onExitForm={() => setLecturerToEdit(undefined)}
-              lecturerId={lecturerToEdit?.id}
-              editLecturer={lecturerToEdit?.id !== undefined}
-            ></LecturerEditForm>
-          </Paper>
         )}
       </div>
     </>
