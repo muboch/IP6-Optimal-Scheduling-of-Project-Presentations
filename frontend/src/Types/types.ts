@@ -34,6 +34,13 @@ export type Lecturer = {
 
 export type Student = {
   name: string;
-  id: number;
+  id?: number;
   class: string;
+};
+
+export type Timeslot = {
+  id?: number;
+  date: string;
+  block: number;
+  priority: number;
 };

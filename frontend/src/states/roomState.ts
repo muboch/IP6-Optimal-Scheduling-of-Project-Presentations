@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { createContainer } from "unstated-next";
 import { useState, useEffect } from "react";
-import { Lecturer } from "../Types/types";
+import { Lecturer, Room } from "../Types/types";
 import {
   loadLecturers,
   _addLecturer,
@@ -9,31 +9,32 @@ import {
   _loadLecturerById,
 } from "../Services/lecturerService";
 import MessageContainer from "./messageState";
+import { loadRooms, _addRoom, _deleteRoomById, _loadRoomById } from "../Services/roomService";
 
-const lecturerState = () => {
+const roomState = () => {
   const msgStore = MessageContainer.useContainer();
-  const [lecturers, setLecturers] = useState<Array<Lecturer>>([]);
+  const [rooms, setRooms] = useState<Array<Room>>([]);
 
   useEffect(() => {
     const load = async () => {
-      const l = await loadLecturers();
-      setLecturers(l);
+      const l = await loadRooms();
+      setRooms(l);
     };
     load();
   }, []);
 
   const invalidate = async (): Promise<void> => {
     try {
-      await setLecturers(await loadLecturers());
+      await setRooms(await loadRooms());
     } catch (error) {
       msgStore.setMessage(error);
     }
   };
 
-  const add = async (lect: Lecturer) => {
+  const add = async (room: Room) => {
     try {
-      await _addLecturer(lect);
-      msgStore.setMessage(`Dozent hinzugefügt / angepasst`);
+      await _addRoom(room);
+      msgStore.setMessage(`Zimmer hinzugefügt / angepasst`);
     } catch (error) {
       msgStore.setMessage(`Fehler beim hinzufügen / anpassen: ${error}`);
     } finally {
@@ -42,8 +43,8 @@ const lecturerState = () => {
   };
   const deleteById = async (id: number) => {
     try {
-      await _deleteLecturerById(id);
-      msgStore.setMessage(`Dozent mit id ${id} gelöscht`);
+      await _deleteRoomById(id);
+      msgStore.setMessage(`Zimmer mit id ${id} gelöscht`);
     } catch (error) {
       msgStore.setMessage(`Fehler beim löschen: ${error}`);
     } finally {
@@ -52,20 +53,20 @@ const lecturerState = () => {
   };
   const loadById = async (id: number) => {
     try {
-      const lect = await _loadLecturerById(id);
-      return lect;
+      const room = await _loadRoomById(id);
+      return room;
     } catch (error) {
-      msgStore.setMessage(`Konnte Dozent mit id ${id} nicht laden: ${error}`);
+      msgStore.setMessage(`Konnte Zimmer mit id ${id} nicht laden: ${error}`);
     }
   };
 
   return {
-    lecturers,
-    invalidateLecturers: invalidate,
-    addLecturer: add,
-    deleteLecturerById: deleteById,
-    loadLecturerById: loadById,
+    rooms,
+    invalidate,
+    add,
+    deleteById,
+    loadById,
   };
 };
-const LecturerContainer = createContainer(lecturerState);
-export default LecturerContainer;
+const RoomContainer = createContainer(roomState);
+export default RoomContainer;

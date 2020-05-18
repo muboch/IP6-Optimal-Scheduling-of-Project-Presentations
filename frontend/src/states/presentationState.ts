@@ -23,7 +23,7 @@ const presentationState = () => {
     load();
   }, []);
 
-  const invalidatePresentations = async (): Promise<void> => {
+  const invalidate = async (): Promise<void> => {
     try {
       setPresentations(await _loadPresentations());
     } catch (error) {
@@ -31,27 +31,27 @@ const presentationState = () => {
     }
   };
 
-  const addPresentation = async (pres: Presentation) => {
+  const add = async (pres: Presentation) => {
     try {
       await _addPresentation(pres);
       msgStore.setMessage(`Präsentation hinzugefügt / angepasst`);
     } catch (error) {
       msgStore.setMessage(`Fehler beim hinzufügen / anpassen: ${error}`);
     } finally {
-      await invalidatePresentations();
+      await invalidate();
     }
   };
-  const deletePresentationById = async (id: number) => {
+  const deleteById = async (id: number) => {
     try {
       await _deletePresentationById(id);
       msgStore.setMessage(`Präsentation mit id ${id} gelöscht`);
     } catch (error) {
       msgStore.setMessage(`Fehler beim löschen: ${error}`);
     } finally {
-      await invalidatePresentations();
+      await invalidate();
     }
   };
-  const loadPresentationById = async (id: number) => {
+  const loadById = async (id: number) => {
     try {
       const lect = await _loadPresentationById(id);
       return lect;
@@ -64,10 +64,10 @@ const presentationState = () => {
 
   return {
     presentations,
-    invalidatePresentations,
-    addPresentation,
-    deletePresentationById,
-    loadPresentationById,
+    invalidatePresentations: invalidate,
+    addPresentation: add,
+    deletePresentationById: deleteById,
+    loadPresentationById: loadById,
   };
 };
 const PresentationContainer = createContainer(presentationState);

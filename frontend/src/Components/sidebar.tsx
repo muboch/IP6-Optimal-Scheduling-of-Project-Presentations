@@ -63,16 +63,16 @@ const Sidebar: React.SFC<SidebarProps> = () => {
       >
         Erstellte Planungen
       </Button>
-        <Button
-          className={`${gStyles.primaryButton} ${styles.button}`}
-          onClick={() => {
-            setLocation(SCREENROUTES.createPlanning);
-          }}
-        >
-          Planung erstellen
-        </Button>
+      <Button
+        className={`${gStyles.primaryButton} ${styles.button}`}
+        onClick={() => {
+          setLocation(SCREENROUTES.createPlanning);
+        }}
+      >
+        Planung erstellen
+      </Button>
 
-          <p className={styles.spacer}/>
+      <p className={styles.spacer} />
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
@@ -87,23 +87,29 @@ const Sidebar: React.SFC<SidebarProps> = () => {
           setLocation(SCREENROUTES.lecturers);
         }}
       >
-        Lehrer
+        Dozenten
       </Button>
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
           setLocation(SCREENROUTES.rooms);
         }}
-        disabled
       >
         Räume
       </Button>
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
+          setLocation(SCREENROUTES.students);
+        }}
+      >
+        Schüler
+      </Button>
+      <Button
+        className={`${gStyles.primaryButton} ${styles.button}`}
+        onClick={() => {
           setLocation(SCREENROUTES.timeslots);
         }}
-        disabled
       >
         Zeitslots
       </Button>
@@ -112,7 +118,6 @@ const Sidebar: React.SFC<SidebarProps> = () => {
         onClick={() => {
           setLocation(SCREENROUTES.offtimes);
         }}
-        disabled
       >
         Sperrzeiten
       </Button>

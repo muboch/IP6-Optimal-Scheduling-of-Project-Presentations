@@ -1,30 +1,17 @@
-import { Lecturer } from "../../../Types/types";
 import { Button } from "@material-ui/core";
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/styles";
+import React from "react";
 import { useGStyles } from "../../../theme";
-import EditIcon from "@material-ui/icons/Edit";
 import MaterialTable from "material-table";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { Order } from "../../../Helpers/helpers";
-
-import MessageContainer from "../../../states/messageState";
-import LecturerContainer from "../../../states/lecturerState";
 import { useLocation } from "wouter";
 import { SCREENROUTES } from "../../../constants";
+import StudentContainer from "../../../states/studentState";
 import tableIcons from "../../../Helpers/tableIcons";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
-export interface LecturerTableProps {}
-
-const LecturerTable: React.SFC<LecturerTableProps> = () => {
-  const useStyles = makeStyles({
-    table: {
-      minWidth: 900,
-      maxWidth: 1200,
-    },
-  });
-  const lectStore = LecturerContainer.useContainer();
+const StudentTable: React.SFC = () => {
   const gStyles = useGStyles();
+  const studentStore = StudentContainer.useContainer();
   const [, setLocation] = useLocation();
 
   const columns = [
@@ -33,20 +20,12 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
       field: "id",
     },
     {
-      title: "Nachname",
-      field: "lastname",
+      title: "Name",
+      field: "name",
     },
     {
-      title: "Vorname",
-      field: "firstname",
-    },
-    {
-      title: "Email",
-      field: "email",
-    },
-    {
-      title: "Kürzel",
-      field: "initials",
+      title: "Klasse",
+      field: "class",
     },
     {
       title: "Bearbeiten",
@@ -55,7 +34,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
         <Button
           className={gStyles.primaryButton}
           onClick={() => {
-            setLocation(`${SCREENROUTES.lecturers}/edit/${rowData.id}`);
+            setLocation(`${SCREENROUTES.students}/edit/${rowData.id}`);
           }}
         >
           <EditIcon />
@@ -69,7 +48,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
         <Button
           className={gStyles.primaryButton}
           onClick={() => {
-            lectStore.deleteLecturerById(rowData.id);
+            studentStore.deleteById(rowData.id);
           }}
         >
           <DeleteIcon />
@@ -85,18 +64,19 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
           <MaterialTable
             style={{ width: "100%", minWidth: "1200px" }}
             icons={tableIcons}
-            title="Dozenten"
+            title="Schüler"
             columns={columns}
-            data={lectStore.lecturers}
+            data={studentStore.students}
           />
+
           <div>
             <Button
               className={gStyles.primaryButton}
               onClick={() => {
-                setLocation(`${SCREENROUTES.lecturers}/edit`);
+                setLocation(`${SCREENROUTES.students}/edit`);
               }}
             >
-              Dozent Hinzufügen
+              Schüler hinzufügen
             </Button>
           </div>
         </>
@@ -105,4 +85,4 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
   );
 };
 
-export default LecturerTable;
+export default StudentTable;
