@@ -27,6 +27,7 @@ const OfftimeTable: React.SFC = () => {
         id: timeslot.id!,
         block: timeslot.block,
         date: timeslot.date,
+        sortOrder: timeslot.sortOrder,
       });
     } else {
       lect.offtimes = lect.offtimes.filter((ot) => ot.id !== timeslot.id!);
@@ -54,22 +55,24 @@ const OfftimeTable: React.SFC = () => {
       field: "firstname",
     },
   ];
-  const checkboxColums = timeStore.timeslots.map((t) => {
-    return {
-      title: t.date.toString(),
-      field: t.date.toString(),
-      render: (lect: Lecturer) => (
-        <GreenCheckbox
-          key={`checkT${t.id}-L${lect.id}`}
-          checked={lectHasOfftime(t, lect.offtimes)}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            handleChangeOfftime(lect, t, event);
-          }}
-          name={`checkT${t.id}-L${lect.id}`}
-        />
-      ),
-    };
-  });
+  const checkboxColums = timeStore.timeslots
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map((t) => {
+      return {
+        title: t.date.toString(),
+        field: t.date.toString(),
+        render: (lect: Lecturer) => (
+          <GreenCheckbox
+            key={`checkT${t.id}-L${lect.id}`}
+            checked={lectHasOfftime(t, lect.offtimes)}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              handleChangeOfftime(lect, t, event);
+            }}
+            name={`checkT${t.id}-L${lect.id}`}
+          />
+        ),
+      };
+    });
 
   const columns = [...userColumns, ...checkboxColums];
   return (

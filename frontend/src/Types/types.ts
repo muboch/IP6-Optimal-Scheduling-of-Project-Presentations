@@ -28,6 +28,7 @@ export type Offtime = {
   id: number;
   date: string;
   block: number;
+  sortOrder: number;
 };
 
 export type Lecturer = {
@@ -50,4 +51,5 @@ export type Timeslot = {
   date: string;
   block: number;
   priority: number;
+  sortOrder: number;
 };

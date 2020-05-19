@@ -20,6 +20,10 @@ const TimeslotTable: React.SFC = () => {
       field: "id",
     },
     {
+      title: "Reihenfolge",
+      field: "sortOrder",
+    },
+    {
       title: "Startzeit",
       field: "date",
     },

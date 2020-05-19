@@ -40,7 +40,13 @@ const TimeslotEditForm: React.SFC<EditFormProps> = ({ id }) => {
       width: "20%",
     },
   });
-
+  const getMaxOrderValue = (): number => {
+    return Math.max(
+      ...timeslotStore.timeslots.map((t) => {
+        return t.sortOrder;
+      })
+    );
+  };
   const gStyles = useGStyles();
   const styles = useStyles();
   const timeslotStore = TimeslotContainer.useContainer();
@@ -48,6 +54,7 @@ const TimeslotEditForm: React.SFC<EditFormProps> = ({ id }) => {
     block: 1,
     priority: 50,
     date: "",
+    sortOrder: getMaxOrderValue() + 1,
   });
   const [, setLocation] = useLocation();
 
@@ -142,6 +149,16 @@ const TimeslotEditForm: React.SFC<EditFormProps> = ({ id }) => {
                 value={timeslot.priority}
                 onChange={(e: any) => {
                   updateValue("priority", e.currentTarget.value);
+                }}
+                className={styles.textField50}
+              ></TextField>
+              <TextField
+                required
+                label="Reihenfolge"
+                type="number"
+                value={timeslot.sortOrder}
+                onChange={(e: any) => {
+                  updateValue("sortOrder", e.currentTarget.value);
                 }}
                 className={styles.textField50}
               ></TextField>
