@@ -18,8 +18,6 @@ import PresentationTable from "./screens/Edit Screens/presentation/presentationT
 import LecturerTable from "./screens/Edit Screens/lecturer/lecturerTable";
 import PresentationEditForm from "./screens/Edit Screens/presentation/presentationEditForm";
 import LecturerEditForm from "./screens/Edit Screens/lecturer/lecturerEditForm";
-import { create } from "jss";
-import { StylesProvider, jssPreset } from "@material-ui/core/styles";
 import RoomTable from "./screens/Edit Screens/room/roomTable";
 import RoomEditForm from "./screens/Edit Screens/room/roomEditForm";
 import RoomContainer from "./states/roomState";

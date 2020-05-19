@@ -9,7 +9,7 @@ export const loadPlannings = async (): Promise<Array<Lecturer>> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Dozenten";
+    throw new Error("Fehler beim laden der Dozenten");
   } catch (Error) {
     throw Error;
   }
@@ -23,7 +23,7 @@ export const loadConsistency = async (): Promise<Array<ConsistencyError>> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden des ConsistencyChecks";
+    throw new Error("Fehler beim laden des ConsistencyChecks");
   } catch (Error) {
     throw Error;
   }
@@ -35,7 +35,7 @@ export const firePlanning = async (): Promise<void> => {
     if (res.ok) {
       return;
     }
-    throw "Fehler beim starten des solvers";
+    throw new Error("Fehler beim starten des solvers");
   } catch (Error) {
     throw Error;
   }
@@ -49,7 +49,7 @@ export const getPlanningById = async (id: number): Promise<Lecturer> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden des Dozenten";
+    throw new Error("Fehler beim laden des Dozenten");
   } catch (Error) {
     throw Error;
   }

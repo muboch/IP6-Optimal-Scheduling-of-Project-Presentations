@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { createContainer } from "unstated-next";
 import { useState, useEffect } from "react";
-import { Lecturer, Room } from "../Types/types";
-import {
-  loadLecturers,
-  _addLecturer,
-  _deleteLecturerById,
-  _loadLecturerById,
-} from "../Services/lecturerService";
+import { Room } from "../Types/types";
+
 import MessageContainer from "./messageState";
-import { loadRooms, _addRoom, _deleteRoomById, _loadRoomById } from "../Services/roomService";
+import {
+  loadRooms,
+  _addRoom,
+  _deleteRoomById,
+  _loadRoomById,
+} from "../Services/roomService";
 
 const roomState = () => {
   const msgStore = MessageContainer.useContainer();

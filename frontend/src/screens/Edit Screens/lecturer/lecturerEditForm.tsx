@@ -2,14 +2,8 @@ import React, { useState, useEffect } from "react";
 import { makeStyles, TextField, Button, Tooltip } from "@material-ui/core";
 import { useGStyles } from "../../../theme";
 import { Lecturer, Student } from "../../../Types/types";
-import {
-  _loadLecturerById,
-  loadLecturers,
-  _addLecturer,
-} from "../../../Services/lecturerService";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
-import { _addPresentation } from "../../../Services/presentationService";
 import LecturerContainer from "../../../states/lecturerState";
 import { SCREENROUTES } from "../../../constants";
 import { useLocation } from "wouter";

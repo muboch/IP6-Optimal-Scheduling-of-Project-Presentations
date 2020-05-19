@@ -1,20 +1,16 @@
 import { Offtime, Timeslot, Lecturer } from "../../../Types/types";
-import { Button, Checkbox, withStyles, CheckboxProps } from "@material-ui/core";
+import { Checkbox, withStyles, CheckboxProps } from "@material-ui/core";
 import React from "react";
 import { useGStyles, theme } from "../../../theme";
 import MaterialTable from "material-table";
-import { useLocation } from "wouter";
-import { SCREENROUTES } from "../../../constants";
 import tableIcons from "../../../Helpers/tableIcons";
 import TimeslotContainer from "../../../states/timeslotState";
 import LecturerContainer from "../../../states/lecturerState";
-import { green } from "@material-ui/core/colors";
 
 const OfftimeTable: React.SFC = () => {
   const lectStore = LecturerContainer.useContainer();
   const timeStore = TimeslotContainer.useContainer();
   const gStyles = useGStyles();
-  const [, setLocation] = useLocation();
 
   const lectHasOfftime = (timeslot: Timeslot, offtimes: Array<Offtime>) => {
     const offtime = offtimes.find((ot) => ot.id === timeslot.id); // Check if the offtime exists in the array

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
-  useEventCallback,
   TableContainer,
   Paper,
   Table,
@@ -13,17 +12,13 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
-import { useLocation } from "wouter";
-import { SCREENROUTES, APIROUTES } from "../../constants";
 import { loadConsistency, firePlanning } from "../../Services/planningService";
 import { ConsistencyError } from "../../Types/types";
 import WarningIcon from "@material-ui/icons/Warning";
 import ErrorIcon from "@material-ui/icons/Error";
-import { yellow } from "@material-ui/core/colors";
 
 const CreatePlanning: React.FC = (): JSX.Element => {
   const gStyles = useGStyles();
-  const [location, setLocation] = useLocation();
   const [bDisabled, setBDisabled] = useState(false);
   const [consistencyChecks, setConsistencyChecks] = useState<Array<any>>([]);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);

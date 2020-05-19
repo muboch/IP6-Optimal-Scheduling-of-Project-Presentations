@@ -1,5 +1,5 @@
 import { APIROUTES } from "../constants";
-import { Lecturer, Room } from "../Types/types";
+import { Room } from "../Types/types";
 
 export const loadRooms = async (): Promise<Array<Room>> => {
   try {
@@ -9,7 +9,7 @@ export const loadRooms = async (): Promise<Array<Room>> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Zimmer";
+    throw new Error("Fehler beim laden der Zimmer");
   } catch (Error) {
     throw Error;
   }
@@ -24,7 +24,7 @@ export const _loadRoomById = async (id: number): Promise<Room> => {
       return json;
     }
 
-    throw "Fehler beim laden des Zimmers";
+    throw new Error("Fehler beim laden des Zimmers");
   } catch (Error) {
     throw Error;
   }

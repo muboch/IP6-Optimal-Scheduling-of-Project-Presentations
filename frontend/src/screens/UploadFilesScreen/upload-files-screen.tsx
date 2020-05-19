@@ -1,12 +1,12 @@
 import React, { useState, FormEvent } from "react";
-import { Button, makeStyles, Snackbar, Typography } from "@material-ui/core";
+import { Button, makeStyles, Typography } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import { Redirect, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { SCREENROUTES, APIROUTES } from "../../constants";
 import MessageContainer from "../../states/messageState";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   input: {
     display: "none",
   },
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UploadFilesScreen: React.FC = (): JSX.Element => {
   const msgStore = MessageContainer.useContainer();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const gStyles = useGStyles();
   const styles = useStyles();
   const [files, setFiles] = useState<Files>({
@@ -81,7 +81,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
     if (res.status >= 200 && res.status < 300) {
       return true;
     } else {
-      if (res.status == 429) {
+      if (res.status === 429) {
         let err = new Error(
           `Es wird bereits eine Planung erstellt. Bitte versuchen Sie es später nochmal`
         );

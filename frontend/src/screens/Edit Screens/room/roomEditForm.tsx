@@ -6,7 +6,6 @@ import {
   Tooltip,
   Checkbox,
   NativeSelect,
-  FormControlLabel,
   InputLabel,
 } from "@material-ui/core";
 import { useGStyles } from "../../../theme";

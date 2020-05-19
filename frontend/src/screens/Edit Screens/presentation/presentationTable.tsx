@@ -3,8 +3,6 @@ import { useGStyles } from "../../../theme";
 import { Button } from "@material-ui/core";
 import MaterialTable from "material-table";
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/styles";
-import { Order } from "../../../Helpers/helpers";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PresentationContainer from "../../../states/presentationState";
@@ -15,18 +13,7 @@ import tableIcons from "../../../Helpers/tableIcons";
 export interface PresentationTableProps {}
 
 const PresentationTable: React.SFC<PresentationTableProps> = () => {
-  const useStyles = makeStyles({
-    table: {
-      minWidth: 900,
-      maxWidth: 1200,
-    },
-  });
   const gStyles = useGStyles();
-
-  const [] = React.useState<Order>("asc");
-  const [] = React.useState<keyof presentationRow>("id");
-  const [, setPage] = React.useState(0);
-  const [, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = useState<Array<presentationRow>>([]);
   const presStore = PresentationContainer.useContainer();
   const [, setLocation] = useLocation();

@@ -10,10 +10,8 @@ import {
   TableBody,
   makeStyles,
   Typography,
-  CircularProgress,
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
-import { useLocation } from "wouter";
 import { APIROUTES } from "../../constants";
 
 type Plannings = {
@@ -34,7 +32,6 @@ const useStyles = makeStyles({
 const ListPlanningScreen: React.FC = (): JSX.Element => {
   const gStyles = useGStyles();
   const styles = useStyles();
-  const [, setLocation] = useLocation();
   const [plannings, setPlannings] = useState<Array<Plannings>>([]);
   const [spinner, setSpinner] = useState<Boolean>(false);
 

@@ -23,6 +23,7 @@ export type Room = {
   place: string;
   reserve: boolean;
 };
+
 export type Offtime = {
   id: number;
   date: string;

@@ -1,14 +1,10 @@
-import { Lecturer } from "../../../Types/types";
 import { Button } from "@material-ui/core";
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/styles";
+import React from "react";
 import { useGStyles } from "../../../theme";
 import EditIcon from "@material-ui/icons/Edit";
 import MaterialTable from "material-table";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Order } from "../../../Helpers/helpers";
 
-import MessageContainer from "../../../states/messageState";
 import LecturerContainer from "../../../states/lecturerState";
 import { useLocation } from "wouter";
 import { SCREENROUTES } from "../../../constants";
@@ -17,12 +13,6 @@ import tableIcons from "../../../Helpers/tableIcons";
 export interface LecturerTableProps {}
 
 const LecturerTable: React.SFC<LecturerTableProps> = () => {
-  const useStyles = makeStyles({
-    table: {
-      minWidth: 900,
-      maxWidth: 1200,
-    },
-  });
   const lectStore = LecturerContainer.useContainer();
   const gStyles = useGStyles();
   const [, setLocation] = useLocation();

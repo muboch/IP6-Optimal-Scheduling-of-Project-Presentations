@@ -34,7 +34,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
   });
   const styles = useStyles();
   const gStyles = useGStyles();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
 
   return (
     <div className={styles.sidebar}>

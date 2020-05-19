@@ -9,7 +9,7 @@ export const _loadPresentations = async (): Promise<Array<Presentation>> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Präsentationen";
+    throw new Error("Fehler beim laden der Präsentationen");
   } catch (Error) {
     throw Error;
   }
@@ -25,16 +25,14 @@ export const _loadPresentationById = async (
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Präsentation";
+    throw new Error("Fehler beim laden der Präsentation");
   } catch (Error) {
     throw Error;
   }
 };
 
 // ADD/UPDATE Presentation. If number is passed, then update existing, otherwise add new presentation
-export const _addPresentation = async (
-  pres: Presentation,
-): Promise<void> => {
+export const _addPresentation = async (pres: Presentation): Promise<void> => {
   const url = `${APIROUTES.presentation}`;
 
   // Default options are marked with *
@@ -51,13 +49,10 @@ export const _addPresentation = async (
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(pres), // body data type must match "Content-Type" header
   });
-  if(response.ok){
-    return
-  } 
-  throw ""
-
-
-  return response.json(); // parses JSON response into native JavaScript objectsu
+  if (response.ok) {
+    return;
+  }
+  throw new Error("Fehler beim hinzufügen der Präsentation");
 };
 
 export const _deletePresentationById = async (id: number): Promise<void> => {
@@ -77,7 +72,7 @@ export const _deletePresentationById = async (id: number): Promise<void> => {
     if (res.ok) {
       return;
     }
-    throw "Fehler beim löschen der Präsentation";
+    throw new Error("Fehler beim löschen der Präsentation");
   } catch (Error) {
     throw Error;
   }

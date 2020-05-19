@@ -9,7 +9,7 @@ export const loadTimeslots = async (): Promise<Array<Timeslot>> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Zeitslots";
+    throw new Error("Fehler beim laden der Zeitslots");
   } catch (Error) {
     throw Error;
   }
@@ -24,7 +24,7 @@ export const _loadTimeslotById = async (id: number): Promise<Timeslot> => {
       return json;
     }
 
-    throw "Fehler beim laden des Zeitslots";
+    throw new Error("Fehler beim laden des Zeitslots");
   } catch (Error) {
     throw Error;
   }

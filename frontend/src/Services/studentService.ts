@@ -9,7 +9,7 @@ export const loadStudents = async (): Promise<Array<Student>> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Schüler";
+    throw new Error("Fehler beim laden der Schüler");
   } catch (Error) {
     throw Error;
   }
@@ -25,7 +25,7 @@ export const _loadStudentById = async (id: number): Promise<Student> => {
       return json;
     }
 
-    throw "Fehler beim laden des Schülers";
+    throw new Error("Fehler beim laden des Schülers");
   } catch (Error) {
     throw Error;
   }
