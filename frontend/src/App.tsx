@@ -29,6 +29,7 @@ import StudentContainer from "./states/studentState";
 import TimeslotTable from "./screens/Edit Screens/timeslot/timeslotTable";
 import TimeslotEditForm from "./screens/Edit Screens/timeslot/timeslotEditForm";
 import TimeslotContainer from "./states/timeslotState";
+import OfftimeTable from "./screens/Edit Screens/offtime/offtimeTable";
 
 const App: React.FC = (): JSX.Element => {
   console.log("endpoint", process.env.REACT_APP_API_ENDPOINT);
@@ -112,6 +113,10 @@ const App: React.FC = (): JSX.Element => {
                         </Route>
                         <Route path={`${SCREENROUTES.timeslots}/edit`}>
                           {(params) => <TimeslotEditForm id={undefined} />}
+                        </Route>
+                        {/* Offtimes */}
+                        <Route path={SCREENROUTES.offtimes}>
+                          {(params) => <OfftimeTable />}
                         </Route>
 
                         {/* <Route path={SCREENROUTES.rooms}>

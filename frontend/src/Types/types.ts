@@ -23,6 +23,11 @@ export type Room = {
   place: string;
   reserve: boolean;
 };
+export type Offtime = {
+  id: number;
+  date: string;
+  block: number;
+};
 
 export type Lecturer = {
   id?: number; // id used in Database, 1 based
@@ -30,6 +35,7 @@ export type Lecturer = {
   lastname: string;
   email: string;
   initials: string;
+  offtimes: Array<Offtime>;
 };
 
 export type Student = {

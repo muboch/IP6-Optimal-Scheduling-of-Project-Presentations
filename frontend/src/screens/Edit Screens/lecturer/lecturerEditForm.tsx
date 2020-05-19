@@ -54,6 +54,7 @@ const LecturerEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
     initials: "",
     firstname: "",
     lastname: "",
+    offtimes: [],
   });
   const [, setLocation] = useLocation();
 

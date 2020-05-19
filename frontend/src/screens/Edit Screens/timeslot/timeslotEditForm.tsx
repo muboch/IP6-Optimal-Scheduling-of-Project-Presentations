@@ -127,7 +127,7 @@ const TimeslotEditForm: React.SFC<EditFormProps> = ({ id }) => {
             <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
               <TextField
                 required
-                label="Ort"
+                label="Block"
                 type="number"
                 value={timeslot.block}
                 onChange={(e: any) => {
