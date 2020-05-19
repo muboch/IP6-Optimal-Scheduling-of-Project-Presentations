@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface TimeslotMapper {
 
-    @Mapping(target = "order", source = "sortOrder")
     TimeslotVO fromEntityToVo(Timeslot byId);
 
     TimeslotDto fromEntityToDto(Timeslot timeslot);

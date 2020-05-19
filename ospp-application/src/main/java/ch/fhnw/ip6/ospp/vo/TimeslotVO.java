@@ -13,6 +13,6 @@ public class TimeslotVO {
 
     private int block;
 
-    private int order;
+    private int sortOrder;
 
 }
