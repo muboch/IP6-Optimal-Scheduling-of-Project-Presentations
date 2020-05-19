@@ -99,7 +99,6 @@ public class TimeslotLoadService extends AbstractLoadService {
 
                 Timeslot timeslot = Timeslot.builder()
                         .date(row.getCell(headerMap.get("date")).getStringCellValue())
-                        .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
                         .block(Integer.parseInt(row.getCell(headerMap.get("block")).getStringCellValue()))
                         .priority((int) row.getCell(headerMap.get("priority")).getNumericCellValue())
                         .build();

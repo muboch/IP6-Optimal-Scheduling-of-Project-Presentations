@@ -10,8 +10,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.Version;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -36,7 +42,8 @@ public class Timeslot {
 
     @Version
     private int version;
-    private int externalId;
+
+    private int sortOrder;
 
     private String date;
 
@@ -46,5 +53,8 @@ public class Timeslot {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Lecturer> lecturers;
+
+    public final static Comparator<Timeslot> TIMESLOT_COMPARATOR = Comparator.comparing(Timeslot::getBlock).thenComparing(Timeslot::getDate);
+
 
 }

@@ -24,7 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Profile("dev")
 @Slf4j
@@ -47,7 +50,7 @@ public class StartupDevDataLoadListener implements ApplicationListener<ContextRe
     @SneakyThrows
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        
+
         if (!Arrays.asList(environment.getActiveProfiles()).contains("dev")) {
             log.info("No dev dataload cause profile is not 'dev'");
             return;
@@ -81,7 +84,15 @@ public class StartupDevDataLoadListener implements ApplicationListener<ContextRe
         File timeslots = classPathResource.getFile();
         FileInputStream timeslotsInput = new FileInputStream(timeslots);
         MultipartFile timeslotsMultipartFile = new MockMultipartFile("timeslots", timeslots.getName(), "text/plain", IOUtils.toByteArray(timeslotsInput));
+        AtomicInteger counter = new AtomicInteger();
         Set<Timeslot> allTimeslots = timeslotLoadService.loadTimeslots(timeslotsMultipartFile);
+        allTimeslots
+                .stream()
+                .sorted(Timeslot.TIMESLOT_COMPARATOR)
+                .forEach(timeslot -> {
+                    timeslot.setSortOrder(counter.incrementAndGet());
+                });
+
         allTimeslots.forEach(timeslotService::save);
         log.info("Timeslots loaded ({})", allTimeslots.size());
 
