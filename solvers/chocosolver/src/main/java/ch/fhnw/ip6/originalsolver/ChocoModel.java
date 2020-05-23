@@ -8,9 +8,9 @@ import ch.fhnw.ip6.common.model.Model;
 
 import java.util.List;
 
-public class OptaModel extends Model<Object, Object> {
+public class ChocoModel extends Model<Object, Object> {
 
-    public OptaModel(List<? extends P> presentations, List<? extends L> lecturers, List<? extends R> rooms, List<? extends T> timeslots, boolean[][] offTimes, Object model) {
+    public ChocoModel(List<? extends P> presentations, List<? extends L> lecturers, List<? extends R> rooms, List<? extends T> timeslots, boolean[][] offTimes, Object model) {
         super(presentations, lecturers, rooms, timeslots, offTimes, model);
     }
 

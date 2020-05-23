@@ -32,7 +32,7 @@ public class ILPSolverCallback extends GRBCallback {
     @Override
     protected void callback() {
 
-        if (where == GRB.CB_MIPSOL) {
+        if (where == GRB.CB_MIPSOL || where == GRB.CB_MIP) {
             Planning planning = new Planning();
             planning.setRooms(rooms);
             planning.setTimeslots(timeslots);

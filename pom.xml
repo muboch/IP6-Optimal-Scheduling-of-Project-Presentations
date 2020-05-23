@@ -37,7 +37,7 @@
         <module>solvers/solverapi</module>
         <module>solvers/cpsolver</module>
         <module>solvers/ilpsolver</module>
-        <module>solvers/originalsolver</module>
+        <module>solvers/chocosolver</module>
         <module>solvers/solution-checker</module>
         <module>ospp-application</module>
     </modules>

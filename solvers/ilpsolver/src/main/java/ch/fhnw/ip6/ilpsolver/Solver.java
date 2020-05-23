@@ -73,6 +73,7 @@ public class Solver extends AbstractSolver {
             grbModel.setCallback(new ILPSolverCallback(model));
             grbModel.setObjective(objective);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
+            grbModel.set(GRB.IntParam.Threads, Math.min(8, Runtime.getRuntime().availableProcessors()));
             grbModel.update();
             grbModel.optimize();
 
