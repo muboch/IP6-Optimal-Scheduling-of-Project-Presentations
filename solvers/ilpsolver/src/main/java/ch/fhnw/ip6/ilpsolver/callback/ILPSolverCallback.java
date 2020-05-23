@@ -32,7 +32,7 @@ public class ILPSolverCallback extends GRBCallback {
     @Override
     protected void callback() {
 
-        if (where == GRB.CB_MIPSOL || where == GRB.CB_MIP) {
+        if (where == GRB.CB_MIPSOL) {
             Planning planning = new Planning();
             planning.setRooms(rooms);
             planning.setTimeslots(timeslots);
@@ -41,13 +41,13 @@ public class ILPSolverCallback extends GRBCallback {
                 for (T t : timeslots) {
                     for (R r : rooms) {
                         if (getSolution(x[presentations.indexOf(p)][timeslots.indexOf(t)][rooms.indexOf(r)]) == 1.0) {
-                           //System.out.println(x[presentations.indexOf(p)][timeslots.indexOf(t)][rooms.indexOf(r)].get(GRB.StringAttr.VarName) + " " + 1.0);
+                            //System.out.println(x[presentations.indexOf(p)][timeslots.indexOf(t)][rooms.indexOf(r)].get(GRB.StringAttr.VarName) + " " + 1.0);
                             solutions.add(new Solution(r, t, p, p.getCoach(), p.getExpert()));
                         }
                     }
                 }
             }
-            planning.setCost(solutionChecker.getSolutionCost(planning.getSolutions(), lecturers, presentations, timeslots, rooms));
+            planning.setCost(SolutionChecker.getSolutionCost(planning.getSolutions(), lecturers, presentations, timeslots, rooms));
             planning.setSolutions(solutions);
             System.out.println(planning.toString());
         }

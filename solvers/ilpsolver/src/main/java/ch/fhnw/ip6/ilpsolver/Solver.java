@@ -1,19 +1,13 @@
 package ch.fhnw.ip6.ilpsolver;
 
 import ch.fhnw.ip6.api.AbstractSolver;
-import ch.fhnw.ip6.api.SolverApi;
 import ch.fhnw.ip6.api.SolverContext;
-import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.Solution;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
-import ch.fhnw.ip6.common.util.JsonUtil;
 import ch.fhnw.ip6.ilpsolver.callback.ILPSolverCallback;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
@@ -24,16 +18,11 @@ import ch.fhnw.ip6.ilpsolver.constraint.soft.MinFreeTimeslots;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomSwitches;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomUsages;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinTimeslotUsages;
-import gurobi.GRB;
-import gurobi.GRBEnv;
-import gurobi.GRBException;
-import gurobi.GRBLinExpr;
-import gurobi.GRBModel;
+import gurobi.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component("ch.fhnw.ip6.ilpsolver.Solver")
 public class Solver extends AbstractSolver {
@@ -73,7 +62,6 @@ public class Solver extends AbstractSolver {
             grbModel.setCallback(new ILPSolverCallback(model));
             grbModel.setObjective(objective);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
-            grbModel.set(GRB.IntParam.Threads, Math.min(8, Runtime.getRuntime().availableProcessors()));
             grbModel.update();
             grbModel.optimize();
 
