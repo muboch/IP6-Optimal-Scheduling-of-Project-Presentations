@@ -1,0 +1,163 @@
+package ch.fhnw.ip6;
+
+import ch.fhnw.ip6.common.dto.LecturerDto;
+import ch.fhnw.ip6.common.dto.Planning;
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
+import ch.fhnw.ip6.common.dto.Solution;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.common.dto.marker.L;
+import ch.fhnw.ip6.common.dto.marker.P;
+import ch.fhnw.ip6.common.dto.marker.R;
+import ch.fhnw.ip6.common.dto.marker.T;
+import ch.fhnw.ip6.common.util.JsonUtil;
+import ch.fhnw.ip6.solutionchecker.SolutionChecker;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+public class OldDataChecker {
+
+    private static final JsonUtil util = new JsonUtil();
+
+    public static void main(String[] args) {
+
+        try (InputStream inputStream = OldDataChecker.class.getClassLoader().getResourceAsStream("Präsentationsplan_SA_19_def.xlsx")) {
+            Workbook workbook = WorkbookFactory.create(inputStream);
+            DataFormatter dataFormatter = new DataFormatter();
+            Sheet sheet = workbook.getSheetAt(0);
+
+            Planning planning = new Planning();
+
+            AtomicInteger presId = new AtomicInteger();
+            // Timeslots
+            AtomicInteger timeId = new AtomicInteger();
+            Set<String> timeslots = new HashSet<>();
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) continue;
+                String date = dataFormatter.formatCellValue(row.getCell(8));
+                timeslots.add(date.trim());
+            }
+
+            Map<String, TimeslotDto> ts = timeslots.stream().map(date -> {
+                TimeslotDto timeslot = new TimeslotDto();
+                timeslot.setDate(date);
+                timeslot.setId(timeId.incrementAndGet());
+                timeslot.setPriority(1);
+                return timeslot;
+            }).collect(Collectors.toMap(TimeslotDto::getDate, t -> t));
+
+            // Lecturers
+            AtomicInteger lecId = new AtomicInteger();
+            Set<String> lecturers = new HashSet<>();
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) continue;
+                String ini1 = dataFormatter.formatCellValue(row.getCell(6));
+                String ini2 = dataFormatter.formatCellValue(row.getCell(7));
+                lecturers.add(ini1.trim());
+                lecturers.add(ini2.trim());
+            }
+            Map<String, LecturerDto> ls = lecturers.stream().map(ini -> {
+                LecturerDto lec = new LecturerDto();
+                lec.setInitials(ini);
+                lec.setId(lecId.incrementAndGet());
+                return lec;
+            }).collect(Collectors.toMap(LecturerDto::getInitials, lecturerDto -> lecturerDto));
+
+            // Rooms
+            AtomicInteger roomId = new AtomicInteger();
+            Set<String> rooms = new HashSet<>();
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) continue;
+                String name = dataFormatter.formatCellValue(row.getCell(9));
+                rooms.add(name.trim());
+            }
+
+            Map<String, RoomDto> rs = rooms.stream().map(name -> {
+                RoomDto room = new RoomDto();
+                room.setName(name);
+                room.setId(roomId.incrementAndGet());
+                return room;
+            }).collect(Collectors.toMap(RoomDto::getName, room -> room));
+
+
+            // Presentations
+            Set<Solution> solutions = new HashSet<>();
+            List<PresentationDto> presentations = new ArrayList<>();
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) continue;
+                Solution solution = new Solution();
+                PresentationDto presentation = new PresentationDto();
+                presentation.setId(presId.incrementAndGet());
+                presentation.setNr(String.valueOf(presId.get()));
+                presentation.setName(dataFormatter.formatCellValue(row.getCell(1)));
+                presentation.setSchoolclass(dataFormatter.formatCellValue(row.getCell(2)));
+
+                presentation.setName2(dataFormatter.formatCellValue(row.getCell(3)));
+                presentation.setSchoolclass2(dataFormatter.formatCellValue(row.getCell(4)));
+                presentation.setTitle(dataFormatter.formatCellValue(row.getCell(5)));
+                String coachInitials = dataFormatter.formatCellValue(row.getCell(6));
+                presentation.setCoachInitials(coachInitials.trim());
+                String expertInitials = dataFormatter.formatCellValue(row.getCell(7));
+                presentation.setExpertInitials(expertInitials.trim());
+                presentations.add(presentation);
+
+
+                solution.setCoach(ls.get(presentation.getCoachInitials()));
+                solution.setExpert(ls.get(presentation.getExpertInitials()));
+                solution.setPresentation(presentation);
+                String room = dataFormatter.formatCellValue(row.getCell(9));
+                solution.setRoom(rs.get(room.trim()));
+                String timeslot = dataFormatter.formatCellValue(row.getCell(8));
+                solution.setTimeSlot(ts.get(timeslot.trim()));
+                solutions.add(solution);
+            }
+
+            presentations.sort(Comparator.comparing(PresentationDto::getTitle));
+            presentations = presentations.stream().filter(distinctByKey(PresentationDto::getName)).collect(Collectors.toList());
+
+            planning.setSolutions(solutions);
+            planning.setRooms(new ArrayList<>(rs.values()));
+            planning.setTimeslots(new ArrayList<>(ts.values()));
+            planning.setStatus("manuell");
+
+            SolutionChecker solutionChecker = new SolutionChecker();
+            solutionChecker.generateStats(planning,
+                    ls.values().stream().map(l -> (L) l).collect(Collectors.toList()),
+                    presentations.stream().map(p -> (P) p).collect(Collectors.toList()),
+                    ts.values().stream().map(t -> (T) t).collect(Collectors.toList()),
+                    rs.values().stream().map(r -> (R) r).collect(Collectors.toList()));
+            planning.setCost(solutionChecker.getTotalPlanningCost());
+
+            System.out.println(planning.getPlanningStats());
+            System.out.println();
+            System.out.println("Planning Nr:    " + planning.getNr());
+            System.out.println(planning.getPlanningAsTable());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
+    }
+}

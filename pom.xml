@@ -39,6 +39,7 @@
         <module>solvers/ilpsolver</module>
         <module>solvers/chocosolver</module>
         <module>solvers/solution-checker</module>
+        <module>solvers/olddata-checker</module>
         <module>ospp-application</module>
     </modules>
 

@@ -41,15 +41,19 @@ public class ILPSolverCallback extends GRBCallback {
                 for (T t : timeslots) {
                     for (R r : rooms) {
                         if (getSolution(x[presentations.indexOf(p)][timeslots.indexOf(t)][rooms.indexOf(r)]) == 1.0) {
-                            //System.out.println(x[presentations.indexOf(p)][timeslots.indexOf(t)][rooms.indexOf(r)].get(GRB.StringAttr.VarName) + " " + 1.0);
                             solutions.add(new Solution(r, t, p, p.getCoach(), p.getExpert()));
                         }
                     }
                 }
             }
-            planning.setCost(SolutionChecker.getSolutionCost(planning.getSolutions(), lecturers, presentations, timeslots, rooms));
+            solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
+            planning.setCost(solutionChecker.getTotalPlanningCost());
             planning.setSolutions(solutions);
-            System.out.println(planning.toString());
+
+            System.out.println(planning.getPlanningStats());
+            System.out.println();
+            System.out.println("Planning Nr:    " + planning.getNr());
+            System.out.println(planning.getPlanningAsTable());
         }
     }
 

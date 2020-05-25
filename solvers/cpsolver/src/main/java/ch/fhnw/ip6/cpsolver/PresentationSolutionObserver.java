@@ -25,6 +25,7 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     private final IntVar[][] coachRoomTime;
     private final IntVar[][] roomDiffsInt;
     private final IntVar[] numChangesForLecturer;
+    private final SolutionChecker solutionChecker;
     private int solutionCount;
 
     @Override
@@ -63,10 +64,13 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
                 }
             }
         }
-        System.out.println("Solution " + solutionCount);
-        planning.setCost(SolutionChecker.getSolutionCost(planning.getSolutions(), lecturers, presentations, timeslots, rooms));
-        System.out.println(planning.toString());
-        solverContext.saveBestPlanning(planning);
+        solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
+        planning.setCost(solutionChecker.getTotalPlanningCost());
+
+        System.out.println(planning.getPlanningStats());
+        System.out.println();
+        System.out.println("Planning Nr:    " + planning.getNr());
+        System.out.println(planning.getPlanningAsTable());
     }
 
     public PresentationSolutionObserver(IntVar[][][] presRoomTime, List<L> lecturers, List<P> presentations, List<T> timeslots, List<R> rooms, StopWatch stopWatch, SolverContext solverContext, IntVar[][] coachRoomTime, IntVar[][] roomDiffsInt, IntVar[] numChangesForLecturer) {
@@ -83,5 +87,6 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
 
         this.roomDiffsInt = roomDiffsInt;
         this.numChangesForLecturer = numChangesForLecturer;
+        this.solutionChecker = new SolutionChecker();
     }
 }
