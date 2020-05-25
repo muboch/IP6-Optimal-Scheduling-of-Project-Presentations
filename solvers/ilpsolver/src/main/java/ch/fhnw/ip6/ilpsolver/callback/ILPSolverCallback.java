@@ -50,9 +50,6 @@ public class ILPSolverCallback extends GRBCallback {
             planning.setCost(solutionChecker.getTotalPlanningCost());
             planning.setSolutions(solutions);
 
-            System.out.println(planning.getPlanningStats());
-            System.out.println();
-            System.out.println("Planning Nr:    " + planning.getNr());
             System.out.println(planning.getPlanningAsTable());
         }
     }

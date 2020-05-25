@@ -11,8 +11,10 @@ import de.vandermeer.asciitable.CWC_LongestLine;
 import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -33,12 +35,13 @@ public class SolutionChecker {
     private int totalUsedRoomsCosts;
 
     public void generateStats(Planning planning, List<L> lecturers, List<P> presentations, List<T> timeslots, List<R> rooms) {
+
         Set<Solution> solutions = planning.getSolutions();
 
         boolean checkOnePresentationPerTimeslotForLecturer = checkOnePresentationPerTimeslotForLecturer(solutions, timeslots, lecturers);
         boolean checkEachPresentationOnce = checkEachPresentationOnce(solutions, presentations);
         boolean checkRoomUsedMaxOncePerTime = checkRoomUsedMaxOncePerTime(solutions, rooms, timeslots);
-        boolean checkRoomSwitches = getRoomSwitches(solutions, lecturers, timeslots);
+        boolean checkRoomSwitches = getRoomSwitches(solutions, lecturers, timeslots, presentations);
         boolean checkUsedRooms = getUsedRooms(solutions, rooms, presentations, timeslots);
         boolean checkUsedTimeslots = getUsedTimeslots(solutions, timeslots, presentations, rooms);
 
@@ -79,6 +82,8 @@ public class SolutionChecker {
         hardConstraints.addRule();
         hardConstraints.addRow("each Room only used once per Time:", isPassedOrFailed(checkRoomUsedMaxOncePerTime), printErrors(errorsCheckRoomUsedMaxOncePerTime));
         hardConstraints.addRule();
+        hardConstraints.setTextAlignment(TextAlignment.LEFT);
+        hardConstraints.getRenderer().setCWC(new CWC_LongestLine());
 
         // Soft Constraint Stats
         AsciiTable softConstraints = new AsciiTable();
@@ -154,8 +159,26 @@ public class SolutionChecker {
      * Counts the number of room switches per lecturer.
      *
      */
-    private boolean getRoomSwitches(Set<Solution> solutions, List<L> lecturers, List<T> timeslots) {
+    private boolean getRoomSwitches(Set<Solution> solutions, List<L> lecturers, List<T> timeslots, List<P> presentations) {
         List<R>[] roomsPerLecturer = new List[lecturers.size()];
+
+        Map<L, List<P>> presPerLec = new HashMap<>();
+        for (P p : presentations) {
+            if (presPerLec.get(p.getCoach()) == null) {
+                List<P> pres = new ArrayList<>();
+                pres.add(p);
+                presPerLec.put(p.getCoach(), pres);
+            } else {
+                presPerLec.get(p.getCoach()).add(p);
+            }
+            if (presPerLec.get(p.getExpert()) == null) {
+                List<P> pres = new ArrayList<>();
+                pres.add(p);
+                presPerLec.put(p.getExpert(), pres);
+            } else {
+                presPerLec.get(p.getExpert()).add(p);
+            }
+        }
 
         // Initialize ArrayLists
         for (L l : lecturers) {
@@ -206,7 +229,7 @@ public class SolutionChecker {
                     }
                     return r1;
                 });
-                errorsRoomSwitches.add(l.getInitials() + " [" + roomSwitches + "] " + roomSwitchesSB + "<br>");
+                errorsRoomSwitches.add(l.getInitials() + " [" + roomSwitches + "/" + (presPerLec.get(l).size() - 1) + "] " + roomSwitchesSB + "<br>");
                 totalSwitches += roomSwitches.get();
             }
         }
