@@ -87,7 +87,9 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         );
         throw err;
       }
-      let err = new Error(`${res.status}: ${await res.json()}`);
+      const json = await res.json();
+
+      let err = new Error(`${res.status}: ${json.message}`);
       throw err;
     }
   };
@@ -140,15 +142,6 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
           Achtung: Beim Import werden alle Daten überschrieben!
         </Typography>
       </form>
-      {/* <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={10000}
-        onClose={() => {
-          setSnackbarOpen(false);
-          setErrorMsg("");
-        }}
-        message={`Fehler beim upload der Dateien: ${errorMsg}`}
-      /> */}
     </>
   );
 };
