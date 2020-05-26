@@ -1,9 +1,10 @@
 package ch.fhnw.ip6.ospp.service.load;
 
 import ch.fhnw.ip6.ospp.model.Room;
-import ch.fhnw.ip6.ospp.persistence.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -12,9 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -22,7 +21,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class RoomLoadService extends AbstractLoadService {
 
-    private final RoomRepository roomRepository;
+    private final static String[] headerCols = new String[]{"id", "name", "place", "type", "reserve"};
 
     public Set<Room> loadRooms(MultipartFile input) {
         try {
@@ -30,7 +29,7 @@ public class RoomLoadService extends AbstractLoadService {
             XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
             XSSFSheet sheet = wb.getSheetAt(0);
 
-            final Map<String, Integer> headerMap = new HashMap<>();
+            final HeaderMap headerMap = new HeaderMap(headerCols);
 
             Set<Room> rooms = new HashSet<>();
 
@@ -41,6 +40,9 @@ public class RoomLoadService extends AbstractLoadService {
                     continue;
                 }
 
+                Cell cell = row.getCell(row.getFirstCellNum());
+                if (cell != null && cell.getCellType() != CellType.BLANK)
+                    continue;
 
                 Room room = Room.builder()
                         .name(row.getCell(headerMap.get("name")).getStringCellValue())

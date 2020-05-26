@@ -6,6 +6,8 @@ import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
 import ch.fhnw.ip6.ospp.service.LecturerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -28,8 +30,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TimeslotLoadService extends AbstractLoadService {
 
-    private final LecturerService lecturerService;
-    private final TimeslotRepository timeslotRepository;
+    private final static String[] headerCols = new String[]{"id", "date", "block", "priority"};
 
     public Set<Lecturer> loadOfftimes(MultipartFile input, Set<Lecturer> lecturers, Set<Timeslot> timeslots) {
 
@@ -39,8 +40,6 @@ public class TimeslotLoadService extends AbstractLoadService {
             XSSFSheet sheet = wb.getSheetAt(0);
 
             int numOfTimeslots = sheet.getRow(0).getLastCellNum();
-
-            final Map<String, Integer> headerMap = new HashMap<>();
 
             Set<Lecturer> offtimesLecturers = new HashSet<>();
 
@@ -86,8 +85,7 @@ public class TimeslotLoadService extends AbstractLoadService {
             XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
             XSSFSheet sheet = wb.getSheetAt(0);
 
-            final Map<String, Integer> headerMap = new HashMap<>();
-
+            final HeaderMap headerMap = new HeaderMap(headerCols);
 
             Set<Timeslot> timeslots = new HashSet<>();
             for (Row row : sheet) {
@@ -96,6 +94,10 @@ public class TimeslotLoadService extends AbstractLoadService {
                     createHeaderIndexMap(row, headerMap);
                     continue;
                 }
+
+                Cell cell = row.getCell(row.getFirstCellNum());
+                if (cell != null && cell.getCellType() != CellType.BLANK)
+                    continue;
 
                 Timeslot timeslot = Timeslot.builder()
                         .date(row.getCell(headerMap.get("date")).getStringCellValue())

@@ -1,9 +1,10 @@
 package ch.fhnw.ip6.ospp.service.load;
 
 import ch.fhnw.ip6.ospp.model.Lecturer;
-import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -12,9 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -22,13 +21,15 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class LecturerLoadService extends AbstractLoadService {
 
+    private final static String[] headerCols = new String[]{"id", "firstname", "lastname", "initials", "email"};
+
     public Set<Lecturer> loadLecturer(MultipartFile input) {
         try {
 
             XSSFWorkbook wb = new XSSFWorkbook(input.getInputStream());
             XSSFSheet sheet = wb.getSheetAt(0);
 
-            final Map<String, Integer> headerMap = new HashMap<>();
+            final HeaderMap headerMap = new HeaderMap(headerCols);
 
             Set<Lecturer> lecturers = new HashSet<>();
 
@@ -38,6 +39,9 @@ public class LecturerLoadService extends AbstractLoadService {
                     createHeaderIndexMap(row, headerMap);
                     continue;
                 }
+                Cell cell = row.getCell(row.getFirstCellNum());
+                if (cell != null && cell.getCellType() != CellType.BLANK)
+                    continue;
 
                 Lecturer lecturer = Lecturer.lecturerBuilder()
                         .initials(row.getCell(headerMap.get("initials")).getStringCellValue())
