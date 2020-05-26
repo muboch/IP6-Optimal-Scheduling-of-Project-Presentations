@@ -55,6 +55,19 @@ public class SolutionChecker {
                 + usedRoomsCost
                 + usedTimeslotCost);
 
+        Map<L, Set<P>> presPerLecturer = new HashMap<>();
+
+        presentations.forEach(p -> {
+            presPerLecturer.computeIfAbsent(p.getExpert(), k -> new HashSet<>()).add(p);
+            presPerLecturer.computeIfAbsent(p.getCoach(), k -> new HashSet<>()).add(p);
+        });
+
+        Map<Integer, Set<L>> numOfPres = presPerLecturer.entrySet().stream()
+                .collect(Collectors.groupingBy(
+                        e -> e.getValue().size(),
+                        Collectors.mapping(Map.Entry::getKey, Collectors.toSet())
+                ));
+
         // Global Stats
         AsciiTable stats = new AsciiTable();
         stats.setTextAlignment(TextAlignment.LEFT);
@@ -67,6 +80,8 @@ public class SolutionChecker {
         stats.addRow("Room Switch Costs:", roomSwitchCost);
         stats.addRow("Used Room Costs:", usedRoomsCost);
         stats.addRow("Used Timeslot Cost:", usedTimeslotCost);
+        stats.addRow("Presentations per Lecturer:",
+                numOfPres.entrySet().stream().map(e -> e.getValue().size() + " L with " + e.getKey() +" P<br>").collect(Collectors.joining()));
         stats.addRule();
 
         // Hard Constraint Stats
@@ -229,7 +244,7 @@ public class SolutionChecker {
                     }
                     return r1;
                 });
-                errorsRoomSwitches.add(l.getInitials() + " [" + roomSwitches + "/" + (presPerLec.get(l).size() - 1) + "] " + roomSwitchesSB + "<br>");
+                errorsRoomSwitches.add(l.getInitials() + " [" + roomSwitches + "|" + (presPerLec.get(l).size()) + "] " + roomSwitchesSB + "<br>");
                 totalSwitches += roomSwitches.get();
             }
         }
@@ -283,7 +298,7 @@ public class SolutionChecker {
 
         for (int i = 0; i < presentationsScheduledTime.length; i++) {
             if (presentationsScheduledTime[i] != 1) {
-                errorsEachPresentationOnce.add("Presentation " + i + " is scheduled " + presentationsScheduledTime[i] + " times.");
+                errorsEachPresentationOnce.add("Presentation " + presentations.get(i).getNr() + " is scheduled " + presentationsScheduledTime[i] + " times.");
             }
         }
         return errorsEachPresentationOnce.isEmpty();

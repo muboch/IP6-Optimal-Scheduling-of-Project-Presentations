@@ -28,7 +28,7 @@ public class MinFreeTimeslots extends SoftConstraint {
 
             for (L l : getIlpModel().getLecturers()) {
                 for (T t : getIlpModel().getTimeslots()) {
-                    lecturerTimeslot[indexOf(l)][indexOf(t)] = getGrbModel().addVar(0, 1, 1.0, GRB.BINARY, l.getInitials() + "." + t.getDate());
+                    lecturerTimeslot[indexOf(l)][indexOf(t)] = getGrbModel().addVar(0, 1, 0.0, GRB.BINARY, null);
 
                     GRBLinExpr lhs = new GRBLinExpr();
                     for (R r : getIlpModel().getRooms()) {
@@ -43,18 +43,18 @@ public class MinFreeTimeslots extends SoftConstraint {
             }
             for (L l : getIlpModel().getLecturers()) {
 
-                firstTimeslots[indexOf(l)] = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 1.0, GRB.INTEGER, "first" + l.getInitials());
-                lastTimeslots[indexOf(l)] = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 1.0, GRB.INTEGER, "last" + l.getInitials());
-                diffs[indexOf(l)] = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 1.0, GRB.INTEGER, "diff" + l.getInitials());
+                firstTimeslots[indexOf(l)] = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 0.0, GRB.INTEGER, "first" + l.getInitials());
+                lastTimeslots[indexOf(l)] = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 0.0, GRB.INTEGER, "last" + l.getInitials());
+                diffs[indexOf(l)] = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 0.0, GRB.INTEGER, "diff" + l.getInitials());
 
                 for (T t : getIlpModel().getTimeslots()) {
                     GRBLinExpr lhsLast = new GRBLinExpr();
                     lhsLast.addTerm(1.0, lastTimeslots[indexOf(l)]);
-                    getGrbModel().addGenConstrIndicator(lecturerTimeslot[indexOf(l)][indexOf(t)], 0, lhsLast, GRB.LESS_EQUAL, 0.0, "last" + t.getDate());
+                    getGrbModel().addGenConstrIndicator(lecturerTimeslot[indexOf(l)][indexOf(t)], 0, lhsLast, GRB.LESS_EQUAL, 0.0, "last-t" + t.getId());
 
                     GRBLinExpr lhsFirst = new GRBLinExpr();
                     lhsFirst.addTerm(1.0, firstTimeslots[indexOf(l)]);
-                    getGrbModel().addGenConstrIndicator(lecturerTimeslot[indexOf(l)][indexOf(t)], 1, lhsFirst, GRB.GREATER_EQUAL, 1.0, "first" + t.getDate());
+                    getGrbModel().addGenConstrIndicator(lecturerTimeslot[indexOf(l)][indexOf(t)], 1, lhsFirst, GRB.GREATER_EQUAL, 1.0, "first-t" + t.getId());
                 }
                 getObjectives().addTerm(LECTURER_PER_LESSON_COST, diffs[indexOf(l)]);
             }

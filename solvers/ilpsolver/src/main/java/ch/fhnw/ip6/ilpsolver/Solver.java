@@ -16,18 +16,24 @@ import ch.fhnw.ip6.ilpsolver.constraint.hard.LecturerNotMoreThanOnePresentationP
 import ch.fhnw.ip6.ilpsolver.constraint.hard.OnlyOnePresentationPerRoomAndTimeslot;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinFreeTimeslots;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomSwitches;
-import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomUsages;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinTimeslotUsages;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import gurobi.GRB;
+import gurobi.GRBConstr;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
+import gurobi.GRBVar;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 @Component("ch.fhnw.ip6.ilpsolver.Solver")
 public class Solver extends AbstractSolver {
@@ -53,9 +59,9 @@ public class Solver extends AbstractSolver {
             constraints.add(new AllPresentationsToRoomAndTimeslotAssigned());
             constraints.add(new LecturerNotMoreThanOnePresentationPerTimeslot());
             constraints.add(new OnlyOnePresentationPerRoomAndTimeslot());
-            constraints.add(new MinTimeslotUsages());
-            constraints.add(new MinRoomUsages());
-            constraints.add(new MinFreeTimeslots());
+            // constraints.add(new MinTimeslotUsages());
+            // constraints.add(new MinRoomUsages());
+            // constraints.add(new MinFreeTimeslots());
             constraints.add(new MinRoomSwitches());
             constraints.forEach(c -> {
                 if (c instanceof SoftConstraint) {
@@ -67,10 +73,9 @@ public class Solver extends AbstractSolver {
             grbModel.setCallback(new ILPSolverCallback(model));
             grbModel.setObjective(objective);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
+            grbModel.set(GRB.IntParam.Seed, (int) (Math.random() * 100000));
             grbModel.update();
             grbModel.optimize();
-
-            System.out.println("#########################################   Solution   ###########################################");
 
             Planning planning = new Planning();
             planning.setTimeslots(ts);
@@ -79,7 +84,19 @@ public class Solver extends AbstractSolver {
             SolutionChecker solutionChecker = new SolutionChecker();
             solutionChecker.generateStats(planning, ls, ps, ts, rs);
             System.out.println(planning.getPlanningStats());
-            System.out.println("################################################################################################");
+
+//            GRBVar[] vars = grbModel.getVars();
+//            System.out.println("Print out the currentRoomNotPrevRoom Vars that are true (>0.5):");
+//            TreeMap<String, Double> myVars = new TreeMap<>();
+//            for (GRBVar var : vars) {
+//                if (var.get(GRB.StringAttr.VarName).startsWith("currentRoomNotPrevRoom") && var.get(GRB.DoubleAttr.X) > 0.5) {
+//                    myVars.put(var.get(GRB.StringAttr.VarName),var.get(GRB.DoubleAttr.X));
+//                }
+//            }
+//            myVars.forEach((key1, value1) -> System.out.println(key1 + " -> " + value1));
+
+            grbModel.write("model.mst");
+            grbModel.write("out.sol");
 
             // Dispose of model and environment
             grbModel.dispose();
