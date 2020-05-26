@@ -52,10 +52,11 @@ public class MinRoomSwitches extends SoftConstraint {
             //        roomSwitches[l] = +1
             T firstTimeslot = timeslots.stream().min(Comparator.comparingInt(T::getId)).get();
 
+            GRBLinExpr sumAllSwitches = new GRBLinExpr();
             for (L l : lecturers) {
-                GRBLinExpr sumAllSwitches = new GRBLinExpr();
-                for (T t : timeslots) {
-                    for (R r : rooms) {
+                for (R r : rooms) {
+                    for (T t : timeslots) {
+
                         GRBLinExpr lhs = new GRBLinExpr();
                         for (P p1 : getIlpModel().getPresentationsPerLecturer().get(l)) {
                             lhs.addTerm(1.0, getX()[indexOf(p1)][indexOf(t)][indexOf(r)]);
@@ -64,31 +65,43 @@ public class MinRoomSwitches extends SoftConstraint {
                         getGrbModel().addGenConstrIndicator(lecturerHasPresAtTime[indexOf(l)][indexOf(t)][indexOf(r)], 1, lhs, GRB.EQUAL, 1.0, "[C=PresIsInRoomAtTime][l" + l.getId() + ",t" + t.getId() + ",r" + r.getId() + "]");
                         getGrbModel().addGenConstrIndicator(lecturerHasPresAtTime[indexOf(l)][indexOf(t)][indexOf(r)], 0, lhs, GRB.EQUAL, 0.0, "[C=PresIsNotInRoomAtTime][l" + l.getId() + ",t" + t.getId() + ",r" + r.getId() + "]");
 
-                        if (t == firstTimeslot) {
-                            getGrbModel().addConstr(roomSwitches[indexOf(l)][0], GRB.EQUAL, 0, "[C=FirstTimeslotSwitch][l" + l.getId() + ",t0]");
-                            continue;
-                        }
+                        GRBLinExpr linExprSecodRoom = new GRBLinExpr();
+                        linExprSecodRoom.addTerm(1.0, lecturerHasPresAtTime[indexOf(l)][indexOf(t)][indexOf(r)]);
 
-                        GRBLinExpr r1NotR2 = new GRBLinExpr();
-                        // 7
-                        //
-                        //If you want 𝑥1≠𝑥2
-                        //, you can linearize |𝑥1−𝑥2|≥𝜀, for example by introducing a boolean variable 𝑦=1 if and only if 𝑥1−𝑥2≥𝜀
-                        //
-                        //, and by imposing:
-                        //
-                        //𝑥1−𝑥2≤−𝜀+𝑀𝑦and𝑥1−𝑥2≥𝜀−(1−𝑦)𝑀
-                        //
-                        //Note: 𝜀
-                        //is a "very small" constant close to zero and 𝑀 a very large integer.
-                        r1NotR2.addTerm(1.0, lecturerHasPresAtTime[indexOf(l)][indexOf(t)][indexOf(r)]);
-                        r1NotR2.addTerm(-1.0, lecturerHasPresAtTime[indexOf(l)][indexOf(t) - 1][indexOf(r)]);
-                        getGrbModel().addGenConstrIndicator(roomSwitches[indexOf(l)][indexOf(t)], 1, r1NotR2, GRB.EQUAL, 1.0, "[C=IsARooSwitch][l" + l.getId() + ",t" + t.getId() + ",r" + r.getId() + "]");
-                        sumAllSwitches.addTerm(1.0, roomSwitches[indexOf(l)][indexOf(t)]);
-                        getObjectives().addTerm(CostUtil.ROOM_SWITCH_COST, roomSwitches[indexOf(l)][indexOf(t)]);
+                        GRBLinExpr linExprPrevRoom = new GRBLinExpr();
+                        linExprPrevRoom.addConstant(1);
+                        if (t == firstTimeslot) {
+                        } else {
+                            linExprPrevRoom.addTerm(-1.0, lecturerHasPresAtTime[indexOf(l)][indexOf(t) - 1][indexOf(r)]);
+                        }
+                        GRBVar secondRoomNotPrevRoom = getGrbModel().addVar(0, 1, 0, GRB.BINARY, "B-secondRoomNotPrevRoom");
+
+                        // getGrbModel().addConstr(secondRoomNotPrevRoom, GRB.LESS_EQUAL, lecturerHasPresAtTime[indexOf(l)][indexOf(t)][indexOf(r)], null);  //    x <= a
+                        // getGrbModel().addConstr(secondRoomNotPrevRoom, GRB.LESS_EQUAL, linExprPrevRoom, null);//    x <= b
+                        GRBLinExpr rhs = new GRBLinExpr();
+                        rhs.addTerm(1.0, lecturerHasPresAtTime[indexOf(l)][indexOf(t)][indexOf(r)]);
+                        rhs.multAdd(1.0, linExprSecodRoom);
+                        rhs.addConstant(-1);
+                        getGrbModel().addConstr(secondRoomNotPrevRoom, GRB.GREATER_EQUAL, rhs, null);
+                        sumAllSwitches.addTerm(1.0, secondRoomNotPrevRoom);
+                        //[13:56] simon.felix@ateleris.ch
+                        //    x = a & b
+                        //​[13:56] simon.felix@ateleris.ch
+                        //    x <= a
+                        //​[13:56] simon.felix@ateleris.ch
+                        //    x <= b
+                        //​[13:57] simon.felix@ateleris.ch
+                        //    x >= a + b - 1
+                        //​[13:57] simon.felix@ateleris.ch
+                        //    x = a & !b
+                        //​[13:57] simon.felix@ateleris.ch
+                        //    x = a & (1-b)
+
                     }
                 }
             }
+            getObjectives().multAdd(CostUtil.ROOM_SWITCH_COST, sumAllSwitches);
+
 
         } catch (GRBException e) {
             e.printStackTrace();

@@ -18,7 +18,12 @@ import ch.fhnw.ip6.ilpsolver.constraint.soft.MinFreeTimeslots;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomSwitches;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomUsages;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinTimeslotUsages;
-import gurobi.*;
+import ch.fhnw.ip6.solutionchecker.SolutionChecker;
+import gurobi.GRB;
+import gurobi.GRBEnv;
+import gurobi.GRBException;
+import gurobi.GRBLinExpr;
+import gurobi.GRBModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -70,8 +75,10 @@ public class Solver extends AbstractSolver {
             Planning planning = new Planning();
             planning.setTimeslots(ts);
             planning.setRooms(rs);
-            printSolution(ps, rs, ts, grbModel, model, planning);
-            System.out.println(planning.toString());
+            fillPlanning(ps, rs, ts, grbModel, model, planning);
+            SolutionChecker solutionChecker = new SolutionChecker();
+            solutionChecker.generateStats(planning, ls, ps, ts, rs);
+            System.out.println(planning.getPlanningStats());
             System.out.println("################################################################################################");
 
             // Dispose of model and environment
@@ -85,12 +92,12 @@ public class Solver extends AbstractSolver {
         return null;
     }
 
-    private void printSolution(List<P> ps, List<R> rs, List<T> ts, GRBModel grbModel, ILPModel model, Planning planning) throws GRBException {
-        double[][][] xd = grbModel.get(GRB.DoubleAttr.X, model.getX());
+    private void fillPlanning(List<P> ps, List<R> rs, List<T> ts, GRBModel grbModel, ILPModel model, Planning planning) throws GRBException {
+        double[][][] x = grbModel.get(GRB.DoubleAttr.X, model.getX());
         for (int p = 0; p < ps.size(); p++) {
             for (int t = 0; t < ts.size(); t++) {
                 for (int r = 0; r < rs.size(); r++) {
-                    if (xd[p][t][r] != 0.0) {
+                    if (Math.round(x[p][t][r]) == 1.0) {
                         planning.getSolutions().add(new Solution(rs.get(r), ts.get(t), ps.get(p), ps.get(p).getExpert(), ps.get(p).getCoach()));
                     }
                 }
