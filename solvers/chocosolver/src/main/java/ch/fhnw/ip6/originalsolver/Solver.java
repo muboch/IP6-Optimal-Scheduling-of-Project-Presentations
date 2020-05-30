@@ -71,17 +71,17 @@ public class Solver extends AbstractSolver {
         buildConstraintLecturerNotMoreThanOnePresAtTime(lecturers, rooms, timeslots, presRoomTime, presentationsPerLecturer);
         // END CONSTRAINT
 
-        /*
+
 
         // START CONSTRAINT Soft constraint 1 Coaches should have as little free timeslots between presentations as possible.
         IntVar[] firstTimeslots = new IntVar[lecturers.size()];
         IntVar[] diffs = new IntVar[lecturers.size()];
         IntVar[] lastTimeslots = new IntVar[lecturers.size()];
-        IntVar[][] lecturerTimeslot = new IntVar[lecturers.size()][timeslots.size()]; // Coach has a presentation at timeslot
-        int[] timeslotCost = new int[timeslots.size()];
-        buildConstraintMinFreeTimeslotsBetweenPresentations(lecturers, timeslots, rooms, presentations, presRoomTime, timeslotCost, lecturerTimeslot, objIntVars, objIntCoeffs, firstTimeslots, diffs, lastTimeslots);
+        BoolVar[][] lecturerTimeslot = new BoolVar[lecturers.size()][timeslots.size()]; // Coach has a presentation at timeslot
+        //buildConstraintMinFreeTimeslotsBetweenPresentations(lecturers, timeslots, rooms, presentations, presRoomTime, lecturerTimeslot, objIntVars, objIntCoeffs, firstTimeslots, diffs, lastTimeslots);
         // END CONSTRAINT
 
+/*
         // START CONSTRAINT Soft Constraint 2 Coaches should switch the rooms as little as possible
         IntVar[][][] coachTimeRoomBool = new IntVar[lecturers.size()][timeslots.size()][rooms.size()];
         IntVar[][] coachRoomTime = new IntVar[lecturers.size()][timeslots.size()];
@@ -90,11 +90,14 @@ public class Solver extends AbstractSolver {
         IntVar[] numChangesForLecturer = new IntVar[lecturers.size()];
         buildConstraintMinRoomSwitches(lecturers, rooms, timeslots, presRoomTime, presentationsPerLecturer, objIntVars, objIntCoeffs, coachTimeRoomBool, coachRoomTime, roomDiffsInt, roomDiffsBool, numChangesForLecturer, lecturerTimeslot);
         // END CONSTRAINT
+        */
 
 
         // START CONSTRAINT 3 As little rooms as possible should be free per timeslots -> Minimize used Timeslots
-        buildConstraintMinUsedTimeslots(presentations, rooms, timeslots, presRoomTime, objIntVars, objIntCoeffs, timeslotCost);
+        int[] timeslotCost = new int[timeslots.size()];
+        //buildConstraintMinUsedTimeslots(presentations, rooms, timeslots, presRoomTime, objIntVars, objIntCoeffs, timeslotCost);
         // END CONSTRAINT
+
 
         // START CONSTRAINT 4 As little rooms as possible should be used over all -> Minimize used Rooms over all timeslots
         buildConstraintMinUsedRooms(presentations, rooms, timeslots, presRoomTime, objIntVars, objIntCoeffs);
@@ -103,22 +106,28 @@ public class Solver extends AbstractSolver {
 
 
 
+
+
         // Add the objective to the Solver, parse to array first because java is funny like that
         int[] objIntCoeffsArr = objIntCoeffs.stream().mapToInt(i -> i).toArray();
         IntVar[] objIntVarsArr = objIntVars.toArray(new IntVar[0]);
+        IntVar OBJ = getModel().intVar("objective", 0, 10000);
+        getModel().scalar(objIntVarsArr,objIntCoeffsArr,"+", OBJ).post();
 
         // finally, minimize the objective
         // TODO getModel().min(LinearExpr.scalProd(objIntVarsArr, objIntCoeffsArr));
-
-         */
+        getModel().setObjective(Model.MINIMIZE, OBJ);
 
         org.chocosolver.solver.Solver solver = getModel().getSolver();
-        // TODO solver.set().setMaxTimeInSeconds(timelimit);
+        solver.limitTime(timelimit * 1000); // In Milliseconds
         System.out.println("All constraints done, solving");
 
         solver.showShortStatistics();
+        solver.printStatistics();
         ChocoCallback chocoCallback = new ChocoCallback();
+
         while(solver.solve()){
+            solver.showShortStatistics();
             chocoCallback.OnChocoCallback(getModel(), presRoomTime, presentations,rooms,timeslots,lecturers);
         }
 
@@ -145,7 +154,9 @@ public class Solver extends AbstractSolver {
                 }
             }
             BoolVar[] arr = temp.toArray(new BoolVar[0]);
-            getModel().sum(arr, "=", 1).post();
+            if(arr.length > 0) {
+                getModel().sum(arr, "=", 1).post();
+            }
             //getModel().addLinearConstraint(LinearExpr.sum(arr), 1, 1); // SUM OF ALL MUST EQUAL ONE
         }
     }
@@ -159,8 +170,10 @@ public class Solver extends AbstractSolver {
                     temp.add(presRoomTime[idx(p)][idx(r)][idx(t)]);
                 }
                 IntVar[] arr = temp.toArray(new BoolVar[0]);
-                getModel().sum(arr, "<=", 1).post();
+                if(arr.length > 0) {
 
+                    getModel().sum(arr, "<=", 1).post();
+                }
                 //getModel().addLinearConstraint(LinearExpr.sum(arr), 0, 1);
             }
         }
@@ -179,21 +192,16 @@ public class Solver extends AbstractSolver {
                 IntVar[] arr = temp.toArray(new BoolVar[0]);
                 if(arr.length > 0) {
                     getModel().sum(arr, "<=", 1).post();
-                } else {
-                    System.out.println("Arr length was 0: l"+l.getId()+", t:"+t.getId());
                 }
-                //getModel().addLinearConstraint(LinearExpr.sum(arr), 0, 1); // <=1 -> max one out of overlap is allowed
             }
         }
     }
 
-    private void buildConstraintMinFreeTimeslotsBetweenPresentations(List<L> lecturers, List<T> timeslots, List<R> rooms, List<P> presentations, BoolVar[][][] presRoomTime, int[] timeslotCost, IntVar[][] lecturerTimeslot, ArrayList<IntVar> objIntVars, ArrayList<Integer> objIntCoeffs,
+    private void buildConstraintMinFreeTimeslotsBetweenPresentations(List<L> lecturers, List<T> timeslots, List<R> rooms, List<P> presentations, BoolVar[][][] presRoomTime, BoolVar[][] lecturerTimeslot, ArrayList<IntVar> objIntVars, ArrayList<Integer> objIntCoeffs,
                                                                      IntVar[] firstTimeslots, IntVar[] diffs, IntVar[] lastTimeslots) {
         for (L l : lecturers) {
             for (T t : timeslots) {
-                //lecturerTimeslot[idx(l)][idx(t)] = getModel().newBoolVar("lecturerTimeslot_" + idx(l) + "_" + t.getId());
-
-                timeslotCost[idx(t)] = t.getPriority();
+                lecturerTimeslot[idx(l)][idx(t)] = getModel().boolVar("lecturerTimeslot_" + idx(l) + "_" + t.getId());
                 ArrayList<IntVar> temp = new ArrayList<>();
 
                 for (R r : rooms) {
@@ -205,28 +213,37 @@ public class Solver extends AbstractSolver {
                         temp.add(presRoomTime[idx(p)][idx(r)][idx(t)]);
                     }
                 }
+                if(temp.size() == 0){continue;} // No items in array, skip
                 IntVar[] arr = temp.toArray(new IntVar[0]);
+                getModel().ifThenElse(getModel().sum(arr, "<=",1), getModel().arithm(lecturerTimeslot[idx(l)][idx(t)], "=", 1),  getModel().arithm(lecturerTimeslot[idx(l)][idx(t)], "=", 0));
                 // Implement lecturerTimeslot[c][t] == (sum(arr) >= 1)
                 //getModel().addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)]);
                 //getModel().addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)].not());
             }
         }
         for (L l : lecturers) { // Calculate first / last timeslot and difference per lecturer
-            /*
-            firstTimeslots[idx(l)] = Solver.this.getModel().newIntVar(0, timeslots.size(), "firstTimeslot" + l.getId());
-            lastTimeslots[idx(l)] = getModel().newIntVar(0, timeslots.size(), "lastTimeslot" + l.getId());
-            diffs[idx(l)] = getModel().newIntVar(0, timeslots.size(), "diff_" + l.getId());
+
+            firstTimeslots[idx(l)] = Solver.this.getModel().intVar("firstTimeslot" + l.getId(), 0, timeslots.size() );
+
+            lastTimeslots[idx(l)] = Solver.this.getModel().intVar("firstTimeslot" + l.getId(), 0, timeslots.size() );
+
+            diffs[idx(l)] = Solver.this.getModel().intVar("diff" + l.getId(), 0, timeslots.size() );
 
             for (T t : timeslots) {
-                getModel().addGreaterOrEqual(lastTimeslots[idx(l)], t.getId()).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)]);
-                getModel().addLessOrEqual(firstTimeslots[idx(l)], t.getId()).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)]);
+                this.getModel().ifThen(lecturerTimeslot[idx(l)][idx(t)], getModel().arithm(lastTimeslots[idx(l)], ">=", t.getId()));
+                this.getModel().ifThen(lecturerTimeslot[idx(l)][idx(t)], getModel().arithm(firstTimeslots[idx(l)], "<=", t.getId()));
+                //getModel().addGreaterOrEqual(lastTimeslots[idx(l)], t.getId()).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)]);
+                //getModel().addLessOrEqual(firstTimeslots[idx(l)], t.getId()).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)]);
             }
-            LinearExpr diffExpr = LinearExpr.scalProd(new IntVar[]{lastTimeslots[idx(l)], firstTimeslots[idx(l)]}, new int[]{1, -1}); // Last timeslot - first timeslot
-            getModel().addEquality(diffExpr, diffs[idx(l)]);
-            objIntVars.add(diffs[idx(l)]); // add it to the objective
-            objIntCoeffs.add(LECTURER_PER_LESSON_COST);
+            //LinearExpr diffExpr = LinearExpr.scalProd(new IntVar[]{lastTimeslots[idx(l)], firstTimeslots[idx(l)]}, new int[]{1, -1}); // Last timeslot - first timeslot
+            getModel().arithm(lastTimeslots[idx(l)], "-", firstTimeslots[idx(l)], "=", diffs[idx(l)]).post();
+            //getModel().addEquality(diffExpr, diffs[idx(l)]);
 
-             */
+
+            //objIntVars.add(diffs[idx(l)]); // add it to the objective
+            //objIntCoeffs.add(LECTURER_PER_LESSON_COST);
+
+
         }
 
     }
@@ -239,7 +256,7 @@ public class Solver extends AbstractSolver {
                 //roomDiffsInt[idx(l)][idx(t)] = getModel().newIntVar(0, 200L, "coach_" + idx(l) + "time_" + t.getId()); // Room ID difference between presentations
                 //roomDiffsBool[idx(l)][idx(t)] = getModel().newBoolVar("coach_" + idx(l) + "switchAt_time_" + t.getId()); // TRUE if coach switches rooms at time, FALSE if not
                 for (R r : rooms) {
-                  //  coachTimeRoomBool[idx(l)][idx(t)][idx(r)] = getModel().newBoolVar("coach_" + idx(l) + "time_" + idx(t) + "room_" + r.getId()); //Boolean if leturer has pres at room in time
+                    //  coachTimeRoomBool[idx(l)][idx(t)][idx(r)] = getModel().newBoolVar("coach_" + idx(l) + "time_" + idx(t) + "room_" + r.getId()); //Boolean if leturer has pres at room in time
                 }
             }
             //numChangesForLecturer[idx(l)] = getModel().newIntVar(0, timeslots.size(), "numRoomChangesForLecturer" + l.getId()); //Number of changes for lecturer
@@ -308,7 +325,7 @@ public class Solver extends AbstractSolver {
     private void buildConstraintMinUsedTimeslots(List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][][] presRoomTime, ArrayList<IntVar> objIntVars, ArrayList<Integer> objIntCoeffs, int[] timeslotCost) {
         IntVar[] timeslotUsed = new IntVar[timeslots.size()];
         for (T t : timeslots) {
-            //timeslotUsed[idx(t)] = getModel().newBoolVar("timeslotUsed_" + t.getId());
+            timeslotUsed[idx(t)] = getModel().boolVar("timeslotUsed_" + t.getId());
         }
 
         for (T t : timeslots) {
@@ -320,28 +337,27 @@ public class Solver extends AbstractSolver {
                     temp.add(presRoomTime[idx(p)][idx(r)][idx(t)]);
                 }
             }
-            IntVar[] arr = temp.toArray(new IntVar[0]);
+            BoolVar[] arr = temp.toArray(new BoolVar[0]);
             /// IF SUM ARR > 0 add boolean timeslotUsed TRUE else FALSE;
             // Implement timeslotUsed[t] == (sum(arr) >= 1).
+            getModel().ifThenElse(getModel().sum(arr, ">=",1), getModel().arithm(timeslotUsed[idx(t)], "=", 1) , getModel().arithm(timeslotUsed[idx(t)], "=", 0));
             //getModel().addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(timeslotUsed[idx(t)]);
             //getModel().addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(timeslotUsed[idx(t)].not());
 
             //Add Objective
-            objIntVars.add(timeslotUsed[idx(t)]);
-            objIntCoeffs.add(timeslotCost[idx(t)]);
+            //objIntVars.add(timeslotUsed[idx(t)]);
+            //objIntCoeffs.add(t.getPriority());
         }
     }
 
     private void buildConstraintMinUsedRooms(List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][][] presRoomTime, ArrayList<IntVar> objIntVars, ArrayList<Integer> objIntCoeffs) {
         IntVar[] roomUsed = new IntVar[rooms.size()];
-        int[] roomCost = new int[rooms.size()];
         for (R r : rooms) {
-            //roomUsed[idx(r)] = getModel().newBoolVar("roomUsed_" + r.getId());
-            roomCost[idx(r)] = USED_ROOM_COST;
+            roomUsed[idx(r)] = getModel().boolVar("roomUsed_" + r.getId());
         }
 
         for (R r : rooms) {
-            List<IntVar> temp = new ArrayList<IntVar>();
+            List<IntVar> temp = new ArrayList<>();
 
             for (T t : timeslots) {
                 for (P p : presentations) {
@@ -349,16 +365,15 @@ public class Solver extends AbstractSolver {
                     temp.add(presRoomTime[idx(p)][idx(r)][idx(t)]);
                 }
             }
-            IntVar[] arr = temp.toArray(new IntVar[0]);
-            /// IF SUM ARR > 0 add boolean roomUsed TRUE else FALSE;
-            // Implement timeslotUsed[t] == (sum(arr) >= 1).
-            // If A then B
-            //getModel().addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(roomUsed[idx(r)]);
-            //getModel().addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(roomUsed[idx(r)].not());
+            if(temp.size() == 0){
+                continue;
+            }
+            BoolVar[] arr = temp.toArray(new BoolVar[0]);
+            getModel().ifThenElse(getModel().sum(arr, ">=",1), getModel().arithm(roomUsed[idx(r)], "=", 1) , getModel().arithm(roomUsed[idx(r)], "=", 0));
 
             //Add Objective
             objIntVars.add(roomUsed[idx(r)]);
-            objIntCoeffs.add(roomCost[idx(r)]);
+            objIntCoeffs.add(USED_ROOM_COST);
         }
     }
 

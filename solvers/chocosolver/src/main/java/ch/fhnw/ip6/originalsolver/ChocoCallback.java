@@ -40,6 +40,7 @@ public class ChocoCallback {
             }
         }
         System.out.println("Solution " + solutionCount);
+        System.out.println(planning.getPlanningStats());
         System.out.println(planning.toString());
     }
 }
