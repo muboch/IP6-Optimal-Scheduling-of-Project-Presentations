@@ -36,6 +36,13 @@ public class SolutionChecker {
 
     public void generateStats(Planning planning, List<L> lecturers, List<P> presentations, List<T> timeslots, List<R> rooms) {
 
+        // clear errors
+         errorsEachPresentationOnce = new HashSet<>();
+         errorsOnePresentationPerTimeslotForLecturer = new HashSet<>();
+         errorsCheckRoomUsedMaxOncePerTime = new HashSet<>();
+         errorsRoomSwitches = new HashSet<>();
+
+
         Set<Solution> solutions = planning.getSolutions();
 
         boolean checkOnePresentationPerTimeslotForLecturer = checkOnePresentationPerTimeslotForLecturer(solutions, timeslots, lecturers);
