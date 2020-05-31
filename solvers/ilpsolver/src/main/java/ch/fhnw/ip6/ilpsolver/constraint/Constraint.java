@@ -1,9 +1,5 @@
 package ch.fhnw.ip6.ilpsolver.constraint;
 
-import ch.fhnw.ip6.common.dto.LecturerDto;
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
@@ -17,13 +13,13 @@ import gurobi.GRBVar;
 public abstract class Constraint {
 
     private ILPModel model;
+    private GRBLinExpr objectives;
 
     public abstract void build();
 
     protected abstract String getConstraintName();
 
     protected void addConstraint(GRBLinExpr lhs, char type) throws GRBException {
-        model.getModel().addConstr(lhs, type, 1.0, getConstraintName());
     }
 
     protected ILPModel getIlpModel() {
@@ -57,5 +53,13 @@ public abstract class Constraint {
     public Constraint setModel(ILPModel model) {
         this.model = model;
         return this;
+    }
+
+    public void setObjectives(GRBLinExpr objectives) {
+        this.objectives = objectives;
+    }
+
+    public GRBLinExpr getObjectives() {
+        return objectives;
     }
 }

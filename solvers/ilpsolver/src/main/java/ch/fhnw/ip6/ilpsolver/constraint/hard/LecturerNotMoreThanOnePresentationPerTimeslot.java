@@ -4,14 +4,14 @@ import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
+import ch.fhnw.ip6.common.util.CostUtil;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import gurobi.GRB;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 
 /**
- * 1. Ein Coach kann während eines Timeslots höchstens eine Presentation besuchen.
- * 2. Ein Expert kann während eines Timeslots höchstens eine Presentation besuchen.
+ * 1. Ein Lecuter kann während eines Timeslots höchstens eine Presentation besuchen.
  */
 public class LecturerNotMoreThanOnePresentationPerTimeslot extends Constraint {
 
@@ -26,7 +26,7 @@ public class LecturerNotMoreThanOnePresentationPerTimeslot extends Constraint {
                             lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                         }
                     }
-                    addConstraint(lhs, GRB.LESS_EQUAL);
+                    getGrbModel().addConstr(lhs, GRB.EQUAL, 1.0, getConstraintName());
                 }
             }
         } catch (GRBException e) {

@@ -26,20 +26,36 @@ public class MinRoomSwitches extends SoftConstraint {
             List<L> lecturers = getIlpModel().getLecturers();
             List<T> timeslots = getIlpModel().getTimeslots();
             List<R> rooms = getIlpModel().getRooms();
-            List<P> presentations = getIlpModel().getPresentations();
 
             T firstTimeslot = timeslots.stream().min(Comparator.comparingInt(T::getId)).get();
-            System.out.println(firstTimeslot);
-            GRBLinExpr sumAllSwitches = new GRBLinExpr();
-            for (L l : lecturers) {
+            GRBVar[][][] lecInRoomAtTime = new GRBVar[lecturers.size()][timeslots.size()][rooms.size()];
 
+            for (L l : lecturers) {
+                for (T t : timeslots) {
+                    for (R r : rooms) {
+                        lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)] = getGrbModel().addVar(0, 1, 1.0, GRB.BINARY, null);
+                    }
+                }
+            }
+
+            GRBLinExpr sumAllSwitches = new GRBLinExpr();
+
+            for (L l : lecturers) {
                 for (R r : rooms) {
                     for (T t : timeslots) {
+
+                        GRBLinExpr presAtTimeInRoom = new GRBLinExpr();
+                        for (P p1 : getIlpModel().getPresentationsPerLecturer().get(l)) {
+                            presAtTimeInRoom.addTerm(1.0, getX()[indexOf(p1)][indexOf(t)][indexOf(r)]);
+                        }
+                        getGrbModel().addConstr(lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)], GRB.EQUAL, presAtTimeInRoom, null);
 
                         GRBLinExpr linExprPrevRoom = new GRBLinExpr();
                         linExprPrevRoom.addConstant(1.0);
                         if (t != firstTimeslot) {
-                            linExprPrevRoom.addTerm(-1.0, getX()[indexOf(l)][indexOf(t) - 1][indexOf(r)]);
+                            linExprPrevRoom.addTerm(-1.0, lecInRoomAtTime[indexOf(l)][indexOf(t) - 1][indexOf(r)]);
+                        } else {
+                            linExprPrevRoom.addTerm(0.0, lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)]);
                         }
 
                         GRBVar currentRoomNotPrevRoom = getGrbModel().addVar(0, 1, 0.0, GRB.BINARY, "currentRoomNotPrevRoom-" + l.getInitials() + "-" + r.getName() + "-" + t.getId());
@@ -54,18 +70,19 @@ public class MinRoomSwitches extends SoftConstraint {
                         // rhs = 1.0 *       1      + (1 - 1.0 * 0             ) - 1
                         // rhs = 1 + (1 - 0) - 1
                         // rhs = 1
+                        // ---- current != prev
+                        // rhs = 1.0 *       0      + (1 - 1.0 * 1             ) - 1
+                        // rhs = 0 + (1 - 1) - 1
+                        // rhs = -1
                         GRBLinExpr rhs = new GRBLinExpr();
-                        rhs.addTerm(1.0, getX()[indexOf(l)][indexOf(t)][indexOf(r)]);
+                        rhs.addTerm(1.0, lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)]);
                         rhs.multAdd(1.0, linExprPrevRoom);
                         rhs.addConstant(-1);
                         getGrbModel().addConstr(currentRoomNotPrevRoom, GRB.GREATER_EQUAL, rhs, "ConstrCurrentRoomNotPrevRoom-" + l.getInitials() + "-" + r.getName() + "-" + t.getId());
-
-                        sumAllSwitches.add(rhs);
+                        getObjectives().addTerm(CostUtil.ROOM_SWITCH_COST, currentRoomNotPrevRoom);
                     }
                 }
             }
-            getObjectives().multAdd(CostUtil.ROOM_SWITCH_COST, sumAllSwitches);
-
 
         } catch (GRBException e) {
             e.printStackTrace();

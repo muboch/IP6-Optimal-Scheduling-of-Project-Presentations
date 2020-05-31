@@ -10,30 +10,23 @@ import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ilpsolver.callback.ILPSolverCallback;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
-import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.AllPresentationsToRoomAndTimeslotAssigned;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.LecturerNotMoreThanOnePresentationPerTimeslot;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.OnlyOnePresentationPerRoomAndTimeslot;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinFreeTimeslots;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomSwitches;
+import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomUsages;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinTimeslotUsages;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import gurobi.GRB;
-import gurobi.GRBConstr;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
-import gurobi.GRBVar;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 @Component("ch.fhnw.ip6.ilpsolver.Solver")
 public class Solver extends AbstractSolver {
@@ -59,14 +52,12 @@ public class Solver extends AbstractSolver {
             constraints.add(new AllPresentationsToRoomAndTimeslotAssigned());
             constraints.add(new LecturerNotMoreThanOnePresentationPerTimeslot());
             constraints.add(new OnlyOnePresentationPerRoomAndTimeslot());
-            // constraints.add(new MinTimeslotUsages());
-            // constraints.add(new MinRoomUsages());
-            // constraints.add(new MinFreeTimeslots());
+            constraints.add(new MinTimeslotUsages());
+            constraints.add(new MinRoomUsages());
+            constraints.add(new MinFreeTimeslots());
             constraints.add(new MinRoomSwitches());
             constraints.forEach(c -> {
-                if (c instanceof SoftConstraint) {
-                    ((SoftConstraint) c).setObjectives(objective);
-                }
+                c.setObjectives(objective);
                 c.setModel(model).build();
             });
 
