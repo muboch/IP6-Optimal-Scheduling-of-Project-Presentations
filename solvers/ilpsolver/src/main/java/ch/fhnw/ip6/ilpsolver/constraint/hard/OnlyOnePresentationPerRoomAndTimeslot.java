@@ -22,7 +22,7 @@ public class OnlyOnePresentationPerRoomAndTimeslot extends Constraint {
                     for (P p : getIlpModel().getPresentations()) {
                         lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }
-                    getGrbModel().addConstr(lhs, GRB.EQUAL, 1.0, getConstraintName());
+                    getGrbModel().addConstr(lhs, GRB.LESS_EQUAL, 1.0, getConstraintName());
                 }
             }
         } catch (GRBException e) {
