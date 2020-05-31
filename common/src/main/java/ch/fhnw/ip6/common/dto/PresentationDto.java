@@ -3,10 +3,12 @@ package ch.fhnw.ip6.common.dto;
 import ch.fhnw.ip6.common.dto.marker.P;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor

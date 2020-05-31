@@ -2,11 +2,13 @@ package ch.fhnw.ip6.common.dto;
 
 import ch.fhnw.ip6.common.dto.marker.T;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
