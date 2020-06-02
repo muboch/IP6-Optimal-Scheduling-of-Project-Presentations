@@ -107,7 +107,7 @@ public class SolutionChecker {
         softConstraints.addRule();
         softConstraints.addRow("Check", "Error");
         softConstraints.addRule();
-        softConstraints.addRow("Room Switches:", "Total: " + roomSwitches + "<b>" + printErrors(errorsRoomSwitches));
+        softConstraints.addRow("Room Switches:", "Total: " + roomSwitches + "<br>" + printErrors(errorsRoomSwitches));
         softConstraints.addRule();
         softConstraints.addRow("Rooms Used:", usedRooms);
         softConstraints.addRule();

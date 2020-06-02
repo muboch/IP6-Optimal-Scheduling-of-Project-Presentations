@@ -64,7 +64,8 @@ public class Solver extends AbstractSolver {
             grbModel.setCallback(new ILPSolverCallback(model));
             grbModel.setObjective(objective);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
-            grbModel.set(GRB.IntParam.Seed, (int) (Math.random() * 100000));
+            grbModel.set(GRB.IntParam.Method, 2);
+          // grbModel.set(GRB.IntParam.Seed, (int) (Math.random() * 100000));
             grbModel.update();
             grbModel.optimize();
 

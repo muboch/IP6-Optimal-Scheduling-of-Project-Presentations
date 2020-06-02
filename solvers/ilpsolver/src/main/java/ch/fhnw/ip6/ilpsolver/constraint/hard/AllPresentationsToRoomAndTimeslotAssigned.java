@@ -20,11 +20,9 @@ public class AllPresentationsToRoomAndTimeslotAssigned extends Constraint {
             for (P p : getIlpModel().getPresentations()) {
                 GRBLinExpr lhs = new GRBLinExpr();
                 for (R r : getIlpModel().getRooms()) {
-                    if (r.getType().equals(p.getType())) {
-                        for (T t : getIlpModel().getTimeslots()) {
-                            // 9. Eine Presentation kann nur in einem Room vom passenden RoomType stattfinden.
-                            lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
-                        }
+                    for (T t : getIlpModel().getTimeslots()) {
+                        // 9. Eine Presentation kann nur in einem Room vom passenden RoomType stattfinden.
+                        lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }
                 }
                 getGrbModel().addConstr(lhs, GRB.EQUAL, 1.0, getConstraintName());
