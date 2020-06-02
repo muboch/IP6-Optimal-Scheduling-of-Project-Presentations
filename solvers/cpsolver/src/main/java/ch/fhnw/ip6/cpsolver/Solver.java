@@ -45,12 +45,8 @@ public class Solver extends AbstractSolver {
         rooms.forEach(System.out::println);
         timeslots.forEach(System.out::println);
         lecturers.forEach(System.out::println);
-
         cpModel = new CPModel(presentations, lecturers, rooms, timeslots, offTimes, new CpModel());
-
-        //Create cpModel.getModel() presTimeRoom[p,t,r] == 1 -> Presentation p happens in room r at time t
         IntVar[][][] presRoomTime = cpModel.getPresRoomTime();
-
         System.out.println("Setup completed");
         // For each lecturer, list the presentations that are not allowed to overlap
         List<P>[] presentationsPerLecturer = new ArrayList[lecturers.size()];
@@ -58,7 +54,6 @@ public class Solver extends AbstractSolver {
             presentationsPerLecturer[idx(l)] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList());
         }
         System.out.println("Overlap calculation completed");
-
         // Data structures for Objectives
         ArrayList<IntVar> objIntVars = new ArrayList<>();
         ArrayList<Integer> objIntCoeffs = new ArrayList<>();
@@ -116,13 +111,8 @@ public class Solver extends AbstractSolver {
         solver.getParameters().setMaxTimeInSeconds(timelimit);
         System.out.println("All constraints done, solving");
         System.out.println(getModel().validate());
-        PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms, stopWatch, solverContext,curRoomNotPrevRoom);
-
-        //PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms, stopWatch, solverContext, coachRoomTime, roomDiffsInt, numChangesForLecturer);
-        System.out.println(        getModel().getBuilder().build().toString()
-        );
+        PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, lecturers, presentations, timeslots, rooms, stopWatch, solverContext);
         CpSolverStatus res = solver.searchAllSolutions(getModel(), cb);
-        System.out.println(res);
         solverContext.setSolving(false);
         stopWatch.stop();
         Planning p = solverContext.getPlanning();

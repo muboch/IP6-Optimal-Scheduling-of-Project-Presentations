@@ -22,7 +22,7 @@ public class SolverContext {
      * @return current Planning with best score
      */
     public Planning saveBestPlanning(Planning planning) {
-        if (this.planning== null || this.planning.getCost() < planning.getCost()) {
+        if (this.planning== null || this.planning.getCost() > planning.getCost()) {
             this.planning = planning;
         }
         return this.planning;

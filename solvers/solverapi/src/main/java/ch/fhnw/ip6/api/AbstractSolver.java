@@ -38,12 +38,19 @@ public abstract class AbstractSolver implements SolverApi {
             p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
         }
 
-        return solve(
+        solve(
                 presentations.stream().map(x -> (P) x).collect(Collectors.toList()),
                 lecturers.stream().map(x -> (L) x).collect(Collectors.toList()),
                 rooms.stream().map(x -> (R) x).collect(Collectors.toList()),
                 timeslots.stream().map(x -> (T) x).collect(Collectors.toList()),
                 new boolean[lecturers.size()][timeslots.size()]);
+        System.out.println("----------------");
+        System.out.println("Solver completed. Best solution:");
+        System.out.println(solverContext.getPlanning().getPlanningStats());
+        System.out.println(solverContext.getPlanning().getPlanningAsTable());
+        return solverContext.getPlanning();
+
+
     }
 
 

@@ -8,6 +8,7 @@ import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
+import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
 import org.apache.commons.lang3.time.StopWatch;
@@ -28,7 +29,6 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     @Override
     public void onSolutionCallback() {
         solutionCount++;
-
         System.out.println("Solution " + solutionCount + " . Time: " + stopWatch.getTime());
         Planning planning = new Planning();
         planning.setNr(solutionCount);
@@ -49,9 +49,12 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         planning.setCost(solutionChecker.getTotalPlanningCost());
 
         System.out.println(planning.getPlanningStats());
+        System.out.println("Solver reported cost:"+ objectiveValue() + " Branches:" + numBranches() + " Conflicts:"+ numConflicts());
+
         System.out.println();
         System.out.println("Planning Nr:    " + planning.getNr());
         System.out.println(planning.getPlanningAsTable());
+        solverContext.saveBestPlanning(planning);
     }
 
     public PresentationSolutionObserver(IntVar[][][] presRoomTime, List<L> lecturers, List<P> presentations, List<T> timeslots, List<R> rooms, StopWatch stopWatch, SolverContext solverContext) {
