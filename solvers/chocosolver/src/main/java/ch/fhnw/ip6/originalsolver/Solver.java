@@ -10,6 +10,7 @@ import ch.fhnw.ip6.common.dto.marker.T;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.chocosolver.solver.Model;
+import org.chocosolver.solver.constraints.nary.alldifferent.conditions.Condition;
 import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
 import org.springframework.stereotype.Component;
@@ -44,7 +45,7 @@ public class Solver extends AbstractSolver {
         cpModel = new ChocoModel(presentations, lecturers, rooms, timeslots, offTimes, new Model());
 
         //Create cpModel.getModel() presTimeRoom[p,t,r] == 1 -> Presentation p happens in room r at time t
-        BoolVar[][][] presRoomTime = cpModel.getX();
+        IntVar[][] presRoomTime = cpModel.getY();
 
         System.out.println("Setup completed");
         // For each lecturer, list the presentations that are not allowed to overlap
@@ -58,17 +59,19 @@ public class Solver extends AbstractSolver {
         ArrayList<IntVar> objIntVars = new ArrayList<>();
         ArrayList<Integer> objIntCoeffs = new ArrayList<>();
 
+        // START CONSTRAINT: Each Lecturer can only have one presentation per time
+        buildConstraintPresOnePresPerLecturerPerTime(presentationsPerLecturer,lecturers,presentations,rooms,timeslots,presRoomTime);
 
         // START CONSTRAINT:  For each Presentation, there must be 1 (room,timeslot) pair. -> Each presentation must be presented in a room at a time
-        buildConstraintPresScheduledAtRoomAtTime(presentations, rooms, timeslots, presRoomTime);
+        //buildConstraintPresScheduledAtRoomAtTime(presentations, rooms, timeslots, presRoomTime);
         // END CONSTRAINT
 
         // START CONSTRAINT For each (room, timeslot) pair there must be <=1 presentation -> Max 1 Presentation per Room/Time
-        buildConstraintMaxOnePresentationPerRoomTime(presentations, rooms, timeslots, presRoomTime);
+        //buildConstraintMaxOnePresentationPerRoomTime(presentations, rooms, timeslots, presRoomTime);
         // END CONSTRAINT
 
         // START CONSTRAINT Foreach presentation, the following conflicting (presentation,room, time) pairs are not allowed -> Lecturers may not have more than one presentation at a time.
-        buildConstraintLecturerNotMoreThanOnePresAtTime(lecturers, rooms, timeslots, presRoomTime, presentationsPerLecturer);
+        //buildConstraintLecturerNotMoreThanOnePresAtTime(lecturers, rooms, timeslots, presRoomTime, presentationsPerLecturer);
         // END CONSTRAINT
 
 
@@ -100,7 +103,7 @@ public class Solver extends AbstractSolver {
 
 
         // START CONSTRAINT 4 As little rooms as possible should be used over all -> Minimize used Rooms over all timeslots
-        buildConstraintMinUsedRooms(presentations, rooms, timeslots, presRoomTime, objIntVars, objIntCoeffs);
+        //buildConstraintMinUsedRooms(presentations, rooms, timeslots, presRoomTime, objIntVars, objIntCoeffs);
         // END CONSTRAINT
 
 
@@ -111,7 +114,7 @@ public class Solver extends AbstractSolver {
         // Add the objective to the Solver, parse to array first because java is funny like that
         int[] objIntCoeffsArr = objIntCoeffs.stream().mapToInt(i -> i).toArray();
         IntVar[] objIntVarsArr = objIntVars.toArray(new IntVar[0]);
-        IntVar OBJ = getModel().intVar("objective", 0, 10000);
+        IntVar OBJ = getModel().intVar("objective", 0, 100000);
         getModel().scalar(objIntVarsArr,objIntCoeffsArr,"+", OBJ).post();
 
         // finally, minimize the objective
@@ -143,7 +146,43 @@ public class Solver extends AbstractSolver {
         return null;
     }
 
-    private void buildConstraintPresScheduledAtRoomAtTime(List<P> presentations, List<R> rooms, List<T> timeslots, BoolVar[][][] presRoomTime) {
+    //             getModel().allDifferentUnderCondition(arr,EXCEPT_Minus1,true); // ALL DIFFERENT EXCEPT -1
+    Condition EXCEPT_Minus1 = new Condition() {
+        public boolean holdOnVar(IntVar x) {
+            return !x.contains(-1);
+        }
+        public String toString() {
+            return "_except_-1";
+        }
+    };
+
+    // Lecturer may not have more than 1 presentation per timeslot -> Limit at most 1 room allowed per timeslot
+    private void buildConstraintPresOnePresPerLecturerPerTime(List<P>[] presentationsPerLecturer,List<L> lecturers, List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][] presRoomTime) {
+        for (L l: lecturers) {
+            List<IntVar> temp = new ArrayList<>();
+            List<BoolVar> tempBools = new ArrayList<>();
+
+            for(P p: presentationsPerLecturer[l.getId()]){
+
+                for (T t:timeslots) {
+                    temp.add(presRoomTime[idx(p)][idx(t)]);
+                }
+            }
+            temp.forEach(v -> {
+                BoolVar bv = getModel().boolVar();
+                getModel().ifThenElse(getModel().arithm(v, "=", -1), getModel().arithm(bv, "=", 0), getModel().arithm(bv, "=", 1));
+                tempBools.add(bv);
+            });
+
+
+            BoolVar[] arr = tempBools.toArray(new BoolVar[tempBools.size()]);
+            // max one may be != -1
+            getModel().addClausesAtMostOne(arr);
+        }
+    }
+
+/*
+        private void buildConstraintPresScheduledAtRoomAtTime(List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][] presRoomTime) {
         for (P p : presentations) {
             List<BoolVar> temp = new ArrayList<>();
             for (T t : timeslots) {
@@ -161,7 +200,7 @@ public class Solver extends AbstractSolver {
         }
     }
 
-    private void buildConstraintMaxOnePresentationPerRoomTime(List<P> presentations, List<R> rooms, List<T> timeslots, BoolVar[][][] presRoomTime) {
+    private void buildConstraintMaxOnePresentationPerRoomTime(List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][] presRoomTime) {
         for (R r : rooms) {
             for (T t : timeslots) {
                 List<BoolVar> temp = new ArrayList<>();
@@ -179,7 +218,7 @@ public class Solver extends AbstractSolver {
         }
     }
 
-    private void buildConstraintLecturerNotMoreThanOnePresAtTime(List<L> lecturers, List<R> rooms, List<T> timeslots, BoolVar[][][] presRoomTime, List<P>[] presentationsPerLecturer) {
+    private void buildConstraintLecturerNotMoreThanOnePresAtTime(List<L> lecturers, List<R> rooms, List<T> timeslots, IntVar[][] presRoomTime, List<P>[] presentationsPerLecturer) {
         for (L l : lecturers) {
             for (T t : timeslots) {
                 List<BoolVar> temp = new ArrayList<>();
@@ -278,12 +317,12 @@ public class Solver extends AbstractSolver {
 //                    getModel().addHint(coachRoomTime[idx(l)][idx(t)], -1);
 //                    getModel().addEquality(coachRoomTime[idx(l)][idx(t)], r.getId()).onlyEnforceIf(coachTimeRoomBool[idx(l)][idx(t)][idx(r)]); // set value to roomid if lecturer has pres at this time
                 }
-                /*
+
                 IntVar hasPresAtCurrTime = model.newBoolVar("hasPres"+l.getId()+"AtTime"+t.getId());
                 model.addGreaterOrEqual(LinearExpr.sum(coachTimeRoomBool[l.getId()][t.getId()]),1).onlyEnforceIf(hasPresAtCurrTime);
                 model.addLessOrEqual(LinearExpr.sum(coachTimeRoomBool[l.getId()][t.getId()]),0).onlyEnforceIf(hasPresAtCurrTime.not());
                 model.addEquality(coachRoomTime[l.getId()][t.getId()], -1).onlyEnforceIf(hasPresAtCurrTime.not());// set value -1 if lecturer has no presentation at this time
-                   */
+
 
 
                 //Set no room (-1) if the lecturer doesnt have a pres at this time
@@ -376,6 +415,7 @@ public class Solver extends AbstractSolver {
             objIntCoeffs.add(USED_ROOM_COST);
         }
     }
+    */
 
     private Model getModel() {
         return cpModel.getModel();

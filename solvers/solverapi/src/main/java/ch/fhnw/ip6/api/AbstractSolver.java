@@ -28,7 +28,7 @@ public abstract class AbstractSolver implements SolverApi {
     public Planning testSolve() {
         JsonUtil util = new JsonUtil();
 
-        List<PresentationDto> presentations = util.getJsonAsList("presentations.json", PresentationDto.class);
+        List<PresentationDto> presentations = util.getJsonAsList("presentations.json", PresentationDto.class).stream().filter(p -> p.getId() < 20).collect(Collectors.toList());
         List<LecturerDto> lecturers = util.getJsonAsList("lecturers.json", LecturerDto.class);
         List<RoomDto> rooms = util.getJsonAsList("rooms.json", RoomDto.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<TimeslotDto> timeslots = util.getJsonAsList("timeslots.json", TimeslotDto.class);
