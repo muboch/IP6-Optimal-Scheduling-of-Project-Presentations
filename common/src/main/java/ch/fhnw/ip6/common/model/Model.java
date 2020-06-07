@@ -23,6 +23,7 @@ public abstract class Model<M, X> {
     private List<L> coaches;
     private List<L> experts;
     private final X[][][] X;
+    private final X[][] Y;
 
     public Model(List<? extends P> presentations, List<? extends L> lecturers, List<? extends R> rooms, List<? extends T> timeslots, boolean[][] offtimes, M model) {
         this.presentations = presentations;
@@ -32,6 +33,7 @@ public abstract class Model<M, X> {
         this.offtimes = offtimes;
         this.model = model;
         this.X = setupVars();
+        this.Y = setupVars2d();
 
         this.presentationsPerLecturer = new HashMap<>();
         for (L l : lecturers) {
@@ -41,11 +43,17 @@ public abstract class Model<M, X> {
     }
 
     protected abstract X[][][] setupVars();
+    protected abstract X[][] setupVars2d();
+
 
 
     public X[][][] getX() {
         return X;
     }
+    public X[][] getY() {
+        return Y;
+    }
+
 
     public List<P> getPresentations() {
         return Collections.unmodifiableList(presentations);
