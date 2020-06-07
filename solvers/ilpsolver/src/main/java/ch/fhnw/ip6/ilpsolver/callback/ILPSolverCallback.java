@@ -1,5 +1,6 @@
 package ch.fhnw.ip6.ilpsolver.callback;
 
+import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.marker.L;
@@ -25,14 +26,15 @@ public class ILPSolverCallback extends GRBCallback {
     private final List<T> timeslots;
     private final List<R> rooms;
     private final List<L> lecturers;
-    private final GRBModel model;
     private final SolutionChecker solutionChecker;
+    private final SolverContext solverContext;
 
     @SneakyThrows
     @Override
     protected void callback() {
 
         if (where == GRB.CB_MIPSOL) {
+
             Planning planning = new Planning();
             planning.setRooms(rooms);
             planning.setTimeslots(timeslots);
@@ -49,18 +51,21 @@ public class ILPSolverCallback extends GRBCallback {
             solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
             planning.setCost(solutionChecker.getTotalPlanningCost());
             planning.setSolutions(solutions);
-
+            solverContext.saveBestPlanning(planning);
             System.out.println(planning.getPlanningAsTable());
+
         }
+
+
     }
 
-    public ILPSolverCallback(ILPModel model) {
+    public ILPSolverCallback(ILPModel model, SolverContext context) {
         this.x = model.getX();
         this.presentations = model.getPresentations();
         this.timeslots = model.getTimeslots();
         this.rooms = model.getRooms();
         this.lecturers = model.getLecturers();
-        this.model = model.getModel();
         this.solutionChecker = new SolutionChecker();
+        this.solverContext = context;
     }
 }

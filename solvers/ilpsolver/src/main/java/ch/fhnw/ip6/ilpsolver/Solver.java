@@ -23,6 +23,7 @@ import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
+import gurobi.GRBVar;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -52,20 +53,20 @@ public class Solver extends AbstractSolver {
             constraints.add(new AllPresentationsToRoomAndTimeslotAssigned());
             constraints.add(new LecturerNotMoreThanOnePresentationPerTimeslot());
             constraints.add(new OnlyOnePresentationPerRoomAndTimeslot());
-            constraints.add(new MinTimeslotUsages());
-            constraints.add(new MinRoomUsages());
+            //constraints.add(new MinTimeslotUsages());
+            //constraints.add(new MinRoomUsages());
             constraints.add(new MinFreeTimeslots());
-            constraints.add(new MinRoomSwitches());
+            //constraints.add(new MinRoomSwitches());
             constraints.forEach(c -> {
                 c.setObjectives(objective);
                 c.setModel(model).build();
             });
 
-            grbModel.setCallback(new ILPSolverCallback(model));
+            grbModel.setCallback(new ILPSolverCallback(model, solverContext));
             grbModel.setObjective(objective);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.IntParam.Method, 2);
-          // grbModel.set(GRB.IntParam.Seed, (int) (Math.random() * 100000));
+            grbModel.tune();
             grbModel.update();
             grbModel.optimize();
 
@@ -77,18 +78,14 @@ public class Solver extends AbstractSolver {
             solutionChecker.generateStats(planning, ls, ps, ts, rs);
             System.out.println(planning.getPlanningStats());
 
-//            GRBVar[] vars = grbModel.getVars();
-//            System.out.println("Print out the currentRoomNotPrevRoom Vars that are true (>0.5):");
-//            TreeMap<String, Double> myVars = new TreeMap<>();
-//            for (GRBVar var : vars) {
-//                if (var.get(GRB.StringAttr.VarName).startsWith("currentRoomNotPrevRoom") && var.get(GRB.DoubleAttr.X) > 0.5) {
-//                    myVars.put(var.get(GRB.StringAttr.VarName),var.get(GRB.DoubleAttr.X));
-//                }
-//            }
-//            myVars.forEach((key1, value1) -> System.out.println(key1 + " -> " + value1));
-
             grbModel.write("model.mst");
             grbModel.write("out.sol");
+
+
+            for(L l : ls){
+                GRBVar min = grbModel.getVarByName("min"+l);
+                System.out.println(l +" - "+min.get(GRB.DoubleAttr.X));
+            }
 
             // Dispose of model and environment
             grbModel.dispose();

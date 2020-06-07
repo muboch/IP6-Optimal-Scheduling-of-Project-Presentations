@@ -38,8 +38,6 @@ public class MinRoomSwitches extends SoftConstraint {
                 }
             }
 
-            GRBLinExpr sumAllSwitches = new GRBLinExpr();
-
             for (L l : lecturers) {
                 for (R r : rooms) {
                     for (T t : timeslots) {
@@ -78,6 +76,7 @@ public class MinRoomSwitches extends SoftConstraint {
                         rhs.addTerm(1.0, lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)]);
                         rhs.multAdd(1.0, linExprPrevRoom);
                         rhs.addConstant(-1);
+                        // {0,1} >= rhs
                         getGrbModel().addConstr(currentRoomNotPrevRoom, GRB.GREATER_EQUAL, rhs, "ConstrCurrentRoomNotPrevRoom-" + l.getInitials() + "-" + r.getName() + "-" + t.getId());
                         getObjectives().addTerm(CostUtil.ROOM_SWITCH_COST, currentRoomNotPrevRoom);
                     }

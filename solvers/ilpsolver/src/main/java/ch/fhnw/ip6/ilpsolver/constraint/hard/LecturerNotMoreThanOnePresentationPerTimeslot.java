@@ -4,7 +4,6 @@ import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
-import ch.fhnw.ip6.common.util.CostUtil;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import gurobi.GRB;
 import gurobi.GRBException;
@@ -23,7 +22,10 @@ public class LecturerNotMoreThanOnePresentationPerTimeslot extends Constraint {
                     GRBLinExpr lhs = new GRBLinExpr();
                     for (R r : getIlpModel().getRooms()) {
                         for (P p : getIlpModel().getPresentationsPerLecturer().get(l)) {
-                            lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            if (p.getType().equals(r.getType()))
+                                lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            else
+                                lhs.addTerm(0.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                         }
                     }
                     getGrbModel().addConstr(lhs, GRB.LESS_EQUAL, 1.0, getConstraintName());

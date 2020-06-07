@@ -25,7 +25,7 @@ public class ILPModel extends Model<GRBModel, GRBVar> {
             for (int p = 0; p < getPresentations().size(); ++p) {
                 for (int t = 0; t < getTimeslots().size(); ++t) {
                     for (int r = 0; r < getRooms().size(); ++r) {
-                        X[p][t][r] = getModel().addVar(0, 1, 1.0, GRB.BINARY, getPresentations().get(p).getNr() + "." + getTimeslots().get(t).getId() + "." + getRooms().get(r).getName());
+                        X[p][t][r] = getModel().addVar(0, 1, 1.0, GRB.BINARY, "presTimeRoom"+getPresentations().get(p).getNr() + "." + getTimeslots().get(t).getId() + "." + getRooms().get(r).getName());
                     }
                 }
             }
