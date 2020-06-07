@@ -30,7 +30,7 @@ public class ChocoModel extends Model<org.chocosolver.solver.Model, IntVar> {
         for (T t : getTimeslots()) {
             for (R r : getRooms()) {
                 for (P p : getPresentations()) {
-                    roomTime[indexOf(r)][indexOf(t)] = getModel().intVar("roomTime_r" + r.getId() + "_t" + t.getId(), presIdMap.get(p.getType()));
+                    roomTime[indexOf(r)][indexOf(t)] = getModel().intVar("roomTime_r" + r.getId() + "_t" + t.getId(), presIdMap.get(r.getType()));
                 }
             }
         }
