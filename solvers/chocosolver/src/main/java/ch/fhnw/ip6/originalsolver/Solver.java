@@ -7,25 +7,20 @@ import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
-
-import org.apache.commons.lang3.time.StopWatch;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.constraints.nary.alldifferent.conditions.Condition;
 import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
+import org.chocosolver.util.objects.setDataStructures.iterable.IntIterableRangeSet;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static ch.fhnw.ip6.common.util.CostUtil.LECTURER_PER_LESSON_COST;
-import static ch.fhnw.ip6.common.util.CostUtil.USED_ROOM_COST;
 
 @Component("ch.fhnw.ip6.cpsolver.Solver")
 public class Solver extends AbstractSolver {
 
-    private ChocoModel cpModel;
+    private ChocoModel chocoModel;
 
     public Solver(SolverContext solverContext) {
         super(solverContext);
@@ -34,33 +29,19 @@ public class Solver extends AbstractSolver {
     @Override
     public Planning solve(List<P> presentations, List<L> lecturers, List<R> rooms, List<T> timeslots, boolean[][] offTimes) {
         solverContext.setSolving(true);
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
 
-        presentations.forEach(System.out::println);
-        rooms.forEach(System.out::println);
-        timeslots.forEach(System.out::println);
-        lecturers.forEach(System.out::println);
-
-        cpModel = new ChocoModel(presentations, lecturers, rooms, timeslots, offTimes, new Model());
+        chocoModel = new ChocoModel(presentations, lecturers, rooms, timeslots, offTimes, new Model());
 
         //Create cpModel.getModel() presTimeRoom[p,t,r] == 1 -> Presentation p happens in room r at time t
-        IntVar[][] presRoomTime = cpModel.getY();
-
+        IntVar[][] presRoomTime = chocoModel.getY();
         System.out.println("Setup completed");
-        // For each lecturer, list the presentations that are not allowed to overlap
-        List<P>[] presentationsPerLecturer = new ArrayList[lecturers.size()];
-        for (L l : lecturers) {
-            presentationsPerLecturer[idx(l)] = presentations.stream().filter(ps -> ps.getExpert().getId() == l.getId() || ps.getCoach().getId() == l.getId()).collect(Collectors.toList());
-        }
-        System.out.println("Overlap calculation completed");
 
         // Data structures for Objectives
         ArrayList<IntVar> objIntVars = new ArrayList<>();
         ArrayList<Integer> objIntCoeffs = new ArrayList<>();
 
         // START CONSTRAINT: Each Lecturer can only have one presentation per time
-        buildConstraintPresOnePresPerLecturerPerTime(presentationsPerLecturer,lecturers,presentations,rooms,timeslots,presRoomTime);
+        onePresentationPerLecturerPerTime();
 
         // START CONSTRAINT:  For each Presentation, there must be 1 (room,timeslot) pair. -> Each presentation must be presented in a room at a time
         //buildConstraintPresScheduledAtRoomAtTime(presentations, rooms, timeslots, presRoomTime);
@@ -73,7 +54,6 @@ public class Solver extends AbstractSolver {
         // START CONSTRAINT Foreach presentation, the following conflicting (presentation,room, time) pairs are not allowed -> Lecturers may not have more than one presentation at a time.
         //buildConstraintLecturerNotMoreThanOnePresAtTime(lecturers, rooms, timeslots, presRoomTime, presentationsPerLecturer);
         // END CONSTRAINT
-
 
 
         // START CONSTRAINT Soft constraint 1 Coaches should have as little free timeslots between presentations as possible.
@@ -107,15 +87,11 @@ public class Solver extends AbstractSolver {
         // END CONSTRAINT
 
 
-
-
-
-
         // Add the objective to the Solver, parse to array first because java is funny like that
         int[] objIntCoeffsArr = objIntCoeffs.stream().mapToInt(i -> i).toArray();
         IntVar[] objIntVarsArr = objIntVars.toArray(new IntVar[0]);
         IntVar OBJ = getModel().intVar("objective", 0, 100000);
-        getModel().scalar(objIntVarsArr,objIntCoeffsArr,"+", OBJ).post();
+        //getModel().scalar(objIntVarsArr, objIntCoeffsArr, "+", OBJ).post();
 
         // finally, minimize the objective
         // TODO getModel().min(LinearExpr.scalProd(objIntVarsArr, objIntCoeffsArr));
@@ -129,9 +105,9 @@ public class Solver extends AbstractSolver {
         solver.printStatistics();
         ChocoCallback chocoCallback = new ChocoCallback();
 
-        while(solver.solve()){
+        while (solver.solve()) {
             solver.showShortStatistics();
-            chocoCallback.OnChocoCallback(getModel(), presRoomTime, presentations,rooms,timeslots,lecturers);
+            chocoCallback.OnChocoCallback(getModel(), presRoomTime, presentations, rooms, timeslots, lecturers);
         }
 
         // TODO System.out.println(getModel().validate());
@@ -151,33 +127,37 @@ public class Solver extends AbstractSolver {
         public boolean holdOnVar(IntVar x) {
             return !x.contains(-1);
         }
+
         public String toString() {
             return "_except_-1";
         }
     };
 
     // Lecturer may not have more than 1 presentation per timeslot -> Limit at most 1 room allowed per timeslot
-    private void buildConstraintPresOnePresPerLecturerPerTime(List<P>[] presentationsPerLecturer,List<L> lecturers, List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][] presRoomTime) {
-        for (L l: lecturers) {
-            List<IntVar> temp = new ArrayList<>();
-            List<BoolVar> tempBools = new ArrayList<>();
+    private void onePresentationPerLecturerPerTime() {
 
-            for(P p: presentationsPerLecturer[l.getId()]){
+        for (L l : chocoModel.getLecturers()) {
 
-                for (T t:timeslots) {
-                    temp.add(presRoomTime[idx(p)][idx(t)]);
+            for (T t : chocoModel.getTimeslots()) {
+
+                List<IntVar> temp = new ArrayList<>();
+                List<BoolVar> tempBools = new ArrayList<>();
+
+                for (R r : chocoModel.getRooms()) {
+                    temp.add(chocoModel.getY()[idx(r)][idx(t)]);
                 }
+
+                int[] ids = chocoModel.getPresentationsPerLecturer().get(l).stream().map(P::getId).mapToInt(i -> i).toArray();
+                IntIterableRangeSet set = new IntIterableRangeSet(ids);
+                temp.forEach(v -> {
+                    BoolVar bv = getModel().boolVar();
+                    getModel().ifThenElse(getModel().member(v, set), getModel().arithm(bv, "=", 1), getModel().arithm(bv, "=", 0));
+                    tempBools.add(bv);
+                });
+
+                getModel().addClausesAtMostOne(tempBools.toArray(new BoolVar[0]));
+
             }
-            temp.forEach(v -> {
-                BoolVar bv = getModel().boolVar();
-                getModel().ifThenElse(getModel().arithm(v, "=", -1), getModel().arithm(bv, "=", 0), getModel().arithm(bv, "=", 1));
-                tempBools.add(bv);
-            });
-
-
-            BoolVar[] arr = tempBools.toArray(new BoolVar[tempBools.size()]);
-            // max one may be != -1
-            getModel().addClausesAtMostOne(arr);
         }
     }
 
@@ -418,22 +398,22 @@ public class Solver extends AbstractSolver {
     */
 
     private Model getModel() {
-        return cpModel.getModel();
+        return chocoModel.getModel();
     }
 
     private int idx(R r) {
-        return cpModel.indexOf(r);
+        return chocoModel.indexOf(r);
     }
 
     private int idx(L l) {
-        return cpModel.indexOf(l);
+        return chocoModel.indexOf(l);
     }
 
     private int idx(P p) {
-        return cpModel.indexOf(p);
+        return chocoModel.indexOf(p);
     }
 
     private int idx(T t) {
-        return cpModel.indexOf(t);
+        return chocoModel.indexOf(t);
     }
 }

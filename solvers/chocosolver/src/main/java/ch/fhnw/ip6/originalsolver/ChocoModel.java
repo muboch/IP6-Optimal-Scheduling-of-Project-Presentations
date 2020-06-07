@@ -5,10 +5,8 @@ import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.model.Model;
-import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,39 +23,24 @@ public class ChocoModel extends Model<org.chocosolver.solver.Model, IntVar> {
     }
 
     protected IntVar[][] setupVars2d() {
-        IntVar[][] presRoomTime = new IntVar[getPresentations().size()][getTimeslots().size()];
+        IntVar[][] roomTime = new IntVar[getRooms().size()][getTimeslots().size()];
 
-
-
-        Map roomIdMap = new HashMap<String,int[]>();
-        roomIdMap.put("normal", getRoomIDs("normal"));
-        roomIdMap.put("dance", getRoomIDs("dance"));
-        roomIdMap.put("art", getRoomIDs("art"));
-        roomIdMap.put("music", getRoomIDs("music"));
-
+        Map<String, int[]> presIdMap = List.of("normal", "dance", "art", "music").stream().collect(Collectors.toMap(s -> s, this::getPresentationIds));
 
         for (T t : getTimeslots()) {
             for (R r : getRooms()) {
                 for (P p : getPresentations()) {
-                    if (!p.getType().equals(r.getType())) { // If roomtype doesnt fit
-                        continue;
-                    }
-                    if (getOfftimes()[idxLec(p.getCoach())][indexOf(t)] || getOfftimes()[idxLec(p.getExpert())][indexOf(t)]) { // If coach is locked at this time
-                        continue;
-                    }
-                    int [] roomIDS = (int[]) roomIdMap.get(p.getType());
-
-                    presRoomTime[indexOf(p)][indexOf(t)] = getModel().intVar("presRoomTime_p" + p.getId() +  "_t" + t.getId(), (int[]) roomIdMap.get(p.getType()));
+                    roomTime[indexOf(r)][indexOf(t)] = getModel().intVar("roomTime_r" + r.getId() + "_t" + t.getId(), presIdMap.get(p.getType()));
                 }
             }
         }
-        return presRoomTime;
+        return roomTime;
     }
 
-    private int[] getRoomIDs(String roomType) {
-        List<Integer> n =  getRooms().stream().filter(r -> r.getType().equals(roomType)).map(r -> r.getId()).collect(Collectors.toList());
+    private int[] getPresentationIds(String presType) {
+        List<Integer> n = getPresentations().stream().filter(r -> r.getType().equals(presType)).map(P::getId).collect(Collectors.toList());
         n.add(-1);
-        return n.stream().mapToInt(i->i).toArray();
+        return n.stream().mapToInt(i -> i).toArray();
     }
 
     private int idxLec(L lecturer) {
