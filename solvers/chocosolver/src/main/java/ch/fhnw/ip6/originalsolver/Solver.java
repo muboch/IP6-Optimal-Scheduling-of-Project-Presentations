@@ -7,6 +7,8 @@ import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
+
+import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.constraints.nary.alldifferent.conditions.Condition;
 import org.chocosolver.solver.variables.BoolVar;
@@ -104,10 +106,11 @@ public class Solver extends AbstractSolver {
         solver.showShortStatistics();
         solver.printStatistics();
         ChocoCallback chocoCallback = new ChocoCallback();
+         SolutionChecker solutionChecker = new SolutionChecker();
 
         while (solver.solve()) {
             solver.showShortStatistics();
-            chocoCallback.OnChocoCallback(getModel(), presRoomTime, presentations, rooms, timeslots, lecturers);
+            chocoCallback.OnChocoCallback(getModel(), presRoomTime, presentations, rooms, timeslots, lecturers,solutionChecker);
         }
 
         // TODO System.out.println(getModel().validate());

@@ -6,6 +6,7 @@ import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
+import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
@@ -24,24 +25,30 @@ public class ChocoCallback {
         this.solutionCount = 0;
     }
 
-    public void OnChocoCallback(Model model, IntVar[][] presRoomTime, List<P> presentations, List<R> rooms, List<T> timeslots, List<L> lecturers) {
+    public void OnChocoCallback(Model model, IntVar[][] presRoomTime, List<P> presentations, List<R> rooms, List<T> timeslots, List<L> lecturers, SolutionChecker solutionChecker) {
         solutionCount++;
         Planning planning = new Planning();
         planning.setTimeslots(timeslots);
         planning.setRooms(rooms);
-
+        for (P p : presentations) {
         for (T t : timeslots) {
-            for (R r : rooms) {
-                for (P p : presentations) {
                     if (presRoomTime[presentations.indexOf(p)][timeslots.indexOf(t)] == null) continue;
                     if (presRoomTime[presentations.indexOf(p)][timeslots.indexOf(t)].getValue() != -1 ) {
+                        R r = rooms.stream().filter(ro-> ro.getId()== presRoomTime[presentations.indexOf(p)][timeslots.indexOf(t)].getValue()).findFirst().get();
                         planning.getSolutions().add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
                     }
-                }
+
             }
         }
-        System.out.println("Solution " + solutionCount);
+        solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
+        planning.setCost(solutionChecker.getTotalPlanningCost());
+
         System.out.println(planning.getPlanningStats());
-        System.out.println(planning.toString());
+
+        System.out.println();
+        System.out.println("Planning Nr:    " + planning.getNr());
+        System.out.println(planning.getPlanningAsTable());
+        //solverContext.saveBestPlanning(planning);
+
     }
 }
