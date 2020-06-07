@@ -8,6 +8,7 @@ import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 
+import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import org.apache.commons.lang3.time.StopWatch;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.constraints.nary.alldifferent.conditions.Condition;
@@ -128,10 +129,11 @@ public class Solver extends AbstractSolver {
         solver.showShortStatistics();
         solver.printStatistics();
         ChocoCallback chocoCallback = new ChocoCallback();
+         SolutionChecker solutionChecker = new SolutionChecker();
 
         while(solver.solve()){
             solver.showShortStatistics();
-            chocoCallback.OnChocoCallback(getModel(), presRoomTime, presentations,rooms,timeslots,lecturers);
+            chocoCallback.OnChocoCallback(getModel(), presRoomTime, presentations,rooms,timeslots,lecturers,solutionChecker);
         }
 
         // TODO System.out.println(getModel().validate());
@@ -177,7 +179,9 @@ public class Solver extends AbstractSolver {
 
             BoolVar[] arr = tempBools.toArray(new BoolVar[tempBools.size()]);
             // max one may be != -1
-            getModel().addClausesAtMostOne(arr);
+            if(arr.length > 0){
+                getModel().addClausesAtMostOne(arr);
+            }
         }
     }
 
