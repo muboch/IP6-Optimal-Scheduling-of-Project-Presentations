@@ -8,12 +8,9 @@ import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import org.chocosolver.solver.Model;
-import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
 
 import java.util.List;
-
-
 
 
 public class ChocoCallback {
@@ -30,13 +27,13 @@ public class ChocoCallback {
         Planning planning = new Planning();
         planning.setTimeslots(timeslots);
         planning.setRooms(rooms);
-        for (P p : presentations) {
-        for (T t : timeslots) {
-                    if (presRoomTime[presentations.indexOf(p)][timeslots.indexOf(t)] == null) continue;
-                    if (presRoomTime[presentations.indexOf(p)][timeslots.indexOf(t)].getValue() != -1 ) {
-                        R r = rooms.stream().filter(ro-> ro.getId()== presRoomTime[presentations.indexOf(p)][timeslots.indexOf(t)].getValue()).findFirst().get();
-                        planning.getSolutions().add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
-                    }
+        for (R r : rooms) {
+            for (T t : timeslots) {
+                if (presRoomTime[rooms.indexOf(r)][timeslots.indexOf(t)] == null) continue;
+                if (presRoomTime[rooms.indexOf(r)][timeslots.indexOf(t)].getValue() != -1) {
+                    P p = presentations.stream().filter(pres -> pres.getId() == presRoomTime[rooms.indexOf(r)][timeslots.indexOf(t)].getValue()).findFirst().get();
+                    planning.getSolutions().add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
+                }
 
             }
         }

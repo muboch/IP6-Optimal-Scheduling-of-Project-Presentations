@@ -7,7 +7,6 @@ import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
-
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.constraints.nary.alldifferent.conditions.Condition;
@@ -43,10 +42,10 @@ public class Solver extends AbstractSolver {
         ArrayList<Integer> objIntCoeffs = new ArrayList<>();
 
         // START CONSTRAINT: Each Lecturer can only have one presentation per time
-        onePresentationPerLecturerPerTime();
+        // onePresentationPerLecturerPerTime();
 
         // START CONSTRAINT:  For each Presentation, there must be 1 (room,timeslot) pair. -> Each presentation must be presented in a room at a time
-        //buildConstraintPresScheduledAtRoomAtTime(presentations, rooms, timeslots, presRoomTime);
+        eachPresentationMustBeInARoomAtTime();
         // END CONSTRAINT
 
         // START CONSTRAINT For each (room, timeslot) pair there must be <=1 presentation -> Max 1 Presentation per Room/Time
@@ -106,11 +105,11 @@ public class Solver extends AbstractSolver {
         solver.showShortStatistics();
         solver.printStatistics();
         ChocoCallback chocoCallback = new ChocoCallback();
-         SolutionChecker solutionChecker = new SolutionChecker();
+        SolutionChecker solutionChecker = new SolutionChecker();
 
         while (solver.solve()) {
             solver.showShortStatistics();
-            chocoCallback.OnChocoCallback(getModel(), presRoomTime, presentations, rooms, timeslots, lecturers,solutionChecker);
+            chocoCallback.OnChocoCallback(getModel(), presRoomTime, presentations, rooms, timeslots, lecturers, solutionChecker);
         }
 
         // TODO System.out.println(getModel().validate());
@@ -162,6 +161,18 @@ public class Solver extends AbstractSolver {
 
             }
         }
+    }
+
+    public void eachPresentationMustBeInARoomAtTime() {
+        IntVar N = getModel().intVar(chocoModel.getPresentations().size());
+        List<IntVar> temp = new ArrayList<>();
+        for (R r : chocoModel.getRooms()) {
+            for (T t : chocoModel.getTimeslots()) {
+                temp.add(chocoModel.getY()[idx(r)][idx(t)]);
+            }
+        }
+        getModel().atLeastNValues(temp.toArray(new IntVar[0]), N, false).post();
+        // getModel().allDifferentUnderCondition(temp.toArray(new IntVar[0]), EXCEPT_Minus1, true).post();
     }
 
 /*
