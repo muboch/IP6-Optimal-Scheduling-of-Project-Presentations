@@ -35,4 +35,9 @@ public class ILPModel extends Model<GRBModel, GRBVar> {
         }
         return null;
     }
+
+    @Override
+    protected GRBVar[][] setupVars2d() {
+        return new GRBVar[0][];
+    }
 }

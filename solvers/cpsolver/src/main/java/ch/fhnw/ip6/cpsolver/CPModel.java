@@ -35,6 +35,11 @@ public class CPModel extends Model<CpModel, IntVar> {
         return presRoomTime;
     }
 
+    @Override
+    protected IntVar[][] setupVars2d() {
+        return new IntVar[0][];
+    }
+
     public IntVar[][][] getPresRoomTime() {
         return getX();
     }
