@@ -4,6 +4,9 @@ package ch.fhnw.ip6.optasolver;
 import java.util.List;
 
 
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
@@ -19,21 +22,21 @@ public class OptaSolution {
 
     @ValueRangeProvider(id = "timeslotRange")
     @ProblemFactCollectionProperty
-    private List<T> timeslotList;
+    private List<TimeslotDto> timeslotList;
 
     @ValueRangeProvider(id = "roomRange")
     @ProblemFactCollectionProperty
-    private List<R> roomList;
+    private List<RoomDto> roomList;
 
     @PlanningEntityCollectionProperty
-    private List<P> presentationList;
+    private List<PresentationDto> presentationList;
 
     @PlanningScore
     private HardSoftScore score;
     private OptaSolution() {}
 
 
-    public OptaSolution(List<T> timeslots, List<R> rooms, List<P> presentations) {
+    public OptaSolution(List<TimeslotDto> timeslots, List<RoomDto> rooms, List<PresentationDto> presentations) {
         this.timeslotList = timeslots;
         this.roomList = rooms;
         this.presentationList = presentations;
@@ -44,15 +47,15 @@ public class OptaSolution {
     // Getters and setters
     // ********************************
 
-    public List<T> getTimeslotList() {
+    public List<TimeslotDto> getTimeslotList() {
         return timeslotList;
     }
 
-    public List<R> getRoomList() {
+    public List<RoomDto> getRoomList() {
         return roomList;
     }
 
-    public List<P> getPresentationList() {
+    public List<PresentationDto> getPresentationList() {
         return presentationList;
     }
 

@@ -2,12 +2,15 @@ package ch.fhnw.ip6.optasolver;
 
 import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverContext;
+import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
-
 import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.optaplanner.core.config.solver.SolverConfig;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Component("ch.fhnw.ip6.optasolver.Solver")
 public class Solver extends AbstractSolver {
@@ -36,10 +40,15 @@ public class Solver extends AbstractSolver {
     }
 
     @Override
-    public Planning solve(List<P> presentations, List<L> lecturers, List<R> rooms, List<T> timeslots, boolean[][] offTimes) {
+    public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
         solverContext.setSolving(true);
 
-        OptaSolution problem = new OptaSolution(timeslots, rooms,presentations);
+        List<PresentationDto> presentations = ps.stream().map(p -> (PresentationDto) p).collect(Collectors.toList());
+        List<LecturerDto> lecturers = ps.stream().map(p -> (LecturerDto) p).collect(Collectors.toList());
+        List<TimeslotDto> timeslots = ps.stream().map(p -> (TimeslotDto) p).collect(Collectors.toList());
+        List<RoomDto> rooms = ps.stream().map(p -> (RoomDto) p).collect(Collectors.toList());
+
+        OptaSolution problem = new OptaSolution(timeslots, rooms, presentations);
 
         UUID problemId = UUID.randomUUID();
         // Submit the problem to start solving
@@ -69,14 +78,6 @@ public class Solver extends AbstractSolver {
 
  */
     }
-
-
-
-
-
-
-
-
 
 
 }
