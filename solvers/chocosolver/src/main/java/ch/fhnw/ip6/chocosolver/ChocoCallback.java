@@ -1,4 +1,4 @@
-package ch.fhnw.ip6.originalsolver;
+package ch.fhnw.ip6.chocosolver;
 
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Solution;

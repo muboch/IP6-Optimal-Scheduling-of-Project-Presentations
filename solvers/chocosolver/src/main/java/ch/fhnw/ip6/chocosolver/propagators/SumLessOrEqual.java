@@ -1,4 +1,4 @@
-package ch.fhnw.ip6.originalsolver.propagators;
+package ch.fhnw.ip6.chocosolver.propagators;
 
 import org.chocosolver.solver.constraints.Propagator;
 import org.chocosolver.solver.constraints.PropagatorPriority;

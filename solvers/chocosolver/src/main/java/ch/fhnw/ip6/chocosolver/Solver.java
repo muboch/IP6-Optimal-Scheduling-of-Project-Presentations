@@ -1,4 +1,4 @@
-package ch.fhnw.ip6.originalsolver;
+package ch.fhnw.ip6.chocosolver;
 
 import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverContext;
@@ -172,7 +172,6 @@ public class Solver extends AbstractSolver {
             }
         }
         getModel().atLeastNValues(temp.toArray(new IntVar[0]), N, false).post();
-        // getModel().allDifferentUnderCondition(temp.toArray(new IntVar[0]), EXCEPT_Minus1, true).post();
     }
 
 /*
