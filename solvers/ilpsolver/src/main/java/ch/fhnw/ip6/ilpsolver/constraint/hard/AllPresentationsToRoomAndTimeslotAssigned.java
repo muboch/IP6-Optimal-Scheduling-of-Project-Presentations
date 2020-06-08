@@ -28,7 +28,7 @@ public class AllPresentationsToRoomAndTimeslotAssigned extends Constraint {
                             lhs.addTerm(0.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }
                 }
-                getGrbModel().addConstr(lhs, GRB.EQUAL, 1.0, getConstraintName());
+                getGrbModel().addConstr(lhs, GRB.GREATER_EQUAL, 1.0, getConstraintName());
             }
         } catch (GRBException e) {
             e.printStackTrace();

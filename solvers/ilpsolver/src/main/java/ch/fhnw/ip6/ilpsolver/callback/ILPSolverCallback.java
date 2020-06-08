@@ -48,9 +48,9 @@ public class ILPSolverCallback extends GRBCallback {
                     }
                 }
             }
+            planning.setSolutions(solutions);
             solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
             planning.setCost(solutionChecker.getTotalPlanningCost());
-            planning.setSolutions(solutions);
             solverContext.saveBestPlanning(planning);
             System.out.println(planning.getPlanningAsTable());
 

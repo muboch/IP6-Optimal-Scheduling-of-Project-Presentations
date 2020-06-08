@@ -78,6 +78,7 @@ public class MinRoomSwitches extends SoftConstraint {
                         rhs.addConstant(-1);
                         // {0,1} >= rhs
                         getGrbModel().addConstr(currentRoomNotPrevRoom, GRB.GREATER_EQUAL, rhs, "ConstrCurrentRoomNotPrevRoom-" + l.getInitials() + "-" + r.getName() + "-" + t.getId());
+                        // FIXME: Bug cost are wrong
                         getObjectives().addTerm(CostUtil.ROOM_SWITCH_COST, currentRoomNotPrevRoom);
                     }
                 }

@@ -4,6 +4,7 @@ import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
+import ch.fhnw.ip6.common.util.CostUtil;
 import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import gurobi.GRB;
 import gurobi.GRBException;
@@ -11,8 +12,6 @@ import gurobi.GRBLinExpr;
 import gurobi.GRBVar;
 
 import java.util.Comparator;
-
-import static ch.fhnw.ip6.common.util.CostUtil.LECTURER_PER_LESSON_COST;
 
 /**
  * 1. Coaches sollen den Room möglichst selten wechseln.
@@ -24,35 +23,53 @@ public class MinFreeTimeslots extends SoftConstraint {
 
             T t0 = getIlpModel().getTimeslots().stream().min(Comparator.comparingInt(T::getId)).get();
 
+            int UB = getIlpModel().getTimeslots().size();
+
+            GRBVar[][] lecTime = new GRBVar[getIlpModel().getLecturers().size()][getIlpModel().getTimeslots().size()];
+
             for (L l : getIlpModel().getLecturers()) {
-                GRBVar min = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 0.0, GRB.INTEGER, "min" + l);
-                GRBVar max = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 0.0, GRB.INTEGER, "max" + l);
                 for (T t : getIlpModel().getTimeslots()) {
-                    GRBLinExpr rhs = new GRBLinExpr();
-                    for (R r : getIlpModel().getRooms()) {
-                        for (P p : getIlpModel().getPresentationsPerLecturer().get(l)) {
-                            rhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
-                            if (t != t0) {
-                                GRBLinExpr prevLinExpr = new GRBLinExpr();
-                                prevLinExpr.addConstant(1);
-                                prevLinExpr.addTerm(-1.0, getX()[indexOf(p)][indexOf(t) - 1][indexOf(r)]);
-                                rhs.add(prevLinExpr);
-                            }
-                            rhs.addTerm(-1.0, min);
+                    lecTime[indexOf(l)][indexOf(t)] = getGrbModel().addVar(0, 1, 0, GRB.BINARY, null);
+                    GRBLinExpr sum = new GRBLinExpr();
+                    for (P p : getIlpModel().getPresentationsPerLecturer().get(l)) {
+                        for (R r : getIlpModel().getRooms()) {
+                            sum.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                         }
                     }
-                    getGrbModel().addConstr(min, GRB.GREATER_EQUAL, rhs, null);
-                    getGrbModel().addConstr(max, GRB.LESS_EQUAL, getIlpModel().getTimeslots().size(), null);
-                    // firstTimeslot >= 1 * prt[p][t][r] + (1 - prt[p][t-1][r]) - firstTimeslot
-                    // lastTimeslot <= timeslots.size()
+                    getGrbModel().addConstr(lecTime[indexOf(l)][indexOf(t)], GRB.EQUAL, sum, null);
+                }
+            }
 
+            for (L l : getIlpModel().getLecturers()) {
+
+                GRBVar diff = getGrbModel().addVar(0, UB, 0, GRB.INTEGER, "diff[" + l.getId() + "]");
+
+                for (T tBeg : getIlpModel().getTimeslots()) {
+                    for (T tEnd : getIlpModel().getTimeslots()) {
+
+                        // We only use the upper triangular matrix including the diagonal
+                        if (tBeg.getId() > tEnd.getId())
+                            continue;
+
+                        // used = tBeg & tEnd
+                        GRBVar used = getGrbModel().addVar(0, 1, 0, GRB.BINARY, "t[" + l.getId() + "-used-" + tBeg.getId() + "-" + tEnd.getId());
+                        GRBLinExpr usedExpr = new GRBLinExpr();
+                        usedExpr.addTerm(1.0, lecTime[indexOf(l)][indexOf(tBeg)]);
+                        usedExpr.addTerm(1.0, lecTime[indexOf(l)][indexOf(tEnd)]);
+                        usedExpr.addConstant(-1);
+                        getGrbModel().addConstr(used, GRB.GREATER_EQUAL, usedExpr, null);
+
+                        int abs = tEnd.getId() - tBeg.getId() - getIlpModel().getPresentationsPerLecturer().get(l).size();
+
+                        GRBLinExpr rhs = new GRBLinExpr();
+                        rhs.addTerm(abs, used);
+
+                        getGrbModel().addConstr(diff, GRB.GREATER_EQUAL, rhs, null);
+
+                    }
                 }
 
-                GRBLinExpr abs = new GRBLinExpr();
-                abs.addTerm(1.0, max);
-                abs.addTerm(-1.0, min);
-
-                getObjectives().multAdd(LECTURER_PER_LESSON_COST, abs);
+                getObjectives().addTerm(CostUtil.LECTURER_PER_LESSON_COST, diff);
 
             }
 

@@ -36,6 +36,8 @@ public class Solver extends AbstractSolver {
         super(solverContext);
     }
 
+
+    // TODO Carlo: offtimes not yet implemented
     @Override
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
 
@@ -53,10 +55,10 @@ public class Solver extends AbstractSolver {
             constraints.add(new AllPresentationsToRoomAndTimeslotAssigned());
             constraints.add(new LecturerNotMoreThanOnePresentationPerTimeslot());
             constraints.add(new OnlyOnePresentationPerRoomAndTimeslot());
-            //constraints.add(new MinTimeslotUsages());
-            //constraints.add(new MinRoomUsages());
+            constraints.add(new MinTimeslotUsages());
+            constraints.add(new MinRoomUsages());
             constraints.add(new MinFreeTimeslots());
-            //constraints.add(new MinRoomSwitches());
+            constraints.add(new MinRoomSwitches());
             constraints.forEach(c -> {
                 c.setObjectives(objective);
                 c.setModel(model).build();
@@ -66,7 +68,8 @@ public class Solver extends AbstractSolver {
             grbModel.setObjective(objective);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.IntParam.Method, 2);
-            grbModel.tune();
+            grbModel.set(GRB.DoubleParam.TimeLimit, timelimit);
+            //grbModel.tune();
             grbModel.update();
             grbModel.optimize();
 
@@ -81,15 +84,11 @@ public class Solver extends AbstractSolver {
             grbModel.write("model.mst");
             grbModel.write("out.sol");
 
-
-            for(L l : ls){
-                GRBVar min = grbModel.getVarByName("min"+l);
-                System.out.println(l +" - "+min.get(GRB.DoubleAttr.X));
-            }
-
             // Dispose of model and environment
             grbModel.dispose();
             env.dispose();
+
+            return planning;
 
         } catch (GRBException e) {
             e.printStackTrace();
