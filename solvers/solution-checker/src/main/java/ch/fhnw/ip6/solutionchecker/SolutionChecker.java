@@ -277,8 +277,8 @@ public class SolutionChecker {
         for (int i = 0; i < profTimeslot.length; i++) {
             for (int j = 0; j < profTimeslot[i].length; j++) {
                 if (profTimeslot[i][j] > 1) {
-                    errorsOnePresentationPerTimeslotForLecturer.add("Lec " + lecturers.get(i).getInitials() + " has " + profTimeslot[i][j] + " presentations at time " + timeslots.get(i).getDate());
-                    // System.out.println("   Error: Professor " + lecturers.get(i) + " has " + profTimeslot[i][j] + " presentations at time " + timeslots.stream().filter(t -> timeslots.indexOf(t) == finalJ).findFirst().get().getDate());
+                    System.out.println("i:"+i+" j:"+j);
+                    errorsOnePresentationPerTimeslotForLecturer.add("Lec " + lecturers.get(i).getInitials() + " has " + profTimeslot[i][j] + " presentations at time " + timeslots.get(j).getDate());
                 }
             }
         }
