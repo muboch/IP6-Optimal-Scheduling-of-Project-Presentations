@@ -7,12 +7,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@PlanningEntity
 public class PresentationDto implements P {
 
     private int id;
@@ -29,6 +32,13 @@ public class PresentationDto implements P {
     private String coachInitials;
     private String expertInitials;
     private String type;
+
+    @PlanningVariable(valueRangeProviderRefs = "timeslotRange")
+    private TimeslotDto timeslot;
+
+    @PlanningVariable(valueRangeProviderRefs = "roomRange")
+    private RoomDto room;
+
 
     @Override
     public String toString() {
