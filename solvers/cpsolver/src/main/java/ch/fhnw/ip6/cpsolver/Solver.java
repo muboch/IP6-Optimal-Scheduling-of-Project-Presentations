@@ -87,12 +87,12 @@ public class Solver extends AbstractSolver {
         IntVar[][] roomDiffsBool = new IntVar[lecturers.size()][timeslots.size()];
         IntVar[] numChangesForLecturer = new IntVar[lecturers.size()];
         IntVar[][][] curRoomNotPrevRoom = new IntVar[lecturers.size()][rooms.size()][timeslots.size()];
-        buildConstraintMinRoomSwitches(lecturers, rooms, timeslots, presRoomTime, presentationsPerLecturer, objIntVars, objIntCoeffs, coachTimeRoomBool, numChangesForLecturer,curRoomNotPrevRoom);
+       // buildConstraintMinRoomSwitches(lecturers, rooms, timeslots, presRoomTime, presentationsPerLecturer, objIntVars, objIntCoeffs, coachTimeRoomBool, numChangesForLecturer,curRoomNotPrevRoom);
         // END CONSTRAINT
 
 
         // START CONSTRAINT 3.1 As little rooms as possible should be free per timeslots -> Minimize used Timeslots
-        buildConstraintMinUsedTimeslots(presentations, rooms, timeslots, presRoomTime, objIntVars, objIntCoeffs, timeslotCost);
+       // buildConstraintMinUsedTimeslots(presentations, rooms, timeslots, presRoomTime, objIntVars, objIntCoeffs, timeslotCost);
         // END CONSTRAINT
 
         // START CONSTRAINT 4 As little rooms as possible should be used over all -> Minimize used Rooms over all timeslots
@@ -228,10 +228,6 @@ public class Solver extends AbstractSolver {
                     }
                     IntVar[] arr = temp.toArray(new IntVar[0]);
                     getModel().addEquality(LinearExpr.sum(arr), lecturerHasPresAtTime[idx(l)][idx(t)][idx(r)]); // same as above??
-
-                    // Integer conversion -> coach has Room at Time = number
-                    //getModel().addHint(coachRoomTime[idx(l)][idx(t)], -1);
-                    //getModel().addEquality(coachRoomTime[idx(l)][idx(t)], r.getId()).onlyEnforceIf(lecturerHasPresAtTime[idx(l)][idx(t)][idx(r)]); // set value to roomid if lecturer has pres at this time
                 }
             }
         }
@@ -239,31 +235,13 @@ public class Solver extends AbstractSolver {
             for (R r : rooms) {
                 for (T t : timeslots) {
 
-
-
-
                     IntVar prevRoom = getModel().newBoolVar("prevRoom" + idx(l) +"_" + idx(t) + "_" + idx(r)); // If we are currently working with previous room
-
-
-
                     if(t == firstTimeslot){
                         getModel().addEquality(prevRoom,0);
                     } else {
                         getModel().addEquality(prevRoom,0).onlyEnforceIf(lecturerHasPresAtTime[idx(l)][idx(t)-1][idx(r)]);
                         getModel().addEquality(prevRoom,1).onlyEnforceIf(lecturerHasPresAtTime[idx(l)][idx(t)-1][idx(r)].not());
                     }
-
-                    //                {0,1}                       {0,1}
-                    // ---> current == prev
-                    // rhs = 1.0 * prt[l][t][r] + (1 - 1.0 * prt[l][t-1][r]) - 1
-                    // rhs = 1.0 *       1      + (1 - 1.0 *  1            ) - 1
-                    // rhs = 1 + (0) - 1
-                    // rhs = 0
-                    // ---- current != prev
-                    // rhs = 1.0 *       1      + (1 - 1.0 * 0             ) - 1
-                    // rhs = 1 + (1 - 0) - 1
-                    // rhs = 1
-
 
                     curRoomNotPrevRoom[idx(l)][idx(r)][idx(t)] = getModel().newBoolVar("currRoomNotPrev" + idx(l) +"_" + idx(t));
                     getModel().addEquality(LinearExpr.sum(new IntVar[] {lecturerHasPresAtTime[idx(l)][idx(t)][idx(r)], prevRoom, constantOne}), curRoomNotPrevRoom[idx(l)][idx(r)][idx(t)]).onlyEnforceIf(lecturerHasPresAtTime[idx(l)][idx(t)][idx(r)]);
