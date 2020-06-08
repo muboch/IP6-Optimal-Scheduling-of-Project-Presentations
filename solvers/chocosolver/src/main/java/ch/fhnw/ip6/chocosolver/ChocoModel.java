@@ -23,15 +23,13 @@ public class ChocoModel extends Model<org.chocosolver.solver.Model, IntVar> {
     }
 
     protected IntVar[][] setupVars2d() {
-        IntVar[][] roomTime = new IntVar[getRooms().size()][getTimeslots().size()];
+        IntVar[][] roomTime = new IntVar[getTimeslots().size()][getRooms().size()];
 
         Map<String, int[]> presIdMap = List.of("normal", "dance", "art", "music").stream().collect(Collectors.toMap(s -> s, this::getPresentationIds));
 
         for (T t : getTimeslots()) {
             for (R r : getRooms()) {
-                for (P p : getPresentations()) {
-                    roomTime[indexOf(r)][indexOf(t)] = getModel().intVar("roomTime_r" + r.getId() + "_t" + t.getId(), presIdMap.get(r.getType()));
-                }
+                    roomTime[indexOf(t)][indexOf(r)] = getModel().intVar("roomTime_r" + r.getId() + "_t" + t.getId(), presIdMap.get(r.getType()));
             }
         }
         return roomTime;

@@ -29,9 +29,8 @@ public class ChocoCallback {
         planning.setRooms(rooms);
         for (R r : rooms) {
             for (T t : timeslots) {
-                if (presRoomTime[rooms.indexOf(r)][timeslots.indexOf(t)] == null) continue;
-                if (presRoomTime[rooms.indexOf(r)][timeslots.indexOf(t)].getValue() != -1) {
-                    P p = presentations.stream().filter(pres -> pres.getId() == presRoomTime[rooms.indexOf(r)][timeslots.indexOf(t)].getValue()).findFirst().get();
+                if (presRoomTime[timeslots.indexOf(t)][rooms.indexOf(r)].getValue() != -1) {
+                    P p = presentations.stream().filter(pres -> pres.getId() == presRoomTime[timeslots.indexOf(t)][rooms.indexOf(r)].getValue()).findFirst().get();
                     planning.getSolutions().add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
                 }
 

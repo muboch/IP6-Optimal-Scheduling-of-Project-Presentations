@@ -12,11 +12,14 @@ import org.chocosolver.solver.Model;
 import org.chocosolver.solver.constraints.nary.alldifferent.conditions.Condition;
 import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
+import org.chocosolver.solver.variables.SetVar;
 import org.chocosolver.util.objects.setDataStructures.iterable.IntIterableRangeSet;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component("ch.fhnw.ip6.cpsolver.Solver")
 public class Solver extends AbstractSolver {
@@ -42,13 +45,16 @@ public class Solver extends AbstractSolver {
         ArrayList<Integer> objIntCoeffs = new ArrayList<>();
 
         // START CONSTRAINT: Each Lecturer can only have one presentation per time
-        // onePresentationPerLecturerPerTime();
+         onePresentationPerLecturerPerTime();
 
         // START CONSTRAINT:  For each Presentation, there must be 1 (room,timeslot) pair. -> Each presentation must be presented in a room at a time
         eachPresentationMustBeInARoomAtTime();
         // END CONSTRAINT
 
         // START CONSTRAINT For each (room, timeslot) pair there must be <=1 presentation -> Max 1 Presentation per Room/Time
+
+        // does not need to be build for choco as this is enfoced by data structure
+
         //buildConstraintMaxOnePresentationPerRoomTime(presentations, rooms, timeslots, presRoomTime);
         // END CONSTRAINT
 
@@ -96,7 +102,7 @@ public class Solver extends AbstractSolver {
 
         // finally, minimize the objective
         // TODO getModel().min(LinearExpr.scalProd(objIntVarsArr, objIntCoeffsArr));
-        getModel().setObjective(Model.MINIMIZE, OBJ);
+        //getModel().setObjective(Model.MINIMIZE, OBJ);
 
         org.chocosolver.solver.Solver solver = getModel().getSolver();
         solver.limitTime(timelimit * 1000); // In Milliseconds
@@ -137,20 +143,60 @@ public class Solver extends AbstractSolver {
 
     // Lecturer may not have more than 1 presentation per timeslot -> Limit at most 1 room allowed per timeslot
     private void onePresentationPerLecturerPerTime() {
+        /*
+        BoolVar[][] presentationTimeslot = new BoolVar[chocoModel.getPresentations().size()][chocoModel.getTimeslots().size()];
+        for (P p : chocoModel.getPresentations()) {
+            for (T t : chocoModel.getTimeslots()) {
+                presentationTimeslot[idx(p)][idx(t)] = getModel().boolVar();
+            }
+        }
+        for (P p : chocoModel.getPresentations()) {
+            for (T t : chocoModel.getTimeslots()) {
+                List<IntVar> temp = new ArrayList<>();
 
+                for (R r: chocoModel.getRooms()) {
+                    temp.add(presentationTimeslot[idx(r)][idx(t)]);
+                }
+
+
+            }}
+
+
+         */
+
+        IntVar two = getModel().intVar(2);
         for (L l : chocoModel.getLecturers()) {
-
+            List<Integer> idList = chocoModel.getPresentationsPerLecturer().get(l).stream().map(P::getId).collect(Collectors.toList());
+            int[] ids = idList.stream().mapToInt(i -> i).toArray();
             for (T t : chocoModel.getTimeslots()) {
 
                 List<IntVar> temp = new ArrayList<>();
-                List<BoolVar> tempBools = new ArrayList<>();
-
                 for (R r : chocoModel.getRooms()) {
-                    temp.add(chocoModel.getY()[idx(r)][idx(t)]);
+                    //getModel().ifThen(getModel().member(chocoModel.getY()[idx(t)][idx(r)], ids),getModel().atMostNValues(temp.toArray(new IntVar[0]),two,true) );
+                    temp.add(chocoModel.getY()[idx(t)][idx(r)]);
+                    //getModel().member(chocoModel.getY()[idx(t)][idx(r)],ids).post();
                 }
+                temp.forEach( i -> {
+                    int [] idsExcludeCurr = idList.stream().filter(v -> v != i.getValue()).mapToInt(v -> v).toArray();
+                    List<IntVar> varsExcludeCurr = temp.stream().filter(v -> v != i).collect(Collectors.toList());
 
-                int[] ids = chocoModel.getPresentationsPerLecturer().get(l).stream().map(P::getId).mapToInt(i -> i).toArray();
-                IntIterableRangeSet set = new IntIterableRangeSet(ids);
+                    varsExcludeCurr.forEach(var -> {
+                        getModel().ifThen(getModel().member(i, ids),getModel().notMember(var,idsExcludeCurr) );
+                    });
+                });
+/*
+                temp.forEach(i -> {
+                    getModel().ifThen(getModel().member(i, ids),getModel().atMostNValues(chocoModel.getY()[idx(t)],two,true) );
+
+                });
+
+
+*/
+
+
+                //getModel().atMostNValues(temp.toArray(new IntVar[0]),two,true).post();
+
+                /*
                 temp.forEach(v -> {
                     BoolVar bv = getModel().boolVar();
                     getModel().ifThenElse(getModel().member(v, set), getModel().arithm(bv, "=", 1), getModel().arithm(bv, "=", 0));
@@ -159,19 +205,25 @@ public class Solver extends AbstractSolver {
 
                 getModel().addClausesAtMostOne(tempBools.toArray(new BoolVar[0]));
 
+*/
             }
         }
+
     }
 
     public void eachPresentationMustBeInARoomAtTime() {
-        IntVar N = getModel().intVar(chocoModel.getPresentations().size());
+        IntVar N = getModel().intVar(chocoModel.getPresentations().size()+1); // +1 to incorporate "-1" value
         List<IntVar> temp = new ArrayList<>();
         for (R r : chocoModel.getRooms()) {
             for (T t : chocoModel.getTimeslots()) {
-                temp.add(chocoModel.getY()[idx(r)][idx(t)]);
+                temp.add(chocoModel.getY()[idx(t)][idx(r)]);
             }
         }
-        getModel().atLeastNValues(temp.toArray(new IntVar[0]), N, false).post();
+        IntVar[] arr = temp.toArray(new IntVar[0]);
+
+        getModel().atLeastNValues(arr, N, false).post();
+        getModel().allDifferentUnderCondition(arr,EXCEPT_Minus1,true).post();
+        //getModel().atMostNValues(temp.toArray(new IntVar[0]), N, false).post();
     }
 
 /*
