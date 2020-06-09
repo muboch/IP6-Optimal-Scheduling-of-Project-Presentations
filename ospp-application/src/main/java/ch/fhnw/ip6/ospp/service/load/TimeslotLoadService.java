@@ -96,7 +96,7 @@ public class TimeslotLoadService extends AbstractLoadService {
                 }
 
                 Cell cell = row.getCell(row.getFirstCellNum());
-                if (cell != null && cell.getCellType() != CellType.BLANK)
+                if (cell != null && cell.getCellType() == CellType.BLANK)
                     continue;
 
                 Timeslot timeslot = Timeslot.builder()

@@ -41,7 +41,7 @@ public class RoomLoadService extends AbstractLoadService {
                 }
 
                 Cell cell = row.getCell(row.getFirstCellNum());
-                if (cell != null && cell.getCellType() != CellType.BLANK)
+                if (cell != null && cell.getCellType() == CellType.BLANK)
                     continue;
 
                 Room room = Room.builder()

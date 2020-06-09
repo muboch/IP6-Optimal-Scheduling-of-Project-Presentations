@@ -77,11 +77,6 @@ public class PlanningController {
                                               @RequestParam("timeslots") MultipartFile timeslots,
                                               @RequestParam("locktimes") MultipartFile locktimes) {
 
-
-        if (solverContext.isSolving()) {
-            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Solver is already running.");
-        }
-
         List<ConsistencyError> errors = loadFiles(presentations, teachers, rooms, timeslots, locktimes);
 
         if (errors.isEmpty() || errors.stream().noneMatch(e -> e.getStatus() == ERROR)) {

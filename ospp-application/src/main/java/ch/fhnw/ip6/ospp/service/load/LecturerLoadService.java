@@ -40,7 +40,7 @@ public class LecturerLoadService extends AbstractLoadService {
                     continue;
                 }
                 Cell cell = row.getCell(row.getFirstCellNum());
-                if (cell != null && cell.getCellType() != CellType.BLANK)
+                if (cell != null && cell.getCellType() == CellType.BLANK)
                     continue;
 
                 Lecturer lecturer = Lecturer.lecturerBuilder()

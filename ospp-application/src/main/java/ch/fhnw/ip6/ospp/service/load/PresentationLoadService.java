@@ -5,7 +5,6 @@ import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Student;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -46,13 +45,23 @@ public class PresentationLoadService extends AbstractLoadService {
                 }
 
                 Cell cell = row.getCell(row.getFirstCellNum());
-                if (cell != null && cell.getCellType() != CellType.BLANK)
+                if (cell != null && cell.getCellType() == CellType.BLANK)
                     continue;
 
                 Map<String, Lecturer> lecturersMap = lecturers.stream().collect(Collectors.toMap(Lecturer::getInitials, l -> l));
-                Lecturer coach = lecturersMap.get(row.getCell(headerMap.get("coachInitials")).getStringCellValue().toLowerCase());
-                Lecturer expert = lecturersMap.get(row.getCell(headerMap.get("expertInitials")).getStringCellValue().toLowerCase());
+                String coachInitials = row.getCell(headerMap.get("coachInitials")).getStringCellValue().toLowerCase().trim();
+                Lecturer coach = lecturersMap.get(coachInitials);
+                if (coach == null) {
+                    coach = Lecturer.lecturerBuilder().initials(coachInitials).build();
+                    log.error("no lecturer found for {}", coachInitials);
+                }
 
+                String expertInitials = row.getCell(headerMap.get("expertInitials")).getStringCellValue().toLowerCase().trim();
+                Lecturer expert = lecturersMap.get(expertInitials);
+                if (expert == null) {
+                    expert = Lecturer.lecturerBuilder().initials(expertInitials).build();
+                    log.error("no lecturer found for {}", row.getCell(headerMap.get("expertInitials")).getStringCellValue());
+                }
                 Student studentOne = Student.studentBuilder()
                         .name(row.getCell(headerMap.get("name")).getStringCellValue())
                         .schoolclass(row.getCell(headerMap.get("schoolclass")).getStringCellValue())
