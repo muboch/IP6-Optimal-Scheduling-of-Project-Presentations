@@ -7,13 +7,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+
+import java.util.List;
 
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class LecturerDto implements L {
 
     private int id;
@@ -21,6 +23,9 @@ public class LecturerDto implements L {
     private String lastname;
     private String email;
     private String initials;
+
+    @Planning
+    private List<PresentationDto> presentations;
 
     public String getName(){
         return lastname + " " + firstname;

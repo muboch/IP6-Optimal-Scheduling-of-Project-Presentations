@@ -13,7 +13,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class TimeslotDto implements T {
 
      private int id;
@@ -24,6 +23,6 @@ public class TimeslotDto implements T {
 
      @Override
      public String toString() {
-          return String.format("T[id=%03d,dt='%s']", id, date);
+          return String.format("T[id=%03d,dt='%s']", id, date.replace(" ", "-"));
      }
 }
