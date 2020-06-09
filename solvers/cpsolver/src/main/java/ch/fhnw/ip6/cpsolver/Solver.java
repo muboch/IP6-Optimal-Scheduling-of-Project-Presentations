@@ -45,6 +45,7 @@ public class Solver extends AbstractSolver {
         rooms.forEach(System.out::println);
         timeslots.forEach(System.out::println);
         lecturers.forEach(System.out::println);
+        CpModel cpm = new CpModel();
         cpModel = new CPModel(presentations, lecturers, rooms, timeslots, offTimes, new CpModel());
         IntVar[][][] presRoomTime = cpModel.getPresRoomTime();
         System.out.println("Setup completed");
