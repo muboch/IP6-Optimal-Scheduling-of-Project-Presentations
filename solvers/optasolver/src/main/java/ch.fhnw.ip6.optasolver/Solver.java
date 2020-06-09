@@ -54,17 +54,15 @@ public class Solver extends AbstractSolver {
         // Submit the problem to start solving
         SolverJob<OptaSolution, UUID> solverJob = solverManager.solve(problemId, problem);
         OptaSolution solution;
+
         try {
             // Wait until the solving ends
             solution = solverJob.getFinalBestSolution();
         } catch (InterruptedException | ExecutionException e) {
             throw new IllegalStateException("Solving failed.", e);
         }
-        Set<Solution> sol = solution.getPresentationList().stream().map(p -> {
-            return new Solution(p.getRoom(), p.getTimeslot(), p, p.getCoach(), p.getExpert());
-        }).collect(Collectors.toSet());
+        Set<Solution> sol = solution.getPresentationList().stream().map(p -> new Solution(p.getRoom(), p.getTimeslot(), p, p.getCoach(), p.getExpert())).collect(Collectors.toSet());
         Planning p = new Planning();
-
 
         p.setSolutions(sol);
         p.setRooms(solution.getRoomList());
@@ -76,12 +74,6 @@ public class Solver extends AbstractSolver {
         System.out.println(p.getPlanningStats());
         System.out.println(p.getPlanningAsTable());
         return p;
-/*
-        Model model = new ModelImpl();
-        return null;
 
- */
     }
-
-
 }

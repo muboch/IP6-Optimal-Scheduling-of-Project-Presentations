@@ -19,6 +19,7 @@ public class OptaSolution {
 
     @ProblemFactCollectionProperty
     private List<LecturerDto> lecturersList;
+
     @ValueRangeProvider(id = "timeslotRange")
     @ProblemFactCollectionProperty
     private List<TimeslotDto> timeslotList;
