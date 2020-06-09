@@ -8,6 +8,6 @@ public class MinimizeTimeslotsConstraint extends OptaConstraint{
 
     @Override
     public Constraint build() {
-        return constraintFactory.from(PresentationDto.class).groupBy(PresentationDto::getTimeslot).penalize("minimize Timeslots", HardSoftScore.ONE_SOFT);
+        return constraintFactory.from(PresentationDto.class).groupBy(PresentationDto::getTimeslot).penalize("minimize Timeslots", HardSoftScore.ONE_SOFT, (t -> t.getPriority()));
     }
 }

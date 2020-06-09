@@ -14,6 +14,8 @@ public class CoachAndExpertSameConflictConstraint extends OptaConstraint {
         return constraintFactory.from(PresentationDto.class)
                 // pair with another presentation
                 .join(PresentationDto.class,
+                        // Where NR is not same (dont compare presentation with each other)
+                        Joiners.lessThan(PresentationDto::getNr),
                         // in the same timeslot
                         Joiners.equal(PresentationDto::getTimeslot))
                 // filter if coach and expert are the same somewhere

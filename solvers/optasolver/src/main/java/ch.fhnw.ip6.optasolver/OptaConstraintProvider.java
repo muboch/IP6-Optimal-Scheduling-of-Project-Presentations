@@ -28,6 +28,8 @@ public class OptaConstraintProvider implements ConstraintProvider {
         // Soft Constraints
         constraints.add(new MinimizeRoomsConstraint());
         constraints.add(new MinimizeTimeslotsConstraint());
+        //constraints.add(new MinimizeTimeslotsConstraint());
+
 
         constraints.forEach(c -> c.setConstraintFactory(constraintFactory));
         return constraints.stream().map(OptaConstraint::build).toArray(Constraint[]::new);
