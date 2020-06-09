@@ -3,6 +3,7 @@ package ch.fhnw.ip6.optasolver;
 import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.ospp.model.Lecturer;
+import org.apache.tomcat.util.bcel.Const;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.ConstraintFactory;
@@ -16,16 +17,34 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         return new Constraint[]{
                 // Hard constraints
                 roomConflict(constraintFactory),
-                //coachConflict(constraintFactory),
-                //expertConflict(constraintFactory),
-                coachAndExpertSameConflict(constraintFactory)
+                roomTypeConflict(constraintFactory),
+                coachAndExpertSameConflict(constraintFactory),
+                // offtimeconflict
 
                 // Soft constraints
+                minimizeRooms(constraintFactory),
+                minimizeTimeslots(constraintFactory)
+
+
         };
     }
 
+    private Constraint roomTypeConflict ( ConstraintFactory constraintFactory){
+        return constraintFactory.from(PresentationDto.class).filter((pres) -> {
+            return !pres.getType().equals(pres.getRoom().getType());
+        }).penalize("RoomType conflict", HardSoftScore.ONE_HARD);
+    }
+    private Constraint minimizeRooms (ConstraintFactory constraintFactory){
+        return constraintFactory.from(PresentationDto.class).groupBy(p -> p.getRoom()).penalize("minimize Rooms", HardSoftScore.ONE_SOFT);
+    }
+    private Constraint minimizeTimeslots (ConstraintFactory constraintFactory){
+        return constraintFactory.from(PresentationDto.class).groupBy(p -> p.getTimeslot()).penalize("minimize Timeslots", HardSoftScore.ONE_SOFT);
+    }
+
+
+
     private Constraint roomConflict(ConstraintFactory constraintFactory) {
-        // A room can accommodate at most one lesson at the same time.
+        // A room can accommodate at most one presentation at the same time.
 
         // Select a lesson ...
         return constraintFactory.from(PresentationDto.class)
