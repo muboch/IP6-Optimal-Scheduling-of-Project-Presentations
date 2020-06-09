@@ -3,6 +3,7 @@ package ch.fhnw.ip6.ospp.service.load;
 import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Student;
+import ch.fhnw.ip6.ospp.service.FachlicheException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
@@ -49,18 +50,18 @@ public class PresentationLoadService extends AbstractLoadService {
                     continue;
 
                 Map<String, Lecturer> lecturersMap = lecturers.stream().collect(Collectors.toMap(Lecturer::getInitials, l -> l));
-                String coachInitials = row.getCell(headerMap.get("coachInitials")).getStringCellValue().toLowerCase().trim();
+                String coachInitials = getLecturerInitials(headerMap, row, "coachInitials");
                 Lecturer coach = lecturersMap.get(coachInitials);
                 if (coach == null) {
-                    coach = Lecturer.lecturerBuilder().initials(coachInitials).build();
                     log.error("no lecturer found for {}", coachInitials);
+                    throw new FachlicheException("'"+coachInitials + "' ist nicht in der Liste der Lehrpersonen.");
                 }
 
-                String expertInitials = row.getCell(headerMap.get("expertInitials")).getStringCellValue().toLowerCase().trim();
+                String expertInitials = getLecturerInitials(headerMap, row, "expertInitials");
                 Lecturer expert = lecturersMap.get(expertInitials);
                 if (expert == null) {
-                    expert = Lecturer.lecturerBuilder().initials(expertInitials).build();
-                    log.error("no lecturer found for {}", row.getCell(headerMap.get("expertInitials")).getStringCellValue());
+                    log.error("no lecturer found for {}", expertInitials);
+                    throw new FachlicheException("'"+expertInitials + "' ist nicht in der Liste der Lehrpersonen.");
                 }
                 Student studentOne = Student.studentBuilder()
                         .name(row.getCell(headerMap.get("name")).getStringCellValue())
@@ -91,5 +92,9 @@ public class PresentationLoadService extends AbstractLoadService {
             log.error("An exception occured while parsing file {} [{}]", input.getOriginalFilename(), e.getMessage());
         }
         return Collections.emptySet();
+    }
+
+    private String getLecturerInitials(HeaderMap headerMap, Row row, String field) {
+        return row.getCell(headerMap.get(field)).getStringCellValue().replaceAll("[^\\p{L}\\p{Nd}]+", "").toLowerCase().trim();
     }
 }
