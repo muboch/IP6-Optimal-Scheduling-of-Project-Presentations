@@ -7,7 +7,8 @@
     <entityClass>ch.fhnw.ip6.common.dto.PresentationDto</entityClass>
 
     <scoreDirectorFactory>
-        <!--<constraintProviderClass>org.optaplanner.examples.curriculumcourse.optional.score.CourseScheduleConstraintProvider</constraintProviderClass>-->
+
+        <constraintProviderClass>ch.fhnw.ip6.optasolver.TimeTableConstraintProvider</constraintProviderClass>
         <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseConstraints.drl</scoreDrl>-->
         <!--<assertionScoreDirectorFactory>-->
         <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseConstraints.drl</scoreDrl>-->
@@ -15,10 +16,13 @@
     </scoreDirectorFactory>
 
     <termination>
-        <minutesSpentLimit>5</minutesSpentLimit>
+        <secondsSpentLimit>50</secondsSpentLimit>
     </termination>
+
+    <!--
     <constructionHeuristic>
         <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
     </constructionHeuristic>
+    -->
 
 </solver>
