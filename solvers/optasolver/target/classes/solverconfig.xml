@@ -8,7 +8,7 @@
 
     <scoreDirectorFactory>
 
-        <constraintProviderClass>ch.fhnw.ip6.optasolver.TimeTableConstraintProvider</constraintProviderClass>
+        <constraintProviderClass>ch.fhnw.ip6.optasolver.OptaConstraintProvider</constraintProviderClass>
         <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseConstraints.drl</scoreDrl>-->
         <!--<assertionScoreDirectorFactory>-->
         <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseConstraints.drl</scoreDrl>-->

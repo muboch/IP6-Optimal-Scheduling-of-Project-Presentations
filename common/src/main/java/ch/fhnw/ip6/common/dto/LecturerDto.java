@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@PlanningEntity
 public class LecturerDto implements L {
 
     private int id;
@@ -24,7 +26,7 @@ public class LecturerDto implements L {
     private String email;
     private String initials;
 
-    @Planning
+    @PlanningVariableReference(entityClass = PresentationDto.class, variableName = "presentations")
     private List<PresentationDto> presentations;
 
     public String getName(){
