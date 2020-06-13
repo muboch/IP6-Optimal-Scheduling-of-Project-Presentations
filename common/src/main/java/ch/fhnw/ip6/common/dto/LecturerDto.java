@@ -29,6 +29,12 @@ public class LecturerDto implements L {
     @PlanningVariableReference(entityClass = PresentationDto.class, variableName = "presentations")
     private List<PresentationDto> presentations;
 
+    @PlanningVariableReference(entityClass = RoomDto.class, variableName = "rooms")
+    private List<RoomDto> rooms;
+
+    @PlanningVariableReference(entityClass = TimeslotDto.class, variableName = "timeslots")
+    private List<TimeslotDto> timeslots;
+
     public String getName(){
         return lastname + " " + firstname;
     }
