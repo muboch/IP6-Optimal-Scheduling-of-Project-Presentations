@@ -73,6 +73,8 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         setLocation(SCREENROUTES.uploadSucessful);
       }
     } catch (error) {
+      console.log(error);
+
       msgStore.setMessage(`Fehler beim upload der Dateien: ${error}`);
     }
   };

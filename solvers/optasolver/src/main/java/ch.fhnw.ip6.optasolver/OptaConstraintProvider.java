@@ -24,9 +24,9 @@ public class OptaConstraintProvider implements ConstraintProvider {
         constraints.add(new RoomTypeConstraint());
 
         // Soft Constraints
-        // constraints.add(new MinimizeRoomsConstraint());
-        // constraints.add(new MinimizeTimeslotsConstraint());
-        // constraints.add(new MinimizeTimeslotsConstraint());
+         constraints.add(new MinimizeRoomsConstraint());
+         constraints.add(new MinimizeTimeslotsConstraint());
+         constraints.add(new MinimizeTimeslotsConstraint());
 
         constraints.add(new MinimizeRoomSwitchesConstraint());
 

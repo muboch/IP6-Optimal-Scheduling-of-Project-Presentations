@@ -29,13 +29,15 @@ import java.util.stream.Collectors;
 public class Solver extends AbstractSolver {
 
     private final SolutionChecker solutionChecker;
-
-    private final SolverManager<OptaSolution, UUID> solverManager;
+    @Autowired
+    private SolverManager<OptaSolution, UUID> solverManager;
 
     public Solver(SolverContext solverContext) {
         super(solverContext);
         SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
-        this.solverManager = SolverManager.create(solverConfig, new SolverManagerConfig());
+        SolverManager<OptaSolution, UUID> solverManager = SolverManager.create(solverConfig, new SolverManagerConfig());
+        //SolverManager<OptaSolution, UUID> solverManager = SolverManager.create(new SolverConfig(), new SolverManagerConfig());
+        this.solverManager = solverManager;
         this.solutionChecker = new SolutionChecker();
     }
 
@@ -43,10 +45,12 @@ public class Solver extends AbstractSolver {
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
         solverContext.setSolving(true);
 
-        List<Presentation> presentations = ps.stream().map(p -> (Presentation) p).collect(Collectors.toList());
-        List<Lecturer> lecturers = ls.stream().map(p -> (Lecturer) p).collect(Collectors.toList());
-        List<Timeslot> timeslots = ts.stream().map(p -> (Timeslot) p).collect(Collectors.toList());
-        List<Room> rooms = rs.stream().map(p -> (Room) p).collect(Collectors.toList());
+        List<PresentationDto> presentations = ps.stream().map(p -> (PresentationDto) p).collect(Collectors.toList());
+        List<LecturerDto> lecturers = ls.stream().map(p -> (LecturerDto) p).collect(Collectors.toList());
+        List<TimeslotDto> timeslots = ts.stream().map(p -> (TimeslotDto) p).collect(Collectors.toList());
+        List<RoomDto> rooms = rs.stream().map(p -> (RoomDto) p).collect(Collectors.toList());
+
+        lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p ->p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
 
         OptaSolution problem = new OptaSolution(timeslots, rooms, presentations, lecturers);
 
@@ -61,12 +65,14 @@ public class Solver extends AbstractSolver {
         } catch (InterruptedException | ExecutionException e) {
             throw new IllegalStateException("Solving failed.", e);
         }
-        Set<Solution> sol = solution.getPresentations().stream().map(p -> new Solution(p.getRoom(), p.getTimeslot(), p, p.getCoach(), p.getExpert())).collect(Collectors.toSet());
+        Set<Solution> sol = solution.getPresentationList().stream().map(p -> new Solution(p.getRoom(), p.getTimeslot(), p, p.getCoach(), p.getExpert())).collect(Collectors.toSet());
+
+
         Planning p = new Planning();
 
         p.setSolutions(sol);
         p.setRooms(solution.getRoomList());
-        p.setTimeslots(solution.getTimeslots());
+        p.setTimeslots(solution.getTimeslotList());
 
         solutionChecker.generateStats(p, ls, ps, ts, rs);
         p.setCost(solutionChecker.getTotalPlanningCost());
