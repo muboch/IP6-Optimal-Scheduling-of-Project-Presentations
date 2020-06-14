@@ -2,6 +2,7 @@ package ch.fhnw.ip6.optasolver.model;
 
 import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.optasolver.constraints.varlistener.FreeTimeslotsUpdatingVarListener;
+import ch.fhnw.ip6.optasolver.constraints.varlistener.RoomSwitchesUpdatingVarListener;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
@@ -57,10 +58,13 @@ public class Lecturer extends LecturerDto {
         return freeTimeslots;
     }
 
+
     public void setRoomSwitches(int roomSwitches) {
         this.roomSwitches = roomSwitches;
     }
 
+    @CustomShadowVariable(variableListenerClass = RoomSwitchesUpdatingVarListener.class,
+            sources = {@PlanningVariableReference(variableName = "freeTimeslots")})
     public int getRoomSwitches() {
         return roomSwitches;
     }
