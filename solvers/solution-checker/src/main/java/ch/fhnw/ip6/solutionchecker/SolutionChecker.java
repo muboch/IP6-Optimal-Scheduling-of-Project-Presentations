@@ -277,7 +277,6 @@ public class SolutionChecker {
         for (int i = 0; i < profTimeslot.length; i++) {
             for (int j = 0; j < profTimeslot[i].length; j++) {
                 if (profTimeslot[i][j] > 1) {
-                    System.out.println("i:"+i+" j:"+j);
                     errorsOnePresentationPerTimeslotForLecturer.add("Lec " + lecturers.get(i).getInitials() + " has " + profTimeslot[i][j] + " presentations at time " + timeslots.get(j).getDate());
                 }
             }

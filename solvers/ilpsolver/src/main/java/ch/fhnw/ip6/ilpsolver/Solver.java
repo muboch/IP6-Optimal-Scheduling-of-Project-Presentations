@@ -17,14 +17,16 @@ import ch.fhnw.ip6.ilpsolver.constraint.soft.MinFreeTimeslots;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomSwitches;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomUsages;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinTimeslotUsages;
-import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import gurobi.GRB;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
-import gurobi.GRBVar;
+import org.apache.commons.lang3.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +34,21 @@ import java.util.List;
 @Component("ch.fhnw.ip6.ilpsolver.Solver")
 public class Solver extends AbstractSolver {
 
+    private final static Logger log = LoggerFactory.getLogger(Solver.class);
+
     public Solver(SolverContext solverContext) {
         super(solverContext);
     }
 
-
-    // TODO Carlo: offtimes not yet implemented
     @Override
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
 
+        GurobiLoggingProxy.tieConsoleLogToLog4J();
+
+        // set this flag so other processes know that the solver is running
+        solverContext.setSolving(true);
+        StopWatch watch = new StopWatch();
+        watch.start();
         try {
 
             GRBEnv env = new GRBEnv();
@@ -49,8 +57,11 @@ public class Solver extends AbstractSolver {
 
             ILPModel model = new ILPModel(ps, ls, rs, ts, offTimes, grbModel);
 
+            log.info("Number of Problem Instances: Presentations: {}, Lecturers: {}, Rooms: {}, Timeslots: {}, OffTimes: {}", ps.size(), ls.size(), rs.size(), ts.size(), offTimes.length);
+
             GRBLinExpr objective = new GRBLinExpr();
 
+            watch.split();
             List<Constraint> constraints = new ArrayList<>();
             constraints.add(new AllPresentationsToRoomAndTimeslotAssigned());
             constraints.add(new LecturerNotMoreThanOnePresentationPerTimeslot());
@@ -63,26 +74,26 @@ public class Solver extends AbstractSolver {
                 c.setObjectives(objective);
                 c.setModel(model).build();
             });
+            log.debug("Setup Constraints duration: {}ms", watch.getSplitTime());
+            watch.unsplit();
 
             grbModel.setCallback(new ILPSolverCallback(model, solverContext));
             grbModel.setObjective(objective);
+            grbModel.set(GRB.IntParam.LogToConsole, 1);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
-            grbModel.set(GRB.IntParam.Method, 2);
             grbModel.set(GRB.DoubleParam.TimeLimit, timelimit);
-            //grbModel.tune();
             grbModel.update();
-            grbModel.optimize();
 
-            Planning planning = new Planning();
+            watch.split();
+            log.debug("Start with Gurobi Optimization");
+            grbModel.optimize();
+            log.debug("End of Gurobi Optimization after {}ms", watch.getSplitTime());
+            watch.unsplit();
+
+            Planning planning = solverContext.getPlanning();
             planning.setTimeslots(ts);
             planning.setRooms(rs);
             fillPlanning(ps, rs, ts, grbModel, model, planning);
-            SolutionChecker solutionChecker = new SolutionChecker();
-            solutionChecker.generateStats(planning, ls, ps, ts, rs);
-            System.out.println(planning.getPlanningStats());
-
-            grbModel.write("model.mst");
-            grbModel.write("out.sol");
 
             // Dispose of model and environment
             grbModel.dispose();
@@ -92,8 +103,12 @@ public class Solver extends AbstractSolver {
 
         } catch (GRBException e) {
             e.printStackTrace();
+        } finally {
+            // set this flag so other processes know that the solver is finished
+            solverContext.setSolving(false);
+            watch.stop();
+            log.info("Duration of \"Gurobi\" Solver: {}ms", watch.getTime());
         }
-
         return null;
     }
 

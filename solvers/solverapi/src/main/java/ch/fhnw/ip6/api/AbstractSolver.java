@@ -12,6 +12,8 @@ import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
@@ -22,9 +24,11 @@ import java.util.stream.Collectors;
 public abstract class AbstractSolver implements SolverApi {
 
     @Value("${ospp.timelimit}")
-    public final int timelimit = 3600;
+    public final int timelimit = 10;
 
     protected final SolverContext solverContext;
+
+    private final static Logger log = LoggerFactory.getLogger(AbstractSolver.class);
 
     public Planning testSolve() {
         JsonUtil util = new JsonUtil();
@@ -44,15 +48,16 @@ public abstract class AbstractSolver implements SolverApi {
                 lecturers.stream().map(x -> (L) x).collect(Collectors.toList()),
                 rooms.stream().map(x -> (R) x).collect(Collectors.toList()),
                 timeslots.stream().map(x -> (T) x).collect(Collectors.toList()),
-                new boolean[lecturers.size()][timeslots.size()]);
-        System.out.println("----------------");
-        System.out.println("Solver completed. Best solution:");
-        System.out.println(solverContext.getPlanning().getPlanningStats());
-        System.out.println(solverContext.getPlanning().getPlanningAsTable());
+                new boolean[lecturers.size()][timeslots.size()]
+        );
+
+        log.info("Solver completed. Best solution:");
+        log.info("Planning Stats:\n{}",solverContext.getPlanning().getPlanningStats());
+        log.info("Planning:\n{}",solverContext.getPlanning().getPlanningAsTable());
         return solverContext.getPlanning();
-
-
     }
+
+
 
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Getter
 public class SolverContext {
 
+    private String logFileName;
 
     private boolean isSolving;
 
@@ -19,13 +20,11 @@ public class SolverContext {
      * Compares received planning with existing planning. Keeps the planning with the better score.
      *
      * @param planning
-     * @return current Planning with best score
      */
-    public Planning saveBestPlanning(Planning planning) {
+    public void saveBestPlanning(Planning planning) {
         if (this.planning== null || this.planning.getCost() > planning.getCost()) {
             this.planning = planning;
         }
-        return this.planning;
     }
 
     /**
@@ -34,6 +33,16 @@ public class SolverContext {
     public void reset(){
         isSolving = false;
         planning = null;
+        logFileName = null;
     }
+
+    public String getLogFileName() {
+        return logFileName;
+    }
+
+    public void setLogFileName(String logFileName) {
+        this.logFileName = logFileName;
+    }
+
 
 }

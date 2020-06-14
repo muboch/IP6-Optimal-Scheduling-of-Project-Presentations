@@ -14,6 +14,8 @@ import gurobi.GRBCallback;
 import gurobi.GRBModel;
 import gurobi.GRBVar;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +30,8 @@ public class ILPSolverCallback extends GRBCallback {
     private final List<L> lecturers;
     private final SolutionChecker solutionChecker;
     private final SolverContext solverContext;
+
+    private final Logger log = LoggerFactory.getLogger(ILPSolverCallback.class);
 
     @SneakyThrows
     @Override
@@ -52,7 +56,7 @@ public class ILPSolverCallback extends GRBCallback {
             solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
             planning.setCost(solutionChecker.getTotalPlanningCost());
             solverContext.saveBestPlanning(planning);
-            System.out.println(planning.getPlanningAsTable());
+            log.info("New Planning Nr. {} - Cost: {}\n{}", planning.getNr(), planning.getCost(),planning.getPlanningAsTable());
 
         }
 
