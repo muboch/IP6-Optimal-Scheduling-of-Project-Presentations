@@ -47,7 +47,7 @@ public class Solver extends AbstractSolver {
 
         JsonUtil util = new JsonUtil();
 
-        List<Presentation> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", Presentation.class)).subList(0, 10);
+        List<Presentation> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", Presentation.class));//.subList(0, 10);
         List<Lecturer> lecturers = util.getJsonAsList("lecturers.json", Lecturer.class);
         List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
