@@ -13,9 +13,6 @@ public class Program {
         LocalDateTime now = LocalDateTime.now();
         sc.setLogFileName("ortools-" + now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         Solver solver = new Solver(sc);
-
-
-
         solver.testSolve();
 
     }
