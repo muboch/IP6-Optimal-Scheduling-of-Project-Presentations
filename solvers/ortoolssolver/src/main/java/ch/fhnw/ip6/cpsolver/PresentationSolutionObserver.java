@@ -12,6 +12,8 @@ import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
 import org.apache.commons.lang3.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -25,6 +27,8 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     private final SolverContext solverContext;
     private final SolutionChecker solutionChecker;
     private int solutionCount;
+    private final Logger log = LoggerFactory.getLogger(PresentationSolutionObserver.class);
+
 
     @Override
     public void onSolutionCallback() {
@@ -38,8 +42,9 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         for (T t : timeslots) {
             for (R r : rooms) {
                 for (P p : presentations) {
-                    if (presRoomTime[presentations.indexOf(p)][rooms.indexOf(r)][timeslots.indexOf(t)] == null) continue;
-                    if (booleanValue(presRoomTime[presentations.indexOf(p)][rooms.indexOf(r)][timeslots.indexOf(t)] )) {
+                    if (presRoomTime[presentations.indexOf(p)][rooms.indexOf(r)][timeslots.indexOf(t)] == null)
+                        continue;
+                    if (booleanValue(presRoomTime[presentations.indexOf(p)][rooms.indexOf(r)][timeslots.indexOf(t)])) {
                         planning.getSolutions().add(new Solution(r, t, p, p.getExpert(), p.getCoach()));
                     }
                 }
@@ -47,14 +52,10 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         }
         solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
         planning.setCost(solutionChecker.getTotalPlanningCost());
-
-        System.out.println(planning.getPlanningStats());
-        System.out.println("Solver reported cost:"+ objectiveValue() + " Branches:" + numBranches() + " Conflicts:"+ numConflicts());
-
-        System.out.println();
-        System.out.println("Planning Nr:    " + planning.getNr());
-        System.out.println(planning.getPlanningAsTable());
+        System.out.println("Solver reported cost:" + objectiveValue() + " Branches:" + numBranches() + " Conflicts:" + numConflicts());
         solverContext.saveBestPlanning(planning);
+        log.info("New Planning Nr. {} - Cost: {}\n{}", planning.getNr(), planning.getCost(), planning.getPlanningAsTable());
+
     }
 
     public PresentationSolutionObserver(IntVar[][][] presRoomTime, List<L> lecturers, List<P> presentations, List<T> timeslots, List<R> rooms, StopWatch stopWatch, SolverContext solverContext) {
