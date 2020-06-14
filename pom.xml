@@ -37,7 +37,6 @@
         <module>solvers/solverapi</module>
         <module>solvers/cpsolver</module>
         <module>solvers/ilpsolver</module>
-        <module>solvers/chocosolver</module>
         <module>solvers/optasolver</module>
         <module>solvers/solution-checker</module>
         <module>solvers/olddata-checker</module>
