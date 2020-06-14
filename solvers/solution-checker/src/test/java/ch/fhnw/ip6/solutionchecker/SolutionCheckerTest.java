@@ -155,8 +155,8 @@ public class SolutionCheckerTest {
 
         List<P> presentations = new ArrayList<>();
 
-        PresentationDto p1 = PresentationDto.builder().expertInitials(lecs.get(0).getInitials()).coachInitials(lecs.get(1).getInitials()).build();
-        PresentationDto p2 = PresentationDto.builder().expertInitials(lecs.get(0).getInitials()).coachInitials(lecs.get(1).getInitials()).build();
+        PresentationDto p1 = PresentationDto.builder().id(1).expertInitials(lecs.get(0).getInitials()).coachInitials(lecs.get(1).getInitials()).build();
+        PresentationDto p2 = PresentationDto.builder().id(2).expertInitials(lecs.get(0).getInitials()).coachInitials(lecs.get(1).getInitials()).build();
         presentations.add(p1);
         presentations.add(p2);
 

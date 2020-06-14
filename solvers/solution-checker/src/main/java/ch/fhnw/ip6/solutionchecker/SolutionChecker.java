@@ -297,7 +297,7 @@ public class SolutionChecker {
         errorsEachPresentationOnce = new HashSet<>();
 
         int[] presentationsScheduledTime = new int[presentations.size()];
-        List<Integer> presentationIds = presentations.stream().map(p -> p.getId()).collect(Collectors.toList());
+        List<Integer> presentationIds = presentations.stream().map(P::getId).collect(Collectors.toList());
 
         for (Solution result : solutions) {
             presentationsScheduledTime[presentationIds.indexOf(result.getPresentation().getId())]++;
