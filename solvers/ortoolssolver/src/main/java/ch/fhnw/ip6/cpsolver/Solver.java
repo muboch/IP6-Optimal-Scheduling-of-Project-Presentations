@@ -29,7 +29,7 @@ public class Solver extends AbstractSolver {
         System.loadLibrary("jniortools");
     }
 
-    private CPModel cpModel;
+    private OrToolsModel orToolsModel;
 
     public Solver(SolverContext solverContext) {
         super(solverContext);
@@ -46,8 +46,8 @@ public class Solver extends AbstractSolver {
         timeslots.forEach(System.out::println);
         lecturers.forEach(System.out::println);
         CpModel cpm = new CpModel();
-        cpModel = new CPModel(presentations, lecturers, rooms, timeslots, offTimes, new CpModel());
-        IntVar[][][] presRoomTime = cpModel.getPresRoomTime();
+        orToolsModel = new OrToolsModel(presentations, lecturers, rooms, timeslots, offTimes, new CpModel());
+        IntVar[][][] presRoomTime = orToolsModel.getPresRoomTime();
         System.out.println("Setup completed");
         // For each lecturer, list the presentations that are not allowed to overlap
         List<P>[] presentationsPerLecturer = new ArrayList[lecturers.size()];
@@ -389,22 +389,22 @@ public class Solver extends AbstractSolver {
     }
 
     private CpModel getModel() {
-        return cpModel.getModel();
+        return orToolsModel.getModel();
     }
 
     private int idx(R r) {
-        return cpModel.indexOf(r);
+        return orToolsModel.indexOf(r);
     }
 
     private int idx(L l) {
-        return cpModel.indexOf(l);
+        return orToolsModel.indexOf(l);
     }
 
     private int idx(P p) {
-        return cpModel.indexOf(p);
+        return orToolsModel.indexOf(p);
     }
 
     private int idx(T t) {
-        return cpModel.indexOf(t);
+        return orToolsModel.indexOf(t);
     }
 }

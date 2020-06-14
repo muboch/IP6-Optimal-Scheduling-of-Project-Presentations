@@ -10,9 +10,9 @@ import com.google.ortools.sat.IntVar;
 
 import java.util.List;
 
-public class CPModel extends Model<CpModel, IntVar> {
+public class OrToolsModel extends Model<CpModel, IntVar> {
 
-    public CPModel(List<? extends P> presentations, List<? extends L> lecturers, List<? extends R> rooms, List<? extends T> timeslots, boolean[][] offTimes, CpModel model) {
+    public OrToolsModel(List<? extends P> presentations, List<? extends L> lecturers, List<? extends R> rooms, List<? extends T> timeslots, boolean[][] offTimes, CpModel model) {
         super(presentations, lecturers, rooms, timeslots, offTimes, model);
     }
 
