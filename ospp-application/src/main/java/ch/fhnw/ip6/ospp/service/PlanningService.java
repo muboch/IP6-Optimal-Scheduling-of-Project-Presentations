@@ -2,11 +2,7 @@ package ch.fhnw.ip6.ospp.service;
 
 import ch.fhnw.ip6.api.SolverApi;
 import ch.fhnw.ip6.api.SolverContext;
-import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
@@ -76,10 +72,14 @@ public class PlanningService {
     @Value("${ospp.solver}")
     private String solverName;
 
-    @Value("${ospp.testmode}")
-    private boolean testmode = true;
+    @Value("${ospp.testMode}")
+    private boolean testMode = true;
+
+    @Value("${ospp.timeLimit}")
+    private int timelimit;
 
     private static final String[] columns = {"Nr", "Titel", "Name", "Klasse", "Name 2", "Klasse 2", "Betreuer", "Experte", "Zeit", "Raum"};
+
 
     /**
      * Create a two-dimensional array of boolean. A field is true if the lecturer has a timeslot as offtime defined.
@@ -119,7 +119,7 @@ public class PlanningService {
         if (solverContext.isSolving()) {
             throw new Exception("Solver is already running.");
         }
-        if (testmode) {
+        if (testMode) {
             planning = getSolver().testSolve();
         } else {
             solverContext.reset();
@@ -232,9 +232,19 @@ public class PlanningService {
         return (SolverApi) applicationContext.getBean(solverName);
     }
 
-
     public void delete(Long id) {
         planningRepository.deleteById(id);
     }
 
+    public void setTestMode(boolean testMode) {
+        this.testMode = testMode;
+    }
+
+    public void setSolverName(String solverName) {
+        this.solverName = solverName;
+    }
+
+    public void setTimeLimit(int timeLimit) {
+        this.timelimit = timeLimit;
+    }
 }

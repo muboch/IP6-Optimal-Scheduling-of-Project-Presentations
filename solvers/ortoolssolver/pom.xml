@@ -9,7 +9,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>cpsolver</artifactId>
+    <artifactId>ortoolssolver</artifactId>
 
     <repositories>
         <repository>

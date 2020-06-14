@@ -35,7 +35,7 @@
     <modules>
         <module>common</module>
         <module>solvers/solverapi</module>
-        <module>solvers/cpsolver</module>
+        <module>solvers/ortoolssolver</module>
         <module>solvers/ilpsolver</module>
         <module>solvers/optasolver</module>
         <module>solvers/solution-checker</module>
@@ -56,9 +56,20 @@
                 <artifactId>common</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>ch.fhnw.ip6</groupId>
-                <artifactId>cpsolver</artifactId>
+                <artifactId>ortoolssolver</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.fhnw.ip6</groupId>
+                <artifactId>ilpsolver</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.fhnw.ip6</groupId>
+                <artifactId>optasolver</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

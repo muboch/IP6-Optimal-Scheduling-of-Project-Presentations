@@ -35,9 +35,19 @@
             <groupId>ch.fhnw.ip6</groupId>
             <artifactId>solverapi</artifactId>
         </dependency>
+
+        <!-- solvers -->
         <dependency>
             <groupId>ch.fhnw.ip6</groupId>
-            <artifactId>cpsolver</artifactId>
+            <artifactId>ortoolssolver</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.fhnw.ip6</groupId>
+            <artifactId>ilpsolver</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.fhnw.ip6</groupId>
+            <artifactId>optasolver</artifactId>
         </dependency>
 
         <!-- spring boot -->

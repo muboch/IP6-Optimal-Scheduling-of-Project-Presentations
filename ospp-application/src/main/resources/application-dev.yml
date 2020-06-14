@@ -12,9 +12,8 @@ spring:
     hibernate:
       ddl-auto: create
 ospp:
-  solver: ch.fhnw.ip6.cpsolver.Solver
-  timelimit: 180
-  testmode: false
+  timeLimit: 3600 # 1h
+  testMode: true
 
 server:
   address: 0.0.0.0
