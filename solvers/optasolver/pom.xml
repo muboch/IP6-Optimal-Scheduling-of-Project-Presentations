@@ -43,13 +43,5 @@
             <groupId>ch.fhnw.ip6</groupId>
             <artifactId>solverapi</artifactId>
         </dependency>
-        <dependency>
-            <groupId>ch.fhnw.ip6</groupId>
-            <artifactId>ospp-application</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.fhnw.ip6</groupId>
-            <artifactId>ospp-application</artifactId>
-        </dependency>
     </dependencies>
 </project>

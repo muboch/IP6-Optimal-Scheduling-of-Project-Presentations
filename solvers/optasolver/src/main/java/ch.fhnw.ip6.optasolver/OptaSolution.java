@@ -1,48 +1,49 @@
 package ch.fhnw.ip6.optasolver;
 
 
-import java.util.List;
-
-
-import ch.fhnw.ip6.common.dto.LecturerDto;
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
+import ch.fhnw.ip6.optasolver.model.Lecturer;
+import ch.fhnw.ip6.optasolver.model.Presentation;
+import ch.fhnw.ip6.optasolver.model.Room;
+import ch.fhnw.ip6.optasolver.model.Timeslot;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+
+import java.util.List;
+
 @PlanningSolution
 public class OptaSolution {
 
     @ProblemFactCollectionProperty
-    private List<LecturerDto> lecturersList;
+    private List<Lecturer> lecturers;
 
     @ValueRangeProvider(id = "timeslotRange")
     @ProblemFactCollectionProperty
-    private List<TimeslotDto> timeslotList;
+    private List<Timeslot> timeslots;
 
     @ValueRangeProvider(id = "roomRange")
     @ProblemFactCollectionProperty
-    private List<RoomDto> roomList;
+    private List<Room> roomList;
 
     @PlanningEntityCollectionProperty
-    private List<PresentationDto> presentationList;
-
+    private List<Presentation> presentations;
 
 
     @PlanningScore
     private HardSoftScore score;
-    private OptaSolution() {}
+
+    private OptaSolution() {
+    }
 
 
-    public OptaSolution(List<TimeslotDto> timeslots, List<RoomDto> rooms, List<PresentationDto> presentations, List<LecturerDto> lecturers) {
-        this.timeslotList = timeslots;
+    public OptaSolution(List<Timeslot> timeslots, List<Room> rooms, List<Presentation> presentations, List<Lecturer> lecturers) {
+        this.timeslots = timeslots;
         this.roomList = rooms;
-        this.presentationList = presentations;
-        this.lecturersList = lecturers;
+        this.presentations = presentations;
+        this.lecturers = lecturers;
     }
 
 
@@ -50,16 +51,21 @@ public class OptaSolution {
     // Getters and setters
     // ********************************
 
-    public List<TimeslotDto> getTimeslotList() {
-        return timeslotList;
+
+    public List<Lecturer> getLecturers() {
+        return lecturers;
     }
 
-    public List<RoomDto> getRoomList() {
+    public List<Timeslot> getTimeslots() {
+        return timeslots;
+    }
+
+    public List<Room> getRoomList() {
         return roomList;
     }
 
-    public List<PresentationDto> getPresentationList() {
-        return presentationList;
+    public List<Presentation> getPresentations() {
+        return presentations;
     }
 
     public HardSoftScore getScore() {

@@ -1,24 +1,21 @@
 package ch.fhnw.ip6.optasolver.constraints;
 
-import ch.fhnw.ip6.common.dto.LecturerDto;
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.ospp.model.Lecturer;
-import org.hibernate.mapping.Join;
+import ch.fhnw.ip6.optasolver.model.Lecturer;
+import ch.fhnw.ip6.optasolver.model.Presentation;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.Joiners;
 
 
-public class MinimizeFreeTimeslotsConstraint extends OptaConstraint{
+public class MinimizeFreeTimeslotsConstraint extends OptaConstraint {
     @Override
     public Constraint build() {
 
         // Select a lecturer
-        return constraintFactory.from(PresentationDto.class)
-        .join(LecturerDto.class,
-                        Joiners.equal(PresentationDto::getCoachInitials, LecturerDto::getInitials))
-
-                .penalize("Shift on an off-day",
+        return constraintFactory.from(Presentation.class)
+                .join(Lecturer.class,
+                        Joiners.equal(Presentation::getCoachInitials, Lecturer::getInitials))
+                .penalize("Minimize Free Timeslots",
                         HardSoftScore.ONE_HARD);
 
     }

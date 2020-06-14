@@ -15,7 +15,6 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@PlanningEntity
 public class PresentationDto implements P {
 
     private int id;
@@ -32,13 +31,6 @@ public class PresentationDto implements P {
     private String coachInitials;
     private String expertInitials;
     private String type;
-
-    @PlanningVariable(valueRangeProviderRefs = "timeslotRange")
-    private TimeslotDto timeslot;
-
-    @PlanningVariable(valueRangeProviderRefs = "roomRange")
-    private RoomDto room;
-
 
     @Override
     public String toString() {

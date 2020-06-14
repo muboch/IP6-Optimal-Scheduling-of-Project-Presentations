@@ -6,7 +6,7 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.ConstraintCollectors;
 
-public class RoomSwitchesConstraint extends OptaConstraint {
+public class MinimizeRoomSwitchesConstraint extends OptaConstraint {
 
     @Override
     public Constraint build() {
