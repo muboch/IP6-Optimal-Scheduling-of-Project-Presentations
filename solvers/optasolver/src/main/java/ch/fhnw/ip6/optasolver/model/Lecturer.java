@@ -64,8 +64,18 @@ public class Lecturer extends LecturerDto {
     }
 
     @CustomShadowVariable(variableListenerClass = RoomSwitchesUpdatingVarListener.class,
-            sources = {@PlanningVariableReference(variableName = "freeTimeslots")})
-    public int getRoomSwitches() {
+            sources = {@PlanningVariableReference(variableName = "room", entityClass = Presentation.class)})
+    public Integer getRoomSwitches() {
         return roomSwitches;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

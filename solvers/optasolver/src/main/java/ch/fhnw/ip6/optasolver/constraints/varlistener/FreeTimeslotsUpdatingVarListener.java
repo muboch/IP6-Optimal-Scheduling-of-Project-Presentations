@@ -8,6 +8,7 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 
 public class FreeTimeslotsUpdatingVarListener implements VariableListener<Presentation> {
@@ -29,7 +30,7 @@ public class FreeTimeslotsUpdatingVarListener implements VariableListener<Presen
 
     @Override
     public void afterVariableChanged(ScoreDirector scoreDirector, Presentation presentation) {
-updateFreeTimeslots(scoreDirector,presentation);
+        updateFreeTimeslots(scoreDirector, presentation);
     }
 
     @Override
@@ -41,20 +42,23 @@ updateFreeTimeslots(scoreDirector,presentation);
     public void afterEntityRemoved(ScoreDirector scoreDirector, Presentation presentation) {
 
     }
+
     private void updateFreeTimeslots(ScoreDirector scoreDirector, Presentation presentation) {
         List<Lecturer> coachAndExpert = new ArrayList<>();
         coachAndExpert.add((Lecturer) presentation.getCoach());
         coachAndExpert.add((Lecturer) presentation.getExpert());
 
         coachAndExpert.forEach(l -> {
-            if (l.getPresentations() == null){return;}
-            if (l.getPresentations().stream().map(p -> p.getTimeslot()).filter(t -> t == null).count() > 0){
+            if (l.getPresentations() == null) {
+                return;
+            }
+            if (l.getPresentations().stream().map(Presentation::getTimeslot).anyMatch(Objects::isNull)) {
                 return;
             }
             Presentation firstPres = l.getPresentations().stream().min(Comparator.comparingInt(p -> p.getTimeslot().getId())).get(); // change timeslot.getId to timeslot.getOrder
             Presentation lastPres = l.getPresentations().stream().max(Comparator.comparingInt(p -> p.getTimeslot().getId())).get(); // change timeslot.getId to timeslot.getOrder
-            Integer numPres = l.getPresentations().size();
-            Integer freeTimeslots = (numPres - (numPres - (lastPres.getTimeslot().getId() - firstPres.getTimeslot().getId())));
+            int numPres = l.getPresentations().size();
+            int freeTimeslots = (numPres - (numPres - (lastPres.getTimeslot().getId() - firstPres.getTimeslot().getId())));
 
             scoreDirector.beforeVariableChanged(l, "freeTimeslots");
             l.setFreeTimeslots(freeTimeslots);
