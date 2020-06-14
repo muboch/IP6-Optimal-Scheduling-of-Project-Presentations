@@ -28,4 +28,14 @@ public class Presentation extends PresentationDto {
     public void setRoom(Room room) {
         this.room = room;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

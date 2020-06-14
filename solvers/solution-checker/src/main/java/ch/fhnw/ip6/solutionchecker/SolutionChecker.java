@@ -34,7 +34,7 @@ public class SolutionChecker {
     private int totalUsedTimeslotsCosts;
     private int totalUsedRoomsCosts;
 
-    public void generateStats(Planning planning, List<L> lecturers, List<P> presentations, List<T> timeslots, List<R> rooms) {
+    public void generateStats(Planning planning, List<? extends L> lecturers, List<? extends P> presentations, List<? extends T> timeslots, List<? extends R> rooms) {
 
         Set<Solution> solutions = planning.getSolutions();
 
@@ -42,8 +42,8 @@ public class SolutionChecker {
         boolean checkEachPresentationOnce = checkEachPresentationOnce(solutions, presentations);
         boolean checkRoomUsedMaxOncePerTime = checkRoomUsedMaxOncePerTime(solutions, rooms, timeslots);
         int roomSwitches = getRoomSwitches(solutions, lecturers, timeslots, presentations);
-        int usedRooms = getUsedRooms(solutions, rooms, presentations, timeslots);
-        int usedTimeslots = getUsedTimeslots(solutions, timeslots, presentations, rooms);
+        int usedRooms = getUsedRooms(solutions, rooms);
+        int usedTimeslots = getUsedTimeslots(solutions, timeslots);
 
         int roomDoubleBookedCost = getTotalDoubleBookedCosts();
         int roomSwitchCost = getTotalRoomSwitchesCosts();
@@ -137,7 +137,7 @@ public class SolutionChecker {
     }
 
 
-    int getUsedTimeslots(Set<Solution> solutions, List<T> timeslots, List<P> presentations, List<R> rooms) {
+    int getUsedTimeslots(Set<Solution> solutions, List<? extends T> timeslots) {
         int[] presentationsPerTimeslot = new int[timeslots.size()];
         for (Solution s : solutions) {
             presentationsPerTimeslot[timeslots.indexOf(s.getTimeSlot())]++;
@@ -155,7 +155,7 @@ public class SolutionChecker {
     }
 
 
-    int getUsedRooms(Set<Solution> solutions, List<R> rooms, List<P> presentations, List<T> timeslots) {
+    int getUsedRooms(Set<Solution> solutions, List<? extends R> rooms) {
         int[] presentationsPerRoom = new int[rooms.size()];
         for (Solution s : solutions) {
             presentationsPerRoom[rooms.indexOf(s.getRoom())]++;
@@ -174,7 +174,7 @@ public class SolutionChecker {
      * Counts the number of room switches per lecturer.
      *
      */
-    int getRoomSwitches(Set<Solution> solutions, List<L> lecturers, List<T> timeslots, List<P> presentations) {
+    int getRoomSwitches(Set<Solution> solutions, List<? extends L> lecturers, List<? extends T> timeslots, List<? extends P> presentations) {
         errorsRoomSwitches = new HashSet<>();
 
         List<R>[] roomsPerLecturer = new List[lecturers.size()];
@@ -264,7 +264,7 @@ public class SolutionChecker {
      * @param lecturers
      * @return
      */
-    boolean checkOnePresentationPerTimeslotForLecturer(Set<Solution> results, List<T> timeslots, List<L> lecturers) {
+    boolean checkOnePresentationPerTimeslotForLecturer(Set<Solution> results, List<? extends T> timeslots, List<? extends L> lecturers) {
 
         errorsOnePresentationPerTimeslotForLecturer = new HashSet<>();
 
@@ -291,7 +291,7 @@ public class SolutionChecker {
      * @param presentations
      * @return
      */
-    boolean checkEachPresentationOnce(Set<Solution> solutions, List<P> presentations) {
+    boolean checkEachPresentationOnce(Set<Solution> solutions, List<? extends P> presentations) {
 
         errorsEachPresentationOnce = new HashSet<>();
 
@@ -319,7 +319,7 @@ public class SolutionChecker {
      * @param timeslots
      * @return
      */
-    boolean checkRoomUsedMaxOncePerTime(Set<Solution> results, List<R> rooms, List<T> timeslots) {
+    boolean checkRoomUsedMaxOncePerTime(Set<Solution> results, List<? extends R> rooms, List<? extends T> timeslots) {
 
         errorsCheckRoomUsedMaxOncePerTime = new HashSet<>();
 

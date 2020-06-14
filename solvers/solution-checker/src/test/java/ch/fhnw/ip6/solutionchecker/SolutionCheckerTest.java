@@ -49,7 +49,7 @@ public class SolutionCheckerTest {
         solutions.add(solution2);
 
         SolutionChecker solutionChecker = new SolutionChecker();
-        int usedTimeslots = solutionChecker.getUsedTimeslots(solutions, timeslotes, presentations, rooms);
+        int usedTimeslots = solutionChecker.getUsedTimeslots(solutions, timeslotes);
         Assert.assertEquals(2, usedTimeslots);
         Assert.assertEquals(20, solutionChecker.getTotalUsedTimeslotsCosts());
     }
@@ -80,7 +80,7 @@ public class SolutionCheckerTest {
         solutions.add(solution2);
 
         SolutionChecker solutionChecker = new SolutionChecker();
-        int usedRooms = solutionChecker.getUsedRooms(solutions, rooms, presentations, timeslotes);
+        int usedRooms = solutionChecker.getUsedRooms(solutions, rooms);
         Assert.assertEquals(2, usedRooms);
         Assert.assertEquals(2 * CostUtil.USED_ROOM_COST, solutionChecker.getTotalUsedRoomsCosts());
 

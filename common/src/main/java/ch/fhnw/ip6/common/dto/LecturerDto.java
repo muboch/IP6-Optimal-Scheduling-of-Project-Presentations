@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Builder
 @Getter
@@ -21,7 +22,6 @@ public class LecturerDto implements L {
     private String lastname;
     private String email;
     private String initials;
-    private Integer freeTimeslots;
 
     public String getName() {
         return lastname + " " + firstname;
@@ -32,4 +32,20 @@ public class LecturerDto implements L {
         return String.format("L[id=%03d,ini=%s]", id, initials);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LecturerDto that = (LecturerDto) o;
+        return id == that.id &&
+                Objects.equals(firstname, that.firstname) &&
+                Objects.equals(lastname, that.lastname) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(initials, that.initials);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstname, lastname, email, initials);
+    }
 }
