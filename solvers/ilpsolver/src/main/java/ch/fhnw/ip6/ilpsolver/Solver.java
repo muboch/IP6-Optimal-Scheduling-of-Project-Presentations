@@ -26,7 +26,6 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +41,6 @@ public class Solver extends AbstractSolver {
 
     @Override
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
-
-        GurobiLoggingProxy.tieConsoleLogToLog4J();
 
         // set this flag so other processes know that the solver is running
         solverContext.setSolving(true);
