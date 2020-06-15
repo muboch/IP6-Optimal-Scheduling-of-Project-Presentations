@@ -19,6 +19,7 @@ public class TimeslotDto implements T {
      private String date;
      private int block;
      private int priority;
+     private int sortOrder;
 
 
      @Override

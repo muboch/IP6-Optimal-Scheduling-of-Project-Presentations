@@ -2,7 +2,11 @@ package ch.fhnw.ip6.ospp.service;
 
 import ch.fhnw.ip6.api.SolverApi;
 import ch.fhnw.ip6.api.SolverContext;
+import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
+import ch.fhnw.ip6.common.dto.PresentationDto;
+import ch.fhnw.ip6.common.dto.RoomDto;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
@@ -108,10 +112,10 @@ public class PlanningService {
         List<Room> rooms = roomRepository.findAll();
         List<Timeslot> timeslots = timeslotRepository.findAll();
 
-        List<P> presentationDtos = presentations.stream().map(presentationMapper::fromEntityToDto).collect(Collectors.toList());
-        List<L> lecturerDtos = lecturers.stream().map(lecturerMapper::fromEntityToDto).collect(Collectors.toList());
-        List<R> roomDtos = rooms.stream().map(roomMapper::fromEntityToDto).collect(Collectors.toList());
-        List<T> timeslotDtos = timeslots.stream().map(timeslotMapper::fromEntityToDto).collect(Collectors.toList());
+        List<P> presentationDtos = presentations.stream().map(presentationMapper::fromEntityToDto).sorted(Comparator.comparing(PresentationDto::getCoachInitials))collect(Collectors.toList());
+        List<L> lecturerDtos = lecturers.stream().map(lecturerMapper::fromEntityToDto).sorted(Comparator.comparing(LecturerDto::getInitials)).collect(Collectors.toList());
+        List<R> roomDtos = rooms.stream().map(roomMapper::fromEntityToDto).sorted(Comparator.comparing(RoomDto::getType)).collect(Collectors.toList());
+        List<T> timeslotDtos = timeslots.stream().map(timeslotMapper::fromEntityToDto).sorted(Comparator.comparingInt(TimeslotDto::getSortOrder)).collect(Collectors.toList());
 
         boolean[][] offTimes = createOffTimesMap(lecturers, timeslots);
 
