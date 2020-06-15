@@ -5,6 +5,7 @@ import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.common.dto.Solution;
+import ch.fhnw.ip6.common.dto.StatusEnum;
 import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
@@ -134,7 +135,7 @@ public class OldDataChecker {
             planning.setSolutions(solutions);
             planning.setRooms(new ArrayList<>(rs.values()));
             planning.setTimeslots(new ArrayList<>(ts.values()));
-            planning.setStatus("manuell");
+            planning.setStatus(StatusEnum.SOLUTION);
 
             SolutionChecker solutionChecker = new SolutionChecker();
             solutionChecker.generateStats(planning,
