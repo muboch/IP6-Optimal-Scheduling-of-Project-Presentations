@@ -58,10 +58,11 @@
             <version>v7.6.7691</version>
         </dependency>
         <dependency>
-            <groupId>protobuf</groupId>
-            <artifactId>protobuf</artifactId>
-            <version>v7.6.7691</version>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.12.2</version>
         </dependency>
+
 
     </dependencies>
 
