@@ -25,7 +25,7 @@ public class Planning {
     private Set<Solution> solutions = new HashSet<>();
     private List<? extends T> timeslots = new ArrayList<>();
     private List<? extends R> rooms = new ArrayList<>();
-    private String status;
+    private StatusEnum status;
 
     private String planningStats;
 

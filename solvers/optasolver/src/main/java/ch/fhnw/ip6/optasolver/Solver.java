@@ -5,6 +5,7 @@ import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.common.dto.Solution;
+import ch.fhnw.ip6.common.dto.StatusEnum;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
@@ -77,9 +78,9 @@ public class Solver extends AbstractSolver {
         List<Room> rooms = rs.stream().map(r -> (Room) r).collect(Collectors.toList());
 
         // offtimes[lecturers][timeslots]. Map offtimes to timeslots
-        for (int i = 0; i < offTimes.length ; i++ ){
-            for (int j = 0; j < offTimes[i].length; j++){
-                if(offTimes[i][j]){
+        for (int i = 0; i < offTimes.length; i++) {
+            for (int j = 0; j < offTimes[i].length; j++) {
+                if (offTimes[i][j]) {
                     int finalI = i;
                     int finalJ = j;
                     Timeslot timeslot = timeslots.stream().filter(t -> t.getId() == finalJ).findFirst().get();
@@ -87,7 +88,6 @@ public class Solver extends AbstractSolver {
                 }
             }
         }
-
 
 
         lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
@@ -105,20 +105,27 @@ public class Solver extends AbstractSolver {
         } catch (InterruptedException | ExecutionException e) {
             throw new IllegalStateException("Solving failed.", e);
         }
+
+        Planning planning = new Planning();
+        if (solution != null)
+            planning.setStatus(StatusEnum.SOLUTION);
+        else {
+            planning.setStatus(StatusEnum.NO_SOLUTION);
+            return planning;
+        }
+
         Set<Solution> sol = solution.getPresentations().stream().map(p -> new Solution(p.getRoom(), p.getTimeslot(), p, p.getCoach(), p.getExpert())).collect(Collectors.toSet());
 
-        Planning p = new Planning();
+        planning.setSolutions(sol);
+        planning.setRooms(solution.getRoomList());
+        planning.setTimeslots(solution.getTimeslots());
 
-        p.setSolutions(sol);
-        p.setRooms(solution.getRoomList());
-        p.setTimeslots(solution.getTimeslots());
+        solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
+        planning.setCost(solutionChecker.getTotalPlanningCost());
 
-        solutionChecker.generateStats(p, lecturers, presentations, timeslots, rooms);
-        p.setCost(solutionChecker.getTotalPlanningCost());
-
-        System.out.println(p.getPlanningStats());
-        System.out.println(p.getPlanningAsTable());
-        return p;
+        System.out.println(planning.getPlanningStats());
+        System.out.println(planning.getPlanningAsTable());
+        return planning;
 
     }
 }

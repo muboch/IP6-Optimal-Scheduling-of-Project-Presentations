@@ -133,6 +133,7 @@ public class PlanningService {
         planningEntity.setNr(String.valueOf(planning.getNr()));
         planningEntity.setData(excelFile.getContent());
         planningEntity.setName(excelFile.getName());
+        planningEntity.setStatus(planning.getStatus());
         planningEntity.setCreated(LocalDateTime.now());
         planningRepository.save(planningEntity);
 

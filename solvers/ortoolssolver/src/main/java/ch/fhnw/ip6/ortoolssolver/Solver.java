@@ -3,6 +3,7 @@ package ch.fhnw.ip6.ortoolssolver;
 import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Planning;
+import ch.fhnw.ip6.common.dto.StatusEnum;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
@@ -113,7 +114,12 @@ public class Solver extends AbstractSolver {
 
         solverContext.setSolving(false);
         Planning p = solverContext.getPlanning();
-        p.setStatus(res.name());
+
+        if(res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)
+            p.setStatus(StatusEnum.SOLUTION);
+        else
+            p.setStatus(StatusEnum.NO_SOLUTION);
+
         watch.stop();
         log.info("Duration of OR-Tools Solver: {}ms", watch.getTime());
 

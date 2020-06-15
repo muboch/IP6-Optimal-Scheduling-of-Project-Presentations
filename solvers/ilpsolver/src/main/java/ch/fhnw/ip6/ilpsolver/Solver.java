@@ -4,6 +4,7 @@ import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Planning;
 import ch.fhnw.ip6.common.dto.Solution;
+import ch.fhnw.ip6.common.dto.StatusEnum;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
@@ -91,6 +92,12 @@ public class Solver extends AbstractSolver {
             planning.setTimeslots(ts);
             planning.setRooms(rs);
             fillPlanning(ps, rs, ts, grbModel, model, planning);
+
+            int status = grbModel.get(GRB.IntAttr.Status);
+            if(status == GRB.Status.OPTIMAL || status == GRB.Status.TIME_LIMIT)
+                planning.setStatus(StatusEnum.SOLUTION);
+            else
+                planning.setStatus(StatusEnum.NO_SOLUTION);
 
             // Dispose of model and environment
             grbModel.dispose();
