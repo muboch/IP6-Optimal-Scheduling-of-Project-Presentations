@@ -1,4 +1,6 @@
 spring:
+  banner:
+    location: banner-test.txt
   profiles: test
   datasource:
     url: jdbc:mysql://docker-mysql:3306/osppdb?autoReconnect=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8
