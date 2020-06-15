@@ -16,7 +16,7 @@ public class JsonUtil {
 
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(Objects.requireNonNull(classLoader.getResource("classpath:" + fileName)).getFile());
+            File file = new File(Objects.requireNonNull(classLoader.getResource(fileName)).getFile());
             String jsonString = FileUtils.readFileToString(file, "UTF-8");
             ObjectMapper mapper = new ObjectMapper();
             Class<?> clz = Class.forName(clazz.getName());
