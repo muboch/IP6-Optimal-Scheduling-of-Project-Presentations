@@ -69,7 +69,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         method: "POST",
         body: formData,
       });
-      if (checkStatus(res)) {
+      if (await checkStatus(res)) {
         setLocation(SCREENROUTES.uploadSucessful);
       }
     } catch (error) {
@@ -79,8 +79,8 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
     }
   };
 
-  const checkStatus = (res: Response) => {
-    if (res.status >= 200 && res.status < 300) {
+  const checkStatus = async (res: Response) => {
+    if (res.ok) {
       return true;
     } else {
       if (res.status === 429) {
@@ -89,7 +89,9 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         );
         throw err;
       }
-      let err = new Error(`${res.status}: ${res.statusText}`);
+      const json = await res.json();
+
+      let err = new Error(`${res.status}: ${json.message}`);
       throw err;
     }
   };
@@ -142,15 +144,6 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
           Achtung: Beim Import werden alle Daten überschrieben!
         </Typography>
       </form>
-      {/* <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={10000}
-        onClose={() => {
-          setSnackbarOpen(false);
-          setErrorMsg("");
-        }}
-        message={`Fehler beim upload der Dateien: ${errorMsg}`}
-      /> */}
     </>
   );
 };

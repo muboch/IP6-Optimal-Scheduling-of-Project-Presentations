@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://aag36f886u4u1n.c1xzf7r3bjyl.eu-central-1.rds.amazonaws.com:3306/aag36f886u4u1n?useUnicode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://osppdb.c1xzf7r3bjyl.eu-central-1.rds.amazonaws.com:3306/osppdb?useUnicode=yes&characterEncoding=UTF-8
     username: osppuser
     password: 67vF7ainrLrXYNc
   jpa:
