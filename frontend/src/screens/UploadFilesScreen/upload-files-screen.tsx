@@ -5,6 +5,7 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { useLocation } from "wouter";
 import { SCREENROUTES, APIROUTES } from "../../constants";
 import MessageContainer from "../../states/messageState";
+import SolvingStatus from "../../Components/solvingStatus";
 
 const useStyles = makeStyles(() => ({
   input: {
@@ -143,6 +144,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         <Typography variant="subtitle1" style={{ color: "red" }} gutterBottom>
           Achtung: Beim Import werden alle Daten überschrieben!
         </Typography>
+      <SolvingStatus />
       </form>
     </>
   );

@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import { APIROUTES } from "../../constants";
+import SolvingStatus from "../../Components/solvingStatus";
 
 type Plannings = {
   nr: string;
@@ -110,6 +111,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
           <div className={styles.spinner}>{/* <CircularProgress /> */}</div>
         )}
       </Button>
+      <SolvingStatus />
     </div>
   );
 };

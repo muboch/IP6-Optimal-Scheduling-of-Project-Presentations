@@ -16,6 +16,7 @@ import { loadConsistency, firePlanning } from "../../Services/planningService";
 import { ConsistencyError } from "../../Types/types";
 import WarningIcon from "@material-ui/icons/Warning";
 import ErrorIcon from "@material-ui/icons/Error";
+import SolvingStatus from "../../Components/solvingStatus";
 
 const CreatePlanning: React.FC = (): JSX.Element => {
   const gStyles = useGStyles();
@@ -78,6 +79,7 @@ const CreatePlanning: React.FC = (): JSX.Element => {
             </TableBody>
           </Table>
         </TableContainer>
+        <SolvingStatus />
 
         <Button
           className={gStyles.primaryButton}
