@@ -1,0 +1,110 @@
+[
+  {
+    "id": 0,
+    "date": "Fr 08:00",
+    "block": 1,
+    "priority": 50
+  },
+  {
+    "id": 1,
+    "date": "Fr 08:45",
+    "block": 1,
+    "priority": 45
+  },
+  {
+    "id": 2,
+    "date": "Fr 09:30",
+    "block": 1,
+    "priority": 40
+  },
+  {
+    "id": 3,
+    "date": "Fr 10:15",
+    "block": 1,
+    "priority": 40
+  },
+  {
+    "id": 4,
+    "date": "Fr 11:00",
+    "block": 1,
+    "priority": 35
+  },
+  {
+    "id": 5,
+    "date": "Fr 11:45",
+    "block": 1,
+    "priority": 30
+  },
+  {
+    "id": 6,
+    "date": "Fr 12:30",
+    "block": 1,
+    "priority": 30
+  },
+  {
+    "id": 7,
+    "date": "Fr 13:30",
+    "block": 1,
+    "priority": 30
+  },
+  {
+    "id": 8,
+    "date": "Fr 14:15",
+    "block": 1,
+    "priority": 35
+  },
+  {
+    "id": 9,
+    "date": "Fr 15:00",
+    "block": 1,
+    "priority": 40
+  },
+  {
+    "id": 10,
+    "date": "Fr 15:45",
+    "block": 1,
+    "priority": 40
+  },
+  {
+    "id": 11,
+    "date": "Fr 16:30",
+    "block": 1,
+    "priority": 45
+  },
+  {
+    "id": 12,
+    "date": "Fr 17:15",
+    "block": 1,
+    "priority": 50
+  },
+  {
+    "id": 13,
+    "date": "Sa 08:00",
+    "block": 2,
+    "priority": 50
+  },
+  {
+    "id": 14,
+    "date": "Sa 08:45",
+    "block": 2,
+    "priority": 45
+  },
+  {
+    "id": 15,
+    "date": "Sa 09:30",
+    "block": 2,
+    "priority": 40
+  },
+  {
+    "id": 16,
+    "date": "Sa 10:15",
+    "block": 2,
+    "priority": 45
+  },
+  {
+    "id": 17,
+    "date": "Sa 11:00",
+    "block": 2,
+    "priority": 50
+  }
+]
