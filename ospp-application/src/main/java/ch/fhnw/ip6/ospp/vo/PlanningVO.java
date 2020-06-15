@@ -15,4 +15,6 @@ public class PlanningVO {
 
     private String status;
 
+    private String created;
+
 }

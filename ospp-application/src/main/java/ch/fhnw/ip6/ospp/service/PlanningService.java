@@ -120,6 +120,7 @@ public class PlanningService {
             throw new Exception("Solver is already running.");
         }
         if (testMode) {
+            solverContext.reset();
             planning = getSolver().testSolve();
         } else {
             solverContext.reset();
@@ -132,6 +133,7 @@ public class PlanningService {
         planningEntity.setNr(String.valueOf(planning.getNr()));
         planningEntity.setData(excelFile.getContent());
         planningEntity.setName(excelFile.getName());
+        planningEntity.setCreated(LocalDateTime.now());
         planningRepository.save(planningEntity);
 
         return planning;
