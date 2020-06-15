@@ -76,7 +76,7 @@ public class PlanningService {
     private boolean testMode = true;
 
     @Value("${ospp.timeLimit}")
-    private int timelimit;
+    private int timeLimit;
 
     private static final String[] columns = {"Nr", "Titel", "Name", "Klasse", "Name 2", "Klasse 2", "Betreuer", "Experte", "Zeit", "Raum"};
 
@@ -245,6 +245,6 @@ public class PlanningService {
     }
 
     public void setTimeLimit(int timeLimit) {
-        this.timelimit = timeLimit;
+        this.timeLimit = timeLimit;
     }
 }

@@ -15,4 +15,4 @@ spring:
 ospp:
   solver: ch.fhnw.ip6.ortoolssolver.Solver
   timeLimit: 300 # in seconds
-  testmode: false
+  testMode: false
