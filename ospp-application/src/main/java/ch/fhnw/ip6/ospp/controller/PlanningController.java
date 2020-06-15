@@ -186,4 +186,9 @@ public class PlanningController {
         return ResponseEntity.ok().body(errors);
     }
 
+    @GetMapping("/isSolving")
+    public ResponseEntity<Boolean> isSolving(){
+        return ResponseEntity.ok(solverContext.isSolving());
+    }
+
 }
