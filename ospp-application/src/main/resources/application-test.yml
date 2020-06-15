@@ -1,7 +1,7 @@
 spring:
   profiles: test
   datasource:
-    url: jdbc:mysql://localhost:3306/osppdb
+    url: jdbc:mysql://docker-mysql:3306/osppdb
     username: ospp
     password: Change_me_2020
   jpa:
