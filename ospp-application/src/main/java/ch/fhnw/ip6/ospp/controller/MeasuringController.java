@@ -23,17 +23,17 @@ public class MeasuringController {
 
 
     @GetMapping("ortools")
-    public String solveOrTools(@RequestParam Integer timeLimit) throws Exception {
+    public String solveOrTools(@RequestParam(required = false) Integer timeLimit) throws Exception {
         return solve("ch.fhnw.ip6.ortoolssolver.Solver", timeLimit);
     }
 
     @GetMapping("ilp")
-    public String solveIlp(@RequestParam Integer timeLimit) throws Exception {
+    public String solveIlp(@RequestParam(required = false) Integer timeLimit) throws Exception {
         return solve("ch.fhnw.ip6.ilpsolver.Solver", timeLimit);
     }
 
     @GetMapping("opta")
-    public String solveOptaplanner(@RequestParam Integer timeLimit) throws Exception {
+    public String solveOptaplanner(@RequestParam(required = false) Integer timeLimit) throws Exception {
         return solve("ch.fhnw.ip6.optasolver.Solver", timeLimit);
     }
 
