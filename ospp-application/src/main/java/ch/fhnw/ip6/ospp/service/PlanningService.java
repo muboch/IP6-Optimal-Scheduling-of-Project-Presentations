@@ -112,7 +112,7 @@ public class PlanningService {
         List<Room> rooms = roomRepository.findAll();
         List<Timeslot> timeslots = timeslotRepository.findAll();
 
-        List<P> presentationDtos = presentations.stream().map(presentationMapper::fromEntityToDto).sorted(Comparator.comparing(PresentationDto::getCoachInitials))collect(Collectors.toList());
+        List<P> presentationDtos = presentations.stream().map(presentationMapper::fromEntityToDto).sorted(Comparator.comparing(PresentationDto::getCoachInitials)).collect(Collectors.toList());
         List<L> lecturerDtos = lecturers.stream().map(lecturerMapper::fromEntityToDto).sorted(Comparator.comparing(LecturerDto::getInitials)).collect(Collectors.toList());
         List<R> roomDtos = rooms.stream().map(roomMapper::fromEntityToDto).sorted(Comparator.comparing(RoomDto::getType)).collect(Collectors.toList());
         List<T> timeslotDtos = timeslots.stream().map(timeslotMapper::fromEntityToDto).sorted(Comparator.comparingInt(TimeslotDto::getSortOrder)).collect(Collectors.toList());
