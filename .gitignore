@@ -9,6 +9,7 @@
 /solver/orignialsolver/target/
 /solver/solverapi/target/
 /solver/solutionchecker/target/
+/solvers/olddata-checker/target/
 frontend/build
 frontend/node
 
@@ -21,6 +22,7 @@ frontend/node
 .Trashes
 ehthumbs.db
 Thumbs.db
+./*.xlsx
 /solvers/ortoolssolver/target/
 /solvers/optasolver/target
 /solvers/ilpsolver/target/
