@@ -1,6 +1,5 @@
 spring:
-  profiles:
-    active: dev
+  profiles: dev
   datasource:
     url: jdbc:mysql://localhost:3306/osppdb
     username: ospp
