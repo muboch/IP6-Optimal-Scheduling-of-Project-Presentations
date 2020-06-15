@@ -3,7 +3,7 @@ spring:
     location: banner-test.txt
   profiles: test
   datasource:
-    url: jdbc:mysql://ospp-db:3306/osppdb?autoReconnect=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://ospp-db:3306/osppdb?autoReconnect=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
     username: ospp
     password: Change_me_2020
   jpa:
