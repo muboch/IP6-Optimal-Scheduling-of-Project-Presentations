@@ -7,6 +7,7 @@ import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @PlanningEntity
@@ -20,6 +21,7 @@ public class Lecturer extends LecturerDto {
 
     @PlanningVariableReference(entityClass = Timeslot.class, variableName = "timeslots")
     private List<Timeslot> timeslots;
+    private List<Timeslot> offtimes;
 
     private int freeTimeslots;
     private int roomSwitches;
@@ -47,6 +49,18 @@ public class Lecturer extends LecturerDto {
     public void setTimeslots(List<Timeslot> timeslots) {
         this.timeslots = timeslots;
     }
+
+    public List<Timeslot> getOfftimes() {
+        if(offtimes == null){offtimes = new ArrayList<>();
+        }
+
+        return offtimes;
+    }
+
+    public void setOfftimes(List<Timeslot> offtimes) {
+        this.offtimes = offtimes;
+    }
+
 
     public void setFreeTimeslots(int freeTimeslots) {
         this.freeTimeslots = freeTimeslots;

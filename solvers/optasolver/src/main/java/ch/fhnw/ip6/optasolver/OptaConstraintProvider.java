@@ -1,13 +1,6 @@
 package ch.fhnw.ip6.optasolver;
 
-import ch.fhnw.ip6.optasolver.constraints.CoachAndExpertSameConflictConstraint;
-import ch.fhnw.ip6.optasolver.constraints.MinimizeFreeTimeslotsConstraint;
-import ch.fhnw.ip6.optasolver.constraints.MinimizeRoomSwitchesConstraint;
-import ch.fhnw.ip6.optasolver.constraints.MinimizeRoomsConstraint;
-import ch.fhnw.ip6.optasolver.constraints.MinimizeTimeslotsConstraint;
-import ch.fhnw.ip6.optasolver.constraints.OptaConstraint;
-import ch.fhnw.ip6.optasolver.constraints.RoomConflictConstraint;
-import ch.fhnw.ip6.optasolver.constraints.RoomTypeConstraint;
+import ch.fhnw.ip6.optasolver.constraints.*;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.ConstraintFactory;
 import org.optaplanner.core.api.score.stream.ConstraintProvider;
@@ -25,6 +18,8 @@ public class OptaConstraintProvider implements ConstraintProvider {
         constraints.add(new RoomConflictConstraint());
         constraints.add(new CoachAndExpertSameConflictConstraint());
         constraints.add(new RoomTypeConstraint());
+        constraints.add(new OfftimesConstraint());
+
 
         // Soft Constraints
         constraints.add(new MinimizeRoomsConstraint());

@@ -76,6 +76,20 @@ public class Solver extends AbstractSolver {
         List<Timeslot> timeslots = ts.stream().map(t -> (Timeslot) t).collect(Collectors.toList());
         List<Room> rooms = rs.stream().map(r -> (Room) r).collect(Collectors.toList());
 
+        // offtimes[lecturers][timeslots]. Map offtimes to timeslots
+        for (int i = 0; i < offTimes.length ; i++ ){
+            for (int j = 0; j < offTimes[i].length; j++){
+                if(offTimes[i][j]){
+                    int finalI = i;
+                    int finalJ = j;
+                    Timeslot timeslot = timeslots.stream().filter(t -> t.getId() == finalJ).findFirst().get();
+                    lecturers.stream().filter(l -> l.getId() == finalI).findFirst().get().getOfftimes().add(timeslot);
+                }
+            }
+        }
+
+
+
         lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
 
         OptaSolution problem = new OptaSolution(timeslots, rooms, presentations, lecturers);
