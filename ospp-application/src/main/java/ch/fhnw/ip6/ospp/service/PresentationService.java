@@ -38,14 +38,14 @@ public class PresentationService {
                 Student studentOne = studentRepository.findById(presentation.getStudentOne().getId()).orElse(presentation.getStudentOne());
                 presentation.setStudentOne(studentOne);
             } else {
-                throw new FachlicheException("Schüler 1 muss vorhanden sein.");
+                throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 muss vorhanden sein.", presentation.getExternalId()));
             }
             if (presentation.getStudentTwo() != null) {
                 Student studentTwo = studentRepository.findById(presentation.getStudentTwo().getId()).orElse(presentation.getStudentTwo());
                 presentation.setStudentTwo(studentTwo);
             }
-            if (Objects.equals(presentation.getStudentOne(),presentation.getStudentTwo())) {
-                throw new FachlicheException("Schüler 1 und Schüler 2 dürfen nicht identisch sein.");
+            if (Objects.equals(presentation.getStudentOne(), presentation.getStudentTwo())) {
+                throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 und Schüler 2 dürfen nicht identisch sein.", presentation.getExternalId()));
             }
             if (presentation.getCoach() != null) {
                 Lecturer coach = lecturerRepository.findById(presentation.getCoach().getId()).orElse(presentation.getCoach());
@@ -55,8 +55,8 @@ public class PresentationService {
                 Lecturer expert = lecturerRepository.findById(presentation.getExpert().getId()).orElse(presentation.getExpert());
                 presentation.setExpert(expert);
             }
-            if (Objects.equals(presentation.getCoach(),presentation.getExpert())) {
-                throw new FachlicheException("Coach und Experte dürfen nicht identisch sein.");
+            if (Objects.equals(presentation.getCoach(), presentation.getExpert())) {
+                throw new FachlicheException(String.format("Präsentation (%s): Coach und Experte dürfen nicht identisch sein.", presentation.getExternalId()));
             }
         }
         return presentationRepository.save(presentation);
