@@ -10,7 +10,6 @@ import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
-import ch.fhnw.ip6.common.util.JsonUtil;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
@@ -34,8 +33,6 @@ import java.util.stream.Collectors;
 
 public class OldDataChecker {
 
-    private static final JsonUtil util = new JsonUtil();
-
     public static void main(String[] args) {
 
         try (InputStream inputStream = OldDataChecker.class.getClassLoader().getResourceAsStream("Präsentationsplan_SA_19_def.xlsx")) {
@@ -46,6 +43,7 @@ public class OldDataChecker {
             Planning planning = new Planning();
 
             AtomicInteger presId = new AtomicInteger();
+
             // Timeslots
             AtomicInteger timeId = new AtomicInteger();
             Set<String> timeslots = new HashSet<>();
@@ -75,7 +73,7 @@ public class OldDataChecker {
             }
             Map<String, LecturerDto> ls = lecturers.stream().map(ini -> {
                 LecturerDto lec = new LecturerDto();
-                lec.setInitials(ini);
+                lec.setInitials(ini.toLowerCase().trim());
                 lec.setId(lecId.incrementAndGet());
                 return lec;
             }).collect(Collectors.toMap(LecturerDto::getInitials, lecturerDto -> lecturerDto));
@@ -112,12 +110,13 @@ public class OldDataChecker {
                 presentation.setName2(dataFormatter.formatCellValue(row.getCell(3)));
                 presentation.setSchoolclass2(dataFormatter.formatCellValue(row.getCell(4)));
                 presentation.setTitle(dataFormatter.formatCellValue(row.getCell(5)));
-                String coachInitials = dataFormatter.formatCellValue(row.getCell(6));
+                String coachInitials = dataFormatter.formatCellValue(row.getCell(6)).toLowerCase();
                 presentation.setCoachInitials(coachInitials.trim());
-                String expertInitials = dataFormatter.formatCellValue(row.getCell(7));
+                presentation.setCoach(ls.get(presentation.getCoachInitials()));
+                String expertInitials = dataFormatter.formatCellValue(row.getCell(7)).toLowerCase();
                 presentation.setExpertInitials(expertInitials.trim());
+                presentation.setExpert(ls.get(presentation.getExpertInitials()));
                 presentations.add(presentation);
-
 
                 solution.setCoach(ls.get(presentation.getCoachInitials()));
                 solution.setExpert(ls.get(presentation.getExpertInitials()));
