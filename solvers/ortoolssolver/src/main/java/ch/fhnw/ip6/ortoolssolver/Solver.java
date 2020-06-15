@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import static ch.fhnw.ip6.common.util.CostUtil.*;
 
-@Component("ch.fhnw.ip6.cpsolver.Solver")
+@Component("ch.fhnw.ip6.ortoolssolver.Solver")
 public class Solver extends AbstractSolver {
 
     static {
