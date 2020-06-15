@@ -78,7 +78,7 @@ public class Solver extends AbstractSolver {
             grbModel.setObjective(objective);
             grbModel.set(GRB.IntParam.LogToConsole, 1);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
-            grbModel.set(GRB.DoubleParam.TimeLimit, timelimit);
+            grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
             grbModel.update();
 
             watch.split();

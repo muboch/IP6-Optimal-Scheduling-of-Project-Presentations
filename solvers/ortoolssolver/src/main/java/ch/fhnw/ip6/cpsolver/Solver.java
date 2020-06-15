@@ -104,7 +104,7 @@ public class Solver extends AbstractSolver {
         getModel().minimize(LinearExpr.scalProd(objIntVarsArr, objIntCoeffsArr));
 
         CpSolver solver = new CpSolver();
-        solver.getParameters().setMaxTimeInSeconds(timelimit);
+        solver.getParameters().setMaxTimeInSeconds(timeLimit);
         log.debug("Setup Constraints duration: {}ms", watch.getTime());
         PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, ls, ps, ts, rs, watch, solverContext);
         log.debug("Start with OR-Tools Optimization");

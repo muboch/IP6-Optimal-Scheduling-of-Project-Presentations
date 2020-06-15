@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public abstract class AbstractSolver implements SolverApi {
 
-    @Value("${ospp.timelimit}")
-    public final int timelimit = 10;
+    @Value("${ospp.timeLimit}")
+    public final int timeLimit = 3600;
 
     protected final SolverContext solverContext;
 
