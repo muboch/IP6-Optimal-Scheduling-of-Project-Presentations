@@ -113,6 +113,7 @@
             <version>${mapstruct-processor.version}</version>
             <scope>provided</scope>
         </dependency>
+
         <!-- test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
