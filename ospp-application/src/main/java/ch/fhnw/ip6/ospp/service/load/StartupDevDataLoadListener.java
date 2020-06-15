@@ -23,8 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -57,33 +59,25 @@ public class StartupDevDataLoadListener implements ApplicationListener<ContextRe
         }
 
         ClassPathResource classPathResource = new ClassPathResource("devdata/lecturers.xlsx");
-        File lecturers = classPathResource.getFile();
-        FileInputStream lecturersInput = new FileInputStream(lecturers);
-        MultipartFile lecturersMultipartFile = new MockMultipartFile("lecturers", lecturers.getName(), "text/plain", IOUtils.toByteArray(lecturersInput));
+        MultipartFile lecturersMultipartFile = new MockMultipartFile("lecturers", "lecturers.xlsx", "text/plain", IOUtils.toByteArray(classPathResource.getInputStream()));
         Set<Lecturer> allLecturers = lecturerLoadService.loadLecturer(lecturersMultipartFile);
         allLecturers.forEach(lecturerService::save);
         log.info("Lecturers loaded ({})", allLecturers.size());
 
         classPathResource = new ClassPathResource("devdata/presentations.xlsx");
-        File presentations = classPathResource.getFile();
-        FileInputStream presentationsInput = new FileInputStream(presentations);
-        MultipartFile presentationsMultipartFile = new MockMultipartFile("presentations", presentations.getName(), "text/plain", IOUtils.toByteArray(presentationsInput));
+        MultipartFile presentationsMultipartFile = new MockMultipartFile("presentations", "presentations.xlsx", "text/plain", IOUtils.toByteArray(classPathResource.getInputStream()));
         Set<Presentation> allPresentations = presentationLoadService.loadPresentation(presentationsMultipartFile, allLecturers);
         allPresentations.forEach(presentationService::save);
         log.info("Presentations loaded ({})", allPresentations.size());
 
         classPathResource = new ClassPathResource("devdata/rooms.xlsx");
-        File rooms = classPathResource.getFile();
-        FileInputStream roomsInput = new FileInputStream(rooms);
-        MultipartFile roomsMultipartFile = new MockMultipartFile("rooms", rooms.getName(), "text/plain", IOUtils.toByteArray(roomsInput));
+        MultipartFile roomsMultipartFile = new MockMultipartFile("rooms", "rooms.xlsx", "text/plain", IOUtils.toByteArray(classPathResource.getInputStream()));
         Set<Room> allRooms = roomLoadService.loadRooms(roomsMultipartFile);
         allRooms.forEach(roomService::save);
         log.info("Rooms loaded ({})", allRooms.size());
 
         classPathResource = new ClassPathResource("devdata/timeslots.xlsx");
-        File timeslots = classPathResource.getFile();
-        FileInputStream timeslotsInput = new FileInputStream(timeslots);
-        MultipartFile timeslotsMultipartFile = new MockMultipartFile("timeslots", timeslots.getName(), "text/plain", IOUtils.toByteArray(timeslotsInput));
+        MultipartFile timeslotsMultipartFile = new MockMultipartFile("timeslots", "timeslots.xlsx", "text/plain", IOUtils.toByteArray(classPathResource.getInputStream()));
         AtomicInteger counter = new AtomicInteger();
         Set<Timeslot> allTimeslots = timeslotLoadService.loadTimeslots(timeslotsMultipartFile);
         allTimeslots
@@ -97,9 +91,7 @@ public class StartupDevDataLoadListener implements ApplicationListener<ContextRe
         log.info("Timeslots loaded ({})", allTimeslots.size());
 
         classPathResource = new ClassPathResource("devdata/offtimes.xlsx");
-        File offtimes = classPathResource.getFile();
-        FileInputStream offtimesInput = new FileInputStream(offtimes);
-        MultipartFile offtimesMultipartFile = new MockMultipartFile("offtimes", offtimes.getName(), "text/plain", IOUtils.toByteArray(offtimesInput));
+        MultipartFile offtimesMultipartFile = new MockMultipartFile("offtimes", "offtimes.xlsx", "text/plain", IOUtils.toByteArray(classPathResource.getInputStream()));
         Set<Lecturer> offtimesLecturers = timeslotLoadService.loadOfftimes(offtimesMultipartFile, allLecturers, allTimeslots);
         offtimesLecturers.forEach(lecturerService::save);
         log.info("Offtimes loaded ({})", allTimeslots.size());

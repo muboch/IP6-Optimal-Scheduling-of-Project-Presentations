@@ -3,10 +3,10 @@ package ch.fhnw.ip6.common.util;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,8 +16,9 @@ public class JsonUtil {
 
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(Objects.requireNonNull(classLoader.getResource(fileName)).getFile());
-            String jsonString = FileUtils.readFileToString(file, "UTF-8");
+            StringWriter writer = new StringWriter();
+            IOUtils.copy(Objects.requireNonNull(classLoader.getResourceAsStream(fileName)), writer, "UTF-8");
+            String jsonString = writer.toString();
             ObjectMapper mapper = new ObjectMapper();
             Class<?> clz = Class.forName(clazz.getName());
             JavaType type = mapper.getTypeFactory().constructCollectionType(List.class, clz);

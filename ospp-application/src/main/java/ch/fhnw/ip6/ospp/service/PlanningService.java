@@ -223,7 +223,7 @@ public class PlanningService {
         if (solverContext.isSolving()) {
             throw new FachlicheException("Es wird bereits eine Planung erstellt.");
         }
-        applicationEventPublisher.publishEvent(new SolveEvent(this));
+        applicationEventPublisher.publishEvent( new SolveEvent(this, solverName, false, timeLimit));
     }
 
     public ExcelFile getFileById(long id) {

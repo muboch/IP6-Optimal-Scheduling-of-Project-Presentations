@@ -1,10 +1,6 @@
 package ch.fhnw.ip6.api;
 
-import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.PresentationDto;
-import ch.fhnw.ip6.common.dto.RoomDto;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
@@ -36,6 +32,5 @@ public interface SolverApi {
      * @return
      */
     Planning testSolve();
-
 
 }

@@ -18,6 +18,9 @@ public class SolveEventListener implements ApplicationListener<SolveEvent> {
     public void onApplicationEvent(SolveEvent event) {
         log.info("received event for solving");
         try {
+            planningService.setSolverName(event.getSolverName());
+            planningService.setTestMode(event.isTestMode());
+            planningService.setTimeLimit(event.getTimeLimit());
             planningService.plan();
         } catch (Exception e) {
             log.error(e.getMessage());

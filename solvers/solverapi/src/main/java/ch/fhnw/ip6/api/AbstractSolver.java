@@ -14,6 +14,7 @@ import ch.fhnw.ip6.common.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
@@ -30,9 +31,9 @@ public abstract class AbstractSolver implements SolverApi {
 
     private final static Logger log = LoggerFactory.getLogger(AbstractSolver.class);
 
+
     public Planning testSolve() {
         JsonUtil util = new JsonUtil();
-
         List<PresentationDto> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", PresentationDto.class));//.subList(0, 3);
         List<LecturerDto> lecturers = util.getJsonAsList("lecturers.json", LecturerDto.class);
         List<RoomDto> rooms = util.getJsonAsList("rooms.json", RoomDto.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
@@ -52,12 +53,9 @@ public abstract class AbstractSolver implements SolverApi {
         );
 
         log.info("Solver completed. Best solution:");
-        log.info("Planning Stats:\n{}",solverContext.getPlanning().getPlanningStats());
-        log.info("Planning:\n{}",solverContext.getPlanning().getPlanningAsTable());
+        log.info("Planning Stats:\n{}", solverContext.getPlanning().getPlanningStats());
+        log.info("Planning:\n{}", solverContext.getPlanning().getPlanningAsTable());
         return solverContext.getPlanning();
     }
-
-
-
 
 }
