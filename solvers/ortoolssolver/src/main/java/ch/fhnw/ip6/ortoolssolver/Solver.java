@@ -1,4 +1,4 @@
-package ch.fhnw.ip6.cpsolver;
+package ch.fhnw.ip6.ortoolssolver;
 
 import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverContext;

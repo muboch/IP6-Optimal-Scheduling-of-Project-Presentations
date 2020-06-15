@@ -1,4 +1,4 @@
-package ch.fhnw.ip6.cpsolver;
+package ch.fhnw.ip6.ortoolssolver;
 
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Planning;
@@ -8,7 +8,6 @@ import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
-import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
 import org.apache.commons.lang3.time.StopWatch;
