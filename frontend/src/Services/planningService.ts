@@ -49,7 +49,21 @@ export const getPlanningById = async (id: number): Promise<Lecturer> => {
     if (res.ok) {
       return json;
     }
-    throw new Error("Fehler beim laden des Dozenten");
+    throw "Fehler beim laden der Planning";
+  } catch (Error) {
+    throw Error;
+  }
+};
+
+export const getIsSolving = async (): Promise<boolean> => {
+  try {
+    const res = await fetch(`${APIROUTES.planning}/isSolving`);
+    const json = await res.json();
+    console.log(json);
+    if (res.ok) {
+      return json;
+    }
+    throw "Fehler bei der Statusabfrage";
   } catch (Error) {
     throw Error;
   }
