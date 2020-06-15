@@ -22,7 +22,7 @@ frontend/node
 .Trashes
 ehthumbs.db
 Thumbs.db
-./*.xlsx
+*.xlsx
 /solvers/ortoolssolver/target/
 /solvers/optasolver/target
 /solvers/ilpsolver/target/
