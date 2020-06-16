@@ -137,13 +137,10 @@ public class Solver extends AbstractSolver {
         planning.setCost(solutionChecker.getTotalPlanningCost());
         log.info("New Planning Nr. {} - Cost: {}\n{}\n{}", planning.getNr(), planning.getCost(),planning.getPlanningStats(), planning.getPlanningAsTable());
         watch.stop();
-        log.info("Duration of OR-Tools Solver: {}ms", watch.getTime());
+        log.info("Duration of Optasolver: {}ms", watch.getTime());
 
+        solverContext.setSolving(true);
         return planning;
-
-    }
-    public void optaCallback(OptaSolution solution) {
-
     }
 
 
