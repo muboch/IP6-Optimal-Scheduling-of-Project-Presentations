@@ -8,6 +8,8 @@ import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import de.vandermeer.asciitable.AsciiTable;
 import de.vandermeer.asciitable.CWC_LongestLine;
+import de.vandermeer.asciithemes.TA_Grid;
+import de.vandermeer.asciithemes.TA_GridConfig;
 import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 
 import java.util.ArrayList;
@@ -69,7 +71,10 @@ public class SolutionChecker {
                 ));
 
         // Global Stats
+        TA_Grid grid = TA_Grid.create("OSPP Grid").addCharacterMap(TA_GridConfig.RULESET_NORMAL, ' ', '-', '|', '|');
+
         AsciiTable stats = new AsciiTable();
+        stats.getContext().setGrid(grid);
         stats.setTextAlignment(TextAlignment.LEFT);
         stats.getRenderer().setCWC(new CWC_LongestLine());
         stats.addRule();
@@ -86,7 +91,7 @@ public class SolutionChecker {
 
         // Hard Constraint Stats
         AsciiTable hardConstraints = new AsciiTable();
-        hardConstraints.addRule();
+        hardConstraints.getContext().setGrid(grid);
         hardConstraints.addRow(null, null, "Hard Constraint Validation Results");
         hardConstraints.addRule();
         hardConstraints.addRow("Check", "Status", "Error");
@@ -102,10 +107,10 @@ public class SolutionChecker {
 
         // Soft Constraint Stats
         AsciiTable softConstraints = new AsciiTable();
-        softConstraints.addRule();
+        softConstraints.getContext().setGrid(grid);
         softConstraints.addRow(null, "Soft Constraint Validation Results");
         softConstraints.addRule();
-        softConstraints.addRow("Check", "Error");
+        softConstraints.addRow("Check", "Result");
         softConstraints.addRule();
         softConstraints.addRow("Room Switches:", "Total: " + roomSwitches + "<br>" + printErrors(errorsRoomSwitches));
         softConstraints.addRule();

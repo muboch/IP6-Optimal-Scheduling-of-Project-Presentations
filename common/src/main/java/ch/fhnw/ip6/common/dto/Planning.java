@@ -1,17 +1,22 @@
 package ch.fhnw.ip6.common.dto;
 
-import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import de.vandermeer.asciitable.AsciiTable;
 import de.vandermeer.asciitable.CWC_LongestLine;
+import de.vandermeer.asciithemes.TA_Grid;
+import de.vandermeer.asciithemes.TA_GridConfig;
 import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -35,8 +40,10 @@ public class Planning {
         // If we only want to show rooms that have presentations at all, use the following lines
         // List<Room> rooms = solutions.stream().map(Solution::getRoom).sorted(RoomComparator::compareAnInt).distinct().collect(Collectors.toList());
 
+        TA_Grid grid = TA_Grid.create("OSPP Grid").addCharacterMap(TA_GridConfig.RULESET_NORMAL, ' ', '-', '|', '|');
 
         AsciiTable planning = new AsciiTable();
+        planning.getContext().setGrid(grid);
         List<String> roomHeaders = rooms.stream().map(R::getName).collect(Collectors.toList());
         roomHeaders.add(0, "");
         planning.addRule();
@@ -71,7 +78,7 @@ public class Planning {
         this.planningStats = planningStats;
     }
 
-    public String getPlanningStats(){
+    public String getPlanningStats() {
         return planningStats;
     }
 }
