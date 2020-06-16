@@ -51,7 +51,6 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
         }
         solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
         planning.setCost(solutionChecker.getTotalPlanningCost());
-        System.out.println("Solver reported cost:" + objectiveValue() + " Branches:" + numBranches() + " Conflicts:" + numConflicts());
         solverContext.saveBestPlanning(planning);
         log.info("New Planning Nr. {} - Cost: {}\n{}", planning.getNr(), planning.getCost(), planning.getPlanningAsTable());
 
