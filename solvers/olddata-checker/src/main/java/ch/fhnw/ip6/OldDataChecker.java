@@ -20,12 +20,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -35,6 +30,32 @@ import java.util.stream.Collectors;
 public class OldDataChecker {
 
     public static void main(String[] args) {
+
+
+        HashMap<Integer, Integer> timeslotCostMap = new HashMap<>();
+        timeslotCostMap.put(0,50);
+        timeslotCostMap.put(1,45);
+        timeslotCostMap.put(2,40);
+        timeslotCostMap.put(3,40);
+        timeslotCostMap.put(4,35);
+        timeslotCostMap.put(5,30);
+        timeslotCostMap.put(6,30);
+        timeslotCostMap.put(7,50);
+        timeslotCostMap.put(8,35);
+        timeslotCostMap.put(9,40);
+        timeslotCostMap.put(10,40);
+        timeslotCostMap.put(11,45);
+        timeslotCostMap.put(12,50); // FR 17:15
+        timeslotCostMap.put(13,55); // FR 18:00 -> Different than new timeslots
+        timeslotCostMap.put(14,50); // SA 08:00 -> Different than new timeslots
+        timeslotCostMap.put(15,45); // SA 0845
+        timeslotCostMap.put(16,45); // SA 0900
+        timeslotCostMap.put(17,40); // SA 0930
+        timeslotCostMap.put(18,40); //SA 1000
+        timeslotCostMap.put(19,45); //SA 1015
+        timeslotCostMap.put(20,50); //SA 1100
+
+
 
         try (InputStream inputStream = OldDataChecker.class.getClassLoader().getResourceAsStream("Präsentationsplan_SA_19_def.xlsx")) {
             Workbook workbook = WorkbookFactory.create(inputStream);
@@ -47,7 +68,7 @@ public class OldDataChecker {
 
             // Timeslots
             AtomicInteger timeId = new AtomicInteger();
-            Set<String> timeslots = new HashSet<>();
+            Set<String> timeslots = new LinkedHashSet<>();
             for (Row row : sheet) {
                 if (row.getRowNum() == 0) continue;
                 String date = dataFormatter.formatCellValue(row.getCell(8));
@@ -57,8 +78,9 @@ public class OldDataChecker {
             Map<String, TimeslotDto> ts = timeslots.stream().map(date -> {
                 TimeslotDto timeslot = new TimeslotDto();
                 timeslot.setDate(date);
-                timeslot.setId(timeId.incrementAndGet());
-                timeslot.setPriority(1);
+                timeslot.setId(timeId.get());
+                timeslot.setPriority(timeslotCostMap.get(timeId.getAndIncrement()));
+
                 return timeslot;
             }).collect(Collectors.toMap(TimeslotDto::getDate, t -> t));
 
