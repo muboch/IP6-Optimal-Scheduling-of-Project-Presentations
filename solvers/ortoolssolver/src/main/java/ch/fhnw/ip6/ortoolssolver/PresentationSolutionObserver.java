@@ -32,7 +32,6 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     @Override
     public void onSolutionCallback() {
         solutionCount++;
-        System.out.println("Solution " + solutionCount + " . Time: " + stopWatch.getTime());
         Planning planning = new Planning();
         planning.setNr(solutionCount);
         planning.setTimeslots(timeslots);
