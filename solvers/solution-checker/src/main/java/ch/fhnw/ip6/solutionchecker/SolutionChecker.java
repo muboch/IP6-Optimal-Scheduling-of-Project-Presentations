@@ -10,13 +10,7 @@ import de.vandermeer.asciitable.AsciiTable;
 import de.vandermeer.asciitable.CWC_LongestLine;
 import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -28,11 +22,14 @@ public class SolutionChecker {
     private Set<String> errorsOnePresentationPerTimeslotForLecturer = new HashSet<>();
     private Set<String> errorsCheckRoomUsedMaxOncePerTime = new HashSet<>();
     private Set<String> errorsRoomSwitches = new HashSet<>();
+    private Set<String> errorsLessonsPerLecturer = new HashSet<>();
+
 
     private int totalPlanningCost;
     private int totalRoomSwitchesCosts;
     private int totalUsedTimeslotsCosts;
     private int totalUsedRoomsCosts;
+    private int totalFreeLessonsCosts;
 
     public void generateStats(Planning planning, List<? extends L> lecturers, List<? extends P> presentations, List<? extends T> timeslots, List<? extends R> rooms) {
 
@@ -44,16 +41,21 @@ public class SolutionChecker {
         int roomSwitches = getRoomSwitches(solutions, lecturers, timeslots, presentations);
         int usedRooms = getUsedRooms(solutions, rooms);
         int usedTimeslots = getUsedTimeslots(solutions, timeslots);
+        int freeLessons = getFreeLessonsPerLecturer(solutions, lecturers, timeslots, presentations);
 
         int roomDoubleBookedCost = getTotalDoubleBookedCosts();
         int roomSwitchCost = getTotalRoomSwitchesCosts();
         int usedRoomsCost = getTotalUsedRoomsCosts();
         int usedTimeslotCost = getTotalUsedTimeslotsCosts();
+        int freeTimeslotsCost = getTotalFreeLessonsCosts();
+
 
         setTotalPlanningCost(roomSwitchCost
                 + roomDoubleBookedCost
                 + usedRoomsCost
-                + usedTimeslotCost);
+                + usedTimeslotCost
+                + freeTimeslotsCost
+        );
 
         Map<L, Set<P>> presPerLecturer = new HashMap<>();
 
@@ -80,6 +82,7 @@ public class SolutionChecker {
         stats.addRow("Room Switch Costs:", roomSwitchCost);
         stats.addRow("Used Room Costs:", usedRoomsCost);
         stats.addRow("Used Timeslot Cost:", usedTimeslotCost);
+        stats.addRow("Lecturer Free Timeslots Cost:", freeTimeslotsCost);
         stats.addRow("Presentations per Lecturer:",
                 numOfPres.entrySet().stream().map(e -> e.getValue().size() + " L with " + e.getKey() + " P<br>").collect(Collectors.joining()));
         stats.addRule();
@@ -105,13 +108,15 @@ public class SolutionChecker {
         softConstraints.addRule();
         softConstraints.addRow(null, "Soft Constraint Validation Results");
         softConstraints.addRule();
-        softConstraints.addRow("Check", "Error");
+        softConstraints.addRow("Check", "Status");
         softConstraints.addRule();
         softConstraints.addRow("Room Switches:", "Total: " + roomSwitches + "<br>" + printErrors(errorsRoomSwitches));
         softConstraints.addRule();
         softConstraints.addRow("Rooms Used:", usedRooms);
         softConstraints.addRule();
         softConstraints.addRow("Timeslots Used:", usedTimeslots);
+        softConstraints.addRule();
+        softConstraints.addRow("Free Lessons for Lecturers Used:", "Total: " + freeLessons + "<br>" + printErrors(errorsLessonsPerLecturer));
         softConstraints.addRule();
         softConstraints.setTextAlignment(TextAlignment.LEFT);
         softConstraints.getRenderer().setCWC(new CWC_LongestLine());
@@ -255,6 +260,28 @@ public class SolutionChecker {
         return totalSwitches;
     }
 
+    public int getFreeLessonsPerLecturer(Set<Solution> solutions, List<? extends L> lecturers, List<? extends T> timeslots, List<? extends P> presentations) {
+        int totalFreeLessons = 0;
+        for (L l : lecturers) {
+            List<Solution> plannedPres = solutions.stream().filter(sol -> sol.getExpert().equals(l) || sol.getCoach().equals(l)).collect(Collectors.toList());
+            int freeLessons = 0;
+            if(plannedPres.size() != 0) {
+                plannedPres.sort(Comparator.comparingInt(a -> a.getTimeSlot().getId()));
+                Solution first = plannedPres.get(0);
+                Solution last = plannedPres.get(plannedPres.size() - 1);
+                freeLessons = ((last.getTimeSlot().getId() + 1) - first.getTimeSlot().getId()) - plannedPres.size(); // LastTimeslot - FirstTimeslot (Inclusive both) - amount of timeslots;
+
+            }
+
+            errorsLessonsPerLecturer.add(l.getInitials() + " [" + freeLessons + "|" + plannedPres.size() + "]" + "<br>");
+            totalFreeLessons += freeLessons;
+        }
+        setTotalFreeLessonsCosts(totalFreeLessons * LECTURER_PER_LESSON_COST);
+        return totalFreeLessons;
+    }
+
+    ;
+
 
     /**
      * Checks if each Lecturer has only one Presentation at time.
@@ -346,6 +373,15 @@ public class SolutionChecker {
     private void setTotalRoomSwitchesCosts(int totalRoomSwitchesCosts) {
         this.totalRoomSwitchesCosts = totalRoomSwitchesCosts;
     }
+
+    private void setTotalFreeLessonsCosts(int totalFreeLessonsCosts) {
+        this.totalFreeLessonsCosts = totalFreeLessonsCosts;
+    }
+
+    int getTotalFreeLessonsCosts() {
+        return totalFreeLessonsCosts;
+    }
+
 
     int getTotalRoomSwitchesCosts() {
         return totalRoomSwitchesCosts;
