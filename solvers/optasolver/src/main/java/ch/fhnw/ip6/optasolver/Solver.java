@@ -16,10 +16,13 @@ import ch.fhnw.ip6.optasolver.model.Presentation;
 import ch.fhnw.ip6.optasolver.model.Room;
 import ch.fhnw.ip6.optasolver.model.Timeslot;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
+import org.apache.commons.lang3.time.StopWatch;
 import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.SolverManagerConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ import java.util.stream.Collectors;
 public class Solver extends AbstractSolver {
 
     private final SolutionChecker solutionChecker;
+    private final static Logger log = LoggerFactory.getLogger(Solver.class);
 
     private final SolverManager<OptaSolution, UUID> solverManager;
 
@@ -71,6 +75,9 @@ public class Solver extends AbstractSolver {
     @Override
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
         solverContext.setSolving(true);
+        StopWatch watch = new StopWatch();
+        watch.start();
+        log.info("Number of Problem Instances: Presentations: {}, Lecturers: {}, Rooms: {}, Timeslots: {}, OffTimes: {}", ps.size(), ls.size(), rs.size(), ts.size(), offTimes.length);
 
         List<Presentation> presentations = ps.stream().map(p -> (Presentation) p).collect(Collectors.toList());
         List<Lecturer> lecturers = ls.stream().map(l -> (Lecturer) l).collect(Collectors.toList());
@@ -93,18 +100,24 @@ public class Solver extends AbstractSolver {
         lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
 
         OptaSolution problem = new OptaSolution(timeslots, rooms, presentations, lecturers);
+        log.debug("Setup Constraints duration: {}ms", watch.getTime());
 
         UUID problemId = UUID.randomUUID();
         // Submit the problem to start solving
+        log.debug("Start with Optaplanner Optimization");
+
         SolverJob<OptaSolution, UUID> solverJob = solverManager.solve(problemId, problem);
         OptaSolution solution;
 
         try {
             // Wait until the solving ends
             solution = solverJob.getFinalBestSolution();
+            //solverManager.solveAndListen(problemId, problem);
         } catch (InterruptedException | ExecutionException e) {
             throw new IllegalStateException("Solving failed.", e);
         }
+        log.debug("End of Optaplanner Optimization after {}ms", watch.getTime());
+
 
         Planning planning = new Planning();
         if (solution != null)
@@ -122,10 +135,16 @@ public class Solver extends AbstractSolver {
 
         solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
         planning.setCost(solutionChecker.getTotalPlanningCost());
+        log.info("New Planning Nr. {} - Cost: {}\n{}\n{}", planning.getNr(), planning.getCost(),planning.getPlanningStats(), planning.getPlanningAsTable());
+        watch.stop();
+        log.info("Duration of OR-Tools Solver: {}ms", watch.getTime());
 
-        System.out.println(planning.getPlanningStats());
-        System.out.println(planning.getPlanningAsTable());
         return planning;
 
     }
+    public void optaCallback(OptaSolution solution) {
+
+    }
+
+
 }
