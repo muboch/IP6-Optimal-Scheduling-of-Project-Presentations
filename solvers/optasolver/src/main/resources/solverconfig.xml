@@ -7,6 +7,10 @@
     <solutionClass>ch.fhnw.ip6.optasolver.OptaSolution</solutionClass>
     <entityClass>ch.fhnw.ip6.optasolver.model.Presentation</entityClass>
     <entityClass>ch.fhnw.ip6.optasolver.model.Lecturer</entityClass>
+    <entityClass>ch.fhnw.ip6.optasolver.model.Room</entityClass>
+    <entityClass>ch.fhnw.ip6.optasolver.model.Timeslot</entityClass>
+
+
     <scoreDirectorFactory>
 
         <constraintProviderClass>ch.fhnw.ip6.optasolver.OptaConstraintProvider</constraintProviderClass>
