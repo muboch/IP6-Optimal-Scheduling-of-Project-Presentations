@@ -5,7 +5,7 @@ import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Student;
 import ch.fhnw.ip6.ospp.service.FachlicheException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Slf4j
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class PresentationLoadService extends AbstractLoadService {

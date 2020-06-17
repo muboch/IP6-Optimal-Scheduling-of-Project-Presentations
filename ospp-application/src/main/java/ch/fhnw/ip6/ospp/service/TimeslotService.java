@@ -1,32 +1,18 @@
 package ch.fhnw.ip6.ospp.service;
 
-import ch.fhnw.ip6.ospp.mapper.TimeslotMapper;
-import ch.fhnw.ip6.ospp.model.Lecturer;
-import ch.fhnw.ip6.ospp.model.Room;
 import ch.fhnw.ip6.ospp.model.Timeslot;
-import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
-import ch.fhnw.ip6.ospp.vo.TimeslotVO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-@Slf4j
+@Log4j2
 @Component
 @RequiredArgsConstructor
-public class TimeslotService   {
+public class TimeslotService {
 
     private final TimeslotRepository timeslotRepository;
 

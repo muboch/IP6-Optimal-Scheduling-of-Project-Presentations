@@ -2,10 +2,8 @@ package ch.fhnw.ip6.ospp.service.load;
 
 import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.model.Timeslot;
-import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
-import ch.fhnw.ip6.ospp.service.LecturerService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,17 +13,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Slf4j
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class TimeslotLoadService extends AbstractLoadService {

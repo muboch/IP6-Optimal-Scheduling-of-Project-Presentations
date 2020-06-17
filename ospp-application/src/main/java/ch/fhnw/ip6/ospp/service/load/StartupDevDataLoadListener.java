@@ -10,7 +10,7 @@ import ch.fhnw.ip6.ospp.service.RoomService;
 import ch.fhnw.ip6.ospp.service.TimeslotService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
@@ -21,18 +21,12 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 @Profile("dev")
-@Slf4j
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class StartupDevDataLoadListener implements ApplicationListener<ContextRefreshedEvent> {

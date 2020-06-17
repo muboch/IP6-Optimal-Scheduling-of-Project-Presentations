@@ -20,7 +20,7 @@ import ch.fhnw.ip6.ospp.service.load.RoomLoadService;
 import ch.fhnw.ip6.ospp.service.load.TimeslotLoadService;
 import ch.fhnw.ip6.ospp.vo.PlanningVO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -51,7 +51,7 @@ import static ch.fhnw.ip6.ospp.service.ConsistencyError.Status.ERROR;
 @CrossOrigin
 @RequestMapping("/api/planning")
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class PlanningController {
 
     private final PresentationService presentationService;

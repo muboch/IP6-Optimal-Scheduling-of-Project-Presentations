@@ -5,7 +5,6 @@ import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Room;
 import ch.fhnw.ip6.ospp.vo.RoomVO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

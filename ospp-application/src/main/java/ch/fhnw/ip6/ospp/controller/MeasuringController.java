@@ -4,9 +4,8 @@ package ch.fhnw.ip6.ospp.controller;
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.ospp.event.SolveEvent;
 import ch.fhnw.ip6.ospp.service.FachlicheException;
-import ch.fhnw.ip6.ospp.service.PlanningService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,7 +20,7 @@ import java.util.Arrays;
 @RestController
 @RequestMapping("/api/measuring")
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class MeasuringController {
 
     private final SolverContext solverContext;

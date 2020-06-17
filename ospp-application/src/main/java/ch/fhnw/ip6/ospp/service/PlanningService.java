@@ -27,7 +27,7 @@ import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
 import ch.fhnw.ip6.ospp.persistence.RoomRepository;
 import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-@Slf4j
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class PlanningService {

@@ -4,7 +4,7 @@ import ch.fhnw.ip6.ospp.model.Lecturer;
 import ch.fhnw.ip6.ospp.model.Presentation;
 import ch.fhnw.ip6.ospp.model.Timeslot;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static ch.fhnw.ip6.ospp.service.ConsistencyError.Status.ERROR;
 import static ch.fhnw.ip6.ospp.service.ConsistencyError.Status.WARN;
 
-@Slf4j
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class ConsistencyService {

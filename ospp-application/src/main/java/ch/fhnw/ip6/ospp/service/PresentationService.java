@@ -7,7 +7,7 @@ import ch.fhnw.ip6.ospp.persistence.LecturerRepository;
 import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
 import ch.fhnw.ip6.ospp.persistence.StudentRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 
-@Slf4j
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class PresentationService {

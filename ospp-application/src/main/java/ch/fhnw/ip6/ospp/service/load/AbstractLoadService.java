@@ -1,7 +1,6 @@
 package ch.fhnw.ip6.ospp.service.load;
 
 import ch.fhnw.ip6.ospp.service.FachlicheException;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 public class AbstractLoadService {

@@ -3,13 +3,13 @@ package ch.fhnw.ip6.ospp.service;
 import ch.fhnw.ip6.ospp.model.Room;
 import ch.fhnw.ip6.ospp.persistence.RoomRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class RoomService {
