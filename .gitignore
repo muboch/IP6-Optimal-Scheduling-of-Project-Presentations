@@ -12,6 +12,7 @@
 /solvers/olddata-checker/target/
 frontend/build
 frontend/node
+/logs/
 
 # OS generated files #
 ######################
