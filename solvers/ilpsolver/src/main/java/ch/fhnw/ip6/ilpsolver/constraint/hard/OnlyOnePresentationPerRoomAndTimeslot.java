@@ -3,7 +3,6 @@ package ch.fhnw.ip6.ilpsolver.constraint.hard;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
-import ch.fhnw.ip6.common.util.CostUtil;
 import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import gurobi.GRB;
 import gurobi.GRBException;
@@ -17,11 +16,12 @@ public class OnlyOnePresentationPerRoomAndTimeslot extends Constraint {
     @Override
     public void build() {
         try {
-            for (P p : getIlpModel().getPresentations()) {
+            for (R r : getIlpModel().getRooms()) {
                 GRBLinExpr lhs = new GRBLinExpr();
 
-                for (T t : getIlpModel().getTimeslots()) {
-                    for (R r : getIlpModel().getRooms()) {
+                for (P p : getIlpModel().getPresentations()) {
+
+                    for (T t : getIlpModel().getTimeslots()) {
                         lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }
                 }
