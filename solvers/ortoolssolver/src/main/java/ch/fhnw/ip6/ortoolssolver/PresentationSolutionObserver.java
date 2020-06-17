@@ -11,8 +11,8 @@ import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import com.google.ortools.sat.CpSolverSolutionCallback;
 import com.google.ortools.sat.IntVar;
 import org.apache.commons.lang3.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class PresentationSolutionObserver extends CpSolverSolutionCallback {
     private final SolverContext solverContext;
     private final SolutionChecker solutionChecker;
     private int solutionCount;
-    private final Logger log = LoggerFactory.getLogger(PresentationSolutionObserver.class);
+    private final Logger log = LogManager.getLogger(PresentationSolutionObserver.class);
 
 
     @Override

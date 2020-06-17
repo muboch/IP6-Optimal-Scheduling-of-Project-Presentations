@@ -12,9 +12,8 @@ import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public abstract class AbstractSolver implements SolverApi {
 
     protected final SolverContext solverContext;
 
-    private final static Logger log = LoggerFactory.getLogger(AbstractSolver.class);
+    private final static Logger log = LogManager.getLogger(AbstractSolver.class);
 
 
     public Planning testSolve() {
