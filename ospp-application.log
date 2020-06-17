@@ -1,0 +1,185 @@
+2020.06.17 21:12:20 [severity=INFO] - Starting OSPPApplication on Carlos-MacBook-Pro.local with PID 9852 (/Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations/ospp-application/target/classes started by bananenhoschi in /Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations)
+2020.06.17 21:12:20 [severity=INFO] - The following profiles are active: dev
+2020.06.17 21:12:22 [severity=INFO] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020.06.17 21:12:22 [severity=INFO] - Finished Spring Data repository scanning in 102ms. Found 6 JPA repository interfaces.
+2020.06.17 21:12:23 [severity=INFO] - Tomcat initialized with port(s): 8080 (http)
+2020.06.17 21:12:23 [severity=INFO] - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:12:23 [severity=INFO] - Starting service [Tomcat]
+2020.06.17 21:12:23 [severity=INFO] - Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020.06.17 21:12:23 [severity=INFO] - Initializing Spring embedded WebApplicationContext
+2020.06.17 21:12:23 [severity=INFO] - Root WebApplicationContext: initialization completed in 3589 ms
+2020.06.17 21:12:23 [severity=INFO] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2020.06.17 21:12:24 [severity=INFO] - HHH000412: Hibernate ORM core version 5.4.12.Final
+2020.06.17 21:12:24 [severity=INFO] - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020.06.17 21:12:24 [severity=INFO] - HikariPool-1 - Starting...
+2020.06.17 21:12:24 [severity=INFO] - HikariPool-1 - Start completed.
+2020.06.17 21:12:24 [severity=INFO] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2020.06.17 21:12:25 [severity=INFO] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020.06.17 21:12:25 [severity=INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:12:25 [severity=WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020.06.17 21:12:28 [severity=INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:12:28 [severity=INFO] - 
+
+Using generated security password: 5c118a8e-76ac-4649-95dc-d6f2502aa5cb
+
+2020.06.17 21:12:28 [severity=INFO] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@771ede0d, org.springframework.security.web.context.SecurityContextPersistenceFilter@3a75d9a1, org.springframework.security.web.header.HeaderWriterFilter@213c812a, org.springframework.security.web.authentication.logout.LogoutFilter@55e3b64d, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@5fdff4f1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7a085d02, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7e305953, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1fd73dcb, org.springframework.security.web.session.SessionManagementFilter@6f5f892c, org.springframework.security.web.access.ExceptionTranslationFilter@6821d4e1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5aa461]
+2020.06.17 21:12:28 [severity=INFO] - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:12:28 [severity=INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020.06.17 21:12:28 [severity=INFO] - Started OSPPApplication in 10.104 seconds (JVM running for 12.284)
+2020.06.17 21:12:30 [severity=INFO] - Lecturers loaded (108)
+2020.06.17 21:12:31 [severity=INFO] - Presentations loaded (189)
+2020.06.17 21:12:31 [severity=INFO] - Rooms loaded (33)
+2020.06.17 21:12:31 [severity=INFO] - Timeslots loaded (18)
+2020.06.17 21:12:31 [severity=INFO] - Offtimes loaded (18)
+2020.06.17 21:15:54 [severity=INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:15:54 [severity=INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:15:54 [severity=INFO] - HikariPool-1 - Shutdown initiated...
+2020.06.17 21:15:54 [severity=INFO] - HikariPool-1 - Shutdown completed.
+2020.06.17 21:16:01.171 [INFO] - Starting OSPPApplication on Carlos-MacBook-Pro.local with PID 9955 (/Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations/ospp-application/target/classes started by bananenhoschi in /Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations)
+2020.06.17 21:16:01.174 [INFO] - The following profiles are active: dev
+2020.06.17 21:16:04.994 [INFO] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020.06.17 21:16:05.585 [INFO] - Finished Spring Data repository scanning in 570ms. Found 6 JPA repository interfaces.
+2020.06.17 21:16:07.399 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020.06.17 21:16:07.446 [INFO] - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:16:07.447 [INFO] - Starting service [Tomcat]
+2020.06.17 21:16:07.447 [INFO] - Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020.06.17 21:16:08.005 [INFO] - Initializing Spring embedded WebApplicationContext
+2020.06.17 21:16:08.005 [INFO] - Root WebApplicationContext: initialization completed in 6764 ms
+2020.06.17 21:16:08.188 [INFO] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2020.06.17 21:16:08.309 [INFO] - HHH000412: Hibernate ORM core version 5.4.12.Final
+2020.06.17 21:16:08.488 [INFO] - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020.06.17 21:16:08.671 [INFO] - HikariPool-1 - Starting...
+2020.06.17 21:16:09.104 [INFO] - HikariPool-1 - Start completed.
+2020.06.17 21:16:09.126 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2020.06.17 21:16:10.309 [INFO] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020.06.17 21:16:10.318 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:16:10.471 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020.06.17 21:16:12.534 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:16:12.799 [INFO] - 
+
+Using generated security password: 2e50ab8e-bfab-4155-bdaf-618a620c8aba
+
+2020.06.17 21:16:12.916 [INFO] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@117be84a, org.springframework.security.web.context.SecurityContextPersistenceFilter@55f4ec04, org.springframework.security.web.header.HeaderWriterFilter@195d4780, org.springframework.security.web.authentication.logout.LogoutFilter@6f9e6a85, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2e04c89d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1fd4850b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@44ec6637, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@140fa482, org.springframework.security.web.session.SessionManagementFilter@21262bde, org.springframework.security.web.access.ExceptionTranslationFilter@2b30b25f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@48cbb4c5]
+2020.06.17 21:16:12.956 [INFO] - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:16:12.994 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020.06.17 21:16:12.999 [INFO] - Started OSPPApplication in 12.85 seconds (JVM running for 15.379)
+2020.06.17 21:16:14.261 [INFO] - Lecturers loaded (108)
+2020.06.17 21:16:15.000 [INFO] - Presentations loaded (189)
+2020.06.17 21:16:15.054 [INFO] - Rooms loaded (33)
+2020.06.17 21:16:15.098 [INFO] - Timeslots loaded (18)
+2020.06.17 21:16:15.299 [INFO] - Offtimes loaded (18)
+2020.06.17 21:17:17.687 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:17:17.694 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:17:17.708 [INFO] - HikariPool-1 - Shutdown initiated...
+2020.06.17 21:17:17.730 [INFO] - HikariPool-1 - Shutdown completed.
+2020.06.17 21:17:23.278 [INFO] - Starting OSPPApplication on Carlos-MacBook-Pro.local with PID 9979 (/Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations/ospp-application/target/classes started by bananenhoschi in /Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations)
+2020.06.17 21:17:23.281 [INFO] - The following profiles are active: dev
+2020.06.17 21:17:24.902 [INFO] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020.06.17 21:17:25.028 [INFO] - Finished Spring Data repository scanning in 112ms. Found 6 JPA repository interfaces.
+2020.06.17 21:17:25.927 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020.06.17 21:17:25.972 [INFO] - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:17:25.972 [INFO] - Starting service [Tomcat]
+2020.06.17 21:17:25.972 [INFO] - Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020.06.17 21:17:26.674 [INFO] - Initializing Spring embedded WebApplicationContext
+2020.06.17 21:17:26.674 [INFO] - Root WebApplicationContext: initialization completed in 3339 ms
+2020.06.17 21:17:26.917 [INFO] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2020.06.17 21:17:27.024 [INFO] - HHH000412: Hibernate ORM core version 5.4.12.Final
+2020.06.17 21:17:27.217 [INFO] - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020.06.17 21:17:27.339 [INFO] - HikariPool-1 - Starting...
+2020.06.17 21:17:27.528 [INFO] - HikariPool-1 - Start completed.
+2020.06.17 21:17:27.548 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2020.06.17 21:17:28.690 [INFO] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020.06.17 21:17:28.699 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:17:28.758 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020.06.17 21:17:31.339 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:17:31.664 [INFO] - 
+
+Using generated security password: c391f6e4-e1fa-4937-85f3-6e179efb2834
+
+2020.06.17 21:17:31.789 [INFO] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6d71f296, org.springframework.security.web.context.SecurityContextPersistenceFilter@3031d9e9, org.springframework.security.web.header.HeaderWriterFilter@65029fc, org.springframework.security.web.authentication.logout.LogoutFilter@3e5febe9, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@7c8cea05, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@61c42e54, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1d160161, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4a15d5f5, org.springframework.security.web.session.SessionManagementFilter@1a6df932, org.springframework.security.web.access.ExceptionTranslationFilter@d98ce13, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@383a5260]
+2020.06.17 21:17:31.831 [INFO] - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:17:31.861 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020.06.17 21:17:31.869 [INFO] - Started OSPPApplication in 9.336 seconds (JVM running for 11.001)
+2020.06.17 21:17:33.114 [INFO] - Lecturers loaded (108)
+2020.06.17 21:17:33.886 [INFO] - Presentations loaded (189)
+2020.06.17 21:17:33.948 [INFO] - Rooms loaded (33)
+2020.06.17 21:17:33.990 [INFO] - Timeslots loaded (18)
+2020.06.17 21:17:34.093 [INFO] - Offtimes loaded (18)
+2020.06.17 21:19:02.557 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:19:02.559 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:19:02.572 [INFO] - HikariPool-1 - Shutdown initiated...
+2020.06.17 21:19:02.584 [INFO] - HikariPool-1 - Shutdown completed.
+2020.06.17 21:19:09.002 [INFO] - Starting OSPPApplication on Carlos-MacBook-Pro.local with PID 10005 (/Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations/ospp-application/target/classes started by bananenhoschi in /Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations)
+2020.06.17 21:19:09.006 [INFO] - The following profiles are active: dev
+2020.06.17 21:19:11.331 [INFO] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020.06.17 21:19:11.665 [INFO] - Finished Spring Data repository scanning in 288ms. Found 6 JPA repository interfaces.
+2020.06.17 21:19:14.399 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020.06.17 21:19:14.423 [INFO] - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:19:14.424 [INFO] - Starting service [Tomcat]
+2020.06.17 21:19:14.424 [INFO] - Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020.06.17 21:19:15.318 [INFO] - Initializing Spring embedded WebApplicationContext
+2020.06.17 21:19:15.318 [INFO] - Root WebApplicationContext: initialization completed in 6149 ms
+2020.06.17 21:19:15.614 [INFO] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2020.06.17 21:19:15.748 [INFO] - HHH000412: Hibernate ORM core version 5.4.12.Final
+2020.06.17 21:19:15.994 [INFO] - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020.06.17 21:19:16.138 [INFO] - HikariPool-1 - Starting...
+2020.06.17 21:19:16.376 [INFO] - HikariPool-1 - Start completed.
+2020.06.17 21:19:16.399 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2020.06.17 21:19:17.877 [INFO] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020.06.17 21:19:17.889 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:19:17.974 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020.06.17 21:19:20.831 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:19:21.492 [INFO] - 
+
+Using generated security password: 21ad69a3-e7b9-47ff-af60-a978b7df24c1
+
+2020.06.17 21:19:21.752 [INFO] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@304cad3a, org.springframework.security.web.context.SecurityContextPersistenceFilter@59d7d574, org.springframework.security.web.header.HeaderWriterFilter@1db9d253, org.springframework.security.web.authentication.logout.LogoutFilter@7894a250, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2396dc4e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4417755b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@f83616, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@628cb8e0, org.springframework.security.web.session.SessionManagementFilter@4e00723b, org.springframework.security.web.access.ExceptionTranslationFilter@f3c27e9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2e7dd504]
+2020.06.17 21:19:21.823 [INFO] - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:19:21.878 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020.06.17 21:19:21.888 [INFO] - Started OSPPApplication in 13.91 seconds (JVM running for 16.705)
+2020.06.17 21:19:24.215 [INFO] - Lecturers loaded (108)
+2020.06.17 21:19:26.481 [INFO] - Presentations loaded (189)
+2020.06.17 21:19:26.551 [INFO] - Rooms loaded (33)
+2020.06.17 21:19:26.628 [INFO] - Timeslots loaded (18)
+2020.06.17 21:19:27.006 [INFO] - Offtimes loaded (18)
+2020.06.17 21:23:01.428 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:23:01.433 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:23:01.441 [INFO] - HikariPool-1 - Shutdown initiated...
+2020.06.17 21:23:01.450 [INFO] - HikariPool-1 - Shutdown completed.
+2020.06.17 21:23:25.365 [INFO] - Starting OSPPApplication on Carlos-MacBook-Pro.local with PID 10099 (/Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations/ospp-application/target/classes started by bananenhoschi in /Users/bananenhoschi/Dev/fhnw/ip6/IP6-Optimal-Scheduling-of-Project-Presentations)
+2020.06.17 21:23:25.367 [INFO] - The following profiles are active: dev
+2020.06.17 21:23:27.311 [INFO] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020.06.17 21:23:27.409 [INFO] - Finished Spring Data repository scanning in 88ms. Found 6 JPA repository interfaces.
+2020.06.17 21:23:28.175 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020.06.17 21:23:28.189 [INFO] - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:23:28.190 [INFO] - Starting service [Tomcat]
+2020.06.17 21:23:28.190 [INFO] - Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020.06.17 21:23:28.756 [INFO] - Initializing Spring embedded WebApplicationContext
+2020.06.17 21:23:28.756 [INFO] - Root WebApplicationContext: initialization completed in 3343 ms
+2020.06.17 21:23:28.935 [INFO] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2020.06.17 21:23:29.058 [INFO] - HHH000412: Hibernate ORM core version 5.4.12.Final
+2020.06.17 21:23:29.230 [INFO] - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020.06.17 21:23:29.371 [INFO] - HikariPool-1 - Starting...
+2020.06.17 21:23:29.570 [INFO] - HikariPool-1 - Start completed.
+2020.06.17 21:23:29.590 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2020.06.17 21:23:30.743 [INFO] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020.06.17 21:23:30.757 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:23:30.828 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020.06.17 21:23:33.126 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:23:33.382 [INFO] - 
+
+Using generated security password: 94a49120-ec1a-4874-8992-93c513bcb64d
+
+2020.06.17 21:23:33.503 [INFO] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@63e81ac6, org.springframework.security.web.context.SecurityContextPersistenceFilter@7842260f, org.springframework.security.web.header.HeaderWriterFilter@701c413, org.springframework.security.web.authentication.logout.LogoutFilter@cda988, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@588614f9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@44ec6637, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3811464b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@45775a15, org.springframework.security.web.session.SessionManagementFilter@7a085d02, org.springframework.security.web.access.ExceptionTranslationFilter@436103b1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4f4b7a2e]
+2020.06.17 21:23:33.561 [INFO] - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2020.06.17 21:23:33.603 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020.06.17 21:23:33.617 [INFO] - Started OSPPApplication in 9.176 seconds (JVM running for 12.211)
+2020.06.17 21:23:35.282 [INFO] - Lecturers loaded (108)
+2020.06.17 21:23:36.180 [INFO] - Presentations loaded (189)
+2020.06.17 21:23:36.234 [INFO] - Rooms loaded (33)
+2020.06.17 21:23:36.286 [INFO] - Timeslots loaded (18)
+2020.06.17 21:23:36.401 [INFO] - Offtimes loaded (18)
+2020.06.17 21:25:58.253 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020.06.17 21:25:58.257 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020.06.17 21:25:58.271 [INFO] - HikariPool-1 - Shutdown initiated...
+2020.06.17 21:25:58.281 [INFO] - HikariPool-1 - Shutdown completed.
