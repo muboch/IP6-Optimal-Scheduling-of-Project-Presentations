@@ -16,6 +16,7 @@ public class MinimizeRoomSwitchesConstraint extends OptaConstraint {
                             if (l.getRoomSwitches() == null) {
                                 return 999;
                             }
+                            System.out.println("l:" + l.getInitials() +", switches: "+ l.getRoomSwitches() );
                             return l.getRoomSwitches() * ROOM_SWITCH_COST;
                         });
 
