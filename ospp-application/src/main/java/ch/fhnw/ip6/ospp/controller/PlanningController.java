@@ -162,7 +162,7 @@ public class PlanningController {
     public ResponseEntity<Resource> downloadExample() throws IOException {
 
         // Load file as Resource
-        ClassPathResource classPathResource = new ClassPathResource("beispieldaten.zip");
+        ClassPathResource classPathResource = new ClassPathResource("data/beispieldaten.zip");
 
         return ResponseEntity.ok()
                 .contentType(MediaType.MULTIPART_FORM_DATA)
