@@ -14,8 +14,8 @@ import com.google.ortools.sat.CpSolverStatus;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import org.apache.commons.lang3.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class Solver extends AbstractSolver {
     }
 
     private OrToolsModel orToolsModel;
-    private final static Logger log = LoggerFactory.getLogger(Solver.class);
+    private final static Logger log = LogManager.getLogger(Solver.class);
 
     public Solver(SolverContext solverContext) {
         super(solverContext);

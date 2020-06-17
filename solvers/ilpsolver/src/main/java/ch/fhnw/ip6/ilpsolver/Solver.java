@@ -24,8 +24,8 @@ import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
 import org.apache.commons.lang3.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import java.util.List;
 @Component("ch.fhnw.ip6.ilpsolver.Solver")
 public class Solver extends AbstractSolver {
 
-    private final static Logger log = LoggerFactory.getLogger(Solver.class);
+    private final static Logger log = LogManager.getLogger(Solver.class);
 
     public Solver(SolverContext solverContext) {
         super(solverContext);

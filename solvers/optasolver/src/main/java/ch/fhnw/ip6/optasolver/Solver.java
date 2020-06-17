@@ -17,12 +17,12 @@ import ch.fhnw.ip6.optasolver.model.Room;
 import ch.fhnw.ip6.optasolver.model.Timeslot;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import org.apache.commons.lang3.time.StopWatch;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.SolverManagerConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 public class Solver extends AbstractSolver {
 
     private final SolutionChecker solutionChecker;
-    private final static Logger log = LoggerFactory.getLogger(Solver.class);
+    private final static Logger log = LogManager.getLogger(Solver.class);
 
     private final SolverManager<OptaSolution, UUID> solverManager;
 
@@ -135,7 +135,7 @@ public class Solver extends AbstractSolver {
 
         solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
         planning.setCost(solutionChecker.getTotalPlanningCost());
-        log.info("New Planning Nr. {} - Cost: {}\n{}\n{}", planning.getNr(), planning.getCost(),planning.getPlanningStats(), planning.getPlanningAsTable());
+        log.info("New Planning Nr. {} - Cost: {}\n{}\n{}", planning.getNr(), planning.getCost(), planning.getPlanningStats(), planning.getPlanningAsTable());
         watch.stop();
         log.info("Duration of Optasolver: {}ms", watch.getTime());
 
