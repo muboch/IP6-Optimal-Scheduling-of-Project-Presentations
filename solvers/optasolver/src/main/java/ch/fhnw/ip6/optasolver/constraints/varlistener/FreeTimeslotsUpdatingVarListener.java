@@ -20,7 +20,7 @@ public class FreeTimeslotsUpdatingVarListener implements VariableListener<Presen
 
     @Override
     public void afterEntityAdded(ScoreDirector scoreDirector, Presentation presentation) {
-
+        updateFreeTimeslots(scoreDirector, presentation);
     }
 
     @Override

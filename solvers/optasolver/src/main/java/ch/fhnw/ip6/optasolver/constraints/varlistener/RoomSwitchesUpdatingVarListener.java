@@ -20,6 +20,7 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
 
     @Override
     public void afterEntityAdded(ScoreDirector scoreDirector, Presentation presentation) {
+        updateRoomSwitches(scoreDirector, presentation);
 
     }
 
