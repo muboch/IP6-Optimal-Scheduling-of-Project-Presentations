@@ -139,7 +139,7 @@ public class Solver extends AbstractSolver {
         watch.stop();
         log.info("Duration of Optasolver: {}ms", watch.getTime());
 
-        solverContext.setSolving(true);
+        solverContext.setSolving(false);
         return planning;
     }
 
