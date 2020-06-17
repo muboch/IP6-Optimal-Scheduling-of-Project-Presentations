@@ -73,6 +73,23 @@
             <version>2.0.8</version>
         </dependency>
 
+        <!-- logging -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
         <!-- database -->
         <dependency>
@@ -127,16 +144,6 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.ortools</groupId>
-            <artifactId>ortools</artifactId>
-            <version>v7.6.7691</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>3.12.2</version>
-        </dependency>
         <!-- build -->
         <dependency>
             <groupId>com.github.eirslett</groupId>
