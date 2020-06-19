@@ -65,8 +65,11 @@ VOLUME /tmp/ospplogs
 
 WORKDIR /
 COPY --from=builder ${GUROBI_INSTALL} /
+RUN true
 COPY --from=builder /app.jar /app.jar
+RUN true
 COPY --from=builder /deps/* /usr/lib/
+RUN true
 
 RUN apt-get update -y
 RUN apt-get install openjdk-11-jdk -y
