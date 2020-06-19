@@ -81,13 +81,9 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-RUN ls -al /
-RUN ls -al /opt/gurobi/linux64
 RUN mv /opt/gurobi/linux64/* /opt/gurobi -f
 RUN /opt/gurobi/bin/grbgetkey cc889156-b229-11ea-8605-0a7c4f30bdbe
 RUN cp /opt/gurobi/lib/* /usr/lib/ -r
-RUN ls -al /usr/lib/
-
 EXPOSE 8080
 
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
