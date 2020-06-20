@@ -85,5 +85,6 @@ RUN mv /opt/gurobi/linux64/* /opt/gurobi -f
 RUN /opt/gurobi/bin/grbgetkey c7593fce-b250-11ea-94e1-020d093b5256
 RUN cp /opt/gurobi/lib/* /usr/lib/ -r
 EXPOSE 8080
-
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ADD entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ./entrypoint.sh
