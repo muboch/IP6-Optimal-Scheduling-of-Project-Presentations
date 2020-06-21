@@ -8,7 +8,9 @@ import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class RoomSwitchesUpdatingVarListener implements VariableListener<Presentation> {
@@ -53,22 +55,20 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
             if (l.getPresentations() == null) {
                 return;
             }
+            List<Presentation> presentations = l.getPresentations().stream().filter(p -> p.getTimeslot() != null).sorted(Comparator.comparing(p -> p.getTimeslot().getId())).collect(Collectors.toList());
 
             Timeslot prevTimeslot = null;
             Room prevRoom = null;
 
             int roomSwitches = 0;
-            for (Presentation p : l.getPresentations()) {
+            for (Presentation p : presentations) {
 
                 if (prevRoom == null) {
                     prevTimeslot = p.getTimeslot();
                     prevRoom = p.getRoom();
                 }
 
-                if (p.getTimeslot() != null && p.getTimeslot().getId() - prevTimeslot.getId() > 1) {
-                    roomSwitches++;
-                }
-                if (prevRoom != p.getRoom()) {
+                if (prevRoom != p.getRoom() || p.getTimeslot() != null && p.getTimeslot().getId() - prevTimeslot.getId() > 1) {
                     roomSwitches++;
                 }
                 prevRoom = p.getRoom();

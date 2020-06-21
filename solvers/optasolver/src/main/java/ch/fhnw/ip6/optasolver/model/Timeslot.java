@@ -33,4 +33,6 @@ public class Timeslot extends TimeslotDto {
     public int hashCode() {
         return super.hashCode();
     }
+
+
 }
