@@ -83,9 +83,9 @@ public class Solver extends AbstractSolver {
             grbModel.update();
 
             watch.split();
-            log.debug("Start with Gurobi Optimization");
+            System.out.println("Start with Gurobi Optimization");
             grbModel.optimize();
-            log.debug("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
+            System.out.println("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
             watch.unsplit();
 
             Planning planning = solverContext.getPlanning();
@@ -111,7 +111,7 @@ public class Solver extends AbstractSolver {
             // set this flag so other processes know that the solver is finished
             solverContext.setSolving(false);
             watch.stop();
-            log.info("Duration of \"Gurobi\" Solver: " + watch.getTime() + "ms");
+            System.out.println("Duration of \"Gurobi\" Solver: " + watch.getTime() + "ms");
         }
         return null;
     }
