@@ -14,6 +14,9 @@ ospp:
   solver: ch.fhnw.ip6.ortoolssolver.Solver
   timeLimit: 3600 # 1h
   testMode: true
-
 server:
   address: 0.0.0.0
+logging:
+  file:
+    name: ospp-application.log
+    path: ./logs/
