@@ -53,6 +53,9 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
 
         coachAndExpert.forEach(l -> {
             if (l.getPresentations() == null) {
+                scoreDirector.beforeVariableChanged(l, "roomSwitches");
+                l.setRoomSwitches(0);
+                scoreDirector.afterVariableChanged(l, "roomSwitches");
                 return;
             }
             List<Presentation> presentations = l.getPresentations().stream().filter(p -> p.getTimeslot() != null).sorted(Comparator.comparing(p -> p.getTimeslot().getId())).collect(Collectors.toList());
@@ -61,6 +64,7 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
             Room prevRoom = null;
 
             int roomSwitches = 0;
+
             for (Presentation p : presentations) {
 
                 if (prevRoom == null) {

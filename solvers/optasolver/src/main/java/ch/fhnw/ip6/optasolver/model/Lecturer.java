@@ -51,7 +51,8 @@ public class Lecturer extends LecturerDto {
     }
 
     public List<Timeslot> getOfftimes() {
-        if(offtimes == null){offtimes = new ArrayList<>();
+        if (offtimes == null) {
+            offtimes = new ArrayList<>();
         }
 
         return offtimes;
@@ -74,11 +75,15 @@ public class Lecturer extends LecturerDto {
 
 
     public void setRoomSwitches(int roomSwitches) {
+        if(roomSwitches <0){
+            System.out.println(roomSwitches);
+        }
         this.roomSwitches = roomSwitches;
     }
 
     @CustomShadowVariable(variableListenerClass = RoomSwitchesUpdatingVarListener.class,
-            sources = {@PlanningVariableReference(variableName = "room", entityClass = Presentation.class)})
+            sources = {@PlanningVariableReference(variableName = "timeslot", entityClass = Presentation.class),
+                    @PlanningVariableReference(variableName = "room", entityClass = Presentation.class)})
     public Integer getRoomSwitches() {
         return roomSwitches;
     }

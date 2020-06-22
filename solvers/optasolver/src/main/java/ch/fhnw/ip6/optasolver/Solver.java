@@ -16,13 +16,13 @@ import ch.fhnw.ip6.optasolver.model.Presentation;
 import ch.fhnw.ip6.optasolver.model.Room;
 import ch.fhnw.ip6.optasolver.model.Timeslot;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.SolverManagerConfig;
+import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -32,11 +32,11 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component("ch.fhnw.ip6.optasolver.Solver")
 public class Solver extends AbstractSolver {
 
     private final SolutionChecker solutionChecker;
-    private final static Logger log = LogManager.getLogger(Solver.class);
 
     private final SolverManager<OptaSolution, UUID> solverManager;
 
@@ -52,7 +52,7 @@ public class Solver extends AbstractSolver {
 
         JsonUtil util = new JsonUtil();
 
-        List<Presentation> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", Presentation.class));//.subList(0, 10);
+        List<Presentation> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", Presentation.class)).subList(0, 10);
         List<Lecturer> lecturers = util.getJsonAsList("lecturers.json", Lecturer.class);
         List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
@@ -96,7 +96,6 @@ public class Solver extends AbstractSolver {
             }
         }
 
-
         lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
 
         OptaSolution problem = new OptaSolution(timeslots, rooms, presentations, lecturers);
@@ -106,13 +105,15 @@ public class Solver extends AbstractSolver {
         // Submit the problem to start solving
         log.debug("Start with Optaplanner Optimization");
 
+        SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
+        solverConfig.withTerminationConfig(new TerminationConfig().withSecondsSpentLimit((long) timeLimit));
+
         SolverJob<OptaSolution, UUID> solverJob = solverManager.solve(problemId, problem);
         OptaSolution solution;
 
         try {
             // Wait until the solving ends
             solution = solverJob.getFinalBestSolution();
-            //solverManager.solveAndListen(problemId, problem);
         } catch (InterruptedException | ExecutionException e) {
             throw new IllegalStateException("Solving failed.", e);
         }
@@ -142,6 +143,5 @@ public class Solver extends AbstractSolver {
         solverContext.setSolving(false);
         return planning;
     }
-
 
 }
