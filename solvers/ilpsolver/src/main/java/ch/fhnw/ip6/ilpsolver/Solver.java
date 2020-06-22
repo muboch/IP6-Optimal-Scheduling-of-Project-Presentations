@@ -24,8 +24,6 @@ import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
 import org.apache.commons.lang3.time.StopWatch;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -33,8 +31,6 @@ import java.util.List;
 
 @Component("ch.fhnw.ip6.ilpsolver.Solver")
 public class Solver extends AbstractSolver {
-
-    private final static Logger log = LogManager.getLogger(Solver.class);
 
     public Solver(SolverContext solverContext) {
         super(solverContext);
@@ -55,7 +51,12 @@ public class Solver extends AbstractSolver {
 
             ILPModel model = new ILPModel(ps, ls, rs, ts, offTimes, grbModel);
 
-            log.info("Number of Problem Instances: Presentations: {}, Lecturers: {}, Rooms: {}, Timeslots: {}, OffTimes: {}", ps.size(), ls.size(), rs.size(), ts.size(), offTimes.length);
+            System.out.println("Number of Problem Instances: Presentations: " + ps.size()
+                    + ", Lecturers: " + ls.size()
+                    + ", Rooms: " + rs.size()
+                    + ", Timeslots: "
+                    + ts.size()
+                    + ", OffTimes: " + offTimes.length);
 
             GRBLinExpr objective = new GRBLinExpr();
 
@@ -72,12 +73,11 @@ public class Solver extends AbstractSolver {
                 c.setObjectives(objective);
                 c.setModel(model).build();
             });
-            log.debug("Setup Constraints duration: {}ms", watch.getSplitTime());
+            System.out.println("Setup Constraints duration: " + watch.getSplitTime() + "ms");
             watch.unsplit();
 
             grbModel.setCallback(new ILPSolverCallback(model, solverContext));
             grbModel.setObjective(objective);
-            grbModel.set(GRB.IntParam.LogToConsole, 1);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
             grbModel.update();
@@ -85,7 +85,7 @@ public class Solver extends AbstractSolver {
             watch.split();
             log.debug("Start with Gurobi Optimization");
             grbModel.optimize();
-            log.debug("End of Gurobi Optimization after {}ms", watch.getSplitTime());
+            log.debug("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
             watch.unsplit();
 
             Planning planning = solverContext.getPlanning();
@@ -94,7 +94,7 @@ public class Solver extends AbstractSolver {
             fillPlanning(ps, rs, ts, grbModel, model, planning);
 
             int status = grbModel.get(GRB.IntAttr.Status);
-            if(status == GRB.Status.OPTIMAL || status == GRB.Status.TIME_LIMIT)
+            if (status == GRB.Status.OPTIMAL || status == GRB.Status.TIME_LIMIT)
                 planning.setStatus(StatusEnum.SOLUTION);
             else
                 planning.setStatus(StatusEnum.NO_SOLUTION);
@@ -111,7 +111,7 @@ public class Solver extends AbstractSolver {
             // set this flag so other processes know that the solver is finished
             solverContext.setSolving(false);
             watch.stop();
-            log.info("Duration of \"Gurobi\" Solver: {}ms", watch.getTime());
+            log.info("Duration of \"Gurobi\" Solver: " + watch.getTime() + "ms");
         }
         return null;
     }
