@@ -51,6 +51,7 @@ public class Solver extends AbstractSolver {
 
             ILPModel model = new ILPModel(ps, ls, rs, ts, offTimes, grbModel);
 
+            System.out.println("Start ILP-Solver");
             System.out.println("Number of Problem Instances: Presentations: " + ps.size()
                     + ", Lecturers: " + ls.size()
                     + ", Rooms: " + rs.size()

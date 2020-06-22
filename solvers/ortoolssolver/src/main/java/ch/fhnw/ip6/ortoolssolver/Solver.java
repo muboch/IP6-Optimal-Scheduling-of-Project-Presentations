@@ -14,8 +14,6 @@ import com.google.ortools.sat.CpSolverStatus;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import org.apache.commons.lang3.time.StopWatch;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -33,7 +31,6 @@ public class Solver extends AbstractSolver {
     }
 
     private OrToolsModel orToolsModel;
-    private final static Logger log = LogManager.getLogger(Solver.class);
 
     public Solver(SolverContext solverContext) {
         super(solverContext);
@@ -44,8 +41,13 @@ public class Solver extends AbstractSolver {
         solverContext.setSolving(true);
         StopWatch watch = new StopWatch();
         watch.start();
-        log.info("Number of Problem Instances: Presentations: {}, Lecturers: {}, Rooms: {}, Timeslots: {}, OffTimes: {}", ps.size(), ls.size(), rs.size(), ts.size(), offTimes.length);
-
+        System.out.println("Start OR-Solver");
+        System.out.println("Number of Problem Instances: Presentations: " + ps.size()
+                + ", Lecturers: " + ls.size()
+                + ", Rooms: " + rs.size()
+                + ", Timeslots: "
+                + ts.size()
+                + ", OffTimes: " + offTimes.length);
 
         orToolsModel = new OrToolsModel(ps, ls, rs, ts, offTimes, new CpModel());
         IntVar[][][] presRoomTime = orToolsModel.getPresRoomTime();
@@ -89,7 +91,7 @@ public class Solver extends AbstractSolver {
 
 
         // START CONSTRAINT 3.1 As little rooms as possible should be free per timeslots -> Minimize used Timeslots
-         buildConstraintMinUsedTimeslots(ps, rs, ts, presRoomTime, objIntVars, objIntCoeffs, timeslotCost);
+        buildConstraintMinUsedTimeslots(ps, rs, ts, presRoomTime, objIntVars, objIntCoeffs, timeslotCost);
         // END CONSTRAINT
 
         // START CONSTRAINT 4 As little rooms as possible should be used over all -> Minimize used Rooms over all timeslots
@@ -106,22 +108,22 @@ public class Solver extends AbstractSolver {
 
         CpSolver solver = new CpSolver();
         solver.getParameters().setMaxTimeInSeconds(timeLimit);
-        log.debug("Setup Constraints duration: {}ms", watch.getTime());
+        System.out.println("Setup Constraints duration: " + watch.getTime() + "ms");
         PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, ls, ps, ts, rs, watch, solverContext);
-        log.debug("Start with OR-Tools Optimization");
+        System.out.println("Start with OR-Tools Optimization");
         CpSolverStatus res = solver.searchAllSolutions(getModel(), cb);
-        log.debug("End of OR-Tools Optimization after {}ms", watch.getTime());
+        System.out.println("End of OR-Tools Optimization after " + watch.getTime() + "ms");
 
         solverContext.setSolving(false);
         Planning p = solverContext.getPlanning();
 
-        if(res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)
+        if (res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)
             p.setStatus(StatusEnum.SOLUTION);
         else
             p.setStatus(StatusEnum.NO_SOLUTION);
 
         watch.stop();
-        log.info("Duration of OR-Tools Solver: {}ms", watch.getTime());
+        System.out.println("Duration of OR-Tools Solver: " + watch.getTime() + "ms");
 
         return p;
     }

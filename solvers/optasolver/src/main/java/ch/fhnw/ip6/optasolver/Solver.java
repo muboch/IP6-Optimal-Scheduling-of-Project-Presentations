@@ -32,7 +32,6 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Component("ch.fhnw.ip6.optasolver.Solver")
 public class Solver extends AbstractSolver {
 
@@ -77,7 +76,13 @@ public class Solver extends AbstractSolver {
         solverContext.setSolving(true);
         StopWatch watch = new StopWatch();
         watch.start();
-        log.info("Number of Problem Instances: Presentations: {}, Lecturers: {}, Rooms: {}, Timeslots: {}, OffTimes: {}", ps.size(), ls.size(), rs.size(), ts.size(), offTimes.length);
+        System.out.println("Start Opta-Solver");
+        System.out.println("Number of Problem Instances: Presentations: " + ps.size()
+                + ", Lecturers: " + ls.size()
+                + ", Rooms: " + rs.size()
+                + ", Timeslots: "
+                + ts.size()
+                + ", OffTimes: " + offTimes.length);
 
         List<Presentation> presentations = ps.stream().map(p -> (Presentation) p).collect(Collectors.toList());
         List<Lecturer> lecturers = ls.stream().map(l -> (Lecturer) l).collect(Collectors.toList());
@@ -99,11 +104,11 @@ public class Solver extends AbstractSolver {
         lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
 
         OptaSolution problem = new OptaSolution(timeslots, rooms, presentations, lecturers);
-        log.debug("Setup Constraints duration: {}ms", watch.getTime());
+        System.out.println("Setup Constraints duration: " + watch.getTime() + "ms");
 
         UUID problemId = UUID.randomUUID();
         // Submit the problem to start solving
-        log.debug("Start with Optaplanner Optimization");
+        System.out.println("Start with Optaplanner Optimization");
 
         SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
         solverConfig.withTerminationConfig(new TerminationConfig().withSecondsSpentLimit((long) timeLimit));
@@ -117,7 +122,7 @@ public class Solver extends AbstractSolver {
         } catch (InterruptedException | ExecutionException e) {
             throw new IllegalStateException("Solving failed.", e);
         }
-        log.debug("End of Optaplanner Optimization after {}ms", watch.getTime());
+        System.out.println("End of Optaplanner Optimization after " + watch.getTime() + "ms");
 
 
         Planning planning = new Planning();
@@ -136,9 +141,9 @@ public class Solver extends AbstractSolver {
 
         solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
         planning.setCost(solutionChecker.getTotalPlanningCost());
-        log.info("New Planning Nr. {} - Cost: {}\n{}\n{}", planning.getNr(), planning.getCost(), planning.getPlanningStats(), planning.getPlanningAsTable());
+        System.out.println("New Planning Nr. " + planning.getNr() + " - Cost: " + planning.getCost() + "\n" + planning.getPlanningStats() + "\n" + planning.getPlanningAsTable());
         watch.stop();
-        log.info("Duration of Optasolver: {}ms", watch.getTime());
+        System.out.println("Duration of Optasolver: " + watch.getTime() + "ms");
 
         solverContext.setSolving(false);
         return planning;
