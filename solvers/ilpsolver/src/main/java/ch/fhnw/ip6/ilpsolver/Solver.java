@@ -23,12 +23,14 @@ import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component("ch.fhnw.ip6.ilpsolver.Solver")
 public class Solver extends AbstractSolver {
 
@@ -51,8 +53,8 @@ public class Solver extends AbstractSolver {
 
             ILPModel model = new ILPModel(ps, ls, rs, ts, offTimes, grbModel);
 
-            System.out.println("Start ILP-Solver");
-            System.out.println("Number of Problem Instances: Presentations: " + ps.size()
+            log.info("Start ILP-Solver");
+            log.info("Number of Problem Instances: Presentations: " + ps.size()
                     + ", Lecturers: " + ls.size()
                     + ", Rooms: " + rs.size()
                     + ", Timeslots: "
@@ -74,7 +76,7 @@ public class Solver extends AbstractSolver {
                 c.setObjectives(objective);
                 c.setModel(model).build();
             });
-            System.out.println("Setup Constraints duration: " + watch.getSplitTime() + "ms");
+            log.info("Setup Constraints duration: " + watch.getSplitTime() + "ms");
             watch.unsplit();
 
             grbModel.setCallback(new ILPSolverCallback(model, solverContext));
@@ -84,9 +86,9 @@ public class Solver extends AbstractSolver {
             grbModel.update();
 
             watch.split();
-            System.out.println("Start with Gurobi Optimization");
+            log.info("Start with Gurobi Optimization");
             grbModel.optimize();
-            System.out.println("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
+            log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
             watch.unsplit();
 
             Planning planning = solverContext.getPlanning();
@@ -112,7 +114,7 @@ public class Solver extends AbstractSolver {
             // set this flag so other processes know that the solver is finished
             solverContext.setSolving(false);
             watch.stop();
-            System.out.println("Duration of \"Gurobi\" Solver: " + watch.getTime() + "ms");
+            log.info("Duration of \"Gurobi\" Solver: " + watch.getTime() + "ms");
         }
         return null;
     }

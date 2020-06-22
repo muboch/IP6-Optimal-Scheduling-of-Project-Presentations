@@ -167,10 +167,10 @@ public class OldDataChecker {
                     rs.values().stream().map(r -> (R) r).collect(Collectors.toList()));
             planning.setCost(solutionChecker.getTotalPlanningCost());
 
-            System.out.println(planning.getPlanningStats());
-            System.out.println();
-            System.out.println("Planning Nr:    " + planning.getNr());
-            System.out.println(planning.getPlanningAsTable());
+            log.info(planning.getPlanningStats());
+            log.info();
+            log.info("Planning Nr:    " + planning.getNr());
+            log.info(planning.getPlanningAsTable());
 
         } catch (IOException e) {
             e.printStackTrace();

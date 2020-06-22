@@ -13,6 +13,7 @@ import com.google.ortools.sat.CpSolver;
 import com.google.ortools.sat.CpSolverStatus;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static ch.fhnw.ip6.common.util.CostUtil.*;
 
+@Slf4j
 @Component("ch.fhnw.ip6.ortoolssolver.Solver")
 public class Solver extends AbstractSolver {
 
@@ -41,8 +43,8 @@ public class Solver extends AbstractSolver {
         solverContext.setSolving(true);
         StopWatch watch = new StopWatch();
         watch.start();
-        System.out.println("Start OR-Solver");
-        System.out.println("Number of Problem Instances: Presentations: " + ps.size()
+        log.info("Start OR-Solver");
+        log.info("Number of Problem Instances: Presentations: " + ps.size()
                 + ", Lecturers: " + ls.size()
                 + ", Rooms: " + rs.size()
                 + ", Timeslots: "
@@ -108,11 +110,11 @@ public class Solver extends AbstractSolver {
 
         CpSolver solver = new CpSolver();
         solver.getParameters().setMaxTimeInSeconds(timeLimit);
-        System.out.println("Setup Constraints duration: " + watch.getTime() + "ms");
+        log.info("Setup Constraints duration: " + watch.getTime() + "ms");
         PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, ls, ps, ts, rs, watch, solverContext);
-        System.out.println("Start with OR-Tools Optimization");
+        log.info("Start with OR-Tools Optimization");
         CpSolverStatus res = solver.searchAllSolutions(getModel(), cb);
-        System.out.println("End of OR-Tools Optimization after " + watch.getTime() + "ms");
+        log.info("End of OR-Tools Optimization after " + watch.getTime() + "ms");
 
         solverContext.setSolving(false);
         Planning p = solverContext.getPlanning();
@@ -123,7 +125,7 @@ public class Solver extends AbstractSolver {
             p.setStatus(StatusEnum.NO_SOLUTION);
 
         watch.stop();
-        System.out.println("Duration of OR-Tools Solver: " + watch.getTime() + "ms");
+        log.info("Duration of OR-Tools Solver: " + watch.getTime() + "ms");
 
         return p;
     }

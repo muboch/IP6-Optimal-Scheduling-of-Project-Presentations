@@ -32,6 +32,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component("ch.fhnw.ip6.optasolver.Solver")
 public class Solver extends AbstractSolver {
 
@@ -76,8 +77,8 @@ public class Solver extends AbstractSolver {
         solverContext.setSolving(true);
         StopWatch watch = new StopWatch();
         watch.start();
-        System.out.println("Start Opta-Solver");
-        System.out.println("Number of Problem Instances: Presentations: " + ps.size()
+        log.info("Start Opta-Solver");
+        log.info("Number of Problem Instances: Presentations: " + ps.size()
                 + ", Lecturers: " + ls.size()
                 + ", Rooms: " + rs.size()
                 + ", Timeslots: "
@@ -104,11 +105,11 @@ public class Solver extends AbstractSolver {
         lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
 
         OptaSolution problem = new OptaSolution(timeslots, rooms, presentations, lecturers);
-        System.out.println("Setup Constraints duration: " + watch.getTime() + "ms");
+        log.info("Setup Constraints duration: " + watch.getTime() + "ms");
 
         UUID problemId = UUID.randomUUID();
         // Submit the problem to start solving
-        System.out.println("Start with Optaplanner Optimization");
+        log.info("Start with Optaplanner Optimization");
 
         SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
         solverConfig.withTerminationConfig(new TerminationConfig().withSecondsSpentLimit((long) timeLimit));
@@ -122,7 +123,7 @@ public class Solver extends AbstractSolver {
         } catch (InterruptedException | ExecutionException e) {
             throw new IllegalStateException("Solving failed.", e);
         }
-        System.out.println("End of Optaplanner Optimization after " + watch.getTime() + "ms");
+        log.info("End of Optaplanner Optimization after " + watch.getTime() + "ms");
 
 
         Planning planning = new Planning();
@@ -141,9 +142,9 @@ public class Solver extends AbstractSolver {
 
         solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
         planning.setCost(solutionChecker.getTotalPlanningCost());
-        System.out.println("New Planning Nr. " + planning.getNr() + " - Cost: " + planning.getCost() + "\n" + planning.getPlanningStats() + "\n" + planning.getPlanningAsTable());
+        log.info("New Planning Nr. " + planning.getNr() + " - Cost: " + planning.getCost() + "\n" + planning.getPlanningStats() + "\n" + planning.getPlanningAsTable());
         watch.stop();
-        System.out.println("Duration of Optasolver: " + watch.getTime() + "ms");
+        log.info("Duration of Optasolver: " + watch.getTime() + "ms");
 
         solverContext.setSolving(false);
         return planning;
