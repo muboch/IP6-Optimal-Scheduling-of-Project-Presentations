@@ -265,81 +265,6 @@ public class Solver extends AbstractSolver {
         }
     }
 
-    /*
-    private void buildConstraintMinRoomSwitches(List<L> lecturers, List<R> rooms, List<T> timeslots, IntVar[][][] presRoomTime, List<P>[] presentationsPerLecturer, ArrayList<IntVar> objIntVars, ArrayList<Integer> objIntCoeffs, IntVar[][][] coachTimeRoomBool, IntVar[][] coachRoomTime, IntVar[][] roomDiffsInt, IntVar[][] roomDiffsBool, IntVar[] numChangesForLecturer, IntVar[][] lecturerTimeslot) {
-        // Variable / Array setup for all the things
-        for (L l : lecturers) {
-            for (T t : timeslots) {
-                coachRoomTime[idx(l)][idx(t)] = getModel().newIntVar(-1, rooms.size(), "coach_" + idx(l) + "time_" + t.getId()); // Number of room lecturer has at room/time
-                roomDiffsInt[idx(l)][idx(t)] = getModel().newIntVar(0, 200L, "coach_" + idx(l) + "time_" + t.getId()); // Room ID difference between presentations
-                roomDiffsBool[idx(l)][idx(t)] = getModel().newBoolVar("coach_" + idx(l) + "switchAt_time_" + t.getId()); // TRUE if coach switches rooms at time, FALSE if not
-                for (R r : rooms) {
-                    coachTimeRoomBool[idx(l)][idx(t)][idx(r)] = getModel().newBoolVar("coach_" + idx(l) + "time_" + idx(t) + "room_" + r.getId()); //Boolean if leturer has pres at room in time
-                }
-            }
-            numChangesForLecturer[idx(l)] = getModel().newIntVar(0, timeslots.size(), "numRoomChangesForLecturer" + l.getId()); //Number of changes for lecturer
-        }
-
-        for (L l : lecturers) {
-            for (T t : timeslots) {
-                for (R r : rooms) {
-                    List<IntVar> temp = new ArrayList<>();
-                    for (P p1 : presentationsPerLecturer[idx(l)]) {
-                        if (presRoomTime[idx(p1)][idx(r)][idx(t)] == null) continue;
-                        temp.add(presRoomTime[idx(p1)][idx(r)][idx(t)]);
-                    }
-                    IntVar[] arr = temp.toArray(new IntVar[0]);
-                    // If a presentation is happening in room at time, true, else false.
-                    //model.addGreaterOrEqual(LinearExpr.sum(arr), 1).onlyEnforceIf(coachTimeRoomBool[l.getId()][t.getId()][r.getId()]);
-                    //model.addLessOrEqual(LinearExpr.sum(arr), 0).onlyEnforceIf(coachTimeRoomBool[l.getId()][t.getId()][r.getId()].not());
-                    //model.addEquality(coachTimeRoomBool[l.getId()][t.getId()][r.getId()],0).onlyEnforceIf(lecturerTimeslot[l.getId()][t.getId()].not());
-                    getModel().addEquality(LinearExpr.sum(arr), coachTimeRoomBool[idx(l)][idx(t)][idx(r)]); // same as above??
-
-                    // Integer conversion -> coach has Room at Time = number
-                    getModel().addHint(coachRoomTime[idx(l)][idx(t)], -1);
-                    getModel().addEquality(coachRoomTime[idx(l)][idx(t)], r.getId()).onlyEnforceIf(coachTimeRoomBool[idx(l)][idx(t)][idx(r)]); // set value to roomid if lecturer has pres at this time
-                }
-
-
-                //Set no room (-1) if the lecturer doesnt have a pres at this time
-                getModel().addEquality(coachRoomTime[idx(l)][idx(t)], -1).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)].not());
-
-
-            }
-
-
-            for (T t : timeslots) {
-                if (idx(t) == 0) {
-                    getModel().addEquality(roomDiffsInt[idx(l)][0], 0); // difference between the 0 index of array is 0 because there wasnt a presentation before
-                    continue;
-                }
-                // skip the first presentation as there cant be a earlier presentation
-                LinearExpr diffExpr = LinearExpr.scalProd(new IntVar[]{coachRoomTime[idx(l)][idx(t)], coachRoomTime[idx(l)][idx(t) - 1]}, new int[]{1, -1}); // current timeslot room ID - previous timeslot room ID
-
-
-                IntVar absDiffInt = getModel().newIntVar(-100L, 100L, "DiffInt_l" + idx(l) + "t_" + t.getId());
-                getModel().addEquality(diffExpr, absDiffInt);
-                getModel().addAbsEquality(roomDiffsInt[idx(l)][idx(t)], absDiffInt);
-
-                // if difference is greaterEqual than 1, switch is true
-                getModel().addGreaterOrEqual(roomDiffsInt[idx(l)][idx(t)], 1).onlyEnforceIf(roomDiffsBool[idx(l)][idx(t)]);
-                getModel().addLessOrEqual(roomDiffsInt[idx(l)][idx(t)], 0).onlyEnforceIf(roomDiffsBool[idx(l)][idx(t)].not());
-            }
-
-
-            // Problem here somewhere
-            numChangesForLecturer[idx(l)] = getModel().newIntVar(0, timeslots.size(), "numRoomChangesForLecturer" + l.getId()); //Number of changes for lecturer is sum of changed booleans
-            getModel().addEquality(numChangesForLecturer[idx(l)], LinearExpr.sum(roomDiffsBool[idx(l)])); // Add the equality
-
-            // finally, add the objective
-            objIntVars.add(numChangesForLecturer[l.getId()]);
-            objIntCoeffs.add(ROOM_SWITCH_COST);
-        }
-    }
-
-     */
-
-
     private void buildConstraintMinUsedTimeslots(List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][][] presRoomTime, ArrayList<IntVar> objIntVars, ArrayList<Integer> objIntCoeffs, int[] timeslotCost) {
         IntVar[] timeslotUsed = new IntVar[timeslots.size()];
         for (T t : timeslots) {
@@ -363,7 +288,7 @@ public class Solver extends AbstractSolver {
 
             //Add Objective
             objIntVars.add(timeslotUsed[idx(t)]);
-            objIntCoeffs.add(timeslotCost[idx(t)]);
+            objIntCoeffs.add(t.getPriority());
         }
     }
 
