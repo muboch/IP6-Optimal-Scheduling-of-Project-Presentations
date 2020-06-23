@@ -57,7 +57,7 @@ public class MinFreeTimeslots extends SoftConstraint {
                         usedExpr.addConstant(-1);
                         getGrbModel().addConstr(used, GRB.GREATER_EQUAL, usedExpr, null);
 
-                        int abs = tEnd.getId() - tBeg.getId() - getIlpModel().getPresentationsPerLecturer().get(l).size();
+                        int abs = tEnd.getId() - tBeg.getId() - getIlpModel().getPresentationsPerLecturer().get(l).size() + 1;
 
                         GRBLinExpr rhs = new GRBLinExpr();
                         rhs.addTerm(abs, used);
