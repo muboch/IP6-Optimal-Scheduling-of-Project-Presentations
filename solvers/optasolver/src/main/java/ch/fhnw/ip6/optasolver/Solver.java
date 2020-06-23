@@ -18,22 +18,25 @@ import ch.fhnw.ip6.optasolver.model.Timeslot;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
+import org.optaplanner.core.api.score.ScoreManager;
+import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
-import org.optaplanner.core.api.solver.SolverStatus;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.core.config.SolverConfigContext;
+import org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.SolverManagerConfig;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
+import org.optaplanner.core.impl.score.DefaultScoreManager;
+import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
+import org.optaplanner.core.impl.score.director.easy.EasyScoreDirector;
+import org.optaplanner.core.impl.score.director.incremental.IncrementalScoreDirector;
+import org.optaplanner.core.impl.score.director.incremental.IncrementalScoreDirectorFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -44,6 +47,7 @@ public class Solver extends AbstractSolver {
     private final SolutionChecker solutionChecker;
 
     private final SolverManager<OptaSolution, UUID> solverManager;
+
 
     public Solver(SolverContext solverContext) {
         super(solverContext);
@@ -116,8 +120,13 @@ public class Solver extends AbstractSolver {
         // Submit the problem to start solving
         log.info("Start with Optaplanner Optimization");
 
+
+
         SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
         solverConfig.withTerminationConfig(new TerminationConfig().withSecondsSpentLimit((long) timeLimit));
+
+
+
         SolverConfigContext configContext = new SolverConfigContext();
         org.optaplanner.core.api.solver.Solver solver = solverConfig.buildSolver(configContext);
         solver.addEventListener(new SolverEventListener() {
