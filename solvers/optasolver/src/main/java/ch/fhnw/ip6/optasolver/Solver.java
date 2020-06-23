@@ -20,12 +20,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
+import org.optaplanner.core.api.solver.SolverStatus;
+import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
+import org.optaplanner.core.api.solver.event.SolverEventListener;
+import org.optaplanner.core.config.SolverConfigContext;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.SolverManagerConfig;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -113,18 +118,31 @@ public class Solver extends AbstractSolver {
 
         SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
         solverConfig.withTerminationConfig(new TerminationConfig().withSecondsSpentLimit((long) timeLimit));
-
-        SolverJob<OptaSolution, UUID> solverJob = solverManager.solve(problemId, problem);
-        OptaSolution solution;
-
-        try {
-            // Wait until the solving ends
-            solution = solverJob.getFinalBestSolution();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new IllegalStateException("Solving failed.", e);
+        SolverConfigContext configContext = new SolverConfigContext();
+        org.optaplanner.core.api.solver.Solver solver = solverConfig.buildSolver(configContext);
+        solver.addEventListener(new SolverEventListener() {
+            @Override
+            public void bestSolutionChanged(BestSolutionChangedEvent event) {
+                OptaSolution newBestSolution = (OptaSolution) event.getNewBestSolution();
+                Planning planning = new Planning();
+                planning.setRooms(rooms);
+                planning.setTimeslots(timeslots);
+                Set<Solution> solutions = new HashSet<>();
+                for (Presentation p : newBestSolution.getPresentations()) {
+                    solutions.add(new Solution(p.getRoom(), p.getTimeslot(), p, p.getCoach(), p.getExpert()));
+                }
+                planning.setSolutions(solutions);
+                solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
+                planning.setCost(solutionChecker.getTotalPlanningCost());
+                solverContext.saveBestPlanning(planning);
+                log.info("New Planning Nr. {} - Cost: {}\n{}\n{}", planning.getNr(), planning.getCost(), planning.getPlanningStats(), planning.getPlanningAsTable());
+            }
+        });
+        solver.solve(problem);
+        while (solver.isSolving()){
         }
-        log.info("End of Optaplanner Optimization after " + watch.getTime() + "ms");
 
+        OptaSolution solution = (OptaSolution) solver.getBestSolution();
 
         Planning planning = new Planning();
         if (solution != null)
