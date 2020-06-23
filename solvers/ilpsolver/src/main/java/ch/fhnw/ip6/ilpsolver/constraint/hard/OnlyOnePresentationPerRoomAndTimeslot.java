@@ -17,15 +17,15 @@ public class OnlyOnePresentationPerRoomAndTimeslot extends Constraint {
     public void build() {
         try {
             for (R r : getIlpModel().getRooms()) {
-                GRBLinExpr lhs = new GRBLinExpr();
+                for (T t : getIlpModel().getTimeslots()) {
 
-                for (P p : getIlpModel().getPresentations()) {
-
-                    for (T t : getIlpModel().getTimeslots()) {
-                        lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                    GRBLinExpr lhs = new GRBLinExpr();
+                    for (P p : getIlpModel().getPresentations()) {
+                        if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null)
+                            lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                     }
+                    getGrbModel().addConstr(lhs, GRB.LESS_EQUAL, 1.0, getConstraintName());
                 }
-                getGrbModel().addConstr(lhs, GRB.LESS_EQUAL, 1.0, getConstraintName());
 
             }
         } catch (GRBException e) {

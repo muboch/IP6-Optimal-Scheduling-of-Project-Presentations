@@ -25,8 +25,10 @@ public class MinTimeslotUsages extends SoftConstraint {
                 GRBLinExpr sumOfUsedTimeslots = new GRBLinExpr();
                 for (R r : getIlpModel().getRooms()) {
                     for (P p : getIlpModel().getPresentations()) {
-                        sumOfUsedTimeslots.addTerm(MAX_TIMESLOTS, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
-                        linExpr.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null) {
+                            sumOfUsedTimeslots.addTerm(MAX_TIMESLOTS, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            linExpr.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        }
                     }
                 }
 

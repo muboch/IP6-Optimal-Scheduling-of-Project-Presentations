@@ -11,8 +11,6 @@ import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBVar;
 
-import java.util.Comparator;
-
 /**
  * 1. Coaches sollen den Room möglichst selten wechseln.
  */
@@ -20,8 +18,6 @@ public class MinFreeTimeslots extends SoftConstraint {
     @Override
     public void build() {
         try {
-
-            T t0 = getIlpModel().getTimeslots().stream().min(Comparator.comparingInt(T::getId)).get();
 
             int UB = getIlpModel().getTimeslots().size();
 
@@ -33,7 +29,9 @@ public class MinFreeTimeslots extends SoftConstraint {
                     GRBLinExpr sum = new GRBLinExpr();
                     for (P p : getIlpModel().getPresentationsPerLecturer().get(l)) {
                         for (R r : getIlpModel().getRooms()) {
-                            sum.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null) {
+                                sum.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            }
                         }
                     }
                     getGrbModel().addConstr(lecTime[indexOf(l)][indexOf(t)], GRB.EQUAL, sum, null);
@@ -80,6 +78,6 @@ public class MinFreeTimeslots extends SoftConstraint {
 
     @Override
     protected String getConstraintName() {
-        return "MinRoomSwitches";
+        return "MinFreeTimeslots";
     }
 }

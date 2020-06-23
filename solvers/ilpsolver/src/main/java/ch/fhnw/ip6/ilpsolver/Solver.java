@@ -88,6 +88,8 @@ public class Solver extends AbstractSolver {
             watch.split();
             log.info("Start with Gurobi Optimization");
             grbModel.optimize();
+            grbModel.computeIIS();
+            grbModel.write("model.ilp");
             log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
             watch.unsplit();
 

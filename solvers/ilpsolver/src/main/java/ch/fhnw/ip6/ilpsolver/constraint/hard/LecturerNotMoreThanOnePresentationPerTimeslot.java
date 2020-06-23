@@ -22,10 +22,8 @@ public class LecturerNotMoreThanOnePresentationPerTimeslot extends Constraint {
                     GRBLinExpr lhs = new GRBLinExpr();
                     for (R r : getIlpModel().getRooms()) {
                         for (P p : getIlpModel().getPresentationsPerLecturer().get(l)) {
-                            if (p.getType().equals(r.getType()))
+                            if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null)
                                 lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
-                            else
-                                lhs.addTerm(0.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                         }
                     }
                     getGrbModel().addConstr(lhs, GRB.LESS_EQUAL, 1.0, getConstraintName());

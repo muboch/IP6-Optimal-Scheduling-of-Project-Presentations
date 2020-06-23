@@ -28,8 +28,10 @@ public class MinRoomUsages extends SoftConstraint {
                 GRBLinExpr sumOfUsedRooms = new GRBLinExpr();
                 for (T t : getIlpModel().getTimeslots()) {
                     for (P p : getIlpModel().getPresentations()) {
-                        sumOfUsedRooms.addTerm(MAX_ROOMS, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
-                        linExpr.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null) {
+                            sumOfUsedRooms.addTerm(MAX_ROOMS, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            linExpr.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        }
                     }
                 }
 

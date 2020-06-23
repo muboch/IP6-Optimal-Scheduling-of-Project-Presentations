@@ -43,8 +43,10 @@ public class MinRoomSwitches extends SoftConstraint {
                     for (T t : timeslots) {
 
                         GRBLinExpr presAtTimeInRoom = new GRBLinExpr();
+
                         for (P p1 : getIlpModel().getPresentationsPerLecturer().get(l)) {
-                            presAtTimeInRoom.addTerm(1.0, getX()[indexOf(p1)][indexOf(t)][indexOf(r)]);
+                            if (getX()[indexOf(p1)][indexOf(t)][indexOf(r)] != null)
+                                presAtTimeInRoom.addTerm(1.0, getX()[indexOf(p1)][indexOf(t)][indexOf(r)]);
                         }
                         getGrbModel().addConstr(lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)], GRB.EQUAL, presAtTimeInRoom, null);
 
