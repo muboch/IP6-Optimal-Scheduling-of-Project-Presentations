@@ -71,7 +71,7 @@ public class Planning {
         this.planningStats = planningStats;
     }
 
-    public String getPlanningStats(){
+    public String getPlanningStats() {
         return planningStats;
     }
 }

@@ -16,6 +16,7 @@ public class MinimizeFreeTimeslotsConstraint extends OptaConstraint {
                 .penalize("Free Timeslots",
                         HardSoftScore.ONE_SOFT, (l) -> {
                             if (l.getFreeTimeslots() == null) {
+                                System.out.println("NULL");
                                 return 999;
                             }
                             return l.getFreeTimeslots() * LECTURER_PER_LESSON_COST;

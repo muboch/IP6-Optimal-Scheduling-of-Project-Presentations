@@ -58,7 +58,10 @@ public class FreeTimeslotsUpdatingVarListener implements VariableListener<Presen
             Presentation firstPres = l.getPresentations().stream().min(Comparator.comparingInt(p -> p.getTimeslot().getId())).get(); // change timeslot.getId to timeslot.getOrder
             Presentation lastPres = l.getPresentations().stream().max(Comparator.comparingInt(p -> p.getTimeslot().getId())).get(); // change timeslot.getId to timeslot.getOrder
             int numPres = l.getPresentations().size();
-            int freeTimeslots = (numPres - (numPres - (lastPres.getTimeslot().getId() - firstPres.getTimeslot().getId())));
+            int freeTimeslots = lastPres.getTimeslot().getId() - firstPres.getTimeslot().getId() - numPres + 1; // change timeslot.getId to timeslot.getOrder
+            if(freeTimeslots < 0){
+                freeTimeslots = 999;
+            }
 
             scoreDirector.beforeVariableChanged(l, "freeTimeslots");
             l.setFreeTimeslots(freeTimeslots);
