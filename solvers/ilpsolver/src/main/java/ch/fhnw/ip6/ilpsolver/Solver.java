@@ -81,6 +81,7 @@ public class Solver extends AbstractSolver {
 
             grbModel.setCallback(new ILPSolverCallback(model, solverContext));
             grbModel.setObjective(objective);
+            grbModel.tune();
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
             grbModel.update();
@@ -88,8 +89,6 @@ public class Solver extends AbstractSolver {
             watch.split();
             log.info("Start with Gurobi Optimization");
             grbModel.optimize();
-            grbModel.computeIIS();
-            grbModel.write("model.ilp");
             log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
             watch.unsplit();
 
@@ -107,7 +106,7 @@ public class Solver extends AbstractSolver {
             // Dispose of model and environment
             grbModel.dispose();
             env.dispose();
-
+            System.out.println(planning.getPlanningStats());
             return planning;
 
         } catch (GRBException e) {
