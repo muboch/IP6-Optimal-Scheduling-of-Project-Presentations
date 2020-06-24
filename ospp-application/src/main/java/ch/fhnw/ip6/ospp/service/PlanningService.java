@@ -12,6 +12,7 @@ import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ospp.event.SolveEvent;
+import ch.fhnw.ip6.ospp.event.SolveEvent.TestMode;
 import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.mapper.RoomMapper;
@@ -223,7 +224,7 @@ public class PlanningService {
         if (solverContext.isSolving()) {
             throw new FachlicheException("Es wird bereits eine Planung erstellt.");
         }
-        applicationEventPublisher.publishEvent( new SolveEvent(this, solverName, false, timeLimit));
+        applicationEventPublisher.publishEvent( new SolveEvent(this, solverName, TestMode.NONE, timeLimit));
     }
 
     public ExcelFile getFileById(long id) {
@@ -243,8 +244,8 @@ public class PlanningService {
         planningRepository.deleteById(id);
     }
 
-    public void setTestMode(boolean testMode) {
-        this.testMode = testMode;
+    public void setTestMode(TestMode testMode) {
+        this.testMode = testMode != TestMode.NONE;
     }
 
     public void setSolverName(String solverName) {

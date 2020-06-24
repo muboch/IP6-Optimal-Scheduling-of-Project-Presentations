@@ -48,19 +48,28 @@ public class Solver extends AbstractSolver {
     }
 
     @Override
-    public Planning testSolve() {
-
+    public Planning testSolveLarge() {
         JsonUtil util = new JsonUtil();
+        List<Presentation> presentations = new ArrayList<>(util.getJsonAsList("presentations300.json", Presentation.class));
+        List<Lecturer> lecturers = util.getJsonAsList("lecturers300.json", Lecturer.class);
+        List<Room> rooms = util.getJsonAsList("rooms300.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
+        List<Timeslot> timeslots = util.getJsonAsList("timeslots300.json", Timeslot.class);
+        return testSolve(presentations, lecturers, rooms, timeslots);
+    }
 
+    @Override
+    public Planning testSolve() {
+        JsonUtil util = new JsonUtil();
         List<Presentation> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", Presentation.class));
         List<Lecturer> lecturers = util.getJsonAsList("lecturers.json", Lecturer.class);
         List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
+        return testSolve(presentations, lecturers, rooms, timeslots);
+    }
 
-        for (PresentationDto p : presentations) {
-            p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
-            p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
-        }
+
+    private Planning testSolve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
+        mapCoachesAndExperts(presentations, lecturers);
 
         solve(
                 presentations.stream().map(x -> (P) x).collect(Collectors.toList()),
@@ -71,6 +80,14 @@ public class Solver extends AbstractSolver {
         );
         return solverContext.getPlanning();
     }
+
+    protected void mapCoachesAndExperts(List<Presentation> presentations, List<Lecturer> lecturers) {
+        for (PresentationDto p : presentations) {
+            p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
+            p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
+        }
+    }
+
 
     @Override
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {

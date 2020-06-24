@@ -2,6 +2,7 @@ package ch.fhnw.ip6.ospp.event;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.junit.Test;
 import org.springframework.context.ApplicationEvent;
 
 @Setter
@@ -9,10 +10,16 @@ import org.springframework.context.ApplicationEvent;
 public class SolveEvent extends ApplicationEvent {
 
     private String solverName;
-    private boolean testMode;
+    private TestMode testMode;
     private int timeLimit;
 
-    public SolveEvent(Object source, String solverName, boolean testMode, int timeLimit) {
+    public enum TestMode {
+        NONE,
+        NORMAL,
+        LARGE
+    }
+
+    public SolveEvent(Object source, String solverName, TestMode testMode, int timeLimit) {
         super(source);
         this.solverName = solverName;
         this.testMode = testMode;

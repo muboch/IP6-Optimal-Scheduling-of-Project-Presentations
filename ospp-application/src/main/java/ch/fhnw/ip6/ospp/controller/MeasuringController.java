@@ -3,6 +3,7 @@ package ch.fhnw.ip6.ospp.controller;
 
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.ospp.event.SolveEvent;
+import ch.fhnw.ip6.ospp.event.SolveEvent.TestMode;
 import ch.fhnw.ip6.ospp.service.FachlicheException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+
+import static ch.fhnw.ip6.ospp.event.SolveEvent.TestMode.*;
 
 @CrossOrigin
 @RestController
@@ -32,30 +35,44 @@ public class MeasuringController {
         return ResponseEntity.ok(Arrays.stream(endpoints).map(e -> "/api/measuring/" + e).toArray(String[]::new));
     }
 
+    @GetMapping("ortools300")
+    public void solveOrToolsLarge(@RequestParam(required = false) Integer timeLimit) throws Exception {
+        solve("ch.fhnw.ip6.ortoolssolver.Solver", timeLimit, LARGE);
+    }
+
+    @GetMapping("ilp300")
+    public void solveIlpLarge(@RequestParam(required = false) Integer timeLimit) throws Exception {
+        solve("ch.fhnw.ip6.ilpsolver.Solver", timeLimit, LARGE);
+    }
+
+    @GetMapping("opta300")
+    public void solveOptaplannerLarge(@RequestParam(required = false) Integer timeLimit) throws Exception {
+        solve("ch.fhnw.ip6.optasolver.Solver", timeLimit, LARGE);
+    }
 
     @GetMapping("ortools")
     public void solveOrTools(@RequestParam(required = false) Integer timeLimit) throws Exception {
-        solve("ch.fhnw.ip6.ortoolssolver.Solver", timeLimit);
+        solve("ch.fhnw.ip6.ortoolssolver.Solver", timeLimit, NORMAL);
     }
 
     @GetMapping("ilp")
     public void solveIlp(@RequestParam(required = false) Integer timeLimit) throws Exception {
-        solve("ch.fhnw.ip6.ilpsolver.Solver", timeLimit);
+        solve("ch.fhnw.ip6.ilpsolver.Solver", timeLimit, NORMAL);
     }
 
     @GetMapping("opta")
     public void solveOptaplanner(@RequestParam(required = false) Integer timeLimit) throws Exception {
-        solve("ch.fhnw.ip6.optasolver.Solver", timeLimit);
+        solve("ch.fhnw.ip6.optasolver.Solver", timeLimit, NORMAL);
     }
 
-    private void solve(String solverName, Integer timeLimit) throws Exception {
+    private void solve(String solverName, Integer timeLimit, TestMode testMode) throws Exception {
         if (solverName == null) {
             throw new FachlicheException("Kein Solver angegeben.");
         }
         if (solverContext.isSolving()) {
             throw new FachlicheException("Es wird bereits eine Planung erstellt.");
         }
-        applicationEventPublisher.publishEvent(new SolveEvent(this, solverName, true, timeLimit == null ? 360 : timeLimit));
+        applicationEventPublisher.publishEvent(new SolveEvent(this, solverName, testMode, timeLimit == null ? 360 : timeLimit));
     }
 
 
