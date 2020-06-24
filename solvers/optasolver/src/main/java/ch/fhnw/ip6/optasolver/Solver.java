@@ -18,25 +18,17 @@ import ch.fhnw.ip6.optasolver.model.Timeslot;
 import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
-import org.optaplanner.core.api.score.ScoreManager;
-import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
-import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
-import org.optaplanner.core.api.solver.event.SolverEventListener;
-import org.optaplanner.core.config.SolverConfigContext;
-import org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.SolverManagerConfig;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
-import org.optaplanner.core.impl.score.DefaultScoreManager;
-import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
-import org.optaplanner.core.impl.score.director.easy.EasyScoreDirector;
-import org.optaplanner.core.impl.score.director.incremental.IncrementalScoreDirector;
-import org.optaplanner.core.impl.score.director.incremental.IncrementalScoreDirectorFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -47,7 +39,6 @@ public class Solver extends AbstractSolver {
     private final SolutionChecker solutionChecker;
 
     private final SolverManager<OptaSolution, UUID> solverManager;
-
 
     public Solver(SolverContext solverContext) {
         super(solverContext);
@@ -120,38 +111,20 @@ public class Solver extends AbstractSolver {
         // Submit the problem to start solving
         log.info("Start with Optaplanner Optimization");
 
-
-
         SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
         solverConfig.withTerminationConfig(new TerminationConfig().withSecondsSpentLimit((long) timeLimit));
 
+        SolverJob<OptaSolution, UUID> solverJob = solverManager.solve(problemId, problem);
+        OptaSolution solution;
 
-
-        SolverConfigContext configContext = new SolverConfigContext();
-        org.optaplanner.core.api.solver.Solver solver = solverConfig.buildSolver(configContext);
-        solver.addEventListener(new SolverEventListener() {
-            @Override
-            public void bestSolutionChanged(BestSolutionChangedEvent event) {
-                OptaSolution newBestSolution = (OptaSolution) event.getNewBestSolution();
-                Planning planning = new Planning();
-                planning.setRooms(rooms);
-                planning.setTimeslots(timeslots);
-                Set<Solution> solutions = new HashSet<>();
-                for (Presentation p : newBestSolution.getPresentations()) {
-                    solutions.add(new Solution(p.getRoom(), p.getTimeslot(), p, p.getCoach(), p.getExpert()));
-                }
-                planning.setSolutions(solutions);
-                solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
-                planning.setCost(solutionChecker.getTotalPlanningCost());
-                solverContext.saveBestPlanning(planning);
-                log.info("New Planning Nr. {} - Cost: {}\n{}\n{}", planning.getNr(), planning.getCost(), planning.getPlanningStats(), planning.getPlanningAsTable());
-            }
-        });
-        solver.solve(problem);
-        while (solver.isSolving()){
+        try {
+            // Wait until the solving ends
+            solution = solverJob.getFinalBestSolution();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new IllegalStateException("Solving failed.", e);
         }
+        log.info("End of Optaplanner Optimization after " + watch.getTime() + "ms");
 
-        OptaSolution solution = (OptaSolution) solver.getBestSolution();
 
         Planning planning = new Planning();
         if (solution != null)

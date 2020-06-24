@@ -9,7 +9,10 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -23,7 +26,6 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
     @Override
     public void afterEntityAdded(ScoreDirector scoreDirector, Presentation presentation) {
         updateRoomSwitches(scoreDirector, presentation);
-
     }
 
     @Override
@@ -46,16 +48,19 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
 
     }
 
-    private void updateRoomSwitches(ScoreDirector scoreDirector, Presentation presentation) {
-        List<Lecturer> coachAndExpert = new ArrayList<>();
+    private void updateRoomSwitches(ScoreDirector<Lecturer> scoreDirector, Presentation presentation) {
+        Set<Lecturer> coachAndExpert = new HashSet<>();
         coachAndExpert.add((Lecturer) presentation.getCoach());
         coachAndExpert.add((Lecturer) presentation.getExpert());
 
         coachAndExpert.forEach(l -> {
             if (l.getPresentations() == null) {
-                scoreDirector.beforeVariableChanged(l, "roomSwitches");
-                l.setRoomSwitches(0);
-                scoreDirector.afterVariableChanged(l, "roomSwitches");
+                return;
+            }
+            if (l.getPresentations().stream().map(Presentation::getTimeslot).anyMatch(Objects::isNull)) {
+                return;
+            }
+            if (l.getPresentations().stream().map(Presentation::getRoom).anyMatch(Objects::isNull)) {
                 return;
             }
             List<Presentation> presentations = l.getPresentations().stream().filter(p -> p.getTimeslot() != null).sorted(Comparator.comparing(p -> p.getTimeslot().getId())).collect(Collectors.toList());
@@ -72,7 +77,10 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
                     prevRoom = p.getRoom();
                 }
 
-                if (prevRoom != p.getRoom() || p.getTimeslot() != null && p.getTimeslot().getId() - prevTimeslot.getId() > 1) {
+                if (p.getTimeslot().getId() - prevTimeslot.getId() > 1 && prevRoom.getId() == p.getRoom().getId()) {
+                    roomSwitches++;
+                }
+                if (prevRoom.getId() != p.getRoom().getId()) {
                     roomSwitches++;
                 }
                 prevRoom = p.getRoom();
