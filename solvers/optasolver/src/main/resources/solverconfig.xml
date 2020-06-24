@@ -22,8 +22,4 @@
         <!--</assertionScoreDirectorFactory>-->
     </scoreDirectorFactory>
 
-    <termination>
-        <minutesSpentLimit>1</minutesSpentLimit>
-    </termination>
-
 </solver>
