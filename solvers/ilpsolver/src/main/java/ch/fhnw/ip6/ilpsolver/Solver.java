@@ -81,9 +81,13 @@ public class Solver extends AbstractSolver {
 
             grbModel.setCallback(new ILPSolverCallback(model, solverContext));
             grbModel.setObjective(objective);
-            grbModel.tune();
+            //grbModel.tune();
+
+            grbModel.set(GRB.IntParam.Presolve, 2);
+            grbModel.set(GRB.IntParam.Method, 1);
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
+            
             grbModel.update();
 
             watch.split();
