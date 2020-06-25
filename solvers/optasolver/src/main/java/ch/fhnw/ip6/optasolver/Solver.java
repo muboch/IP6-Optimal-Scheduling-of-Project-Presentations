@@ -51,9 +51,9 @@ public class Solver extends AbstractSolver {
     public Planning testSolveLarge() {
         JsonUtil util = new JsonUtil();
         List<Presentation> presentations = new ArrayList<>(util.getJsonAsList("presentations300.json", Presentation.class));
-        List<Lecturer> lecturers = util.getJsonAsList("lecturers300.json", Lecturer.class);
-        List<Room> rooms = util.getJsonAsList("rooms300.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
-        List<Timeslot> timeslots = util.getJsonAsList("timeslots300.json", Timeslot.class);
+        List<Lecturer> lecturers = util.getJsonAsList("lecturers.json", Lecturer.class);
+        List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
+        List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
         return testSolve(presentations, lecturers, rooms, timeslots);
     }
 
