@@ -78,7 +78,7 @@ public class PlanningService {
     private String solverName;
 
     @Value("${ospp.testMode}")
-    private boolean testMode = true;
+    private TestMode testMode;
 
     @Value("${ospp.timeLimit}")
     private int timeLimit;
@@ -120,17 +120,26 @@ public class PlanningService {
 
         boolean[][] offTimes = createOffTimesMap(lecturers, timeslots);
 
-        Planning planning;
+        Planning planning = null;
         if (solverContext.isSolving()) {
             throw new Exception("Solver is already running.");
         }
-        if (testMode) {
-            solverContext.reset();
-            planning = getSolver().testSolve();
-        } else {
-            solverContext.reset();
+        solverContext.reset();
+
+        if (testMode == TestMode.NONE) {
             planning = getSolver().solve(presentationDtos, lecturerDtos, roomDtos, timeslotDtos, offTimes);
         }
+        if (testMode == TestMode.NORMAL) {
+            planning = getSolver().testSolve();
+        }
+        if (testMode == TestMode.LARGE) {
+            planning = getSolver().testSolveLarge();
+        }
+
+
+
+
+
 
         ExcelFile excelFile = transformToCsv(planning);
 
@@ -245,7 +254,7 @@ public class PlanningService {
     }
 
     public void setTestMode(TestMode testMode) {
-        this.testMode = testMode != TestMode.NONE;
+        this.testMode = testMode;
     }
 
     public void setSolverName(String solverName) {

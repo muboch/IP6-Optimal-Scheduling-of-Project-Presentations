@@ -33,4 +33,11 @@ public interface SolverApi {
      */
     Planning testSolve();
 
+    /**
+     * Builds the model and calls the solver and returns a solution. Input are test data json files with 300 presentations.
+     *
+     * @return
+     */
+    Planning testSolveLarge();
+
 }
