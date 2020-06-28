@@ -6,6 +6,7 @@ import ch.fhnw.ip6.ospp.model.Student;
 import ch.fhnw.ip6.ospp.service.FachlicheException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -54,14 +55,14 @@ public class PresentationLoadService extends AbstractLoadService {
                 Lecturer coach = lecturersMap.get(coachInitials);
                 if (coach == null) {
                     log.error("no lecturer found for {}", coachInitials);
-                    throw new FachlicheException("'"+coachInitials + "' ist nicht in der Liste der Lehrpersonen.");
+                    throw new FachlicheException("'" + coachInitials + "' ist nicht in der Liste der Lehrpersonen.");
                 }
 
                 String expertInitials = getLecturerInitials(headerMap, row, "expertInitials");
                 Lecturer expert = lecturersMap.get(expertInitials);
                 if (expert == null) {
                     log.error("no lecturer found for {}", expertInitials);
-                    throw new FachlicheException("'"+expertInitials + "' ist nicht in der Liste der Lehrpersonen.");
+                    throw new FachlicheException("'" + expertInitials + "' ist nicht in der Liste der Lehrpersonen.");
                 }
                 Student studentOne = Student.studentBuilder()
                         .name(row.getCell(headerMap.get("name")).getStringCellValue())
@@ -78,12 +79,14 @@ public class PresentationLoadService extends AbstractLoadService {
                         .coach(coach)
                         .build();
 
-                if (row.getCell(headerMap.get("name2")) != null) {
+                if (StringUtils.isNotBlank(row.getCell(headerMap.get("name2")).getStringCellValue())) {
                     Student studentTwo = Student.studentBuilder()
                             .name(row.getCell(headerMap.get("name2")).getStringCellValue())
                             .schoolclass(row.getCell(headerMap.get("schoolclass2")).getStringCellValue())
                             .build();
                     presentation.setStudentTwo(studentTwo);
+                } else {
+                    presentation.setStudentTwo(null);
                 }
                 presentations.add(presentation);
             }
