@@ -95,6 +95,7 @@ public class Solver extends AbstractSolver {
         StopWatch watch = new StopWatch();
         watch.start();
         log.info("Start Opta-Solver");
+        log.info("Timelimit: " + timeLimit);
         log.info("Number of Problem Instances: Presentations: " + ps.size()
                 + ", Lecturers: " + ls.size()
                 + ", Rooms: " + rs.size()
@@ -126,7 +127,7 @@ public class Solver extends AbstractSolver {
 
         UUID problemId = UUID.randomUUID();
         // Submit the problem to start solving
-        log.info("Start with Optaplanner Optimization");
+        log.info("Start with Optimization");
 
         SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
         solverConfig.withTerminationConfig(new TerminationConfig().withSecondsSpentLimit((long) timeLimit));

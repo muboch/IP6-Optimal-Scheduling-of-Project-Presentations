@@ -44,6 +44,7 @@ public class Solver extends AbstractSolver {
         StopWatch watch = new StopWatch();
         watch.start();
         log.info("Start OR-Solver");
+        log.info("Timelimit: " + timeLimit);
         log.info("Number of Problem Instances: Presentations: " + ps.size()
                 + ", Lecturers: " + ls.size()
                 + ", Rooms: " + rs.size()

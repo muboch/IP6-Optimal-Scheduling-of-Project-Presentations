@@ -12,6 +12,7 @@ import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,16 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 public abstract class AbstractSolver implements SolverApi {
 
     @Value("${ospp.timeLimit}")
-    public final int timeLimit = 3600;
+    public final int timeLimit = 60;
 
     protected final SolverContext solverContext;
-
-    private final static Logger log = LogManager.getLogger(AbstractSolver.class);
-
 
     public Planning testSolve() {
         JsonUtil util = new JsonUtil();

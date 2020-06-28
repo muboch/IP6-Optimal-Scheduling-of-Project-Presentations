@@ -13,13 +13,13 @@ import gurobi.GRB;
 import gurobi.GRBCallback;
 import gurobi.GRBVar;
 import lombok.SneakyThrows;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 public class ILPSolverCallback extends GRBCallback {
 
     private final GRBVar[][][] x;
@@ -29,8 +29,6 @@ public class ILPSolverCallback extends GRBCallback {
     private final List<L> lecturers;
     private final SolutionChecker solutionChecker;
     private final SolverContext solverContext;
-
-    private final Logger log = LogManager.getLogger(ILPSolverCallback.class);
 
     @SneakyThrows
     @Override
@@ -45,6 +43,7 @@ public class ILPSolverCallback extends GRBCallback {
             for (P p : presentations) {
                 for (T t : timeslots) {
                     for (R r : rooms) {
+                        if (x[presentations.indexOf(p)][timeslots.indexOf(t)][rooms.indexOf(r)] == null) continue;
                         if (getSolution(x[presentations.indexOf(p)][timeslots.indexOf(t)][rooms.indexOf(r)]) == 1.0) {
                             solutions.add(new Solution(r, t, p, p.getCoach(), p.getExpert()));
                         }
