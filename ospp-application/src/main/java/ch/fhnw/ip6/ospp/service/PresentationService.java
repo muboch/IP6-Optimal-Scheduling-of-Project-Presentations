@@ -33,15 +33,22 @@ public class PresentationService {
     }
 
     public Presentation save(Presentation presentation) {
-        if (presentation.getId() == 0) {
+        if (presentation.getId() == 0) { // If we create new Presentation
             if (presentation.getStudentOne() != null) {
                 Student studentOne = studentRepository.findById(presentation.getStudentOne().getId()).orElse(presentation.getStudentOne());
+                if (studentOne.getId() != 0 && presentationRepository.findByStudentOneOrStudentTwo(studentOne,studentOne).size() > 1){
+                    throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 darf nicht mehr als einer Präsentation zugewiesen werden.", presentation.getExternalId()));
+                }
                 presentation.setStudentOne(studentOne);
             } else {
                 throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 muss vorhanden sein.", presentation.getExternalId()));
             }
+
             if (presentation.getStudentTwo() != null) {
                 Student studentTwo = studentRepository.findById(presentation.getStudentTwo().getId()).orElse(presentation.getStudentTwo());
+                if (studentTwo.getId() != 0 && presentationRepository.findByStudentOneOrStudentTwo(studentTwo,studentTwo).size() > 1){
+                    throw new FachlicheException(String.format("Präsentation (%s): Schüler 2 darf nicht mehr als einer Präsentation zugewiesen werden.", presentation.getExternalId()));
+                }
                 presentation.setStudentTwo(studentTwo);
             }
             if (Objects.equals(presentation.getStudentOne(), presentation.getStudentTwo())) {
