@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core";
-import React, {  } from "react";
+import React from "react";
 import { useGStyles } from "../../../theme";
 import MaterialTable from "material-table";
 import { useLocation } from "wouter";
@@ -22,6 +22,7 @@ const TimeslotTable: React.SFC = () => {
     {
       title: "Reihenfolge",
       field: "sortOrder",
+      defaultSort: "asc" as "asc" | "desc", // dirty type-hack because the compiler doesn't recognize strings
     },
     {
       title: "Startzeit",
