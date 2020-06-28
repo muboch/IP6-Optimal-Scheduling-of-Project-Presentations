@@ -79,7 +79,7 @@ public class PresentationLoadService extends AbstractLoadService {
                         .coach(coach)
                         .build();
 
-                if (StringUtils.isNotBlank(row.getCell(headerMap.get("name2")).getStringCellValue())) {
+                if (row.getCell(headerMap.get("name2")) != null && StringUtils.isNotBlank(row.getCell(headerMap.get("name2")).getStringCellValue())) {
                     Student studentTwo = Student.studentBuilder()
                             .name(row.getCell(headerMap.get("name2")).getStringCellValue())
                             .schoolclass(row.getCell(headerMap.get("schoolclass2")).getStringCellValue())
