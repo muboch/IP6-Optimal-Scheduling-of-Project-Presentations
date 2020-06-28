@@ -34,39 +34,79 @@ public class PresentationService {
 
     public Presentation save(Presentation presentation) {
         if (presentation.getId() == 0) { // If we create new Presentation
-            if (presentation.getStudentOne() != null) {
-                Student studentOne = studentRepository.findById(presentation.getStudentOne().getId()).orElse(presentation.getStudentOne());
-                if (studentOne.getId() != 0 && presentationRepository.findByStudentOneOrStudentTwo(studentOne,studentOne).size() > 1){
-                    throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 darf nicht mehr als einer Präsentation zugewiesen werden.", presentation.getExternalId()));
-                }
-                presentation.setStudentOne(studentOne);
-            } else {
-                throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 muss vorhanden sein.", presentation.getExternalId()));
-            }
-
-            if (presentation.getStudentTwo() != null) {
-                Student studentTwo = studentRepository.findById(presentation.getStudentTwo().getId()).orElse(presentation.getStudentTwo());
-                if (studentTwo.getId() != 0 && presentationRepository.findByStudentOneOrStudentTwo(studentTwo,studentTwo).size() > 1){
-                    throw new FachlicheException(String.format("Präsentation (%s): Schüler 2 darf nicht mehr als einer Präsentation zugewiesen werden.", presentation.getExternalId()));
-                }
-                presentation.setStudentTwo(studentTwo);
-            }
-            if (Objects.equals(presentation.getStudentOne(), presentation.getStudentTwo())) {
-                throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 und Schüler 2 dürfen nicht identisch sein.", presentation.getExternalId()));
-            }
-            if (presentation.getCoach() != null) {
-                Lecturer coach = lecturerRepository.findById(presentation.getCoach().getId()).orElse(presentation.getCoach());
-                presentation.setCoach(coach);
-            }
-            if (presentation.getExpert() != null) {
-                Lecturer expert = lecturerRepository.findById(presentation.getExpert().getId()).orElse(presentation.getExpert());
-                presentation.setExpert(expert);
-            }
-            if (Objects.equals(presentation.getCoach(), presentation.getExpert())) {
-                throw new FachlicheException(String.format("Präsentation (%s): Coach und Experte dürfen nicht identisch sein.", presentation.getExternalId()));
-            }
+            validateAdd(presentation);
+        } else {
+            validateUpdate(presentation);
         }
         return presentationRepository.save(presentation);
+    }
+
+    private void validateUpdate(Presentation presentation) {
+        if (presentation.getStudentOne() != null) {
+            Student studentOne = studentRepository.findById(presentation.getStudentOne().getId()).orElse(presentation.getStudentOne());
+            if (presentationRepository.findByStudentOneOrStudentTwo(studentOne, studentOne).size() >= 1) {
+                throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 darf nicht mehr als einer Präsentation zugewiesen werden.", presentation.getExternalId()));
+            }
+            presentation.setStudentOne(studentOne);
+        } else {
+            throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 muss vorhanden sein.", presentation.getExternalId()));
+        }
+
+        if (presentation.getStudentTwo() != null) {
+            Student studentTwo = studentRepository.findById(presentation.getStudentTwo().getId()).orElse(presentation.getStudentTwo());
+            if (presentationRepository.findByStudentOneOrStudentTwo(studentTwo, studentTwo).size() >= 1) {
+                throw new FachlicheException(String.format("Präsentation (%s): Schüler 2 darf nicht mehr als einer Präsentation zugewiesen werden.", presentation.getExternalId()));
+            }
+            presentation.setStudentTwo(studentTwo);
+        }
+        if (Objects.equals(presentation.getStudentOne(), presentation.getStudentTwo())) {
+            throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 und Schüler 2 dürfen nicht identisch sein.", presentation.getExternalId()));
+        }
+        if (presentation.getCoach() != null) {
+            Lecturer coach = lecturerRepository.findById(presentation.getCoach().getId()).orElse(presentation.getCoach());
+            presentation.setCoach(coach);
+        }
+        if (presentation.getExpert() != null) {
+            Lecturer expert = lecturerRepository.findById(presentation.getExpert().getId()).orElse(presentation.getExpert());
+            presentation.setExpert(expert);
+        }
+        if (Objects.equals(presentation.getCoach(), presentation.getExpert())) {
+            throw new FachlicheException(String.format("Präsentation (%s): Coach und Experte dürfen nicht identisch sein.", presentation.getExternalId()));
+        }
+    }
+
+    private void validateAdd(Presentation presentation) {
+        if (presentation.getStudentOne() != null) {
+            Student studentOne = studentRepository.findById(presentation.getStudentOne().getId()).orElse(presentation.getStudentOne());
+            if (studentOne.getId() != 0 && presentationRepository.findByStudentOneOrStudentTwo(studentOne, studentOne).size() >= 1) {
+                throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 darf nicht mehr als einer Präsentation zugewiesen werden.", presentation.getExternalId()));
+            }
+            presentation.setStudentOne(studentOne);
+        } else {
+            throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 muss vorhanden sein.", presentation.getExternalId()));
+        }
+
+        if (presentation.getStudentTwo() != null) {
+            Student studentTwo = studentRepository.findById(presentation.getStudentTwo().getId()).orElse(presentation.getStudentTwo());
+            if (studentTwo.getId() != 0 && presentationRepository.findByStudentOneOrStudentTwo(studentTwo, studentTwo).size() >= 1) {
+                throw new FachlicheException(String.format("Präsentation (%s): Schüler 2 darf nicht mehr als einer Präsentation zugewiesen werden.", presentation.getExternalId()));
+            }
+            presentation.setStudentTwo(studentTwo);
+        }
+        if (Objects.equals(presentation.getStudentOne(), presentation.getStudentTwo())) {
+            throw new FachlicheException(String.format("Präsentation (%s): Schüler 1 und Schüler 2 dürfen nicht identisch sein.", presentation.getExternalId()));
+        }
+        if (presentation.getCoach() != null) {
+            Lecturer coach = lecturerRepository.findById(presentation.getCoach().getId()).orElse(presentation.getCoach());
+            presentation.setCoach(coach);
+        }
+        if (presentation.getExpert() != null) {
+            Lecturer expert = lecturerRepository.findById(presentation.getExpert().getId()).orElse(presentation.getExpert());
+            presentation.setExpert(expert);
+        }
+        if (Objects.equals(presentation.getCoach(), presentation.getExpert())) {
+            throw new FachlicheException(String.format("Präsentation (%s): Coach und Experte dürfen nicht identisch sein.", presentation.getExternalId()));
+        }
     }
 
     public void delete(Long id) {
