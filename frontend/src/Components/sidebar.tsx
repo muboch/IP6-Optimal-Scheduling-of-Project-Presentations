@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 import { useGStyles } from "../theme";
 import { useLocation } from "wouter";
 import { SCREENROUTES } from "../constants";
+import SolvingStatus from "./solvingStatus";
 
 export interface SidebarProps {}
 
@@ -121,6 +122,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
       >
         Sperrzeiten
       </Button>
+      <SolvingStatus />
     </div>
   );
 };

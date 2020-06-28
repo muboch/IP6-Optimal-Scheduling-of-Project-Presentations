@@ -14,7 +14,7 @@ const SolvingStatus: React.SFC = () => {
             size="1rem"
             style={{ color: "red", marginRight: "10px" }}
           />
-          Es wird derzeit eine Planung erstellt
+          Planung wird derzeit erstellt
         </Typography>
       </>
     );
@@ -24,7 +24,7 @@ const SolvingStatus: React.SFC = () => {
     return (
       <>
         <Typography variant="subtitle1" style={{ color: "green" }} gutterBottom>
-          Es wird derzeit keine Planung erstellt
+          Planung wird derzeit nicht erstellt
         </Typography>
       </>
     );

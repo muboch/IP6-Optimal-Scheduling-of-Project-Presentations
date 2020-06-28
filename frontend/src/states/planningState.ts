@@ -8,11 +8,10 @@ const planningState = () => {
 
   useEffect(() => {
     const load = async () => {
-      console.log("getPlanning");
-
       const is = await getIsSolving();
       setIsSolving(is);
     };
+    load();
     const interval = setInterval(load, 2500);
     return () => {
       clearInterval(interval);
