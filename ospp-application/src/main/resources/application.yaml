@@ -16,6 +16,6 @@ logging:
     path: ./logs
 
 ospp:
-  solver: ch.fhnw.ip6.ortoolssolver.Solver
-  timeLimit: 300 # in seconds
-  testMode: false
+  solver: ch.fhnw.ip6.optasolver.Solver
+  timeLimit: 720 # in seconds
+  testMode: none
