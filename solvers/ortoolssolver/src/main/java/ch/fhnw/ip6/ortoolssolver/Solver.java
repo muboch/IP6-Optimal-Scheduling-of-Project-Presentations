@@ -14,6 +14,7 @@ import com.google.ortools.sat.CpSolverStatus;
 import com.google.ortools.sat.IntVar;
 import com.google.ortools.sat.LinearExpr;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.stereotype.Component;
 
@@ -41,94 +42,103 @@ public class Solver extends AbstractSolver {
     @Override
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
         solverContext.setSolving(true);
-        StopWatch watch = new StopWatch();
-        watch.start();
-        log.info("Start OR-Solver");
-        log.info("Timelimit: " + timeLimit);
-        log.info("Number of Problem Instances: Presentations: " + ps.size()
-                + ", Lecturers: " + ls.size()
-                + ", Rooms: " + rs.size()
-                + ", Timeslots: "
-                + ts.size()
-                + ", OffTimes: " + offTimes.length);
 
-        orToolsModel = new OrToolsModel(ps, ls, rs, ts, offTimes, new CpModel());
-        IntVar[][][] presRoomTime = orToolsModel.getPresRoomTime();
-        // For each lecturer, list the presentations that are not allowed to overlap
-        List<P>[] presentationsPerLecturer = new ArrayList[ls.size()];
-        for (L l : ls) {
-            presentationsPerLecturer[idx(l)] = ps.stream().filter(pres -> pres.getExpert().getId() == l.getId() || pres.getCoach().getId() == l.getId()).collect(Collectors.toList());
+        try {
+            StopWatch watch = new StopWatch();
+            watch.start();
+            log.info("Start OR-Solver");
+            log.info("Timelimit: " + timeLimit);
+            log.info("Number of Problem Instances: Presentations: " + ps.size()
+                    + ", Lecturers: " + ls.size()
+                    + ", Rooms: " + rs.size()
+                    + ", Timeslots: "
+                    + ts.size()
+                    + ", OffTimes: " + offTimes.length);
+
+            orToolsModel = new OrToolsModel(ps, ls, rs, ts, offTimes, new CpModel());
+            IntVar[][][] presRoomTime = orToolsModel.getPresRoomTime();
+            // For each lecturer, list the presentations that are not allowed to overlap
+            List<P>[] presentationsPerLecturer = new ArrayList[ls.size()];
+            for (L l : ls) {
+                presentationsPerLecturer[idx(l)] = ps.stream().filter(pres -> pres.getExpert().getId() == l.getId() || pres.getCoach().getId() == l.getId()).collect(Collectors.toList());
+            }
+            // Data structures for Objectives
+            ArrayList<IntVar> objIntVars = new ArrayList<>();
+            ArrayList<Integer> objIntCoeffs = new ArrayList<>();
+
+
+            // START CONSTRAINT:  For each Presentation, there must be 1 (room,timeslot) pair. -> Each presentation must be presented in a room at a time
+            buildConstraintPresScheduledAtRoomAtTime(ps, rs, ts, presRoomTime);
+            // END CONSTRAINT
+
+            // START CONSTRAINT For each (room, timeslot) pair there must be <=1 presentation -> Max 1 Presentation per Room/Time
+            buildConstraintMaxOnePresentationPerRoomTime(ps, rs, ts, presRoomTime);
+            // END CONSTRAINT
+
+            // START CONSTRAINT Foreach presentation, the following conflicting (presentation,room, time) pairs are not allowed -> Lecturers may not have more than one presentation at a time.
+            buildConstraintLecturerNotMoreThanOnePresAtTime(ls, rs, ts, presRoomTime, presentationsPerLecturer);
+            // END CONSTRAINT
+
+            // START CONSTRAINT 1. Coaches should have as little free timeslots between presentations as possible.
+            IntVar[] firstTimeslots = new IntVar[ls.size()];
+            IntVar[] diffs = new IntVar[ls.size()];
+            IntVar[] lastTimeslots = new IntVar[ls.size()];
+            IntVar[][] lecturerTimeslot = new IntVar[ls.size()][ts.size()]; // Coach has a presentation at timeslot
+            int[] timeslotCost = new int[ts.size()];
+            buildConstraintMinFreeTimeslotsBetweenPresentations(ls, ts, rs, ps, presRoomTime, timeslotCost, lecturerTimeslot, objIntVars, objIntCoeffs, firstTimeslots, diffs, lastTimeslots);
+            // END CONSTRAINT
+
+            // START CONSTRAINT Soft Constraint 1.1 Coaches should switch the rooms as little as possible
+            IntVar[][][] coachTimeRoomBool = new IntVar[ls.size()][ts.size()][rs.size()];
+            IntVar[] numChangesForLecturer = new IntVar[ls.size()];
+            IntVar[][][] curRoomNotPrevRoom = new IntVar[ls.size()][rs.size()][ts.size()];
+            buildConstraintMinRoomSwitches(ls, rs, ts, presRoomTime, presentationsPerLecturer, objIntVars, objIntCoeffs, coachTimeRoomBool, numChangesForLecturer, curRoomNotPrevRoom);
+            // END CONSTRAINT
+
+
+            // START CONSTRAINT 3.1 As little rooms as possible should be free per timeslots -> Minimize used Timeslots
+            buildConstraintMinUsedTimeslots(ps, rs, ts, presRoomTime, objIntVars, objIntCoeffs, timeslotCost);
+            // END CONSTRAINT
+
+            // START CONSTRAINT 4 As little rooms as possible should be used over all -> Minimize used Rooms over all timeslots
+            buildConstraintMinUsedRooms(ps, rs, ts, presRoomTime, objIntVars, objIntCoeffs);
+            // END CONSTRAINT
+
+
+            // Add the objective to the Solver, parse to array first because java is funny like that
+            int[] objIntCoeffsArr = objIntCoeffs.stream().mapToInt(i -> i).toArray();
+            IntVar[] objIntVarsArr = objIntVars.toArray(new IntVar[0]);
+
+            // finally, minimize the objective
+            getModel().minimize(LinearExpr.scalProd(objIntVarsArr, objIntCoeffsArr));
+
+            CpSolver solver = new CpSolver();
+            solver.getParameters().setMaxTimeInSeconds(timeLimit);
+            log.info("Setup Constraints duration: " + watch.getTime() + "ms");
+            PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, ls, ps, ts, rs, watch, solverContext);
+            log.info("Start with OR-Tools Optimization");
+            CpSolverStatus res = solver.searchAllSolutions(getModel(), cb);
+            log.info("End of OR-Tools Optimization after " + watch.getTime() + "ms");
+
+            solverContext.setSolving(false);
+            Planning p = solverContext.getPlanning();
+
+            if (res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)
+                p.setStatus(StatusEnum.SOLUTION);
+            else
+                p.setStatus(StatusEnum.NO_SOLUTION);
+
+            watch.stop();
+            log.info("Duration of OR-Tools Solver: " + watch.getTime() + "ms");
+            return p;
+
+        } catch (Exception e) {
+            log.debug(ExceptionUtils.getStackTrace(e));
+            log.error(ExceptionUtils.getMessage(e));
+        } finally {
+            solverContext.setSolving(false);
         }
-        // Data structures for Objectives
-        ArrayList<IntVar> objIntVars = new ArrayList<>();
-        ArrayList<Integer> objIntCoeffs = new ArrayList<>();
-
-
-        // START CONSTRAINT:  For each Presentation, there must be 1 (room,timeslot) pair. -> Each presentation must be presented in a room at a time
-        buildConstraintPresScheduledAtRoomAtTime(ps, rs, ts, presRoomTime);
-        // END CONSTRAINT
-
-        // START CONSTRAINT For each (room, timeslot) pair there must be <=1 presentation -> Max 1 Presentation per Room/Time
-        buildConstraintMaxOnePresentationPerRoomTime(ps, rs, ts, presRoomTime);
-        // END CONSTRAINT
-
-        // START CONSTRAINT Foreach presentation, the following conflicting (presentation,room, time) pairs are not allowed -> Lecturers may not have more than one presentation at a time.
-        buildConstraintLecturerNotMoreThanOnePresAtTime(ls, rs, ts, presRoomTime, presentationsPerLecturer);
-        // END CONSTRAINT
-
-        // START CONSTRAINT 1. Coaches should have as little free timeslots between presentations as possible.
-        IntVar[] firstTimeslots = new IntVar[ls.size()];
-        IntVar[] diffs = new IntVar[ls.size()];
-        IntVar[] lastTimeslots = new IntVar[ls.size()];
-        IntVar[][] lecturerTimeslot = new IntVar[ls.size()][ts.size()]; // Coach has a presentation at timeslot
-        int[] timeslotCost = new int[ts.size()];
-        buildConstraintMinFreeTimeslotsBetweenPresentations(ls, ts, rs, ps, presRoomTime, timeslotCost, lecturerTimeslot, objIntVars, objIntCoeffs, firstTimeslots, diffs, lastTimeslots);
-        // END CONSTRAINT
-
-        // START CONSTRAINT Soft Constraint 1.1 Coaches should switch the rooms as little as possible
-        IntVar[][][] coachTimeRoomBool = new IntVar[ls.size()][ts.size()][rs.size()];
-        IntVar[] numChangesForLecturer = new IntVar[ls.size()];
-        IntVar[][][] curRoomNotPrevRoom = new IntVar[ls.size()][rs.size()][ts.size()];
-        buildConstraintMinRoomSwitches(ls, rs, ts, presRoomTime, presentationsPerLecturer, objIntVars, objIntCoeffs, coachTimeRoomBool, numChangesForLecturer, curRoomNotPrevRoom);
-        // END CONSTRAINT
-
-
-        // START CONSTRAINT 3.1 As little rooms as possible should be free per timeslots -> Minimize used Timeslots
-        buildConstraintMinUsedTimeslots(ps, rs, ts, presRoomTime, objIntVars, objIntCoeffs, timeslotCost);
-        // END CONSTRAINT
-
-        // START CONSTRAINT 4 As little rooms as possible should be used over all -> Minimize used Rooms over all timeslots
-        buildConstraintMinUsedRooms(ps, rs, ts, presRoomTime, objIntVars, objIntCoeffs);
-        // END CONSTRAINT
-
-
-        // Add the objective to the Solver, parse to array first because java is funny like that
-        int[] objIntCoeffsArr = objIntCoeffs.stream().mapToInt(i -> i).toArray();
-        IntVar[] objIntVarsArr = objIntVars.toArray(new IntVar[0]);
-
-        // finally, minimize the objective
-        getModel().minimize(LinearExpr.scalProd(objIntVarsArr, objIntCoeffsArr));
-
-        CpSolver solver = new CpSolver();
-        solver.getParameters().setMaxTimeInSeconds(timeLimit);
-        log.info("Setup Constraints duration: " + watch.getTime() + "ms");
-        PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, ls, ps, ts, rs, watch, solverContext);
-        log.info("Start with OR-Tools Optimization");
-        CpSolverStatus res = solver.searchAllSolutions(getModel(), cb);
-        log.info("End of OR-Tools Optimization after " + watch.getTime() + "ms");
-
-        solverContext.setSolving(false);
-        Planning p = solverContext.getPlanning();
-
-        if (res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)
-            p.setStatus(StatusEnum.SOLUTION);
-        else
-            p.setStatus(StatusEnum.NO_SOLUTION);
-
-        watch.stop();
-        log.info("Duration of OR-Tools Solver: " + watch.getTime() + "ms");
-
-        return p;
+        return null;
     }
 
     private void buildConstraintPresScheduledAtRoomAtTime(List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][][] presRoomTime) {
@@ -218,7 +228,7 @@ public class Solver extends AbstractSolver {
     }
 
     private void buildConstraintMinRoomSwitches(List<L> lecturers, List<R> rooms, List<T> timeslots, IntVar[][][] presRoomTime, List<P>[] presentationsPerLecturer, ArrayList<IntVar> objIntVars, ArrayList<Integer> objIntCoeffs, IntVar[][][] lecturerHasPresAtTime, IntVar[] numChangesForLecturer, IntVar[][][] curRoomNotPrevRoom) {
-        T firstTimeslot = timeslots.stream().min(Comparator.comparingInt(T::getId)).get();
+        T firstTimeslot = timeslots.stream().min(Comparator.comparingInt(T::getSortOrder)).get();
         for (L l : lecturers) {
             numChangesForLecturer[idx(l)] = getModel().newIntVar(0, timeslots.size(), "numRoomChangesForLecturer" + l.getId()); //Number of changes for lecturer is sum of changed booleans
             for (R r : rooms) {

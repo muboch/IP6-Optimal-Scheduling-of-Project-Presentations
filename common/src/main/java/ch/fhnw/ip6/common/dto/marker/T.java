@@ -9,4 +9,6 @@ public interface T {
     int getPriority();
 
     String getDate();
+
+    int getSortOrder();
 }
