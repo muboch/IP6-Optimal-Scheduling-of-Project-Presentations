@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,6 +67,17 @@ public abstract class AbstractSolver implements SolverApi {
         log.info("Planning Stats:\n{}", solverContext.getPlanning().getPlanningStats());
         log.info("Planning:\n{}", solverContext.getPlanning().getPlanningAsTable());
         return solverContext.getPlanning();
+    }
+
+    public void init(){
+        solverContext.setSolving(true);
+        solverContext.setTimeLimit(timeLimit);
+        solverContext.setStartTime(LocalDateTime.now());
+        solverContext.setPlanning(new Planning());
+    }
+
+    public void reset(){
+        solverContext.setSolving(false);
     }
 
 }

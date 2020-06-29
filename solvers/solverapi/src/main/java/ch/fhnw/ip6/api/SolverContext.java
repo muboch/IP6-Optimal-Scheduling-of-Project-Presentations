@@ -5,12 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 @Setter
 @Getter
 public class SolverContext {
 
-    private String logFileName;
+    private LocalDateTime startTime;
+
+    private int timeLimit; // in seconds
 
     private boolean isSolving;
 
@@ -33,16 +37,6 @@ public class SolverContext {
     public void reset(){
         isSolving = false;
         planning = null;
-        logFileName = null;
     }
-
-    public String getLogFileName() {
-        return logFileName;
-    }
-
-    public void setLogFileName(String logFileName) {
-        this.logFileName = logFileName;
-    }
-
 
 }

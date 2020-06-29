@@ -41,7 +41,6 @@ public class Solver extends AbstractSolver {
 
     @Override
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
-        solverContext.setSolving(true);
 
         try {
             StopWatch watch = new StopWatch();
@@ -114,10 +113,15 @@ public class Solver extends AbstractSolver {
 
             CpSolver solver = new CpSolver();
             solver.getParameters().setMaxTimeInSeconds(timeLimit);
+
             log.info("Setup Constraints duration: " + watch.getTime() + "ms");
+
             PresentationSolutionObserver cb = new PresentationSolutionObserver(presRoomTime, ls, ps, ts, rs, watch, solverContext);
+            // init the solver context
+            init();
             log.info("Start with OR-Tools Optimization");
             CpSolverStatus res = solver.searchAllSolutions(getModel(), cb);
+
             log.info("End of OR-Tools Optimization after " + watch.getTime() + "ms");
 
             solverContext.setSolving(false);
@@ -126,9 +130,9 @@ public class Solver extends AbstractSolver {
             if (res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)
                 p.setStatus(StatusEnum.SOLUTION);
             else {
-                p = new Planning();
                 p.setStatus(StatusEnum.NO_SOLUTION);
             }
+
             watch.stop();
             log.info("Duration of OR-Tools Solver: " + watch.getTime() + "ms");
             return p;
@@ -136,7 +140,8 @@ public class Solver extends AbstractSolver {
         } catch (Exception e) {
             log.error(ExceptionUtils.getStackTrace(e));
         } finally {
-            solverContext.setSolving(false);
+            // reset the solver context
+            reset();
         }
         return null;
     }
