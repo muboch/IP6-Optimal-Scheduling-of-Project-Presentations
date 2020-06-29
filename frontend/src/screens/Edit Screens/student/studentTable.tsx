@@ -25,7 +25,7 @@ const StudentTable: React.SFC = () => {
     },
     {
       title: "Klasse",
-      field: "class",
+      field: "schoolclass",
     },
     {
       title: "Bearbeiten",
