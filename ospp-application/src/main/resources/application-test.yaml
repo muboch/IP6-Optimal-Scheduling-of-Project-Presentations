@@ -15,5 +15,5 @@ spring:
 
 ospp:
   solver: ch.fhnw.ip6.ortoolssolver.Solver
-  timeLimit: 3600 # in seconds
+  timeLimit: 120 # in seconds
   testMode: NORMAL

@@ -125,16 +125,16 @@ public class Solver extends AbstractSolver {
 
             if (res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)
                 p.setStatus(StatusEnum.SOLUTION);
-            else
+            else {
+                p = new Planning();
                 p.setStatus(StatusEnum.NO_SOLUTION);
-
+            }
             watch.stop();
             log.info("Duration of OR-Tools Solver: " + watch.getTime() + "ms");
             return p;
 
         } catch (Exception e) {
-            log.debug(ExceptionUtils.getStackTrace(e));
-            log.error(ExceptionUtils.getMessage(e));
+            log.error(ExceptionUtils.getStackTrace(e));
         } finally {
             solverContext.setSolving(false);
         }

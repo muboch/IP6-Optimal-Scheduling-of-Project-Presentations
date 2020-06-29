@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractSolver implements SolverApi {
 
     @Value("${ospp.timeLimit}")
-    public final int timeLimit = 3600;
+    public final int timeLimit = 120;
 
     protected final SolverContext solverContext;
 
