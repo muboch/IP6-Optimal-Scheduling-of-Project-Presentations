@@ -4,6 +4,7 @@ import ch.fhnw.ip6.common.dto.RoomDto;
 import ch.fhnw.ip6.optasolver.constraints.varlistener.FreeTimeslotsUpdatingVarListener;
 import ch.fhnw.ip6.optasolver.constraints.varlistener.NumPresentationsUpdatingVarListener;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.InverseRelationShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
@@ -13,6 +14,12 @@ import java.util.List;
 
 @PlanningEntity
 public class Room extends RoomDto {
+
+    @PlanningId
+    @Override
+    public int getId() {
+        return super.getId();
+    }
 
     private List<Presentation> presentations;
 
