@@ -130,6 +130,7 @@ public class Solver extends AbstractSolver {
             if (res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)
                 p.setStatus(StatusEnum.SOLUTION);
             else {
+                p = new Planning();
                 p.setStatus(StatusEnum.NO_SOLUTION);
             }
 

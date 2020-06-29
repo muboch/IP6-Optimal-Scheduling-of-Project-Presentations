@@ -73,7 +73,6 @@ public abstract class AbstractSolver implements SolverApi {
         solverContext.setSolving(true);
         solverContext.setTimeLimit(timeLimit);
         solverContext.setStartTime(LocalDateTime.now());
-        solverContext.setPlanning(new Planning());
     }
 
     public void reset(){

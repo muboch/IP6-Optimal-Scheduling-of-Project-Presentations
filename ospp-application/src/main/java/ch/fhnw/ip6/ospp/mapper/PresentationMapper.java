@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 public interface PresentationMapper {
 
 
+    @Mapping(target = "name", source = "presentation.studentOne.name")
+    @Mapping(target = "schoolclass", source = "presentation.studentOne.schoolclass")
+    @Mapping(target = "name2", source = "presentation.studentTwo.name")
+    @Mapping(target = "schoolclass2", source = "presentation.studentTwo.schoolclass")
     @Mapping(target = "coachInitials", source = "presentation.coach.initials")
     @Mapping(target = "expertInitials", source = "presentation.expert.initials")
     PresentationDto fromEntityToDto(Presentation presentation);
