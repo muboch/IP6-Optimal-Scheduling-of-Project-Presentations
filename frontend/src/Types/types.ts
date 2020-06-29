@@ -43,7 +43,7 @@ export type Lecturer = {
 export type Student = {
   name: string;
   id?: number;
-  class: string;
+  schoolclass: string;
 };
 
 export type Timeslot = {
