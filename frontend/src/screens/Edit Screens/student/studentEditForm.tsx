@@ -45,7 +45,7 @@ const StudentEditForm: React.SFC<EditFormProps> = ({ id }) => {
   const styles = useStyles();
   const studentStore = StudentContainer.useContainer();
   const [student, setStudent] = useState<Student>({
-    class: "",
+    schoolclass: "",
     name: "",
   });
   const [, setLocation] = useLocation();
@@ -125,9 +125,9 @@ const StudentEditForm: React.SFC<EditFormProps> = ({ id }) => {
             <TextField
               required
               label="Klasse"
-              value={student.class}
+              value={student.schoolclass}
               onChange={(e: any) => {
-                updateValue("class", e.currentTarget.value);
+                updateValue("schoolclass", e.currentTarget.value);
               }}
               className={styles.textField50}
             ></TextField>
