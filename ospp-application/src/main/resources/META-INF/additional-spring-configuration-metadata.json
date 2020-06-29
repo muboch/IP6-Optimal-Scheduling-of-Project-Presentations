@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "ospp.solver",
+      "type": "java.lang.String",
+      "description": "Description for ospp.solver."
+    },
+    {
+      "name": "ospp.timeLimit",
+      "type": "java.lang.String",
+      "description": "Description for ospp.timeLimit."
+    },
+    {
+      "name": "ospp.testMode",
+      "type": "java.lang.String",
+      "description": "Description for ospp.testMode."
+    }
+  ] }
