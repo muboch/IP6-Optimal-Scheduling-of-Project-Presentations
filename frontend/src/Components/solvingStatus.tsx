@@ -32,7 +32,7 @@ const SolvingStatus: React.SFC = () => {
 
   return (
     <div>
-      {planningState.isSolving ? planingRunning() : planingNotRunning()}
+      {planningState.solving ? planingRunning() : planingNotRunning()}
     </div>
   );
 };

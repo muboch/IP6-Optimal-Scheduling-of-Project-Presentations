@@ -5,6 +5,7 @@ import { useGStyles } from "../theme";
 import { useLocation } from "wouter";
 import { SCREENROUTES } from "../constants";
 import SolvingStatus from "./solvingStatus";
+import SolvingProgress from "./solvingProgress";
 
 export interface SidebarProps {}
 
@@ -123,6 +124,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
         Sperrzeiten
       </Button>
       <SolvingStatus />
+      <SolvingProgress/>
     </div>
   );
 };

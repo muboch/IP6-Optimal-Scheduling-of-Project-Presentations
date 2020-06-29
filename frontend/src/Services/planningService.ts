@@ -1,5 +1,6 @@
 import { APIROUTES } from "../constants";
 import { Lecturer, ConsistencyError } from "../Types/types";
+import { planningState } from "../states/planningState";
 
 export const loadPlannings = async (): Promise<Array<Lecturer>> => {
   try {
@@ -49,13 +50,13 @@ export const getPlanningById = async (id: number): Promise<Lecturer> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Planning";
+    throw new Error("Fehler beim laden der Planning");
   } catch (Error) {
     throw Error;
   }
 };
 
-export const getIsSolving = async (): Promise<boolean> => {
+export const getIsSolving = async (): Promise<planningState> => {
   try {
     const res = await fetch(`${APIROUTES.planning}/isSolving`);
     const json = await res.json();
@@ -63,7 +64,7 @@ export const getIsSolving = async (): Promise<boolean> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler bei der Statusabfrage";
+    throw new Error("Fehler bei der Statusabfrage");
   } catch (Error) {
     throw Error;
   }

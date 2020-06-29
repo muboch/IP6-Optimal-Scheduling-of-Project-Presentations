@@ -6,7 +6,7 @@ import MaterialTable from "material-table";
 import tableIcons from "../../../Helpers/tableIcons";
 import TimeslotContainer from "../../../states/timeslotState";
 import LecturerContainer from "../../../states/lecturerState";
-import { red, green } from "@material-ui/core/colors";
+import { red } from "@material-ui/core/colors";
 import CloseIcon from "@material-ui/icons/Close";
 const OfftimeTable: React.SFC = () => {
   const lectStore = LecturerContainer.useContainer();
@@ -31,6 +31,7 @@ const OfftimeTable: React.SFC = () => {
         sortOrder: timeslot.sortOrder,
       });
     } else {
+      // remov offtime
       lect.offtimes = lect.offtimes.filter((ot) => ot.id !== timeslot.id!);
     }
     lectStore.addLecturer(lect);
@@ -38,7 +39,7 @@ const OfftimeTable: React.SFC = () => {
 
   const RedCross = withStyles({
     root: {
-      color:theme.palette.primary.main,
+      color: theme.palette.primary.main,
       "&$checked": {
         color: red.A700,
       },
@@ -85,9 +86,15 @@ const OfftimeTable: React.SFC = () => {
       <MaterialTable
         style={{ width: "100%", maxWidth: "1200px", minWidth: "1200px" }}
         icons={tableIcons}
-        title="Lehrpersonen"
+        title="Sperrzeiten"
         columns={columns}
         data={lectStore.lecturers}
+        options={{
+          fixedColumns: {
+            left: 2,
+          },
+          header: true,
+        }}
       />
     </div>
   );
