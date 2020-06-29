@@ -203,7 +203,8 @@ public class PlanningController {
             long currentTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
             long duration = endTime - startTime; // 100%
             long passed = currentTime - startTime; // progress
-            solving.progress = Double.valueOf(passed * 100.0 / duration).intValue();
+            int progress = Double.valueOf(passed * 100.0 / duration).intValue();
+            solving.progress = Math.min(progress, 100);
         }
         return solving;
     }
