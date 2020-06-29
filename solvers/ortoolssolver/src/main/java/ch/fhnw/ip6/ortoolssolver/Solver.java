@@ -124,7 +124,7 @@ public class Solver extends AbstractSolver {
 
             log.info("End of OR-Tools Optimization after " + watch.getTime() + "ms");
 
-            solverContext.setSolving(false);
+            solverContext.setIsSolving(false);
             Planning p = solverContext.getPlanning();
 
             if (res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)

@@ -91,7 +91,7 @@ public class Solver extends AbstractSolver {
 
     @Override
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
-        solverContext.setSolving(true);
+        solverContext.setIsSolving(true);
         StopWatch watch = new StopWatch();
         watch.start();
         log.info("Start Opta-Solver");
@@ -164,7 +164,7 @@ public class Solver extends AbstractSolver {
         watch.stop();
         log.info("Duration of Optasolver: " + watch.getTime() + "ms");
 
-        solverContext.setSolving(false);
+        solverContext.setIsSolving(false);
         return planning;
     }
 

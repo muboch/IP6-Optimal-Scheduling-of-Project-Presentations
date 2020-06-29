@@ -70,13 +70,13 @@ public abstract class AbstractSolver implements SolverApi {
     }
 
     public void init(){
-        solverContext.setSolving(true);
+        solverContext.setIsSolving(true);
         solverContext.setTimeLimit(timeLimit);
         solverContext.setStartTime(LocalDateTime.now());
     }
 
     public void reset(){
-        solverContext.setSolving(false);
+        solverContext.setIsSolving(false);
     }
 
 }

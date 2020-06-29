@@ -42,7 +42,7 @@ public class Solver extends AbstractSolver {
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
 
         // set this flag so other processes know that the solver is running
-        solverContext.setSolving(true);
+        solverContext.setIsSolving(true);
         StopWatch watch = new StopWatch();
         watch.start();
         try {
@@ -115,7 +115,7 @@ public class Solver extends AbstractSolver {
             e.printStackTrace();
         } finally {
             // set this flag so other processes know that the solver is finished
-            solverContext.setSolving(false);
+            solverContext.setIsSolving(false);
             watch.stop();
             log.info("Duration of \"Gurobi\" Solver: " + watch.getTime() + "ms");
         }
