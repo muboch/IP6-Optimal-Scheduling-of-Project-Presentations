@@ -16,7 +16,7 @@ jobs:
       - name: Docker Login
         run: docker login -u ${{secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker Build
-        run: docker build  -t ospp-application .
+        run: docker build -f Dockerfile.test -t ospp-application .
       - name: Docker Tag
         run: |
           docker tag ospp-application bananenhoschi/ospp-application:${{ github.sha }}

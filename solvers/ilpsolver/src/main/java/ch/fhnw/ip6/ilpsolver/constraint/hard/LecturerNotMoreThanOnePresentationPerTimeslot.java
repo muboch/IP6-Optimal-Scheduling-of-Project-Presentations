@@ -10,8 +10,7 @@ import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 
 /**
- * 1. Ein Coach kann während eines Timeslots höchstens eine Presentation besuchen.
- * 2. Ein Expert kann während eines Timeslots höchstens eine Presentation besuchen.
+ * 1. Ein Lecuter kann während eines Timeslots höchstens eine Presentation besuchen.
  */
 public class LecturerNotMoreThanOnePresentationPerTimeslot extends Constraint {
 
@@ -23,10 +22,11 @@ public class LecturerNotMoreThanOnePresentationPerTimeslot extends Constraint {
                     GRBLinExpr lhs = new GRBLinExpr();
                     for (R r : getIlpModel().getRooms()) {
                         for (P p : getIlpModel().getPresentationsPerLecturer().get(l)) {
-                            lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null)
+                                lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                         }
                     }
-                    addConstraint(lhs, GRB.LESS_EQUAL);
+                    getGrbModel().addConstr(lhs, GRB.LESS_EQUAL, 1.0, getConstraintName());
                 }
             }
         } catch (GRBException e) {

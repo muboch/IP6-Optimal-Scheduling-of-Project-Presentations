@@ -1,5 +1,6 @@
 package ch.fhnw.ip6.ospp.vo;
 
+import ch.fhnw.ip6.common.dto.StatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,8 @@ public class PlanningVO {
 
     private String name;
 
-    private String status;
+    private StatusEnum status;
+
+    private String created;
 
 }

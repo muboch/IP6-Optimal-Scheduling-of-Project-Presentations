@@ -1,12 +1,13 @@
 import React, { useState, FormEvent } from "react";
-import { Button, makeStyles, Snackbar, Typography } from "@material-ui/core";
+import { Button, makeStyles, Typography } from "@material-ui/core";
 import { useGStyles } from "../../theme";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import { Redirect, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { SCREENROUTES, APIROUTES } from "../../constants";
 import MessageContainer from "../../states/messageState";
+import SolvingStatus from "../../Components/solvingStatus";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   input: {
     display: "none",
   },
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UploadFilesScreen: React.FC = (): JSX.Element => {
   const msgStore = MessageContainer.useContainer();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const gStyles = useGStyles();
   const styles = useStyles();
   const [files, setFiles] = useState<Files>({
@@ -44,7 +45,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
     { key: "rooms", label: "Räume" },
     { key: "timeslots", label: "Zeitslots" },
     { key: "teachers", label: "Lehrpersonen" },
-    { key: "locktimes", label: "Sperrzeiten für Dozenten" },
+    { key: "locktimes", label: "Sperrzeiten für Lehrpersonen" },
   ];
   const getKeyValue = (key: keyof Files) => {
     return files[key] !== undefined;
@@ -73,6 +74,8 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         setLocation(SCREENROUTES.uploadSucessful);
       }
     } catch (error) {
+      console.log(error);
+
       msgStore.setMessage(`Fehler beim upload der Dateien: ${error}`);
     }
   };
@@ -81,7 +84,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
     if (res.ok) {
       return true;
     } else {
-      if (res.status == 429) {
+      if (res.status === 429) {
         let err = new Error(
           `Es wird bereits eine Planung erstellt. Bitte versuchen Sie es später nochmal`
         );
@@ -141,6 +144,7 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
         <Typography variant="subtitle1" style={{ color: "red" }} gutterBottom>
           Achtung: Beim Import werden alle Daten überschrieben!
         </Typography>
+      <SolvingStatus />
       </form>
     </>
   );

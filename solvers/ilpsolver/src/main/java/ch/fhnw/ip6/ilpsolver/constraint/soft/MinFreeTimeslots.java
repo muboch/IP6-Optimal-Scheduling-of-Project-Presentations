@@ -4,13 +4,12 @@ import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
+import ch.fhnw.ip6.common.util.CostUtil;
 import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import gurobi.GRB;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBVar;
-
-import static ch.fhnw.ip6.common.util.CostUtil.LECTURER_PER_LESSON_COST;
 
 /**
  * 1. Coaches sollen den Room möglichst selten wechseln.
@@ -20,43 +19,56 @@ public class MinFreeTimeslots extends SoftConstraint {
     public void build() {
         try {
 
-            GRBVar[][] lecturerTimeslot = new GRBVar[getIlpModel().getLecturers().size()][getIlpModel().getTimeslots().size()]; // Coach has a presentation at timeslot
+            int UB = getIlpModel().getTimeslots().size();
 
-            GRBVar[] firstTimeslots = new GRBVar[getIlpModel().getLecturers().size()];
-            GRBVar[] diffs = new GRBVar[getIlpModel().getLecturers().size()];
-            GRBVar[] lastTimeslots = new GRBVar[getIlpModel().getLecturers().size()];
+            GRBVar[][] lecTime = new GRBVar[getIlpModel().getLecturers().size()][getIlpModel().getTimeslots().size()];
 
             for (L l : getIlpModel().getLecturers()) {
                 for (T t : getIlpModel().getTimeslots()) {
-                    lecturerTimeslot[indexOf(l)][indexOf(t)] = getGrbModel().addVar(0, 1, 1.0, GRB.BINARY, l.getInitials() + "." + t.getDate());
-
-                    GRBLinExpr lhs = new GRBLinExpr();
-                    for (R r : getIlpModel().getRooms()) {
-                        for (P p : getIlpModel().getPresentations()) {
-                            lhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                    lecTime[indexOf(l)][indexOf(t)] = getGrbModel().addVar(0, 1, 0, GRB.BINARY, null);
+                    GRBLinExpr sum = new GRBLinExpr();
+                    for (P p : getIlpModel().getPresentationsPerLecturer().get(l)) {
+                        for (R r : getIlpModel().getRooms()) {
+                            if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null) {
+                                sum.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            }
                         }
                     }
-
-                    getGrbModel().addGenConstrIndicator(lecturerTimeslot[indexOf(l)][indexOf(t)], 0, lhs, GRB.LESS_EQUAL, 0.0, "notUsed" + t.getDate());
-                    getGrbModel().addGenConstrIndicator(lecturerTimeslot[indexOf(l)][indexOf(t)], 1, lhs, GRB.GREATER_EQUAL, 1.0, "used" + t.getDate());
+                    getGrbModel().addConstr(lecTime[indexOf(l)][indexOf(t)], GRB.EQUAL, sum, null);
                 }
             }
+
             for (L l : getIlpModel().getLecturers()) {
 
-                firstTimeslots[indexOf(l)] = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 1.0, GRB.INTEGER, "first" + l.getInitials());
-                lastTimeslots[indexOf(l)] = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 1.0, GRB.INTEGER, "last" + l.getInitials());
-                diffs[indexOf(l)] = getGrbModel().addVar(0.0, getIlpModel().getTimeslots().size(), 1.0, GRB.INTEGER, "diff" + l.getInitials());
+                GRBVar diff = getGrbModel().addVar(0, UB, 0, GRB.INTEGER, "diff[" + l.getId() + "]");
 
-                for (T t : getIlpModel().getTimeslots()) {
-                    GRBLinExpr lhsLast = new GRBLinExpr();
-                    lhsLast.addTerm(1.0, lastTimeslots[indexOf(l)]);
-                    getGrbModel().addGenConstrIndicator(lecturerTimeslot[indexOf(l)][indexOf(t)], 0, lhsLast, GRB.LESS_EQUAL, 0.0, "last" + t.getDate());
+                for (T tBeg : getIlpModel().getTimeslots()) {
+                    for (T tEnd : getIlpModel().getTimeslots()) {
 
-                    GRBLinExpr lhsFirst = new GRBLinExpr();
-                    lhsFirst.addTerm(1.0, firstTimeslots[indexOf(l)]);
-                    getGrbModel().addGenConstrIndicator(lecturerTimeslot[indexOf(l)][indexOf(t)], 1, lhsFirst, GRB.GREATER_EQUAL, 1.0, "first" + t.getDate());
+                        // We only use the upper triangular matrix including the diagonal
+                        if (tBeg.getSortOrder() > tEnd.getSortOrder())
+                            continue;
+
+                        // used = tBeg & tEnd
+                        GRBVar used = getGrbModel().addVar(0, 1, 0, GRB.BINARY, "t[" + l.getId() + "-used-" + tBeg.getSortOrder() + "-" + tEnd.getSortOrder());
+                        GRBLinExpr usedExpr = new GRBLinExpr();
+                        usedExpr.addTerm(1.0, lecTime[indexOf(l)][indexOf(tBeg)]);
+                        usedExpr.addTerm(1.0, lecTime[indexOf(l)][indexOf(tEnd)]);
+                        usedExpr.addConstant(-1);
+                        getGrbModel().addConstr(used, GRB.GREATER_EQUAL, usedExpr, null);
+
+                        int abs = tEnd.getSortOrder() - tBeg.getSortOrder() - getIlpModel().getPresentationsPerLecturer().get(l).size() + 1;
+
+                        GRBLinExpr rhs = new GRBLinExpr();
+                        rhs.addTerm(abs, used);
+
+                        getGrbModel().addConstr(diff, GRB.GREATER_EQUAL, rhs, null);
+
+                    }
                 }
-                getObjectives().addTerm(LECTURER_PER_LESSON_COST, diffs[indexOf(l)]);
+
+                getObjectives().addTerm(CostUtil.LECTURER_PER_LESSON_COST, diff);
+
             }
 
         } catch (GRBException e) {
@@ -66,6 +78,6 @@ public class MinFreeTimeslots extends SoftConstraint {
 
     @Override
     protected String getConstraintName() {
-        return "MinRoomSwitches";
+        return "MinFreeTimeslots";
     }
 }

@@ -19,8 +19,10 @@ import ch.fhnw.ip6.ospp.service.load.PresentationLoadService;
 import ch.fhnw.ip6.ospp.service.load.RoomLoadService;
 import ch.fhnw.ip6.ospp.service.load.TimeslotLoadService;
 import ch.fhnw.ip6.ospp.vo.PlanningVO;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -35,10 +37,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -51,7 +56,7 @@ import static ch.fhnw.ip6.ospp.service.ConsistencyError.Status.ERROR;
 @CrossOrigin
 @RequestMapping("/api/planning")
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class PlanningController {
 
     private final PresentationService presentationService;
@@ -162,7 +167,7 @@ public class PlanningController {
     public ResponseEntity<Resource> downloadExample() throws IOException {
 
         // Load file as Resource
-        ClassPathResource classPathResource = new ClassPathResource("beispieldaten.zip");
+        ClassPathResource classPathResource = new ClassPathResource("data/beispieldaten.zip");
 
         return ResponseEntity.ok()
                 .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -187,8 +192,28 @@ public class PlanningController {
     }
 
     @GetMapping("/isSolving")
-    public ResponseEntity<Boolean> isSolving(){
-        return ResponseEntity.ok(solverContext.isSolving());
+    @ResponseBody
+    public Solving isSolving() {
+        Solving solving = new Solving();
+        solving.isSolving = solverContext.isSolving();
+        int timeLimit = solverContext.getTimeLimit();
+        if (solverContext.isSolving()) {
+            long startTime = solverContext.getStartTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            long endTime = solverContext.getStartTime().plusSeconds(timeLimit).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            long currentTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            long duration = endTime - startTime; // 100%
+            long passed = currentTime - startTime; // progress
+            int progress = Double.valueOf(passed * 100.0 / duration).intValue();
+            solving.progress = Math.min(progress, 100);
+        }
+        return solving;
+    }
+
+    @Setter
+    @Getter
+    public class Solving {
+        boolean isSolving;
+        int progress;
     }
 
 }

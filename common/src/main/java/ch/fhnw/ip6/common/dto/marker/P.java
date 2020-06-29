@@ -1,28 +1,29 @@
 package ch.fhnw.ip6.common.dto.marker;
 
- public interface P {
 
-     int getId();
+public interface P {
 
-     String getNr();
+    int getId();
 
-     String getName();
+    String getNr();
 
-     String getSchoolclass();
+    String getName();
 
-     String getName2();
+    String getSchoolclass();
 
-     String getSchoolclass2();
+    String getName2();
 
-     String getTitle();
+    String getSchoolclass2();
 
-     String getExpertInitials();
+    String getTitle();
 
-     String getCoachInitials();
+    String getExpertInitials();
 
-     String getType();
+    String getCoachInitials();
 
-     L getExpert();
+    String getType();
 
-     L getCoach();
- }
+    L getExpert();
+
+    L getCoach();
+}

@@ -2,7 +2,7 @@ package ch.fhnw.ip6.ospp.service.load;
 
 import ch.fhnw.ip6.ospp.model.Room;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@Slf4j
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class RoomLoadService extends AbstractLoadService {

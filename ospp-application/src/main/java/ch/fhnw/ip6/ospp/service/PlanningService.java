@@ -12,6 +12,7 @@ import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.ospp.event.SolveEvent;
+import ch.fhnw.ip6.ospp.event.SolveEvent.TestMode;
 import ch.fhnw.ip6.ospp.mapper.LecturerMapper;
 import ch.fhnw.ip6.ospp.mapper.PresentationMapper;
 import ch.fhnw.ip6.ospp.mapper.RoomMapper;
@@ -27,7 +28,7 @@ import ch.fhnw.ip6.ospp.persistence.PresentationRepository;
 import ch.fhnw.ip6.ospp.persistence.RoomRepository;
 import ch.fhnw.ip6.ospp.persistence.TimeslotRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -51,7 +52,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-@Slf4j
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class PlanningService {
@@ -76,10 +77,14 @@ public class PlanningService {
     @Value("${ospp.solver}")
     private String solverName;
 
-    @Value("${ospp.testmode}")
-    private boolean testmode = true;
+    @Value("${ospp.testMode}")
+    private TestMode testMode;
+
+    @Value("${ospp.timeLimit}")
+    private int timeLimit;
 
     private static final String[] columns = {"Nr", "Titel", "Name", "Klasse", "Name 2", "Klasse 2", "Betreuer", "Experte", "Zeit", "Raum"};
+
 
     /**
      * Create a two-dimensional array of boolean. A field is true if the lecturer has a timeslot as offtime defined.
@@ -108,23 +113,33 @@ public class PlanningService {
         List<Room> rooms = roomRepository.findAll();
         List<Timeslot> timeslots = timeslotRepository.findAll();
 
-        List<P> presentationDtos = presentations.stream().map(presentationMapper::fromEntityToDto).collect(Collectors.toList());
-        List<L> lecturerDtos = lecturers.stream().map(lecturerMapper::fromEntityToDto).collect(Collectors.toList());
-        List<R> roomDtos = rooms.stream().map(roomMapper::fromEntityToDto).collect(Collectors.toList());
-        List<T> timeslotDtos = timeslots.stream().map(timeslotMapper::fromEntityToDto).collect(Collectors.toList());
+        List<P> presentationDtos = presentations.stream().map(presentationMapper::fromEntityToDto).sorted(Comparator.comparing(PresentationDto::getCoachInitials)).collect(Collectors.toList());
+        List<L> lecturerDtos = lecturers.stream().map(lecturerMapper::fromEntityToDto).sorted(Comparator.comparing(LecturerDto::getInitials)).collect(Collectors.toList());
+        List<R> roomDtos = rooms.stream().map(roomMapper::fromEntityToDto).sorted(Comparator.comparing(RoomDto::getType)).collect(Collectors.toList());
+        List<T> timeslotDtos = timeslots.stream().map(timeslotMapper::fromEntityToDto).sorted(Comparator.comparingInt(TimeslotDto::getSortOrder)).collect(Collectors.toList());
 
         boolean[][] offTimes = createOffTimesMap(lecturers, timeslots);
 
-        Planning planning;
+        Planning planning = null;
         if (solverContext.isSolving()) {
             throw new Exception("Solver is already running.");
         }
-        if (testmode) {
-            planning = getSolver().testSolve();
-        } else {
-            solverContext.reset();
+        solverContext.reset();
+
+        if (testMode == TestMode.NONE) {
             planning = getSolver().solve(presentationDtos, lecturerDtos, roomDtos, timeslotDtos, offTimes);
         }
+        if (testMode == TestMode.NORMAL) {
+            planning = getSolver().testSolve();
+        }
+        if (testMode == TestMode.LARGE) {
+            planning = getSolver().testSolveLarge();
+        }
+
+
+
+
+
 
         ExcelFile excelFile = transformToCsv(planning);
 
@@ -132,6 +147,8 @@ public class PlanningService {
         planningEntity.setNr(String.valueOf(planning.getNr()));
         planningEntity.setData(excelFile.getContent());
         planningEntity.setName(excelFile.getName());
+        planningEntity.setStatus(planning.getStatus());
+        planningEntity.setCreated(LocalDateTime.now());
         planningRepository.save(planningEntity);
 
         return planning;
@@ -165,7 +182,6 @@ public class PlanningService {
                 cell.setCellStyle(headerCellStyle);
             }
 
-            // Create Other rows and cells with employees data
             AtomicInteger rowNum = new AtomicInteger(1);
             planning.getSolutions().stream().sorted(Comparator.comparing(o -> o.getTimeSlot().getDate())).forEach(solution -> {
                         Row row = sheet.createRow(rowNum.getAndIncrement());
@@ -216,7 +232,7 @@ public class PlanningService {
         if (solverContext.isSolving()) {
             throw new FachlicheException("Es wird bereits eine Planung erstellt.");
         }
-        applicationEventPublisher.publishEvent(new SolveEvent(this));
+        applicationEventPublisher.publishEvent( new SolveEvent(this, solverName, TestMode.NONE, timeLimit));
     }
 
     public ExcelFile getFileById(long id) {
@@ -232,9 +248,19 @@ public class PlanningService {
         return (SolverApi) applicationContext.getBean(solverName);
     }
 
-
     public void delete(Long id) {
         planningRepository.deleteById(id);
     }
 
+    public void setTestMode(TestMode testMode) {
+        this.testMode = testMode;
+    }
+
+    public void setSolverName(String solverName) {
+        this.solverName = solverName;
+    }
+
+    public void setTimeLimit(int timeLimit) {
+        this.timeLimit = timeLimit;
+    }
 }

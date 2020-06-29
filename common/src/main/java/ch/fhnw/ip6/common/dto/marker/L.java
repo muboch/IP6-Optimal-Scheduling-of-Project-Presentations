@@ -16,5 +16,4 @@ public interface L {
         return getLastname() + " " + getFirstname();
     }
 
-
 }

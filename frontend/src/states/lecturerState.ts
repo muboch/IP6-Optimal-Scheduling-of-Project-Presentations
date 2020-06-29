@@ -22,7 +22,7 @@ const lecturerState = () => {
     load();
   }, []);
 
-  const invalidateLecturers = async (): Promise<void> => {
+  const invalidate = async (): Promise<void> => {
     try {
       await setLecturers(await loadLecturers());
     } catch (error) {
@@ -30,41 +30,41 @@ const lecturerState = () => {
     }
   };
 
-  const addLecturer = async (lect: Lecturer) => {
+  const add = async (lect: Lecturer) => {
     try {
       await _addLecturer(lect);
-      msgStore.setMessage(`Dozent hinzugefügt / angepasst`);
+      msgStore.setMessage(`Lehrperson hinzugefügt / angepasst`);
     } catch (error) {
       msgStore.setMessage(`Fehler beim hinzufügen / anpassen: ${error}`);
     } finally {
-      await invalidateLecturers();
+      await invalidate();
     }
   };
-  const deleteLecturerById = async (id: number) => {
+  const deleteById = async (id: number) => {
     try {
       await _deleteLecturerById(id);
-      msgStore.setMessage(`Dozent mit id ${id} gelöscht`);
+      msgStore.setMessage(`Lehrperson mit id ${id} gelöscht`);
     } catch (error) {
       msgStore.setMessage(`Fehler beim löschen: ${error}`);
     } finally {
-      await invalidateLecturers();
+      await invalidate();
     }
   };
-  const loadLecturerById = async (id: number) => {
+  const loadById = async (id: number) => {
     try {
       const lect = await _loadLecturerById(id);
       return lect;
     } catch (error) {
-      msgStore.setMessage(`Konnte Dozent mit id ${id} nicht laden: ${error}`);
+      msgStore.setMessage(`Konnte Lehrperson mit id ${id} nicht laden: ${error}`);
     }
   };
 
   return {
     lecturers,
-    invalidateLecturers,
-    addLecturer,
-    deleteLecturerById,
-    loadLecturerById,
+    invalidateLecturers: invalidate,
+    addLecturer: add,
+    deleteLecturerById: deleteById,
+    loadLecturerById: loadById,
   };
 };
 const LecturerContainer = createContainer(lecturerState);

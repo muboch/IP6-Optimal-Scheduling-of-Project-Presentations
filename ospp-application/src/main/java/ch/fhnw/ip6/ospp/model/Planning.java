@@ -1,5 +1,6 @@
 package ch.fhnw.ip6.ospp.model;
 
+import ch.fhnw.ip6.common.dto.StatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import java.sql.Clob;
 import java.time.LocalDateTime;
 
 @Entity
@@ -30,7 +30,7 @@ public class Planning {
 
     private String nr;
 
-    private String status;
+    private StatusEnum status;
 
     private String name;
 

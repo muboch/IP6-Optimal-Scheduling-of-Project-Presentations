@@ -1,0 +1,90 @@
+# ALL-IN-ONE docker image
+FROM maven:3.6.3-jdk-11 as builder
+
+ARG GUROBI_MAJOR_VERSION=9.0
+ARG GUROBI_VERSION=9.0.2
+ARG GUROBI_LICENCE=cc889156-b229-11ea-8605-0a7c4f30bdbe
+ENV GUROBI_INSTALL /opt/gurobi
+
+VOLUME /tmp
+
+RUN mkdir /target
+RUN apt-get update && apt-get install -y wget git ca-certificates && rm -rf /var/lib/apt/lists/*
+
+# Get google or tools libs
+RUN wget https://github.com/google/or-tools/releases/download/v7.6/or-tools_ubuntu-18.04_v7.6.7691.tar.gz
+RUN tar -xzf or-tools_ubuntu-18.04_v7.6.7691.tar.gz
+# move jni libs
+RUN mkdir /jni
+RUN cp -r or-tools_Ubuntu-18.04-64bit_v7.6.7691/lib/ /deps
+# cleanup
+RUN rm -r or-tools_Ubuntu-18.04-64bit_v7.6.7691
+
+# Install latest glibc
+# RUN export GLIBC_VERSION=2.23-r3 && \
+# wget -P /tmp https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk       && \
+# wget -P /tmp https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk   && \
+# wget -P /tmp https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-i18n-${GLIBC_VERSION}.apk  && \
+# apk add /tmp/glibc-${GLIBC_VERSION}.apk /tmp/glibc-bin-${GLIBC_VERSION}.apk /tmp/glibc-i18n-${GLIBC_VERSION}.apk              && \
+# /usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8                                                                 && \
+# Install gurobi
+RUN mkdir -p ${GUROBI_INSTALL}
+RUN wget -P /home/gurobi/ http://packages.gurobi.com/${GUROBI_MAJOR_VERSION}/gurobi${GUROBI_VERSION}_linux64.tar.gz
+RUN tar xvfz /home/gurobi/gurobi${GUROBI_VERSION}_linux64.tar.gz
+RUN mv /gurobi902/linux64/ ${GUROBI_INSTALL}
+
+
+
+RUN mkdir /root/.ssh/
+# Copy over private key, and set permissions
+ADD id_rsa /root/.ssh/id_rsa
+RUN chmod 700 /root/.ssh/id_rsa
+RUN chown -R root:root /root/.ssh
+
+# Create known_hosts
+RUN touch /root/.ssh/known_hosts
+# Add github key
+RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+RUN mkdir /repo
+WORKDIR /repo
+
+# Clone Repo
+RUN git clone git@github.com:bananenhoschi/IP6-Optimal-Scheduling-of-Project-Presentations.git /repo
+RUN git checkout develop
+
+# Maven build
+RUN mvn clean install -Pprod
+
+# Copy runnable Spring Boot jar
+RUN ls /repo/ospp-application/target/
+RUN mv /repo/ospp-application/target/ospp-application-1.0-SNAPSHOT.jar /app.jar
+
+FROM ubuntu:18.04
+
+VOLUME /tmp/ospplogs
+
+WORKDIR /
+COPY --from=builder ${GUROBI_INSTALL} /
+# do not remove "RUN true". COPY has a bug where it fails if you run multiple copy commands after each other.
+RUN true
+COPY --from=builder /app.jar /app.jar
+RUN true
+COPY --from=builder /deps/* /usr/lib/
+RUN true
+
+RUN apt-get update -y
+RUN apt-get install openjdk-11-jdk -y
+RUN apt-get install -y locales
+RUN apt-get install -y tree
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+RUN mv /opt/gurobi/linux64/* /opt/gurobi -f
+RUN /opt/gurobi/bin/grbgetkey c7593fce-b250-11ea-94e1-020d093b5256
+RUN cp /opt/gurobi/lib/* /usr/lib/ -r
+EXPOSE 8080
+ADD entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ./entrypoint.sh

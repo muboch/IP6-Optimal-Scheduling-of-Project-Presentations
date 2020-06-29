@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+
+    <!--<environmentMode>FULL_ASSERT</environmentMode>--><!-- To slowly prove there are no bugs in this code -->
+    <moveThreadCount>AUTO</moveThreadCount>
+
+    <solutionClass>ch.fhnw.ip6.optasolver.OptaSolution</solutionClass>
+    <entityClass>ch.fhnw.ip6.optasolver.model.Presentation</entityClass>
+    <entityClass>ch.fhnw.ip6.optasolver.model.Lecturer</entityClass>
+    <entityClass>ch.fhnw.ip6.optasolver.model.Room</entityClass>
+    <entityClass>ch.fhnw.ip6.optasolver.model.Timeslot</entityClass>
+
+
+    <scoreDirectorFactory>
+
+        <constraintProviderClass>ch.fhnw.ip6.optasolver.OptaConstraintProvider</constraintProviderClass>
+        <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
+
+        <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseConstraints.drl</scoreDrl>-->
+        <!--<assertionScoreDirectorFactory>-->
+        <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseConstraints.drl</scoreDrl>-->
+        <!--</assertionScoreDirectorFactory>-->
+    </scoreDirectorFactory>
+
+</solver>

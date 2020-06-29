@@ -35,9 +35,19 @@
             <groupId>ch.fhnw.ip6</groupId>
             <artifactId>solverapi</artifactId>
         </dependency>
+
+        <!-- solvers -->
         <dependency>
             <groupId>ch.fhnw.ip6</groupId>
-            <artifactId>cpsolver</artifactId>
+            <artifactId>ortoolssolver</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.fhnw.ip6</groupId>
+            <artifactId>ilpsolver</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.fhnw.ip6</groupId>
+            <artifactId>optasolver</artifactId>
         </dependency>
 
         <!-- spring boot -->
@@ -63,6 +73,17 @@
             <version>2.0.8</version>
         </dependency>
 
+        <!-- logging -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
         <!-- database -->
         <dependency>
@@ -103,6 +124,7 @@
             <version>${mapstruct-processor.version}</version>
             <scope>provided</scope>
         </dependency>
+
         <!-- test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -116,16 +138,6 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.ortools</groupId>
-            <artifactId>ortools</artifactId>
-            <version>v7.6.7691</version>
-        </dependency>
-        <dependency>
-            <groupId>protobuf</groupId>
-            <artifactId>protobuf</artifactId>
-            <version>v7.6.7691</version>
-        </dependency>
         <!-- build -->
         <dependency>
             <groupId>com.github.eirslett</groupId>

@@ -24,16 +24,32 @@ export type Room = {
   reserve: boolean;
 };
 
+export type Offtime = {
+  id: number;
+  date: string;
+  block: number;
+  sortOrder: number;
+};
+
 export type Lecturer = {
   id?: number; // id used in Database, 1 based
   firstname: string;
   lastname: string;
   email: string;
   initials: string;
+  offtimes: Array<Offtime>;
 };
 
 export type Student = {
   name: string;
-  id: number;
-  class: string;
+  id?: number;
+  schoolclass: string;
+};
+
+export type Timeslot = {
+  id?: number;
+  date: string;
+  block: number;
+  priority: number;
+  sortOrder: number;
 };

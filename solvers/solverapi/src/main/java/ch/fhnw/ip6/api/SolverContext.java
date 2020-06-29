@@ -5,11 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 @Setter
 @Getter
 public class SolverContext {
 
+    private LocalDateTime startTime;
+
+    private int timeLimit; // in seconds
 
     private boolean isSolving;
 
@@ -19,13 +24,11 @@ public class SolverContext {
      * Compares received planning with existing planning. Keeps the planning with the better score.
      *
      * @param planning
-     * @return current Planning with best score
      */
-    public Planning saveBestPlanning(Planning planning) {
-        if (this.planning== null || this.planning.getCost() < planning.getCost()) {
+    public void saveBestPlanning(Planning planning) {
+        if (this.planning== null || this.planning.getCost() > planning.getCost()) {
             this.planning = planning;
         }
-        return this.planning;
     }
 
     /**

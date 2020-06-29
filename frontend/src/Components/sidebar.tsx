@@ -4,6 +4,8 @@ import { Button } from "@material-ui/core";
 import { useGStyles } from "../theme";
 import { useLocation } from "wouter";
 import { SCREENROUTES } from "../constants";
+import SolvingStatus from "./solvingStatus";
+import SolvingProgress from "./solvingProgress";
 
 export interface SidebarProps {}
 
@@ -34,7 +36,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
   });
   const styles = useStyles();
   const gStyles = useGStyles();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
 
   return (
     <div className={styles.sidebar}>
@@ -63,16 +65,16 @@ const Sidebar: React.SFC<SidebarProps> = () => {
       >
         Erstellte Planungen
       </Button>
-        <Button
-          className={`${gStyles.primaryButton} ${styles.button}`}
-          onClick={() => {
-            setLocation(SCREENROUTES.createPlanning);
-          }}
-        >
-          Planung erstellen
-        </Button>
+      <Button
+        className={`${gStyles.primaryButton} ${styles.button}`}
+        onClick={() => {
+          setLocation(SCREENROUTES.createPlanning);
+        }}
+      >
+        Planung erstellen
+      </Button>
 
-          <p className={styles.spacer}/>
+      <p className={styles.spacer} />
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
@@ -87,23 +89,29 @@ const Sidebar: React.SFC<SidebarProps> = () => {
           setLocation(SCREENROUTES.lecturers);
         }}
       >
-        Lehrer
+        Lehrpersonen
       </Button>
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
           setLocation(SCREENROUTES.rooms);
         }}
-        disabled
       >
         Räume
       </Button>
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}
         onClick={() => {
+          setLocation(SCREENROUTES.students);
+        }}
+      >
+        Schüler
+      </Button>
+      <Button
+        className={`${gStyles.primaryButton} ${styles.button}`}
+        onClick={() => {
           setLocation(SCREENROUTES.timeslots);
         }}
-        disabled
       >
         Zeitslots
       </Button>
@@ -112,10 +120,11 @@ const Sidebar: React.SFC<SidebarProps> = () => {
         onClick={() => {
           setLocation(SCREENROUTES.offtimes);
         }}
-        disabled
       >
         Sperrzeiten
       </Button>
+      <SolvingStatus />
+      <SolvingProgress/>
     </div>
   );
 };

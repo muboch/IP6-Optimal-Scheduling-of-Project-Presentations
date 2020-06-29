@@ -15,34 +15,29 @@ public class MinRoomUsages extends SoftConstraint {
     @Override
     public void build() {
 
+        // final double MAX_ROOMS = (1.0 / getIlpModel().getPresentationsPerLecturer().values().stream().max(Comparator.comparingInt(List::size)).get().size());
+        final double MAX_ROOMS = (1.0 / getIlpModel().getRooms().size());
+
         try {
-            GRBVar[] roomUsed = new GRBVar[getIlpModel().getRooms().size()];
-
-            for (R r : getIlpModel().getRooms()) {
-                roomUsed[indexOf(r)] = getGrbModel().addVar(0, 1, 1.0, GRB.BINARY, r.toString());
-            }
-
             for (R r : getIlpModel().getRooms()) {
 
-                GRBLinExpr innerLhs = new GRBLinExpr();
+                GRBLinExpr linExpr = new GRBLinExpr();
 
+                GRBVar roomUsed = getGrbModel().addVar(0, 1, 0.0, GRB.BINARY, null);
+
+                GRBLinExpr sumOfUsedRooms = new GRBLinExpr();
                 for (T t : getIlpModel().getTimeslots()) {
                     for (P p : getIlpModel().getPresentations()) {
-                        if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] == null) continue;
-                        innerLhs.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null) {
+                            sumOfUsedRooms.addTerm(MAX_ROOMS, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            linExpr.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        }
                     }
                 }
-                // if lhs >= 1 then roomUsed
-                // if lhs <= 0 then !roomUsed
-                // At most N of A, B, C,...  a + b + c+. . . ≤ N
-                // At least N of A, B, C,... a + b + c+. . . ≥ N
-                // A - B <= M1*(1-P) - 1
-                // B - A <= M2*P - 1
-                //lhs.addTerm(-1.0, roomUsed[indexOf(r)]);
-                getGrbModel().addGenConstrIndicator(roomUsed[indexOf(r)], 0, innerLhs, GRB.LESS_EQUAL, 0.0, "notUsed" + r.getName());
-                getGrbModel().addGenConstrIndicator(roomUsed[indexOf(r)], 1, innerLhs, GRB.GREATER_EQUAL, 1.0, "used" + r.getName());
 
-                getObjectives().addTerm(USED_ROOM_COST, roomUsed[indexOf(r)]);
+                getGrbModel().addConstr(roomUsed, GRB.GREATER_EQUAL, sumOfUsedRooms, null);
+
+                getObjectives().addTerm(USED_ROOM_COST, roomUsed);
 
             }
         } catch (GRBException e) {

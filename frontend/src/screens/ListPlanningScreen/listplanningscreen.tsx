@@ -10,16 +10,16 @@ import {
   TableBody,
   makeStyles,
   Typography,
-  CircularProgress,
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
-import { useLocation } from "wouter";
 import { APIROUTES } from "../../constants";
+import SolvingStatus from "../../Components/solvingStatus";
 
 type Plannings = {
   nr: string;
   name: string;
   id: string;
+  created: string;
   status?: string;
 };
 
@@ -34,7 +34,6 @@ const useStyles = makeStyles({
 const ListPlanningScreen: React.FC = (): JSX.Element => {
   const gStyles = useGStyles();
   const styles = useStyles();
-  const [, setLocation] = useLocation();
   const [plannings, setPlannings] = useState<Array<Plannings>>([]);
   const [spinner, setSpinner] = useState<Boolean>(false);
 
@@ -64,9 +63,10 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell align="right">Nummer</TableCell>
-              <TableCell align="right">Status</TableCell>
-              <TableCell align="right">Download</TableCell>
+              <TableCell>Nummer</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Erstellungsdatum</TableCell>
+              <TableCell>Download</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -77,7 +77,12 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
                     {p.name}
                   </TableCell>
                   <TableCell align="right">{p.nr}</TableCell>
-                  <TableCell align="right">{p.status}</TableCell>
+                  <TableCell align="right">
+                    {p.status === "SOLUTION"
+                      ? "Lösung gefunden"
+                      : "Keine Lösung gefunden"}
+                  </TableCell>
+                  <TableCell align="right">{p.created}</TableCell>
                   <TableCell align="right">
                     <Button
                       className={gStyles.primaryButton}
@@ -113,6 +118,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
           <div className={styles.spinner}>{/* <CircularProgress /> */}</div>
         )}
       </Button>
+      <SolvingStatus />
     </div>
   );
 };

@@ -14,21 +14,28 @@ public class MinTimeslotUsages extends SoftConstraint {
     public void build() {
 
         try {
-            GRBVar[] timeslotUsed = new GRBVar[getIlpModel().getTimeslots().size()];
-            for (T t : getIlpModel().getTimeslots()) {
-                timeslotUsed[indexOf(t)] = getGrbModel().addVar(0, 1, 1.0, GRB.BINARY, t.toString());
-            }
+            final double MAX_TIMESLOTS = 1.0 / getIlpModel().getTimeslots().size();
 
             for (T t : getIlpModel().getTimeslots()) {
-                GRBLinExpr lhs = new GRBLinExpr();
+
+                GRBLinExpr linExpr = new GRBLinExpr();
+
+                GRBVar timeslotUsed = getGrbModel().addVar(0, 1, 0.0, GRB.BINARY, null);
+
+                GRBLinExpr sumOfUsedTimeslots = new GRBLinExpr();
                 for (R r : getIlpModel().getRooms()) {
                     for (P p : getIlpModel().getPresentations()) {
-                        lhs.addTerm(t.getPriority(), getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null) {
+                            sumOfUsedTimeslots.addTerm(MAX_TIMESLOTS, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            linExpr.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                        }
                     }
                 }
-                getGrbModel().addGenConstrIndicator(timeslotUsed[indexOf(t)], 0, lhs, GRB.LESS_EQUAL, 0.0, "notUsed" + t.getDate());
-                getGrbModel().addGenConstrIndicator(timeslotUsed[indexOf(t)], 1, lhs, GRB.GREATER_EQUAL, 1.0, "used" + t.getDate());
-                getObjectives().addTerm(t.getPriority(), timeslotUsed[indexOf(t)]);
+
+                getGrbModel().addConstr(timeslotUsed, GRB.GREATER_EQUAL, sumOfUsedTimeslots, null);
+
+                getObjectives().addTerm(t.getPriority(), timeslotUsed);
+
             }
         } catch (GRBException e) {
             e.printStackTrace();

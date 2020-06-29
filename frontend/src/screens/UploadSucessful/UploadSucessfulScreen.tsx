@@ -6,7 +6,7 @@ import { SCREENROUTES } from "../../constants";
 
 const UploadSucessfulScreen: React.FC = (): JSX.Element => {
   const gStyles = useGStyles();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
 
   return (
     <div className={gStyles.centerFlexDiv}>

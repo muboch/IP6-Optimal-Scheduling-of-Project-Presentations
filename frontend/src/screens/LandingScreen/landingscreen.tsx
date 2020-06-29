@@ -6,7 +6,7 @@ import { SCREENROUTES, APIROUTES } from "../../constants";
 
 const LandingScreen: React.FC = (): JSX.Element => {
   const styles = useGStyles();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
 
 
     return (

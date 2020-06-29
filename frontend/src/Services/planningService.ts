@@ -1,5 +1,6 @@
 import { APIROUTES } from "../constants";
 import { Lecturer, ConsistencyError } from "../Types/types";
+import { planningState } from "../states/planningState";
 
 export const loadPlannings = async (): Promise<Array<Lecturer>> => {
   try {
@@ -9,7 +10,7 @@ export const loadPlannings = async (): Promise<Array<Lecturer>> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden der Dozenten";
+    throw new Error("Fehler beim laden der Planungen");
   } catch (Error) {
     throw Error;
   }
@@ -23,7 +24,7 @@ export const loadConsistency = async (): Promise<Array<ConsistencyError>> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden des ConsistencyChecks";
+    throw new Error("Fehler beim laden des ConsistencyChecks");
   } catch (Error) {
     throw Error;
   }
@@ -35,7 +36,7 @@ export const firePlanning = async (): Promise<void> => {
     if (res.ok) {
       return;
     }
-    throw "Fehler beim starten des solvers";
+    throw new Error("Fehler beim starten des solvers");
   } catch (Error) {
     throw Error;
   }
@@ -49,7 +50,21 @@ export const getPlanningById = async (id: number): Promise<Lecturer> => {
     if (res.ok) {
       return json;
     }
-    throw "Fehler beim laden des Dozenten";
+    throw new Error("Fehler beim laden der Planning");
+  } catch (Error) {
+    throw Error;
+  }
+};
+
+export const getIsSolving = async (): Promise<planningState> => {
+  try {
+    const res = await fetch(`${APIROUTES.planning}/isSolving`);
+    const json = await res.json();
+    console.log(json);
+    if (res.ok) {
+      return json;
+    }
+    throw new Error("Fehler bei der Statusabfrage");
   } catch (Error) {
     throw Error;
   }

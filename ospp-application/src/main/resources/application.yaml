@@ -1,0 +1,21 @@
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://osppdb.c1xzf7r3bjyl.eu-central-1.rds.amazonaws.com:3306/osppdb?useUnicode=yes&characterEncoding=UTF-8
+    username: osppuser
+    password: 67vF7ainrLrXYNc
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+
+logging:
+  file:
+    path: ./logs
+
+ospp:
+  solver: ch.fhnw.ip6.optasolver.Solver
+  timeLimit: 720 # in seconds
+  testMode: NONE

@@ -25,7 +25,13 @@ public class ILPModel extends Model<GRBModel, GRBVar> {
             for (int p = 0; p < getPresentations().size(); ++p) {
                 for (int t = 0; t < getTimeslots().size(); ++t) {
                     for (int r = 0; r < getRooms().size(); ++r) {
-                        X[p][t][r] = getModel().addVar(0, 1, 1.0, GRB.BINARY, getPresentations().get(p) + "." + getTimeslots().get(t) + "." + getRooms().get(r));
+                        // no var if coach or expert has an offtime at this timeslote
+                        //if (getOfftimes()[indexOf(getPresentations().get(p).getCoach())][t] || getOfftimes()[indexOf(getPresentations().get(p).getExpert())][t]) {
+                        //    continue;
+                        //}
+                        if (getPresentations().get(p).getType().equals(getRooms().get(r).getType()))
+                            X[p][t][r] = getModel().addVar(0, 1, 1.0, GRB.BINARY, "presTimeRoom" + getPresentations().get(p).getNr() + "." + getTimeslots().get(t).getId() + "." + getRooms().get(r).getName());
+
                     }
                 }
             }
@@ -34,5 +40,10 @@ public class ILPModel extends Model<GRBModel, GRBVar> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    protected GRBVar[][] setupVars2d() {
+        return new GRBVar[0][];
     }
 }
