@@ -46,18 +46,18 @@ public class MinFreeTimeslots extends SoftConstraint {
                     for (T tEnd : getIlpModel().getTimeslots()) {
 
                         // We only use the upper triangular matrix including the diagonal
-                        if (tBeg.getId() > tEnd.getId())
+                        if (tBeg.getSortOrder() > tEnd.getSortOrder())
                             continue;
 
                         // used = tBeg & tEnd
-                        GRBVar used = getGrbModel().addVar(0, 1, 0, GRB.BINARY, "t[" + l.getId() + "-used-" + tBeg.getId() + "-" + tEnd.getId());
+                        GRBVar used = getGrbModel().addVar(0, 1, 0, GRB.BINARY, "t[" + l.getId() + "-used-" + tBeg.getSortOrder() + "-" + tEnd.getSortOrder());
                         GRBLinExpr usedExpr = new GRBLinExpr();
                         usedExpr.addTerm(1.0, lecTime[indexOf(l)][indexOf(tBeg)]);
                         usedExpr.addTerm(1.0, lecTime[indexOf(l)][indexOf(tEnd)]);
                         usedExpr.addConstant(-1);
                         getGrbModel().addConstr(used, GRB.GREATER_EQUAL, usedExpr, null);
 
-                        int abs = tEnd.getId() - tBeg.getId() - getIlpModel().getPresentationsPerLecturer().get(l).size() + 1;
+                        int abs = tEnd.getSortOrder() - tBeg.getSortOrder() - getIlpModel().getPresentationsPerLecturer().get(l).size() + 1;
 
                         GRBLinExpr rhs = new GRBLinExpr();
                         rhs.addTerm(abs, used);

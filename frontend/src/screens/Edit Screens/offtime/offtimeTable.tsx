@@ -83,7 +83,7 @@ const OfftimeTable: React.SFC = () => {
       <MaterialTable
         style={{ width: "100%", maxWidth: "1200px", minWidth: "1200px" }}
         icons={tableIcons}
-        title="Dozenten"
+        title="Lehrpersonen"
         columns={columns}
         data={lectStore.lecturers}
       />
