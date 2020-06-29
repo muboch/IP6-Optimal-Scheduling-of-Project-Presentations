@@ -55,10 +55,10 @@ public class FreeTimeslotsUpdatingVarListener implements VariableListener<Presen
             if (l.getPresentations().stream().map(Presentation::getTimeslot).anyMatch(Objects::isNull)) {
                 return;
             }
-            Presentation firstPres = l.getPresentations().stream().min(Comparator.comparingInt(p -> p.getTimeslot().getId())).get(); // change timeslot.getId to timeslot.getOrder
-            Presentation lastPres = l.getPresentations().stream().max(Comparator.comparingInt(p -> p.getTimeslot().getId())).get(); // change timeslot.getId to timeslot.getOrder
+            Presentation firstPres = l.getPresentations().stream().min(Comparator.comparingInt(p -> p.getTimeslot().getSortOrder())).get();
+            Presentation lastPres = l.getPresentations().stream().max(Comparator.comparingInt(p -> p.getTimeslot().getSortOrder())).get();
             int numPres = l.getPresentations().size();
-            int freeTimeslots = lastPres.getTimeslot().getId() - firstPres.getTimeslot().getId() - numPres + 1; // change timeslot.getId to timeslot.getOrder
+            int freeTimeslots = lastPres.getTimeslot().getSortOrder() - firstPres.getTimeslot().getSortOrder() - numPres + 1;
             if(freeTimeslots < 0){
                 freeTimeslots = 999;
             }
