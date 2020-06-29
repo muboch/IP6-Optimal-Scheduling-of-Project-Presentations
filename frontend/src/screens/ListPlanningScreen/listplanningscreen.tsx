@@ -63,10 +63,10 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell align="right">Nummer</TableCell>
-              <TableCell align="right">Status</TableCell>
-              <TableCell align="right">Erstellungsdatum</TableCell>
-              <TableCell align="right">Download</TableCell>
+              <TableCell>Nummer</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Erstellungsdatum</TableCell>
+              <TableCell>Download</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -77,7 +77,11 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
                     {p.name}
                   </TableCell>
                   <TableCell align="right">{p.nr}</TableCell>
-                  <TableCell align="right">{p.status}</TableCell>
+                  <TableCell align="right">
+                    {p.status === "SOLUTION"
+                      ? "Lösung gefunden"
+                      : "Keine Lösung gefunden"}
+                  </TableCell>
                   <TableCell align="right">{p.created}</TableCell>
                   <TableCell align="right">
                     <Button

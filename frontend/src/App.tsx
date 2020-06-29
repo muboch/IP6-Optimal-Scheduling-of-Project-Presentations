@@ -123,16 +123,6 @@ const App: React.FC = (): JSX.Element => {
                             {(params) => <OfftimeTable />}
                           </Route>
 
-                          {/* <Route path={SCREENROUTES.rooms}>
-                    {(params) => <EditScreen type={"room"}></EditScreen>}
-                  </Route>
-                  <Route path={SCREENROUTES.timeslots}>
-                    {(params) => <EditScreen type={"timeslot"}></EditScreen>}
-                  </Route>
-                  <Route path={SCREENROUTES.offtimes}>
-                    {(params) => <EditScreen type={"offtime"}></EditScreen>}
-                  </Route> */}
-
                           <Route
                             path={SCREENROUTES.uploadFiles}
                             component={UploadFilesScreen}
