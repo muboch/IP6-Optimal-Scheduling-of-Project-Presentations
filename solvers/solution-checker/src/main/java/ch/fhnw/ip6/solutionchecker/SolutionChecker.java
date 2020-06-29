@@ -270,10 +270,10 @@ public class SolutionChecker {
                 Solution first = plannedPres.get(0);
                 Solution last = plannedPres.get(plannedPres.size() - 1);
                 freeLessons = ((last.getTimeSlot().getId() + 1) - first.getTimeSlot().getId()) - plannedPres.size(); // LastTimeslot - FirstTimeslot (Inclusive both) - amount of timeslots;
+                errorsLessonsPerLecturer.add(l.getInitials() + " [" + freeLessons + "|" + plannedPres.size() + "]" + "<br>");
 
             }
 
-            errorsLessonsPerLecturer.add(l.getInitials() + " [" + freeLessons + "|" + plannedPres.size() + "]" + "<br>");
             totalFreeLessons += freeLessons;
         }
         setTotalFreeLessonsCosts(totalFreeLessons * LECTURER_PER_LESSON_COST);
