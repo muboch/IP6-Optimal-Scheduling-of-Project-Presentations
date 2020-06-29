@@ -182,7 +182,6 @@ public class PlanningService {
                 cell.setCellStyle(headerCellStyle);
             }
 
-            // Create Other rows and cells with employees data
             AtomicInteger rowNum = new AtomicInteger(1);
             planning.getSolutions().stream().sorted(Comparator.comparing(o -> o.getTimeSlot().getDate())).forEach(solution -> {
                         Row row = sheet.createRow(rowNum.getAndIncrement());

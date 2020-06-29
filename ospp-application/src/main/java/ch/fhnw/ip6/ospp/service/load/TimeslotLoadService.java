@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TimeslotLoadService extends AbstractLoadService {
 
-    private final static String[] headerCols = new String[]{"id", "date", "block", "priority", "sortOrder"};
+    private final static String[] headerCols = new String[]{"id", "date", "block", "priority"};
 
     public Set<Lecturer> loadOfftimes(MultipartFile input, Set<Lecturer> lecturers, Set<Timeslot> timeslots) {
 
@@ -84,6 +84,7 @@ public class TimeslotLoadService extends AbstractLoadService {
             final HeaderMap headerMap = new HeaderMap(headerCols);
 
             Set<Timeslot> timeslots = new HashSet<>();
+            int sortOrder = 0;
             for (Row row : sheet) {
 
                 if (row.getRowNum() == 0) {
@@ -99,9 +100,9 @@ public class TimeslotLoadService extends AbstractLoadService {
                         .date(row.getCell(headerMap.get("date")).getStringCellValue())
                         .block(Integer.parseInt(row.getCell(headerMap.get("block")).getStringCellValue()))
                         .priority((int) row.getCell(headerMap.get("priority")).getNumericCellValue())
-                        .sortOrder((int) row.getCell(headerMap.get("sortOrder")).getNumericCellValue())
+                        .sortOrder(sortOrder)
                         .build();
-
+                sortOrder++;
                 timeslots.add(timeslot);
             }
             return timeslots;
