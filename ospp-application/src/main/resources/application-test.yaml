@@ -13,8 +13,7 @@ spring:
     hibernate:
       ddl-auto: update
 
-
 ospp:
-  solver: ch.fhnw.ip6.ortoolssolver.Solver
-  timeLimit: 300 # in seconds
-  testMode: false
+  solver: ch.fhnw.ip6.optasolver.Solver
+  timeLimit: 3600 # in seconds
+  testMode: NORMAL

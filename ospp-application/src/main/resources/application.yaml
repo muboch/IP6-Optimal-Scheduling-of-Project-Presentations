@@ -18,4 +18,4 @@ logging:
 ospp:
   solver: ch.fhnw.ip6.optasolver.Solver
   timeLimit: 720 # in seconds
-  testMode: none
+  testMode: NONE
