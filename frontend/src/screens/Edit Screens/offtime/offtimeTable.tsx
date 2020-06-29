@@ -84,7 +84,7 @@ const OfftimeTable: React.SFC = () => {
       style={{ maxWidth: "100%", overflowY: "auto" }}
     >
       <MaterialTable
-        style={{ width: "100%", maxWidth: "1200px", minWidth: "1200px" }}
+        style={{ width: "100%", maxWidth: "1600px", minWidth: "1200px" }}
         icons={tableIcons}
         title="Sperrzeiten"
         columns={columns}
