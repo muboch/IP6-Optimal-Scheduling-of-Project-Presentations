@@ -88,7 +88,7 @@ const Sidebar: React.SFC<SidebarProps> = () => {
           setLocation(SCREENROUTES.lecturers);
         }}
       >
-        Dozenten
+        Lehrpersonen
       </Button>
       <Button
         className={`${gStyles.primaryButton} ${styles.button}`}

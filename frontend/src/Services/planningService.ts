@@ -9,7 +9,7 @@ export const loadPlannings = async (): Promise<Array<Lecturer>> => {
     if (res.ok) {
       return json;
     }
-    throw new Error("Fehler beim laden der Dozenten");
+    throw new Error("Fehler beim laden der Planungen");
   } catch (Error) {
     throw Error;
   }

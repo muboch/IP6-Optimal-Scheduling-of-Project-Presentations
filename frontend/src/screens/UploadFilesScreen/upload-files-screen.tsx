@@ -44,8 +44,8 @@ const UploadFilesScreen: React.FC = (): JSX.Element => {
     { key: "presentations", label: "Präsentationen" },
     { key: "rooms", label: "Räume" },
     { key: "timeslots", label: "Zeitslots" },
-    { key: "teachers", label: "Dozenten" },
-    { key: "locktimes", label: "Sperrzeiten für Dozenten" },
+    { key: "teachers", label: "Lehrpersonen" },
+    { key: "locktimes", label: "Sperrzeiten für Lehrpersonen" },
   ];
   const getKeyValue = (key: keyof Files) => {
     return files[key] !== undefined;

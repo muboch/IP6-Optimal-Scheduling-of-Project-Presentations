@@ -75,7 +75,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
           <MaterialTable
             style={{ width: "100%", minWidth: "1200px" }}
             icons={tableIcons}
-            title="Dozenten"
+            title="Lehrpersonen"
             columns={columns}
             data={lectStore.lecturers}
           />
