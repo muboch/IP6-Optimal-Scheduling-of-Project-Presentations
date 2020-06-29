@@ -14,7 +14,6 @@ import ch.fhnw.ip6.common.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
@@ -26,8 +25,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public abstract class AbstractSolver implements SolverApi {
 
+
     @Value("${ospp.timeLimit}")
-    public final int timeLimit = 120;
+    public int timeLimit = 120;
 
     protected final SolverContext solverContext;
 
@@ -69,13 +69,13 @@ public abstract class AbstractSolver implements SolverApi {
         return solverContext.getPlanning();
     }
 
-    public void init(){
+    public void init() {
         solverContext.setIsSolving(true);
         solverContext.setTimeLimit(timeLimit);
         solverContext.setStartTime(LocalDateTime.now());
     }
 
-    public void reset(){
+    public void reset() {
         solverContext.setIsSolving(false);
     }
 
