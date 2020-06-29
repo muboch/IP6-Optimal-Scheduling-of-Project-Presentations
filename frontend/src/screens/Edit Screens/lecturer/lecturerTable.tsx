@@ -86,7 +86,7 @@ const LecturerTable: React.SFC<LecturerTableProps> = () => {
                 setLocation(`${SCREENROUTES.lecturers}/edit`);
               }}
             >
-              Dozent Hinzufügen
+              Lehrperson Hinzufügen
             </Button>
           </div>
         </>

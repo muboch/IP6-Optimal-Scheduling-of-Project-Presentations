@@ -6,7 +6,8 @@ import MaterialTable from "material-table";
 import tableIcons from "../../../Helpers/tableIcons";
 import TimeslotContainer from "../../../states/timeslotState";
 import LecturerContainer from "../../../states/lecturerState";
-
+import { red, green } from "@material-ui/core/colors";
+import CloseIcon from "@material-ui/icons/Close";
 const OfftimeTable: React.SFC = () => {
   const lectStore = LecturerContainer.useContainer();
   const timeStore = TimeslotContainer.useContainer();
@@ -35,11 +36,11 @@ const OfftimeTable: React.SFC = () => {
     lectStore.addLecturer(lect);
   };
 
-  const GreenCheckbox = withStyles({
+  const RedCross = withStyles({
     root: {
-      color: theme.palette.primary.light,
+      color:theme.palette.primary.main,
       "&$checked": {
-        color: theme.palette.primary.main,
+        color: red.A700,
       },
     },
     checked: {},
@@ -62,9 +63,10 @@ const OfftimeTable: React.SFC = () => {
         title: t.date.toString(),
         field: t.date.toString(),
         render: (lect: Lecturer) => (
-          <GreenCheckbox
+          <RedCross
             key={`checkT${t.id}-L${lect.id}`}
             checked={lectHasOfftime(t, lect.offtimes)}
+            checkedIcon={<CloseIcon />}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               handleChangeOfftime(lect, t, event);
             }}
