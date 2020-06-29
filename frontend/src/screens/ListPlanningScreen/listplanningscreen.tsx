@@ -19,6 +19,7 @@ type Plannings = {
   nr: string;
   name: string;
   id: string;
+  created: string;
   status?: string;
 };
 
@@ -64,6 +65,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
               <TableCell>Name</TableCell>
               <TableCell align="right">Nummer</TableCell>
               <TableCell align="right">Status</TableCell>
+              <TableCell align="right">Erstellungsdatum</TableCell>
               <TableCell align="right">Download</TableCell>
             </TableRow>
           </TableHead>
@@ -76,6 +78,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
                   </TableCell>
                   <TableCell align="right">{p.nr}</TableCell>
                   <TableCell align="right">{p.status}</TableCell>
+                  <TableCell align="right">{p.created}</TableCell>
                   <TableCell align="right">
                     <Button
                       className={gStyles.primaryButton}
