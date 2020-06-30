@@ -5,7 +5,7 @@ import org.springframework.core.env.Environment;
 
 public class Utils {
 
-    private static String[] BYTE_UNITS = {"B", "kB", "MB", "GB", "TB"};
+    private static String[] BYTE_UNITS = {"B", "kB", "MB"};
 
     public static String bytesToHumanReadableValue(long valueInBytes) {
         int unitsIndex = 0;
