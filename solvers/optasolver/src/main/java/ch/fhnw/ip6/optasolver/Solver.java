@@ -88,7 +88,7 @@ public class Solver extends AbstractSolver {
     }
 
     protected void mapCoachesAndExperts(List<Presentation> presentations, List<Lecturer> lecturers) {
-        for (PresentationDto p : presentations) {
+        for (Presentation p : presentations) {
             p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
             p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
         }
