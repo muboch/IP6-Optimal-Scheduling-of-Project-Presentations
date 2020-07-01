@@ -3,9 +3,9 @@ package ch.fhnw.ip6.optasolver;
 import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Planning;
-import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.StatusEnum;
+import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
@@ -24,11 +24,11 @@ import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.SolverManagerConfig;
-import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -74,6 +74,10 @@ public class Solver extends AbstractSolver {
         List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
 
+        timeslots
+                .stream()
+                .sorted(Comparator.comparingInt(TimeslotDto::getId))
+                .forEach(timeslot -> timeslot.setSortOrder(timeslot.getId()));
 
         mapCoachesAndExperts(presentations, lecturers);
 
@@ -138,9 +142,6 @@ public class Solver extends AbstractSolver {
             // Submit the problem to start solving
             log.info("Start with Optimization");
 
-            SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
-            solverConfig.withTerminationConfig(new TerminationConfig().withSecondsSpentLimit((long) timeLimit));
-
             SolverJob<OptaSolution, UUID> solverJob = solverManager.solve(problemId, problem);
             OptaSolution solution;
 
@@ -179,7 +180,7 @@ public class Solver extends AbstractSolver {
         return p;
     }
 
-    public void setMapper(OptaMapper mapper){
+    public void setMapper(OptaMapper mapper) {
         this.mapper = mapper;
     }
 
