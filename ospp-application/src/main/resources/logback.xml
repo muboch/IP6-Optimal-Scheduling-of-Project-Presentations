@@ -9,7 +9,15 @@
         </encoder>
     </appender>
 
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <File>${user.home}/app.log</File> <!-- LOCATION of FILE WHERE YOU WANT TO SAVE -->
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
     <root level="INFO">
+        <appender-ref ref="FILE" />
         <appender-ref ref="CONSOLE" />
     </root>
 </configuration>
