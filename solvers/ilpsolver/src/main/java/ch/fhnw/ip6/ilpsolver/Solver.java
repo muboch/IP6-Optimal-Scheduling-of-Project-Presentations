@@ -85,7 +85,7 @@ public class Solver extends AbstractSolver {
 
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
-
+            grbModel.set(GRB.IntParam.Method, 2);
             grbModel.update();
 
             watch.split();
@@ -108,7 +108,6 @@ public class Solver extends AbstractSolver {
             // Dispose of model and environment
             grbModel.dispose();
             env.dispose();
-            System.out.println(planning.getPlanningStats());
             return planning;
 
         } catch (GRBException e) {
