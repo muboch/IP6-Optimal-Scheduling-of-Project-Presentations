@@ -15,13 +15,13 @@
 
         <constraintProviderClass>ch.fhnw.ip6.optasolver.OptaConstraintProvider</constraintProviderClass>
         <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
-        <termination>
-            <secondsSpentLimit>20</secondsSpentLimit>
-        </termination>
+
         <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseConstraints.drl</scoreDrl>-->
         <!--<assertionScoreDirectorFactory>-->
         <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseConstraints.drl</scoreDrl>-->
         <!--</assertionScoreDirectorFactory>-->
     </scoreDirectorFactory>
-
+    <termination>
+        <secondsSpentLimit>20</secondsSpentLimit>
+    </termination>
 </solver>
