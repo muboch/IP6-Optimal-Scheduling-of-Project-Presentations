@@ -3,7 +3,6 @@ package ch.fhnw.ip6.optasolver.model;
 import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.optasolver.constraints.varlistener.FreeTimeslotsUpdatingVarListener;
 import ch.fhnw.ip6.optasolver.constraints.varlistener.RoomSwitchesUpdatingVarListener;
-import lombok.EqualsAndHashCode;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
@@ -13,13 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @PlanningEntity
-@EqualsAndHashCode(callSuper = true, exclude = "presentations")
 public class Lecturer extends LecturerDto {
-
-    @PlanningId
-    public Long getPlanningId(){
-        return (long) super.getId();
-    }
 
     @PlanningVariableReference(entityClass = Presentation.class, variableName = "presentations")
     private List<Presentation> presentations;
@@ -33,6 +26,11 @@ public class Lecturer extends LecturerDto {
 
     private int freeTimeslots;
     private int roomSwitches;
+
+    @PlanningId
+    public Long getPlanningId(){
+        return (long) super.getId();
+    }
 
     public List<Presentation> getPresentations() {
         return presentations;
@@ -96,5 +94,13 @@ public class Lecturer extends LecturerDto {
         return roomSwitches;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

@@ -45,8 +45,8 @@ public class FreeTimeslotsUpdatingVarListener implements VariableListener<Presen
 
     private void updateFreeTimeslots(ScoreDirector scoreDirector, Presentation presentation) {
         List<Lecturer> coachAndExpert = new ArrayList<>();
-        coachAndExpert.add(presentation.getCoach());
-        coachAndExpert.add(presentation.getExpert());
+        coachAndExpert.add((Lecturer) presentation.getCoach());
+        coachAndExpert.add((Lecturer) presentation.getExpert());
 
         coachAndExpert.forEach(l -> {
             if (l.getPresentations() == null) {

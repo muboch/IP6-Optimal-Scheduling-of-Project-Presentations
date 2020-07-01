@@ -49,7 +49,9 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
     }
 
     private void updateRoomSwitches(ScoreDirector<Lecturer> scoreDirector, Presentation presentation) {
-        Set<Lecturer> coachAndExpert = Set.of(presentation.getCoach(), presentation.getExpert());
+        List<Lecturer> coachAndExpert = new ArrayList<>();
+        coachAndExpert.add((Lecturer) presentation.getCoach());
+        coachAndExpert.add((Lecturer) presentation.getExpert());
 
         coachAndExpert.forEach(l -> {
             if (l.getPresentations() == null) {

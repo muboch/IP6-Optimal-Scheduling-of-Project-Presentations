@@ -22,8 +22,8 @@ public class OfftimesConstraint extends OptaConstraint {
                 // filter if coach or expert have an offtime for presentation
                 .filter(p -> {
                     List<Lecturer> coachAndExpert = new ArrayList<Lecturer>();
-                    coachAndExpert.add(p.getCoach());
-                    coachAndExpert.add(p.getExpert());
+                    coachAndExpert.add((Lecturer) p.getCoach());
+                    coachAndExpert.add((Lecturer) p.getExpert());
                     Set<Timeslot> coachExpertOfftimes = new HashSet<>();
 
                     coachAndExpert.forEach(l -> {

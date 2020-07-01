@@ -3,15 +3,14 @@ package ch.fhnw.ip6.optasolver;
 import ch.fhnw.ip6.api.AbstractSolver;
 import ch.fhnw.ip6.api.SolverContext;
 import ch.fhnw.ip6.common.dto.Planning;
+import ch.fhnw.ip6.common.dto.PresentationDto;
 import ch.fhnw.ip6.common.dto.Solution;
 import ch.fhnw.ip6.common.dto.StatusEnum;
-import ch.fhnw.ip6.common.dto.TimeslotDto;
 import ch.fhnw.ip6.common.dto.marker.L;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.util.JsonUtil;
-import ch.fhnw.ip6.optasolver.mapper.OptaMapper;
 import ch.fhnw.ip6.optasolver.model.Lecturer;
 import ch.fhnw.ip6.optasolver.model.Presentation;
 import ch.fhnw.ip6.optasolver.model.Room;
@@ -24,7 +23,7 @@ import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.SolverManagerConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -38,9 +37,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component("ch.fhnw.ip6.optasolver.Solver")
 public class Solver extends AbstractSolver {
-
-    @Autowired
-    private OptaMapper mapper;
 
     private final SolutionChecker solutionChecker;
 
@@ -57,27 +53,30 @@ public class Solver extends AbstractSolver {
     public Planning testSolveLarge() {
         JsonUtil util = new JsonUtil();
         List<Presentation> presentations = new ArrayList<>(util.getJsonAsList("presentations300.json", Presentation.class));
-        return testSolve(presentations);
+        List<Lecturer> lecturers = util.getJsonAsList("lecturers.json", Lecturer.class);
+        List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
+        List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
+        return testSolve(presentations, lecturers, rooms, timeslots);
     }
 
     @Override
     public Planning testSolve() {
         JsonUtil util = new JsonUtil();
         List<Presentation> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", Presentation.class));
-        return testSolve(presentations);
-    }
-
-
-    private Planning testSolve(List<Presentation> presentations) {
-        JsonUtil util = new JsonUtil();
         List<Lecturer> lecturers = util.getJsonAsList("lecturers.json", Lecturer.class);
         List<Room> rooms = util.getJsonAsList("rooms.json", Room.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<Timeslot> timeslots = util.getJsonAsList("timeslots.json", Timeslot.class);
+        return testSolve(presentations, lecturers, rooms, timeslots);
+    }
+
+
+    private Planning testSolve(List<Presentation> presentations, List<Lecturer> lecturers, List<Room> rooms, List<Timeslot> timeslots) {
 
         timeslots
                 .stream()
-                .sorted(Comparator.comparingInt(TimeslotDto::getId))
+                .sorted(Comparator.comparingInt(Timeslot::getId))
                 .forEach(timeslot -> timeslot.setSortOrder(timeslot.getId()));
+
 
         mapCoachesAndExperts(presentations, lecturers);
 
@@ -92,7 +91,7 @@ public class Solver extends AbstractSolver {
     }
 
     protected void mapCoachesAndExperts(List<Presentation> presentations, List<Lecturer> lecturers) {
-        for (Presentation p : presentations) {
+        for (PresentationDto p : presentations) {
             p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
             p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation
         }
@@ -116,10 +115,10 @@ public class Solver extends AbstractSolver {
                     + ts.size()
                     + ", OffTimes: " + offTimes.length);
 
-            List<Presentation> presentations = ps.stream().map(p -> mapper.map(p, new Presentation())).collect(Collectors.toList());
-            List<Lecturer> lecturers = ls.stream().map(l -> mapper.map(l, new Lecturer())).collect(Collectors.toList());
-            List<Timeslot> timeslots = ts.stream().map(t -> mapper.map(t, new Timeslot())).collect(Collectors.toList());
-            List<Room> rooms = rs.stream().map(r -> mapper.map(r, new Room())).collect(Collectors.toList());
+            List<Presentation> presentations = ps.stream().map(p -> (Presentation) p).collect(Collectors.toList());
+            List<Lecturer> lecturers = ls.stream().map(l -> (Lecturer) l).collect(Collectors.toList());
+            List<Timeslot> timeslots = ts.stream().map(t -> (Timeslot) t).collect(Collectors.toList());
+            List<Room> rooms = rs.stream().map(r -> (Room) r).collect(Collectors.toList());
 
             // offtimes[lecturers][timeslots]. Map offtimes to timeslots
             for (int i = 0; i < offTimes.length; i++) {
@@ -141,6 +140,9 @@ public class Solver extends AbstractSolver {
             UUID problemId = UUID.randomUUID();
             // Submit the problem to start solving
             log.info("Start with Optimization");
+
+            SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverconfig.xml");
+            solverConfig.withTerminationConfig(new TerminationConfig().withSecondsSpentLimit((long) timeLimit));
 
             SolverJob<OptaSolution, UUID> solverJob = solverManager.solve(problemId, problem);
             OptaSolution solution;
@@ -169,21 +171,15 @@ public class Solver extends AbstractSolver {
             log.info("New Planning Nr. " + planning.getNr() + " - Cost: " + planning.getCost() + "\n" + planning.getPlanningStats() + "\n" + planning.getPlanningAsTable());
             watch.stop();
             log.info("Duration of Optasolver: " + watch.getTime() + "ms");
-            solverContext.setPlanning(planning);
             return planning;
         } catch (InterruptedException | ExecutionException e) {
             log.error(ExceptionUtils.getStackTrace(e));
-            Planning p = new Planning();
-            p.setStatus(StatusEnum.NO_SOLUTION);
-            return p;
         } finally {
             reset();
         }
-
-    }
-
-    public void setMapper(OptaMapper mapper) {
-        this.mapper = mapper;
+        Planning p = new Planning();
+        p.setStatus(StatusEnum.NO_SOLUTION);
+        return p;
     }
 
 }
