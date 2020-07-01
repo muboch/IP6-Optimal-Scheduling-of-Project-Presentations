@@ -1,17 +1,23 @@
 package ch.fhnw.ip6.optasolver.model;
 
-import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.common.dto.PresentationDto;
+import lombok.EqualsAndHashCode;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 @PlanningEntity
+@EqualsAndHashCode(callSuper = true)
 public class Presentation extends PresentationDto {
 
 
     private Lecturer coach;
     private Lecturer expert;
+
+    @PlanningId
+    public Long getPlanningId(){
+        return (long) super.getId();
+    }
 
     @Override
     public Lecturer getExpert() {
@@ -36,12 +42,6 @@ public class Presentation extends PresentationDto {
     @PlanningVariable(valueRangeProviderRefs = "roomRange")
     private Room room;
 
-    @PlanningId
-    @Override
-    public int getId() {
-        return super.getId();
-    }
-
     public Timeslot getTimeslot() {
         return timeslot;
     }
@@ -58,13 +58,4 @@ public class Presentation extends PresentationDto {
         this.room = room;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }

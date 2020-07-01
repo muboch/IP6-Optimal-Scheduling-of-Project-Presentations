@@ -15,10 +15,10 @@ public class CoachAndExpertSameConflictConstraint extends OptaConstraint {
                 // pair with another presentation
                 .join(Presentation.class,
                         // Where NR is not same (dont compare presentation with each other)
-                        Joiners.lessThan(Presentation::getNr),
+                        Joiners.lessThan(Presentation::getId),
                         // in the same timeslot
                         Joiners.equal(Presentation::getTimeslot))
                 // filter if coach and expert are the same somewhere
-                .filter((p1, p2) -> p1.getExpert() == p2.getExpert() || p1.getCoach() == p2.getCoach() || p1.getExpert() == p2.getCoach() || p1.getCoach() == p2.getExpert()).penalize("Expert/Coach conflict", HardSoftScore.ONE_HARD);
+                .filter((p1, p2) -> p1.getExpert().equals(p2.getExpert()) || p1.getCoach().equals(p2.getCoach()) || p1.getExpert().equals(p2.getCoach()) || p1.getCoach().equals(p2.getExpert())).penalize("Expert/Coach conflict", HardSoftScore.ONE_HARD);
     }
 }
