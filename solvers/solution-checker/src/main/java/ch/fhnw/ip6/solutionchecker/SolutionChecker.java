@@ -41,7 +41,7 @@ public class SolutionChecker {
         int roomSwitches = getRoomSwitches(solutions, lecturers, timeslots, presentations);
         int usedRooms = getUsedRooms(solutions, rooms);
         int usedTimeslots = getUsedTimeslots(solutions, timeslots);
-        int freeLessons = getFreeLessonsPerLecturer(solutions, lecturers, timeslots, presentations);
+        int freeLessons = getFreeLessonsPerLecturer(solutions, lecturers);
 
         int roomDoubleBookedCost = getTotalDoubleBookedCosts();
         int roomSwitchCost = getTotalRoomSwitchesCosts();
@@ -260,16 +260,17 @@ public class SolutionChecker {
         return totalSwitches;
     }
 
-    public int getFreeLessonsPerLecturer(Set<Solution> solutions, List<? extends L> lecturers, List<? extends T> timeslots, List<? extends P> presentations) {
+    public int getFreeLessonsPerLecturer(Set<Solution> solutions, List<? extends L> lecturers) {
+        errorsLessonsPerLecturer = new HashSet<>();
         int totalFreeLessons = 0;
         for (L l : lecturers) {
             List<Solution> plannedPres = solutions.stream().filter(sol -> sol.getExpert().equals(l) || sol.getCoach().equals(l)).collect(Collectors.toList());
             int freeLessons = 0;
             if(plannedPres.size() != 0) {
-                plannedPres.sort(Comparator.comparingInt(a -> a.getTimeSlot().getId()));
+                plannedPres.sort(Comparator.comparingInt(a -> a.getTimeSlot().getSortOrder()));
                 Solution first = plannedPres.get(0);
                 Solution last = plannedPres.get(plannedPres.size() - 1);
-                freeLessons = ((last.getTimeSlot().getId() + 1) - first.getTimeSlot().getId()) - plannedPres.size(); // LastTimeslot - FirstTimeslot (Inclusive both) - amount of timeslots;
+                freeLessons = ((last.getTimeSlot().getSortOrder() + 1) - first.getTimeSlot().getSortOrder()) - plannedPres.size(); // LastTimeslot - FirstTimeslot (Inclusive both) - amount of timeslots;
                 errorsLessonsPerLecturer.add(l.getInitials() + " [" + freeLessons + "|" + plannedPres.size() + "]" + "<br>");
 
             }

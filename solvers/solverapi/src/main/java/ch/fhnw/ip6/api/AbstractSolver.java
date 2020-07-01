@@ -13,11 +13,11 @@ import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,22 +34,24 @@ public abstract class AbstractSolver implements SolverApi {
     public Planning testSolve() {
         JsonUtil util = new JsonUtil();
         List<PresentationDto> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", PresentationDto.class));
-        List<LecturerDto> lecturers = util.getJsonAsList("lecturers.json", LecturerDto.class);
-        List<RoomDto> rooms = util.getJsonAsList("rooms.json", RoomDto.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
-        List<TimeslotDto> timeslots = util.getJsonAsList("timeslots.json", TimeslotDto.class);
-        return testSolve(presentations, lecturers, rooms, timeslots);
+        return testSolve(presentations);
     }
 
     public Planning testSolveLarge() {
         JsonUtil util = new JsonUtil();
         List<PresentationDto> presentations = new ArrayList<>(util.getJsonAsList("presentations300.json", PresentationDto.class));
+        return testSolve(presentations);
+    }
+
+    private Planning testSolve(List<PresentationDto> presentations) {
+        JsonUtil util = new JsonUtil();
         List<LecturerDto> lecturers = util.getJsonAsList("lecturers.json", LecturerDto.class);
         List<RoomDto> rooms = util.getJsonAsList("rooms.json", RoomDto.class).stream().filter(r -> r.getReserve().equals(false)).collect(Collectors.toList());
         List<TimeslotDto> timeslots = util.getJsonAsList("timeslots.json", TimeslotDto.class);
-        return testSolve(presentations, lecturers, rooms, timeslots);
-    }
-
-    private Planning testSolve(List<PresentationDto> presentations, List<LecturerDto> lecturers, List<RoomDto> rooms, List<TimeslotDto> timeslots) {
+        timeslots
+                .stream()
+                .sorted(Comparator.comparingInt(TimeslotDto::getId))
+                .forEach(timeslot -> timeslot.setSortOrder(timeslot.getId()));
         for (PresentationDto p : presentations) {
             p.setCoach(lecturers.stream().filter(t -> t.getInitials().equals(p.getCoachInitials())).findFirst().get()); // Assign Coaches to Presentation
             p.setExpert(lecturers.stream().filter(t -> t.getInitials().equals(p.getExpertInitials())).findFirst().get()); // Assign Experts to Presentation

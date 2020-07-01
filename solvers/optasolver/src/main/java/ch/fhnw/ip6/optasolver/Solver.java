@@ -41,9 +41,7 @@ public class Solver extends AbstractSolver {
 
     @Autowired
     private OptaMapper mapper;
-    public void setMapper(OptaMapper mapper){
-        this.mapper = mapper;
-    }
+
     private final SolutionChecker solutionChecker;
 
     private final SolverManager<OptaSolution, UUID> solverManager;
@@ -179,6 +177,10 @@ public class Solver extends AbstractSolver {
         Planning p = new Planning();
         p.setStatus(StatusEnum.NO_SOLUTION);
         return p;
+    }
+
+    public void setMapper(OptaMapper mapper){
+        this.mapper = mapper;
     }
 
 }
