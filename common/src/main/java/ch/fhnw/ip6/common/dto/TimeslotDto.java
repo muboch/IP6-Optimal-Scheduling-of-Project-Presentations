@@ -25,11 +25,6 @@ public class TimeslotDto implements T {
 
 
      @Override
-     public String toString() {
-          return String.format("T[id=%03d,dt='%s']", id, date.replace(" ", "-"));
-     }
-
-     @Override
      public boolean equals(Object o) {
           if (this == o) return true;
           if (o == null || getClass() != o.getClass()) return false;

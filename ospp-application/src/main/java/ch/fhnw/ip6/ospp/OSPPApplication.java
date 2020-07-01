@@ -25,7 +25,7 @@ public class OSPPApplication {
     public static void main(String[] args) {
         SpringApplication.run(OSPPApplication.class, args);
 
-        SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
+       // SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
 
         log.debug("TestMode: {}, Solver {}, TimeLimit: {}", testMode, solver, timeLimit);
     }

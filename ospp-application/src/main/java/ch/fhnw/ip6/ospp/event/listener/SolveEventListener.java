@@ -4,6 +4,7 @@ import ch.fhnw.ip6.ospp.event.SolveEvent;
 import ch.fhnw.ip6.ospp.service.PlanningService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class SolveEventListener implements ApplicationListener<SolveEvent> {
             planningService.setTimeLimit(event.getTimeLimit());
             planningService.plan();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 }

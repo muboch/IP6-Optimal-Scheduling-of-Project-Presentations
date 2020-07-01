@@ -23,10 +23,6 @@ public class RoomDto implements R {
     private String type;
     private Boolean reserve;
 
-    @Override
-    public String toString() {
-        return String.format("R[id=%02d,name=%s]", id, name);
-    }
 
     @Override
     public boolean equals(Object o) {
