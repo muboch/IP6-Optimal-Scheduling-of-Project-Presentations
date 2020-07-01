@@ -169,15 +169,17 @@ public class Solver extends AbstractSolver {
             log.info("New Planning Nr. " + planning.getNr() + " - Cost: " + planning.getCost() + "\n" + planning.getPlanningStats() + "\n" + planning.getPlanningAsTable());
             watch.stop();
             log.info("Duration of Optasolver: " + watch.getTime() + "ms");
+            solverContext.setPlanning(planning);
             return planning;
         } catch (InterruptedException | ExecutionException e) {
             log.error(ExceptionUtils.getStackTrace(e));
+            Planning p = new Planning();
+            p.setStatus(StatusEnum.NO_SOLUTION);
+            return p;
         } finally {
             reset();
         }
-        Planning p = new Planning();
-        p.setStatus(StatusEnum.NO_SOLUTION);
-        return p;
+
     }
 
     public void setMapper(OptaMapper mapper) {
