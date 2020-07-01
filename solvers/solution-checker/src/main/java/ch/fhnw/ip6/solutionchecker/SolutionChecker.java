@@ -179,6 +179,8 @@ public class SolutionChecker {
      * Counts the number of room switches per lecturer.
      *
      */
+
+    /*
     int getRoomSwitches(Set<Solution> solutions, List<? extends L> lecturers, List<? extends T> timeslots, List<? extends P> presentations) {
         errorsRoomSwitches = new HashSet<>();
 
@@ -259,7 +261,37 @@ public class SolutionChecker {
         setTotalRoomSwitchesCosts(totalSwitches * ROOM_SWITCH_COST);
         return totalSwitches;
     }
+*/
+    int getRoomSwitches(Set<Solution> solutions, List<? extends L> lecturers, List<? extends T> timeslots, List<? extends P> presentations){
+        int roomSwitches = 0;
 
+        for (L l: lecturers){
+            // Get all solutions for lecturer, sorted by timeslot
+            List<Solution> solForLect = solutions.stream().filter(s -> s.getCoach().getId() == l.getId() || s.getExpert().getId() == l.getId()).sorted(Comparator.comparingInt(s -> s.getTimeSlot().getSortOrder())).collect(Collectors.toList());
+            int roomSwitchesForLect = 0;
+            if(solForLect.isEmpty()){continue;}
+
+            Solution firstSol = solForLect.stream().min(Comparator.comparingInt( s-> s.getTimeSlot().getSortOrder())).get();
+
+            T tPrev = firstSol.getTimeSlot();
+            R rPrev = firstSol.getRoom();
+
+
+            for (Solution s: solForLect){
+                if(s.getRoom() != rPrev || s.getTimeSlot().getSortOrder() - tPrev.getSortOrder() > 1){
+                    roomSwitchesForLect++;
+                }
+                tPrev = s.getTimeSlot();
+                rPrev = s.getRoom();
+            }
+            roomSwitches += roomSwitchesForLect;
+
+        }
+
+
+        setTotalRoomSwitchesCosts(roomSwitches * ROOM_SWITCH_COST);
+        return roomSwitches;
+    }
     public int getFreeLessonsPerLecturer(Set<Solution> solutions, List<? extends L> lecturers) {
         errorsLessonsPerLecturer = new HashSet<>();
         int totalFreeLessons = 0;

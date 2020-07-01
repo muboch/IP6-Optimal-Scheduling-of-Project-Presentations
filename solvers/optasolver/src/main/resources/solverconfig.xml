@@ -22,6 +22,6 @@
         <!--</assertionScoreDirectorFactory>-->
     </scoreDirectorFactory>
     <termination>
-        <secondsSpentLimit>20</secondsSpentLimit>
+        <secondsSpentLimit>3600</secondsSpentLimit>
     </termination>
 </solver>

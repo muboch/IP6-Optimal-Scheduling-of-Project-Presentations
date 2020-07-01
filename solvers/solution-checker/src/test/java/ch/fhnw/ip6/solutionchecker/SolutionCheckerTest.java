@@ -90,7 +90,7 @@ public class SolutionCheckerTest {
     public void getRoomSwitches() {
 
         List<R> rooms = getRooms(5);
-        Map<String, L> lecturers = getLecturers(4);
+        Map<String, L> lecturers = getLecturers(5);
         List<L> lecs = new ArrayList<>(lecturers.values());
         List<T> timeslotes = getTimeslots(5);
 
@@ -100,10 +100,17 @@ public class SolutionCheckerTest {
         PresentationDto p2 = PresentationDto.builder().expert((LecturerDto) lecs.get(0)).expertInitials(lecs.get(0).getInitials()).coach((LecturerDto) lecs.get(1)).coachInitials(lecs.get(1).getInitials()).build();
         PresentationDto p3 = PresentationDto.builder().expert((LecturerDto) lecs.get(0)).expertInitials(lecs.get(0).getInitials()).coach((LecturerDto) lecs.get(2)).coachInitials(lecs.get(2).getInitials()).build();
         PresentationDto p4 = PresentationDto.builder().expert((LecturerDto) lecs.get(2)).expertInitials(lecs.get(2).getInitials()).coach((LecturerDto) lecs.get(3)).coachInitials(lecs.get(3).getInitials()).build();
+
+        PresentationDto p5 =  PresentationDto.builder().expert((LecturerDto) lecs.get(4)).expertInitials(lecs.get(4).getInitials()).coach((LecturerDto) lecs.get(3)).coachInitials(lecs.get(3).getInitials()).build();
+        PresentationDto p6 =  PresentationDto.builder().expert((LecturerDto) lecs.get(4)).expertInitials(lecs.get(4).getInitials()).coach((LecturerDto) lecs.get(3)).coachInitials(lecs.get(3).getInitials()).build();
+
         presentations.add(p1);
         presentations.add(p2);
         presentations.add(p3);
         presentations.add(p4);
+        presentations.add(p5);
+        presentations.add(p6);
+
 
         Solution solution1 = new Solution();
         solution1.setTimeSlot(timeslotes.get(0));
@@ -133,16 +140,40 @@ public class SolutionCheckerTest {
         solution4.setExpert(lecturers.get(p4.getExpertInitials()));
         solution4.setCoach(lecturers.get(p4.getCoachInitials()));
 
+        Solution solution5 = new Solution();
+        solution5.setTimeSlot(timeslotes.get(0));
+        solution5.setRoom(rooms.get(3));
+        solution5.setPresentation(p5);
+        solution5.setExpert(lecturers.get(p5.getExpertInitials()));
+        solution5.setCoach(lecturers.get(p5.getCoachInitials()));
+
+        Solution solution6 = new Solution();
+        solution6.setTimeSlot(timeslotes.get(2));
+        solution6.setRoom(rooms.get(3));
+        solution6.setPresentation(p6);
+        solution6.setExpert(lecturers.get(p6.getExpertInitials()));
+        solution6.setCoach(lecturers.get(p6.getCoachInitials()));
+
         Set<Solution> solutions = new HashSet<>();
         solutions.add(solution1);
         solutions.add(solution2);
         solutions.add(solution3);
         solutions.add(solution4);
 
+        Set<Solution> oneFreeTimeslotSolutions = new HashSet<>();
+
+        oneFreeTimeslotSolutions.add(solution5);
+        oneFreeTimeslotSolutions.add(solution6);
+
         SolutionChecker solutionChecker = new SolutionChecker();
         int roomSwitches = solutionChecker.getRoomSwitches(solutions, lecs, timeslotes, presentations);
         Assert.assertEquals(2, roomSwitches);
         Assert.assertEquals(2 * CostUtil.ROOM_SWITCH_COST, solutionChecker.getTotalRoomSwitchesCosts());
+
+        int rSOneFreeTimeslot = solutionChecker.getRoomSwitches(oneFreeTimeslotSolutions, lecs, timeslotes, presentations);
+        Assert.assertEquals(2, rSOneFreeTimeslot);
+
+
     }
 
         @Test
@@ -285,9 +316,11 @@ public class SolutionCheckerTest {
 
     private List<T> getTimeslots(int amount) {
         List<T> timeslots = new ArrayList<>();
+        int sortOrder = 0;
         while (amount > 0) {
-            timeslots.add(TimeslotDto.builder().date("Fr " + amount).id(amount).block(1).priority(10).build());
+            timeslots.add(TimeslotDto.builder().date("Fr " + amount).id(amount).block(1).priority(10).sortOrder(sortOrder).build());
             amount--;
+            sortOrder++;
         }
         return timeslots;
     }
