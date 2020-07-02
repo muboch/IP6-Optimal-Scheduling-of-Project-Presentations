@@ -52,7 +52,8 @@ export const _addPresentation = async (pres: Presentation): Promise<void> => {
   if (response.ok) {
     return;
   }
-  throw new Error("Fehler beim hinzufügen der Präsentation");
+  const json = await response.json();
+  throw json.message;
 };
 
 export const _deletePresentationById = async (id: number): Promise<void> => {

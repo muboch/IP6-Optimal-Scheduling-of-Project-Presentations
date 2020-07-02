@@ -35,20 +35,20 @@ const presentationState = () => {
     try {
       await _addPresentation(pres);
       msgStore.setMessage(`Präsentation hinzugefügt / angepasst`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim hinzufügen / anpassen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const deleteById = async (id: number) => {
     try {
       await _deletePresentationById(id);
       msgStore.setMessage(`Präsentation mit id ${id} gelöscht`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim löschen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const loadById = async (id: number) => {

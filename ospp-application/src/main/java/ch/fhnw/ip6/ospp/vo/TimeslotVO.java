@@ -15,4 +15,6 @@ public class TimeslotVO {
 
     private int sortOrder;
 
+    private int priority;
+
 }

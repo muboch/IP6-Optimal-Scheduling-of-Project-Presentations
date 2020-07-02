@@ -34,20 +34,20 @@ const lecturerState = () => {
     try {
       await _addLecturer(lect);
       msgStore.setMessage(`Lehrperson hinzugefügt / angepasst`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim hinzufügen / anpassen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const deleteById = async (id: number) => {
     try {
       await _deleteLecturerById(id);
       msgStore.setMessage(`Lehrperson mit id ${id} gelöscht`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim löschen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const loadById = async (id: number) => {
@@ -55,7 +55,10 @@ const lecturerState = () => {
       const lect = await _loadLecturerById(id);
       return lect;
     } catch (error) {
-      msgStore.setMessage(`Konnte Lehrperson mit id ${id} nicht laden: ${error}`);
+      msgStore.setMessage(
+        `Konnte Lehrperson mit id ${id} nicht laden: ${error}`
+      );
+      throw error;
     }
   };
 

@@ -34,20 +34,20 @@ const timeslotState = () => {
     try {
       await _addTimeslot(timeslot);
       msgStore.setMessage(`Zeitslot hinzugefügt / angepasst`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim hinzufügen / anpassen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const deleteById = async (id: number) => {
     try {
       await _deleteTimeslotById(id);
       msgStore.setMessage(`Zeitslot mit id ${id} gelöscht`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim löschen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const loadById = async (id: number) => {
@@ -56,6 +56,7 @@ const timeslotState = () => {
       return timeslot;
     } catch (error) {
       msgStore.setMessage(`Konnte Zeitslot mit id ${id} nicht laden: ${error}`);
+      throw error;
     }
   };
 

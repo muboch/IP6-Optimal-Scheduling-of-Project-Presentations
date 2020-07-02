@@ -121,18 +121,20 @@ public class Solver extends AbstractSolver {
             List<Room> rooms = rs.stream().map(r -> (Room) r).collect(Collectors.toList());
 
             // offtimes[lecturers][timeslots]. Map offtimes to timeslots
-            for (int i = 0; i < offTimes.length; i++) {
-                for (int j = 0; j < offTimes[i].length; j++) {
-                    if (offTimes[i][j]) {
-                        int finalI = i;
-                        int finalJ = j;
-                        Timeslot timeslot = timeslots.stream().filter(t -> t.getId() == finalJ).findFirst().get();
-                        lecturers.stream().filter(l -> l.getId() == finalI).findFirst().get().getOfftimes().add(timeslot);
+
+                for (int i = 0; i < lecturers.size(); i++) {
+                    for (int j = 0; j < timeslots.size(); j++) {
+                        if (offTimes[i][j]) {
+                            int finalI = i;
+                            int finalJ = j;
+                            Timeslot timeslot = timeslots.stream().filter(t -> t.getId() == finalJ).findFirst().get();
+                            lecturers.stream().filter(l -> l.getId() == finalI).findFirst().get().getOfftimes().add(timeslot);
+                        }
                     }
                 }
-            }
+                lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
 
-            lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
+
 
             OptaSolution problem = new OptaSolution(timeslots, rooms, presentations, lecturers);
             log.info("Setup Constraints duration: " + watch.getTime() + "ms");
@@ -157,6 +159,7 @@ public class Solver extends AbstractSolver {
                 planning.setStatus(StatusEnum.SOLUTION);
             else {
                 planning.setStatus(StatusEnum.NO_SOLUTION);
+                solverContext.setPlanning(planning);
                 return planning;
             }
 
@@ -171,6 +174,7 @@ public class Solver extends AbstractSolver {
             log.info("New Planning Nr. " + planning.getNr() + " - Cost: " + planning.getCost() + "\n" + planning.getPlanningStats() + "\n" + planning.getPlanningAsTable());
             watch.stop();
             log.info("Duration of Optasolver: " + watch.getTime() + "ms");
+            solverContext.setPlanning(planning);
             return planning;
         } catch (InterruptedException | ExecutionException e) {
             log.error(ExceptionUtils.getStackTrace(e));
@@ -179,6 +183,7 @@ public class Solver extends AbstractSolver {
         }
         Planning p = new Planning();
         p.setStatus(StatusEnum.NO_SOLUTION);
+        solverContext.setPlanning(p);
         return p;
     }
 

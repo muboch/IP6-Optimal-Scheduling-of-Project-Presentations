@@ -35,20 +35,20 @@ const roomState = () => {
     try {
       await _addRoom(room);
       msgStore.setMessage(`Zimmer hinzugefügt / angepasst`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim hinzufügen / anpassen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const deleteById = async (id: number) => {
     try {
       await _deleteRoomById(id);
       msgStore.setMessage(`Zimmer mit id ${id} gelöscht`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim löschen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const loadById = async (id: number) => {
@@ -57,6 +57,7 @@ const roomState = () => {
       return room;
     } catch (error) {
       msgStore.setMessage(`Konnte Zimmer mit id ${id} nicht laden: ${error}`);
+      throw error;
     }
   };
 

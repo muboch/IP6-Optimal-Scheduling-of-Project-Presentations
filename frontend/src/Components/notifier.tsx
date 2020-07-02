@@ -19,7 +19,7 @@ const Notifier: React.SFC<NotifierProps> = () => {
   return (
     <Snackbar
       open={snackbarOpen}
-      autoHideDuration={4000}
+      autoHideDuration={7500}
       onClose={() => {
         setSnackbarOpen(false);
         msgStore.setMessage("");
