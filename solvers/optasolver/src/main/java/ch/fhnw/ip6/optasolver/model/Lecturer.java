@@ -3,8 +3,8 @@ package ch.fhnw.ip6.optasolver.model;
 import ch.fhnw.ip6.common.dto.LecturerDto;
 import ch.fhnw.ip6.optasolver.constraints.varlistener.FreeTimeslotsUpdatingVarListener;
 import ch.fhnw.ip6.optasolver.constraints.varlistener.RoomSwitchesUpdatingVarListener;
-import lombok.extern.slf4j.Slf4j;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
@@ -26,6 +26,11 @@ public class Lecturer extends LecturerDto {
 
     private int freeTimeslots;
     private int roomSwitches;
+
+    @PlanningId
+    public Long getPlanningId(){
+        return (long) super.getId();
+    }
 
     public List<Presentation> getPresentations() {
         return presentations;
@@ -76,7 +81,7 @@ public class Lecturer extends LecturerDto {
 
 
     public void setRoomSwitches(int roomSwitches) {
-        if(roomSwitches <0){
+        if (roomSwitches < 0) {
             System.out.println(roomSwitches);
         }
         this.roomSwitches = roomSwitches;

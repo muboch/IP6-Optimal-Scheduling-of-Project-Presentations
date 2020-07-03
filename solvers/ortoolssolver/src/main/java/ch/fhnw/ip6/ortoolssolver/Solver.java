@@ -124,7 +124,7 @@ public class Solver extends AbstractSolver {
 
             log.info("End of OR-Tools Optimization after " + watch.getTime() + "ms");
 
-            solverContext.setSolving(false);
+            solverContext.setIsSolving(false);
             Planning p = solverContext.getPlanning();
 
             log.info("OR Solver Status: {}", res);
@@ -198,7 +198,7 @@ public class Solver extends AbstractSolver {
                                                                      IntVar[] firstTimeslots, IntVar[] diffs, IntVar[] lastTimeslots) {
         for (L l : lecturers) {
             for (T t : timeslots) {
-                lecturerTimeslot[idx(l)][idx(t)] = getModel().newBoolVar("lecturerTimeslot_" + idx(l) + "_" + t.getId());
+                lecturerTimeslot[idx(l)][idx(t)] = getModel().newBoolVar("lecturerTimeslot_" + idx(l) + "_" + t.getSortOrder());
 
                 timeslotCost[idx(t)] = t.getPriority();
                 ArrayList<IntVar> temp = new ArrayList<>();
@@ -224,8 +224,8 @@ public class Solver extends AbstractSolver {
             diffs[idx(l)] = getModel().newIntVar(0, timeslots.size(), "diff_" + l.getId());
 
             for (T t : timeslots) {
-                getModel().addGreaterOrEqual(lastTimeslots[idx(l)], t.getId()).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)]);
-                getModel().addLessOrEqual(firstTimeslots[idx(l)], t.getId()).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)]);
+                getModel().addGreaterOrEqual(lastTimeslots[idx(l)], t.getSortOrder()).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)]);
+                getModel().addLessOrEqual(firstTimeslots[idx(l)], t.getSortOrder()).onlyEnforceIf(lecturerTimeslot[idx(l)][idx(t)]);
             }
             LinearExpr diffExpr = LinearExpr.scalProd(new IntVar[]{lastTimeslots[idx(l)], firstTimeslots[idx(l)]}, new int[]{1, -1}); // Last timeslot - first timeslot
             getModel().addEquality(diffExpr, diffs[idx(l)]);

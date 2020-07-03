@@ -2,7 +2,7 @@
 <solver>
 
     <!--<environmentMode>FULL_ASSERT</environmentMode>--><!-- To slowly prove there are no bugs in this code -->
-    <moveThreadCount>AUTO</moveThreadCount>
+    <!--<moveThreadCount>AUTO</moveThreadCount>-->
 
     <solutionClass>ch.fhnw.ip6.optasolver.OptaSolution</solutionClass>
     <entityClass>ch.fhnw.ip6.optasolver.model.Presentation</entityClass>
@@ -21,5 +21,7 @@
         <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseConstraints.drl</scoreDrl>-->
         <!--</assertionScoreDirectorFactory>-->
     </scoreDirectorFactory>
-
+    <termination>
+        <secondsSpentLimit>3600</secondsSpentLimit>
+    </termination>
 </solver>

@@ -34,20 +34,20 @@ const studentState = () => {
     try {
       await _addStudent(student);
       msgStore.setMessage(`Schüler hinzugefügt / angepasst`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim hinzufügen / anpassen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const deleteById = async (id: number) => {
     try {
       await _deleteStudentById(id);
       msgStore.setMessage(`Schüler mit id ${id} gelöscht`);
+      await invalidate();
     } catch (error) {
       msgStore.setMessage(`Fehler beim löschen: ${error}`);
-    } finally {
-      await invalidate();
+      throw error;
     }
   };
   const loadById = async (id: number) => {
@@ -56,6 +56,7 @@ const studentState = () => {
       return student;
     } catch (error) {
       msgStore.setMessage(`Konnte Schüler mit id ${id} nicht laden: ${error}`);
+      throw error;
     }
   };
 

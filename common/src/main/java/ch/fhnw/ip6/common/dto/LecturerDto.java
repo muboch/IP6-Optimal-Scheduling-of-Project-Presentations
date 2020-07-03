@@ -27,10 +27,6 @@ public class LecturerDto implements L {
         return lastname + " " + firstname;
     }
 
-    @Override
-    public String toString() {
-        return String.format("L[id=%03d,ini=%s]", id, initials);
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -42,7 +42,7 @@ public class Solver extends AbstractSolver {
     public Planning solve(List<P> ps, List<L> ls, List<R> rs, List<T> ts, boolean[][] offTimes) {
 
         // set this flag so other processes know that the solver is running
-        solverContext.setSolving(true);
+        solverContext.setIsSolving(true);
         StopWatch watch = new StopWatch();
         watch.start();
         try {
@@ -83,9 +83,12 @@ public class Solver extends AbstractSolver {
             grbModel.setCallback(new ILPSolverCallback(model, solverContext));
             grbModel.setObjective(objective);
 
+            grbModel.set(GRB.StringParam.LogFile, "gurobi.log");
+            grbModel.set(GRB.StringParam.LogFile, "gurobi.mst");
+            grbModel.set(GRB.StringParam.LogFile, "gurobi.mps");
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
-
+            grbModel.set(GRB.IntParam.Method, 2);
             grbModel.update();
 
             watch.split();
@@ -108,14 +111,13 @@ public class Solver extends AbstractSolver {
             // Dispose of model and environment
             grbModel.dispose();
             env.dispose();
-            System.out.println(planning.getPlanningStats());
             return planning;
 
         } catch (GRBException e) {
             e.printStackTrace();
         } finally {
             // set this flag so other processes know that the solver is finished
-            solverContext.setSolving(false);
+            solverContext.setIsSolving(false);
             watch.stop();
             log.info("Duration of \"Gurobi\" Solver: " + watch.getTime() + "ms");
         }

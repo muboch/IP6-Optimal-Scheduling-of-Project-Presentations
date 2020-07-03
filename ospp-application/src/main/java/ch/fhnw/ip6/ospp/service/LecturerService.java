@@ -32,7 +32,7 @@ public class LecturerService {
                 lecturerRepository.deleteById(id);
             } else {
                 String joinedPresentations = presentations.stream().map(p -> String.valueOf(p.getId())).collect(Collectors.joining(","));
-                throw new FachlicheException(String.format("Lehrperson ist noch Präsention (%s) zugewiesen.", joinedPresentations));
+                throw new FachlicheException(String.format("Lehrperson ist noch Präsentation (%s) zugewiesen.", joinedPresentations));
             }
         }
     }

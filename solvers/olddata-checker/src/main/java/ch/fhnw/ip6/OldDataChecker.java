@@ -79,8 +79,8 @@ public class OldDataChecker {
                 TimeslotDto timeslot = new TimeslotDto();
                 timeslot.setDate(date);
                 timeslot.setId(timeId.get());
+                timeslot.setSortOrder(timeId.get());
                 timeslot.setPriority(timeslotCostMap.get(timeId.getAndIncrement()));
-
                 return timeslot;
             }).collect(Collectors.toMap(TimeslotDto::getDate, t -> t));
 

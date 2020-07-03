@@ -2,6 +2,7 @@ package ch.fhnw.ip6.optasolver.model;
 
 import ch.fhnw.ip6.common.dto.PresentationDto;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 @PlanningEntity
@@ -12,6 +13,11 @@ public class Presentation extends PresentationDto {
 
     @PlanningVariable(valueRangeProviderRefs = "roomRange")
     private Room room;
+
+    @PlanningId
+    public Long getPlanningId(){
+        return (long) super.getId();
+    }
 
     public Timeslot getTimeslot() {
         return timeslot;

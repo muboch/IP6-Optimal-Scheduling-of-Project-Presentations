@@ -89,6 +89,8 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({ id }) => {
     setPresentation({ ...presentation!, [key]: value });
   };
   const onExitForm = () => {
+    console.log("exitForm");
+
     setLocation(SCREENROUTES.presentations);
   };
 
@@ -97,7 +99,9 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({ id }) => {
     try {
       await presStore.addPresentation(presentation!);
       onExitForm();
-    } catch (error) {}
+    } catch (error) {
+      console.log("error");
+    }
   };
 
   const studentHasError = (student?: Student) => {
@@ -226,6 +230,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({ id }) => {
                 value={presentation.expert || null}
                 renderInput={(params) => (
                   <TextField
+                    required
                     {...params}
                     error={
                       presentation.expert &&
@@ -251,6 +256,7 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({ id }) => {
                 value={presentation.studentOne || null}
                 renderInput={(params) => (
                   <TextField
+                    required
                     {...params}
                     error={studentHasError(presentation.studentOne!)}
                     label="Schüler 1"

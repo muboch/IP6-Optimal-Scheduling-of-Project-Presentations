@@ -3,6 +3,7 @@ package ch.fhnw.ip6.ilpsolver.constraint.soft;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
+import ch.fhnw.ip6.common.util.CostUtil;
 import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import gurobi.GRB;
 import gurobi.GRBException;
@@ -40,6 +41,10 @@ public class MinRoomUsages extends SoftConstraint {
                 getObjectives().addTerm(USED_ROOM_COST, roomUsed);
 
             }
+
+            // subtract cost for each lecturer with min. one presentation. this is because the first usage of a room (entrance) is counted. this is actually false as this is no room switch
+            getObjectives().addConstant(-(int) getIlpModel().getPresentationsPerLecturer().entrySet().stream().filter(e -> e.getValue().size() > 0).count() * CostUtil.ROOM_SWITCH_COST);
+
         } catch (GRBException e) {
             e.printStackTrace();
         }

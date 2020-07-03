@@ -49,7 +49,7 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
     }
 
     private void updateRoomSwitches(ScoreDirector<Lecturer> scoreDirector, Presentation presentation) {
-        Set<Lecturer> coachAndExpert = new HashSet<>();
+        List<Lecturer> coachAndExpert = new ArrayList<>();
         coachAndExpert.add((Lecturer) presentation.getCoach());
         coachAndExpert.add((Lecturer) presentation.getExpert());
 
@@ -63,7 +63,7 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
             if (l.getPresentations().stream().map(Presentation::getRoom).anyMatch(Objects::isNull)) {
                 return;
             }
-            List<Presentation> presentations = l.getPresentations().stream().filter(p -> p.getTimeslot() != null).sorted(Comparator.comparing(p -> p.getTimeslot().getId())).collect(Collectors.toList());
+            List<Presentation> presentations = l.getPresentations().stream().filter(p -> p.getTimeslot() != null).sorted(Comparator.comparing(p -> p.getTimeslot().getSortOrder())).collect(Collectors.toList());
 
             Timeslot prevTimeslot = null;
             Room prevRoom = null;
@@ -77,7 +77,7 @@ public class RoomSwitchesUpdatingVarListener implements VariableListener<Present
                     prevRoom = p.getRoom();
                 }
 
-                if (p.getTimeslot().getId() - prevTimeslot.getId() > 1 && prevRoom.getId() == p.getRoom().getId()) {
+                if (p.getTimeslot().getSortOrder() - prevTimeslot.getSortOrder() > 1 && prevRoom.getId() == p.getRoom().getId()) {
                     roomSwitches++;
                 }
                 if (prevRoom.getId() != p.getRoom().getId()) {

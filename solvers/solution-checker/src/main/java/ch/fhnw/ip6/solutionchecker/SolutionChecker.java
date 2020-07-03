@@ -10,8 +10,12 @@ import de.vandermeer.asciitable.AsciiTable;
 import de.vandermeer.asciitable.CWC_LongestLine;
 import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static ch.fhnw.ip6.common.util.CostUtil.*;
@@ -41,7 +45,7 @@ public class SolutionChecker {
         int roomSwitches = getRoomSwitches(solutions, lecturers, timeslots, presentations);
         int usedRooms = getUsedRooms(solutions, rooms);
         int usedTimeslots = getUsedTimeslots(solutions, timeslots);
-        int freeLessons = getFreeLessonsPerLecturer(solutions, lecturers, timeslots, presentations);
+        int freeLessons = getFreeLessonsPerLecturer(solutions, lecturers);
 
         int roomDoubleBookedCost = getTotalDoubleBookedCosts();
         int roomSwitchCost = getTotalRoomSwitchesCosts();
@@ -179,6 +183,8 @@ public class SolutionChecker {
      * Counts the number of room switches per lecturer.
      *
      */
+
+    /*
     int getRoomSwitches(Set<Solution> solutions, List<? extends L> lecturers, List<? extends T> timeslots, List<? extends P> presentations) {
         errorsRoomSwitches = new HashSet<>();
 
@@ -259,17 +265,63 @@ public class SolutionChecker {
         setTotalRoomSwitchesCosts(totalSwitches * ROOM_SWITCH_COST);
         return totalSwitches;
     }
+*/
+    int getRoomSwitches(Set<Solution> solutions, List<? extends L> lecturers, List<? extends T> timeslots, List<? extends P> presentations) {
 
-    public int getFreeLessonsPerLecturer(Set<Solution> solutions, List<? extends L> lecturers, List<? extends T> timeslots, List<? extends P> presentations) {
+        errorsRoomSwitches = new HashSet<>();
+
+        int roomSwitches = 0;
+
+        for (L l : lecturers) {
+            // Get all solutions for lecturer, sorted by timeslot
+            List<Solution> solForLect = solutions.stream().filter(s -> s.getCoach().getId() == l.getId() || s.getExpert().getId() == l.getId()).sorted(Comparator.comparingInt(s -> s.getTimeSlot().getSortOrder())).collect(Collectors.toList());
+            int roomSwitchesForLect = 0;
+            if (solForLect.isEmpty()) {
+                continue;
+            }
+
+            Solution firstSol = solForLect.stream().min(Comparator.comparingInt(s -> s.getTimeSlot().getSortOrder())).get();
+
+            T tPrev = firstSol.getTimeSlot();
+            R rPrev = firstSol.getRoom();
+
+            StringBuilder sb = new StringBuilder(rPrev.getName());
+
+            for (Solution s : solForLect) {
+                if (s.getRoom() != rPrev || s.getTimeSlot().getSortOrder() - tPrev.getSortOrder() > 1) {
+                    roomSwitchesForLect++;
+                }
+
+                if (s.getRoom() != rPrev) {
+                    sb.append("->").append(s.getRoom().getName());
+                } else if (s.getTimeSlot().getSortOrder() - tPrev.getSortOrder() > 1 && s.getRoom() == rPrev) {
+                    sb.append("->").append("[ ]").append("->").append(s.getRoom().getName());
+                }
+
+                tPrev = s.getTimeSlot();
+                rPrev = s.getRoom();
+            }
+            roomSwitches += roomSwitchesForLect;
+            if (roomSwitchesForLect > 0)
+                errorsRoomSwitches.add(l.getInitials() + " [" + roomSwitchesForLect + "|" + solForLect.size() + "] " + sb.toString());
+        }
+
+
+        setTotalRoomSwitchesCosts(roomSwitches * ROOM_SWITCH_COST);
+        return roomSwitches;
+    }
+
+    public int getFreeLessonsPerLecturer(Set<Solution> solutions, List<? extends L> lecturers) {
+        errorsLessonsPerLecturer = new HashSet<>();
         int totalFreeLessons = 0;
         for (L l : lecturers) {
             List<Solution> plannedPres = solutions.stream().filter(sol -> sol.getExpert().equals(l) || sol.getCoach().equals(l)).collect(Collectors.toList());
             int freeLessons = 0;
-            if(plannedPres.size() != 0) {
-                plannedPres.sort(Comparator.comparingInt(a -> a.getTimeSlot().getId()));
+            if (plannedPres.size() != 0) {
+                plannedPres.sort(Comparator.comparingInt(a -> a.getTimeSlot().getSortOrder()));
                 Solution first = plannedPres.get(0);
                 Solution last = plannedPres.get(plannedPres.size() - 1);
-                freeLessons = ((last.getTimeSlot().getId() + 1) - first.getTimeSlot().getId()) - plannedPres.size(); // LastTimeslot - FirstTimeslot (Inclusive both) - amount of timeslots;
+                freeLessons = ((last.getTimeSlot().getSortOrder() + 1) - first.getTimeSlot().getSortOrder()) - plannedPres.size(); // LastTimeslot - FirstTimeslot (Inclusive both) - amount of timeslots;
                 errorsLessonsPerLecturer.add(l.getInitials() + " [" + freeLessons + "|" + plannedPres.size() + "]" + "<br>");
 
             }

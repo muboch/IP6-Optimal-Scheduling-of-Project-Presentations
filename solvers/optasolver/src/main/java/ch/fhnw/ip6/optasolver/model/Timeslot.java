@@ -2,6 +2,7 @@ package ch.fhnw.ip6.optasolver.model;
 
 import ch.fhnw.ip6.common.dto.TimeslotDto;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.InverseRelationShadowVariable;
 
 import java.util.ArrayList;
@@ -12,6 +13,10 @@ public class Timeslot extends TimeslotDto {
 
     private List<Presentation> presentations;
 
+    @PlanningId
+    public Long getPlanningId(){
+        return (long) super.getId();
+    }
 
     @InverseRelationShadowVariable(sourceVariableName = "timeslot")
     public List<Presentation> getPresentationList() {
