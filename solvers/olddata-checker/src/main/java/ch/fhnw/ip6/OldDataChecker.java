@@ -126,7 +126,6 @@ public class OldDataChecker {
                 Solution solution = new Solution();
                 PresentationDto presentation = new PresentationDto();
                 presentation.setId(presId.incrementAndGet());
-                presentation.setNr(String.valueOf(presId.get()));
                 presentation.setName(dataFormatter.formatCellValue(row.getCell(1)));
                 presentation.setSchoolclass(dataFormatter.formatCellValue(row.getCell(2)));
 
