@@ -44,9 +44,6 @@ public class Presentation {
     @Version
     private int version;
 
-    @NotNull(message = "Nr ist zwingend.")
-    private String nr;
-
     @ManyToOne
     private Room room;
 

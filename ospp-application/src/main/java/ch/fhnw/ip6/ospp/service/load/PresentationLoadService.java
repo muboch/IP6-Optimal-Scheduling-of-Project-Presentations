@@ -70,7 +70,6 @@ public class PresentationLoadService extends AbstractLoadService {
                         .build();
 
                 Presentation presentation = Presentation.builder()
-                        .nr(row.getCell(headerMap.get("nr")).getStringCellValue())
                         .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
                         .title(row.getCell(headerMap.get("title")).getStringCellValue())
                         .type(row.getCell(headerMap.get("type")).getStringCellValue())

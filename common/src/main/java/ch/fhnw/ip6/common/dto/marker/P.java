@@ -5,8 +5,6 @@ public interface P {
 
     int getId();
 
-    String getNr();
-
     String getName();
 
     String getSchoolclass();

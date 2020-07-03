@@ -39,7 +39,7 @@ public class ConsistencyService {
                 missingObjects.add("Experte");
             }
             if (!missingObjects.isEmpty())
-                errors.add(new ConsistencyError(ERROR, String.format("Bei Präsentation %s fehlt %s", p.getNr(), StringUtils.joinWith(",", missingObjects))));
+                errors.add(new ConsistencyError(ERROR, String.format("Bei Präsentation mit ID %s fehlt %s", p.getId(), StringUtils.joinWith(",", missingObjects))));
         }
         return errors;
     }

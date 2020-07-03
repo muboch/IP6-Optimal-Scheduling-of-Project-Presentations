@@ -11,8 +11,6 @@ public class PresentationVO {
 
     private Long room;
 
-    private String nr;
-
     private String type;
 
     private String title;
