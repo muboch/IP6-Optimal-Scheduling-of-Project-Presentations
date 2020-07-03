@@ -339,7 +339,7 @@ public class SolutionCheckerTest {
         List<P> presentations = new ArrayList<>();
         while (amount > 0) {
             presentations.add(PresentationDto.builder()
-                    .id(amount).title("title" + amount).name("student" + amount).nr("pres" + amount)
+                    .id(amount).title("title" + amount).name("student" + amount)
                     .coachInitials(lecs.get(amount % lecs.size()).getInitials())
                     .expertInitials(lecs.get(amount % lecs.size()).getInitials())
                     .build());

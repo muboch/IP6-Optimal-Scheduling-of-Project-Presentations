@@ -1,7 +1,6 @@
 export type Presentation = {
   id?: number; // id used in Database, 1 based
   type: "normal" | "art" | "dance" | "music";
-  nr: string;
   title: string;
   coach?: Lecturer;
   expert?: Lecturer;

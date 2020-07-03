@@ -383,7 +383,7 @@ public class SolutionChecker {
 
         for (int i = 0; i < presentationsScheduledTime.length; i++) {
             if (presentationsScheduledTime[i] != 1) {
-                errorsEachPresentationOnce.add("Presentation " + presentations.get(i).getNr() + " is scheduled " + presentationsScheduledTime[i] + " times.");
+                errorsEachPresentationOnce.add("Presentation with id" + presentations.get(i).getId() + " is scheduled " + presentationsScheduledTime[i] + " times.");
             }
         }
         return errorsEachPresentationOnce.isEmpty();

@@ -51,7 +51,7 @@ public class Planning {
                         .filter(s -> s.getRoom().equals(r) && s.getTimeSlot().equals(t))
                         .findFirst();
                 if (o.isPresent()) {
-                    roomCells.add("P: " + o.get().getPresentation().getNr() + "<br>"
+                    roomCells.add("P: " + o.get().getPresentation().getId() + "<br>"
                             + "C: " + o.get().getCoach().getInitials() + "<br>"
                             + "E: " + o.get().getExpert().getInitials());
                 } else {

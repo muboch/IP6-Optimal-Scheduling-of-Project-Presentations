@@ -56,7 +56,6 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({ id }) => {
   const [students, setStudents] = useState<Array<Student>>([]);
   const [presentation, setPresentation] = useState<Presentation>({
     id: undefined,
-    nr: "",
     title: "",
     type: "normal",
   });
@@ -156,17 +155,6 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({ id }) => {
               ></TextField>
               <TextField
                 required
-                label="Nr"
-                onChange={(e: any) => {
-                  updatePresentationValue("nr", e.currentTarget.value);
-                }}
-                value={presentation.nr}
-                className={styles.textField50}
-              ></TextField>
-            </div>
-            <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
-              <TextField
-                required
                 label="Titel"
                 value={presentation.title || ""}
                 onChange={(e: any) => {
@@ -174,7 +162,8 @@ const PresentationEditForm: React.SFC<PresentationEditFormProps> = ({ id }) => {
                 }}
                 className={styles.textField80}
               ></TextField>
-
+            </div>
+            <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
               <FormControl className={styles.textField20}>
                 <InputLabel shrink htmlFor="age-native-label-placeholder">
                   Type

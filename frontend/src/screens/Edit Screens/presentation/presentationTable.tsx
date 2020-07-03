@@ -26,7 +26,6 @@ const PresentationTable: React.SFC<PresentationTableProps> = () => {
     studentOne: string;
     studentTwo: string;
     type: string;
-    nr: string;
   };
 
   useEffect(() => {
@@ -41,7 +40,6 @@ const PresentationTable: React.SFC<PresentationTableProps> = () => {
             coach: `${p.coach!.lastname}, ${p.coach!.firstname}`,
             expert: `${p.expert!.lastname}, ${p.expert!.firstname}`,
             type: p.type as string,
-            nr: p.nr,
           };
         }
       );
@@ -54,10 +52,6 @@ const PresentationTable: React.SFC<PresentationTableProps> = () => {
     {
       title: "id",
       field: "id",
-    },
-    {
-      title: "nummer",
-      field: "nr",
     },
     {
       title: "Titel",

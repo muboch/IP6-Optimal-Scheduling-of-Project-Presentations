@@ -186,16 +186,15 @@ public class PlanningService {
             planning.getSolutions().stream().sorted(Comparator.comparing(o -> o.getTimeSlot().getDate())).forEach(solution -> {
                         Row row = sheet.createRow(rowNum.getAndIncrement());
 
-                        row.createCell(0).setCellValue(solution.getPresentation().getNr());
-                        row.createCell(1).setCellValue(solution.getPresentation().getTitle());
-                        row.createCell(2).setCellValue(solution.getPresentation().getName());
-                        row.createCell(3).setCellValue(solution.getPresentation().getSchoolclass());
-                        row.createCell(4).setCellValue(solution.getPresentation().getName2());
-                        row.createCell(5).setCellValue(solution.getPresentation().getSchoolclass2());
-                        row.createCell(6).setCellValue(solution.getCoach().getName());
-                        row.createCell(7).setCellValue(solution.getExpert().getName());
-                        row.createCell(8).setCellValue(solution.getTimeSlot().getDate());
-                        row.createCell(9).setCellValue(solution.getRoom().getName());
+                        row.createCell(0).setCellValue(solution.getPresentation().getTitle());
+                        row.createCell(1).setCellValue(solution.getPresentation().getName());
+                        row.createCell(2).setCellValue(solution.getPresentation().getSchoolclass());
+                        row.createCell(3).setCellValue(solution.getPresentation().getName2());
+                        row.createCell(4).setCellValue(solution.getPresentation().getSchoolclass2());
+                        row.createCell(5).setCellValue(solution.getCoach().getName());
+                        row.createCell(6).setCellValue(solution.getExpert().getName());
+                        row.createCell(7).setCellValue(solution.getTimeSlot().getDate());
+                        row.createCell(8).setCellValue(solution.getRoom().getName());
                     }
 
             );
