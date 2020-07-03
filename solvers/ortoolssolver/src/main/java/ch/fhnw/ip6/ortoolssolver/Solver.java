@@ -127,6 +127,8 @@ public class Solver extends AbstractSolver {
             solverContext.setSolving(false);
             Planning p = solverContext.getPlanning();
 
+            log.info("OR Solver Status: {}", res);
+
             if (res == CpSolverStatus.OPTIMAL || res == CpSolverStatus.FEASIBLE)
                 p.setStatus(StatusEnum.SOLUTION);
             else {
