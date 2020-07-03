@@ -114,7 +114,7 @@ public class PresentationService {
     }
 
     public void deleteAll() {
-        presentationRepository.deleteAll();
+        presentationRepository.deleteAllInBatch();
     }
 
     public List<Presentation> findByLecturer(Lecturer lecturer) {

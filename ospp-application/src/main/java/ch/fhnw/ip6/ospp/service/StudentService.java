@@ -29,7 +29,7 @@ public class StudentService {
     }
 
     public void deleteAll() {
-        studentRepository.deleteAll();
+        studentRepository.deleteAllInBatch();
     }
 
     public List<Student> getAll() {

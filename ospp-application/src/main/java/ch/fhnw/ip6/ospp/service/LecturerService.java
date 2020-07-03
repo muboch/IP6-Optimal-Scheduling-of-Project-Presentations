@@ -38,7 +38,7 @@ public class LecturerService {
     }
 
     public void deleteAll() {
-        lecturerRepository.deleteAll();
+        lecturerRepository.deleteAllInBatch();
     }
 
     public List<Lecturer> getAll() {

@@ -29,7 +29,7 @@ public class TimeslotService {
     }
 
     public void deleteAll() {
-        timeslotRepository.deleteAll();
+        timeslotRepository.deleteAllInBatch();
     }
 
     public List<Timeslot> getAll() {

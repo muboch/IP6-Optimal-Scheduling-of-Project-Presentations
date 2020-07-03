@@ -29,7 +29,7 @@ public class RoomService {
     }
 
     public void deleteAll() {
-        roomRepository.deleteAll();
+        roomRepository.deleteAllInBatch();
     }
 
     public List<Room> getAll() {
