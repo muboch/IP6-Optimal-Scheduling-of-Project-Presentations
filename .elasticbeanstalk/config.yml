@@ -1,0 +1,20 @@
+branch-defaults:
+  master:
+    environment: ospp
+environment-defaults:
+  ospp:
+    branch: null
+    repository: null
+global:
+  application_name: ospp
+  default_ec2_keyname: aws-ce
+  default_platform: arn:aws:elasticbeanstalk:eu-central-1::platform/Docker running
+    on 64bit Amazon Linux/2.15.0
+  default_region: eu-central-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  sc: git
+  workspace_type: Application

@@ -29,8 +29,3 @@ Thumbs.db
 /solvers/ilpsolver/target/
 /solvers/solution-checker/target/
 /solvers/solverapi/target/
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
