@@ -8,7 +8,5 @@ public interface R {
 
      String getName();
 
-     String getPlace();
-
      String getType();
 }

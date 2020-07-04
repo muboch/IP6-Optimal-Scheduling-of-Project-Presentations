@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PresentationLoadService extends AbstractLoadService {
 
-    private final static String[] headerCols = new String[]{"id", "nr", "name", "schoolclass", "name2", "schoolclass2", "title", "coachInitials", "expertInitials", "type"};
+    private final static String[] headerCols = new String[]{"ID", "Name","Vorname", "Klasse","Vorname2","Name2", "Klasse2", "Titel", "Betreuer", "Experte", "Typ"};
 
     public Set<Presentation> loadPresentation(MultipartFile input, Set<Lecturer> lecturers) {
 
@@ -51,37 +51,37 @@ public class PresentationLoadService extends AbstractLoadService {
                     continue;
 
                 Map<String, Lecturer> lecturersMap = lecturers.stream().collect(Collectors.toMap(Lecturer::getInitials, l -> l));
-                String coachInitials = getLecturerInitials(headerMap, row, "coachInitials");
+                String coachInitials = getLecturerInitials(headerMap, row, "Betreuer");
                 Lecturer coach = lecturersMap.get(coachInitials);
                 if (coach == null) {
                     log.error("no lecturer found for {}", coachInitials);
                     throw new FachlicheException("'" + coachInitials + "' ist nicht in der Liste der Lehrpersonen.");
                 }
 
-                String expertInitials = getLecturerInitials(headerMap, row, "expertInitials");
+                String expertInitials = getLecturerInitials(headerMap, row, "Experte");
                 Lecturer expert = lecturersMap.get(expertInitials);
                 if (expert == null) {
                     log.error("no lecturer found for {}", expertInitials);
                     throw new FachlicheException("'" + expertInitials + "' ist nicht in der Liste der Lehrpersonen.");
                 }
                 Student studentOne = Student.studentBuilder()
-                        .name(row.getCell(headerMap.get("name")).getStringCellValue())
-                        .schoolclass(row.getCell(headerMap.get("schoolclass")).getStringCellValue())
+                        .name(row.getCell(headerMap.get("Vorname")).getStringCellValue() + " "+row.getCell(headerMap.get("Name")).getStringCellValue())
+                        .schoolclass(row.getCell(headerMap.get("Klasse")).getStringCellValue())
                         .build();
 
                 Presentation presentation = Presentation.builder()
-                        .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
-                        .title(row.getCell(headerMap.get("title")).getStringCellValue())
-                        .type(row.getCell(headerMap.get("type")).getStringCellValue())
+                        .externalId(Integer.parseInt(row.getCell(headerMap.get("ID")).getStringCellValue()))
+                        .title(row.getCell(headerMap.get("Titel")).getStringCellValue())
+                        .type(row.getCell(headerMap.get("Typ")).getStringCellValue())
                         .studentOne(studentOne)
                         .expert(expert)
                         .coach(coach)
                         .build();
 
-                if (row.getCell(headerMap.get("name2")) != null && StringUtils.isNotBlank(row.getCell(headerMap.get("name2")).getStringCellValue())) {
+                if (row.getCell(headerMap.get("Name2")) != null && row.getCell(headerMap.get("Vorname2")) != null && StringUtils.isNotBlank(row.getCell(headerMap.get("Name2")).getStringCellValue()) && StringUtils.isNotBlank(row.getCell(headerMap.get("Vorname2")).getStringCellValue())) {
                     Student studentTwo = Student.studentBuilder()
-                            .name(row.getCell(headerMap.get("name2")).getStringCellValue())
-                            .schoolclass(row.getCell(headerMap.get("schoolclass2")).getStringCellValue())
+                            .name(row.getCell(headerMap.get("Vorname2")).getStringCellValue() + " " + row.getCell(headerMap.get("Name2")).getStringCellValue())
+                            .schoolclass(row.getCell(headerMap.get("Klasse2")).getStringCellValue())
                             .build();
                     presentation.setStudentTwo(studentTwo);
                 } else {

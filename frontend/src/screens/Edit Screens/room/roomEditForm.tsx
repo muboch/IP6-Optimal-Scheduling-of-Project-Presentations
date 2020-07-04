@@ -55,7 +55,6 @@ const RoomEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
   const [room, setRoom] = useState<Room>({
     name: "",
     type: "normal",
-    place: "",
     reserve: false,
   });
   const [, setLocation] = useLocation();
@@ -134,15 +133,6 @@ const RoomEditForm: React.SFC<LecturerEditFormProps> = ({ id }) => {
               ></TextField>
             </div>
             <div className={`${gStyles.centerFlexDiv} ${styles.centerFlexDiv}`}>
-              <TextField
-                required
-                label="Ort"
-                value={room.place}
-                onChange={(e: any) => {
-                  updateValue("place", e.currentTarget.value);
-                }}
-                className={styles.textField50}
-              ></TextField>
               <InputLabel shrink htmlFor="reserve-label">
                 Reserve
               </InputLabel>

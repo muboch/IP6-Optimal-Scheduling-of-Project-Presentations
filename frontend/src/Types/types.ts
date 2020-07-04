@@ -19,7 +19,6 @@ export type Room = {
   name: string;
   id?: number; // id used in Database, 1 based
   type: "normal" | "art" | "dance" | "music";
-  place: string;
   reserve: boolean;
 };
 

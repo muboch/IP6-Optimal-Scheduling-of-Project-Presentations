@@ -21,7 +21,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class RoomLoadService extends AbstractLoadService {
 
-    private final static String[] headerCols = new String[]{"id", "name", "place", "type", "reserve"};
+    private final static String[] headerCols = new String[]{"ID", "Raumnummer", "Typ", "Reserve"};
 
     public Set<Room> loadRooms(MultipartFile input) {
         try {
@@ -45,11 +45,10 @@ public class RoomLoadService extends AbstractLoadService {
                     continue;
 
                 Room room = Room.builder()
-                        .name(row.getCell(headerMap.get("name")).getStringCellValue())
-                        .place(row.getCell(headerMap.get("place")).getStringCellValue())
-                        .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
-                        .type(row.getCell(headerMap.get("type")).getStringCellValue())
-                        .reserve(Boolean.parseBoolean(row.getCell(headerMap.get("reserve")).getStringCellValue()))
+                        .name(row.getCell(headerMap.get("Raumnummer")).getStringCellValue())
+                        .externalId(Integer.parseInt(row.getCell(headerMap.get("ID")).getStringCellValue()))
+                        .type(row.getCell(headerMap.get("Typ")).getStringCellValue())
+                        .reserve(Boolean.parseBoolean(row.getCell(headerMap.get("Reserve")).getStringCellValue()))
                         .build();
                 rooms.add(room);
             }

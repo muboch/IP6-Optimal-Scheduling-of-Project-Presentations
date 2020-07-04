@@ -13,8 +13,6 @@ public class RoomVO {
 
     private String name;
 
-    private String place;
-
     private String type;
 
     private boolean reserve;

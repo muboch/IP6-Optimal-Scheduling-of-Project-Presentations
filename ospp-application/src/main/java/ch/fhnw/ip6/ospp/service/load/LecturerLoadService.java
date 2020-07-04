@@ -21,7 +21,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class LecturerLoadService extends AbstractLoadService {
 
-    private final static String[] headerCols = new String[]{"id", "firstname", "lastname", "initials", "email"};
+    private final static String[] headerCols = new String[]{"ID", "Vorname", "Nachname", "Kürzel LP", "Email"};
 
     public Set<Lecturer> loadLecturer(MultipartFile input) {
         try {
@@ -44,11 +44,11 @@ public class LecturerLoadService extends AbstractLoadService {
                     continue;
 
                 Lecturer lecturer = Lecturer.lecturerBuilder()
-                        .initials(row.getCell(headerMap.get("initials")).getStringCellValue())
-                        .email(row.getCell(headerMap.get("email")).getStringCellValue())
-                        .lastname(row.getCell(headerMap.get("lastname")).getStringCellValue())
-                        .firstname(row.getCell(headerMap.get("firstname")).getStringCellValue())
-                        .externalId(Integer.parseInt(row.getCell(headerMap.get("id")).getStringCellValue()))
+                        .initials(row.getCell(headerMap.get("Kürzel LP")).getStringCellValue())
+                        .email(row.getCell(headerMap.get("Email")).getStringCellValue())
+                        .lastname(row.getCell(headerMap.get("Nachname")).getStringCellValue())
+                        .firstname(row.getCell(headerMap.get("Vorname")).getStringCellValue())
+                        .externalId(Integer.parseInt(row.getCell(headerMap.get("ID")).getStringCellValue()))
                         .build();
                 lecturers.add(lecturer);
 

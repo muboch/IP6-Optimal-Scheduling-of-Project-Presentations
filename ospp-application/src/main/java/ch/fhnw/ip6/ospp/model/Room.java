@@ -47,8 +47,6 @@ public class Room {
 
     private String type;
 
-    private String place;
-
     private boolean reserve;
 
     @OneToMany(mappedBy = "room")
