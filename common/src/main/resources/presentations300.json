@@ -1,7 +1,6 @@
 [
   {
     "id": 0,
-    "nr": "I17",
     "name": "schueler1",
     "schoolclass": "3I",
     "name2": "",
@@ -13,7 +12,6 @@
   },
   {
     "id": 1,
-    "nr": "D05",
     "name": "schueler2",
     "schoolclass": "3D",
     "name2": "",
@@ -25,7 +23,6 @@
   },
   {
     "id": 10,
-    "nr": "B17",
     "name": "schueler11",
     "schoolclass": "3B",
     "name2": "",
@@ -37,7 +34,6 @@
   },
   {
     "id": 100,
-    "nr": "C16",
     "name": "schueler101",
     "schoolclass": "3C",
     "name2": "",
@@ -49,7 +45,6 @@
   },
   {
     "id": 101,
-    "nr": "E18",
     "name": "schueler102",
     "schoolclass": "3E",
     "name2": "",
@@ -61,7 +56,6 @@
   },
   {
     "id": 102,
-    "nr": "B06",
     "name": "schueler103",
     "schoolclass": "3B",
     "name2": "",
@@ -73,7 +67,6 @@
   },
   {
     "id": 103,
-    "nr": "E08",
     "name": "schueler104",
     "schoolclass": "3E",
     "name2": "",
@@ -85,7 +78,6 @@
   },
   {
     "id": 104,
-    "nr": "G01",
     "name": "schueler105",
     "schoolclass": "3G",
     "name2": "",
@@ -97,7 +89,6 @@
   },
   {
     "id": 105,
-    "nr": "E06",
     "name": "schueler106",
     "schoolclass": "3E",
     "name2": "",
@@ -109,7 +100,6 @@
   },
   {
     "id": 106,
-    "nr": "I04",
     "name": "schueler107",
     "schoolclass": "3I",
     "name2": "",
@@ -121,7 +111,6 @@
   },
   {
     "id": 107,
-    "nr": "I12",
     "name": "schueler108",
     "schoolclass": "3I",
     "name2": "",
@@ -133,7 +122,6 @@
   },
   {
     "id": 108,
-    "nr": "I03",
     "name": "schueler109",
     "schoolclass": "3I",
     "name2": "",
@@ -145,7 +133,6 @@
   },
   {
     "id": 109,
-    "nr": "F15",
     "name": "schueler110",
     "schoolclass": "3F",
     "name2": "",
@@ -157,7 +144,6 @@
   },
   {
     "id": 11,
-    "nr": "I06",
     "name": "schueler12",
     "schoolclass": "3I",
     "name2": "",
@@ -169,7 +155,6 @@
   },
   {
     "id": 110,
-    "nr": "D16",
     "name": "schueler111",
     "schoolclass": "3D",
     "name2": "",
@@ -181,7 +166,6 @@
   },
   {
     "id": 111,
-    "nr": "A09",
     "name": "schueler112",
     "schoolclass": "3A",
     "name2": "",
@@ -193,7 +177,6 @@
   },
   {
     "id": 112,
-    "nr": "B03",
     "name": "schueler113",
     "schoolclass": "3B",
     "name2": "",
@@ -205,7 +188,6 @@
   },
   {
     "id": 113,
-    "nr": "A16",
     "name": "schueler114",
     "schoolclass": "3A",
     "name2": "",
@@ -217,7 +199,6 @@
   },
   {
     "id": 114,
-    "nr": "C09",
     "name": "schueler115",
     "schoolclass": "3C",
     "name2": "",
@@ -229,7 +210,6 @@
   },
   {
     "id": 115,
-    "nr": "A21",
     "name": "schueler116",
     "schoolclass": "3A",
     "name2": "",
@@ -241,7 +221,6 @@
   },
   {
     "id": 116,
-    "nr": "C03",
     "name": "schueler117",
     "schoolclass": "3C",
     "name2": "",
@@ -253,7 +232,6 @@
   },
   {
     "id": 117,
-    "nr": "D13",
     "name": "schueler118",
     "schoolclass": "3D",
     "name2": "",
@@ -265,7 +243,6 @@
   },
   {
     "id": 118,
-    "nr": "H10",
     "name": "schueler119",
     "schoolclass": "3H",
     "name2": "",
@@ -277,7 +254,6 @@
   },
   {
     "id": 119,
-    "nr": "B19",
     "name": "schueler120",
     "schoolclass": "3B",
     "name2": "",
@@ -289,7 +265,6 @@
   },
   {
     "id": 12,
-    "nr": "E16",
     "name": "schueler13",
     "schoolclass": "3E",
     "name2": "",
@@ -301,7 +276,6 @@
   },
   {
     "id": 120,
-    "nr": "H01",
     "name": "schueler121",
     "schoolclass": "3H",
     "name2": "",
@@ -313,7 +287,6 @@
   },
   {
     "id": 121,
-    "nr": "F13",
     "name": "schueler122",
     "schoolclass": "3F",
     "name2": "",
@@ -325,7 +298,6 @@
   },
   {
     "id": 122,
-    "nr": "H16",
     "name": "schueler123",
     "schoolclass": "3H",
     "name2": "",
@@ -337,7 +309,6 @@
   },
   {
     "id": 123,
-    "nr": "A18",
     "name": "schueler124",
     "schoolclass": "3A",
     "name2": "",
@@ -349,7 +320,6 @@
   },
   {
     "id": 124,
-    "nr": "A02",
     "name": "schueler125",
     "schoolclass": "3A",
     "name2": "",
@@ -361,7 +331,6 @@
   },
   {
     "id": 125,
-    "nr": "F16",
     "name": "schueler126",
     "schoolclass": "3F",
     "name2": "",
@@ -373,7 +342,6 @@
   },
   {
     "id": 126,
-    "nr": "C12",
     "name": "schueler127",
     "schoolclass": "3C",
     "name2": "",
@@ -385,7 +353,6 @@
   },
   {
     "id": 127,
-    "nr": "F18",
     "name": "schueler128",
     "schoolclass": "3F",
     "name2": "",
@@ -397,7 +364,6 @@
   },
   {
     "id": 128,
-    "nr": "I10",
     "name": "schueler129",
     "schoolclass": "3I",
     "name2": "",
@@ -409,7 +375,6 @@
   },
   {
     "id": 129,
-    "nr": "G03",
     "name": "schueler130",
     "schoolclass": "3G",
     "name2": "",
@@ -421,7 +386,6 @@
   },
   {
     "id": 13,
-    "nr": "B16",
     "name": "schueler14",
     "schoolclass": "3B",
     "name2": "",
@@ -433,7 +397,6 @@
   },
   {
     "id": 130,
-    "nr": "F14",
     "name": "schueler131",
     "schoolclass": "3F",
     "name2": "",
@@ -445,7 +408,6 @@
   },
   {
     "id": 131,
-    "nr": "D04",
     "name": "schueler132",
     "schoolclass": "3D",
     "name2": "",
@@ -457,7 +419,6 @@
   },
   {
     "id": 132,
-    "nr": "E22",
     "name": "schueler133",
     "schoolclass": "3E",
     "name2": "",
@@ -469,7 +430,6 @@
   },
   {
     "id": 133,
-    "nr": "E14",
     "name": "schueler134",
     "schoolclass": "3E",
     "name2": "",
@@ -481,7 +441,6 @@
   },
   {
     "id": 134,
-    "nr": "E12",
     "name": "schueler135",
     "schoolclass": "3E",
     "name2": "",
@@ -493,7 +452,6 @@
   },
   {
     "id": 135,
-    "nr": "R01",
     "name": "schueler136",
     "schoolclass": "Rep",
     "name2": "",
@@ -505,7 +463,6 @@
   },
   {
     "id": 136,
-    "nr": "G14",
     "name": "schueler137",
     "schoolclass": "3G",
     "name2": "",
@@ -517,7 +474,6 @@
   },
   {
     "id": 137,
-    "nr": "D02",
     "name": "schueler138",
     "schoolclass": "3D",
     "name2": "",
@@ -529,7 +485,6 @@
   },
   {
     "id": 138,
-    "nr": "C18",
     "name": "schueler139",
     "schoolclass": "3C",
     "name2": "",
@@ -541,7 +496,6 @@
   },
   {
     "id": 139,
-    "nr": "I16",
     "name": "schueler140",
     "schoolclass": "3I",
     "name2": "",
@@ -553,7 +507,6 @@
   },
   {
     "id": 14,
-    "nr": "B02",
     "name": "schueler15",
     "schoolclass": "3B",
     "name2": "",
@@ -565,7 +518,6 @@
   },
   {
     "id": 140,
-    "nr": "I09",
     "name": "schueler141",
     "schoolclass": "3I",
     "name2": "",
@@ -577,7 +529,6 @@
   },
   {
     "id": 141,
-    "nr": "C05",
     "name": "schueler142",
     "schoolclass": "3I",
     "name2": "",
@@ -589,7 +540,6 @@
   },
   {
     "id": 142,
-    "nr": "I21",
     "name": "schueler143",
     "schoolclass": "3C",
     "name2": "",
@@ -601,7 +551,6 @@
   },
   {
     "id": 143,
-    "nr": "G19",
     "name": "schueler144",
     "schoolclass": "3G",
     "name2": "",
@@ -613,7 +562,6 @@
   },
   {
     "id": 144,
-    "nr": "F12",
     "name": "schueler145",
     "schoolclass": "3F",
     "name2": "",
@@ -625,7 +573,6 @@
   },
   {
     "id": 145,
-    "nr": "E04",
     "name": "schueler146",
     "schoolclass": "3E",
     "name2": "",
@@ -637,7 +584,6 @@
   },
   {
     "id": 146,
-    "nr": "E07",
     "name": "schueler147",
     "schoolclass": "3E",
     "name2": "",
@@ -649,7 +595,6 @@
   },
   {
     "id": 147,
-    "nr": "E15",
     "name": "schueler148",
     "schoolclass": "3E",
     "name2": "",
@@ -661,7 +606,6 @@
   },
   {
     "id": 148,
-    "nr": "E05",
     "name": "schueler149",
     "schoolclass": "3E",
     "name2": "",
@@ -673,7 +617,6 @@
   },
   {
     "id": 149,
-    "nr": "G11",
     "name": "schueler150",
     "schoolclass": "3G",
     "name2": "",
@@ -685,7 +628,6 @@
   },
   {
     "id": 15,
-    "nr": "A03",
     "name": "schueler16",
     "schoolclass": "3A",
     "name2": "",
@@ -697,7 +639,6 @@
   },
   {
     "id": 150,
-    "nr": "D19",
     "name": "schueler151",
     "schoolclass": "3D",
     "name2": "",
@@ -709,7 +650,6 @@
   },
   {
     "id": 151,
-    "nr": "D07",
     "name": "schueler152",
     "schoolclass": "3D",
     "name2": "",
@@ -721,7 +661,6 @@
   },
   {
     "id": 152,
-    "nr": "D18",
     "name": "schueler153",
     "schoolclass": "3D",
     "name2": "",
@@ -733,7 +672,6 @@
   },
   {
     "id": 153,
-    "nr": "D20",
     "name": "schueler154",
     "schoolclass": "3D",
     "name2": "",
@@ -745,7 +683,6 @@
   },
   {
     "id": 154,
-    "nr": "G06",
     "name": "schueler155",
     "schoolclass": "3G",
     "name2": "",
@@ -757,7 +694,6 @@
   },
   {
     "id": 155,
-    "nr": "G15",
     "name": "schueler156",
     "schoolclass": "3G",
     "name2": "",
@@ -769,7 +705,6 @@
   },
   {
     "id": 156,
-    "nr": "A17",
     "name": "schueler157",
     "schoolclass": "3A",
     "name2": "",
@@ -781,7 +716,6 @@
   },
   {
     "id": 157,
-    "nr": "C04",
     "name": "schueler158",
     "schoolclass": "3C",
     "name2": "",
@@ -793,7 +727,6 @@
   },
   {
     "id": 158,
-    "nr": "H06",
     "name": "schueler159",
     "schoolclass": "3H",
     "name2": "",
@@ -805,7 +738,6 @@
   },
   {
     "id": 159,
-    "nr": "G08",
     "name": "schueler160",
     "schoolclass": "3G",
     "name2": "",
@@ -817,7 +749,6 @@
   },
   {
     "id": 16,
-    "nr": "E03",
     "name": "schueler17",
     "schoolclass": "3E",
     "name2": "",
@@ -829,7 +760,6 @@
   },
   {
     "id": 160,
-    "nr": "C14",
     "name": "schueler161",
     "schoolclass": "3C",
     "name2": "",
@@ -841,7 +771,6 @@
   },
   {
     "id": 161,
-    "nr": "G09",
     "name": "schueler162",
     "schoolclass": "3G",
     "name2": "",
@@ -853,7 +782,6 @@
   },
   {
     "id": 162,
-    "nr": "B09",
     "name": "schueler163",
     "schoolclass": "3B",
     "name2": "",
@@ -865,7 +793,6 @@
   },
   {
     "id": 163,
-    "nr": "E17",
     "name": "schueler164",
     "schoolclass": "3E",
     "name2": "",
@@ -877,7 +804,6 @@
   },
   {
     "id": 164,
-    "nr": "C22",
     "name": "schueler165",
     "schoolclass": "3C",
     "name2": "",
@@ -889,7 +815,6 @@
   },
   {
     "id": 165,
-    "nr": "C17",
     "name": "schueler166",
     "schoolclass": "3C",
     "name2": "",
@@ -901,7 +826,6 @@
   },
   {
     "id": 166,
-    "nr": "C20",
     "name": "schueler167",
     "schoolclass": "3C",
     "name2": "",
@@ -913,7 +837,6 @@
   },
   {
     "id": 167,
-    "nr": "I14",
     "name": "schueler168",
     "schoolclass": "3I",
     "name2": "",
@@ -925,7 +848,6 @@
   },
   {
     "id": 168,
-    "nr": "F08",
     "name": "schueler169",
     "schoolclass": "3F",
     "name2": "",
@@ -937,7 +859,6 @@
   },
   {
     "id": 169,
-    "nr": "E13",
     "name": "schueler170",
     "schoolclass": "3E",
     "name2": "",
@@ -949,7 +870,6 @@
   },
   {
     "id": 17,
-    "nr": "E19",
     "name": "schueler18",
     "schoolclass": "3E",
     "name2": "",
@@ -961,7 +881,6 @@
   },
   {
     "id": 170,
-    "nr": "D08",
     "name": "schueler171",
     "schoolclass": "3D",
     "name2": "",
@@ -973,7 +892,6 @@
   },
   {
     "id": 171,
-    "nr": "G16",
     "name": "schueler172",
     "schoolclass": "3G",
     "name2": "",
@@ -985,7 +903,6 @@
   },
   {
     "id": 172,
-    "nr": "H09",
     "name": "schueler173",
     "schoolclass": "3H",
     "name2": "",
@@ -997,7 +914,6 @@
   },
   {
     "id": 173,
-    "nr": "A14",
     "name": "schueler174",
     "schoolclass": "3A",
     "name2": "",
@@ -1009,7 +925,6 @@
   },
   {
     "id": 174,
-    "nr": "I19",
     "name": "schueler175",
     "schoolclass": "3I",
     "name2": "",
@@ -1021,7 +936,6 @@
   },
   {
     "id": 175,
-    "nr": "G18",
     "name": "schueler176",
     "schoolclass": "3G",
     "name2": "",
@@ -1033,7 +947,6 @@
   },
   {
     "id": 176,
-    "nr": "H07",
     "name": "schueler177",
     "schoolclass": "3H",
     "name2": "",
@@ -1045,7 +958,6 @@
   },
   {
     "id": 177,
-    "nr": "H14",
     "name": "schueler178",
     "schoolclass": "3H",
     "name2": "",
@@ -1057,7 +969,6 @@
   },
   {
     "id": 178,
-    "nr": "F11",
     "name": "schueler179",
     "schoolclass": "3F",
     "name2": "",
@@ -1069,7 +980,6 @@
   },
   {
     "id": 179,
-    "nr": "H13",
     "name": "schueler180",
     "schoolclass": "3H",
     "name2": "",
@@ -1081,7 +991,6 @@
   },
   {
     "id": 18,
-    "nr": "H12",
     "name": "schueler19",
     "schoolclass": "3H",
     "name2": "",
@@ -1093,7 +1002,6 @@
   },
   {
     "id": 180,
-    "nr": "D14",
     "name": "schueler181",
     "schoolclass": "3D",
     "name2": "",
@@ -1105,7 +1013,6 @@
   },
   {
     "id": 181,
-    "nr": "C07",
     "name": "schueler182",
     "schoolclass": "3C",
     "name2": "",
@@ -1117,7 +1024,6 @@
   },
   {
     "id": 182,
-    "nr": "A11",
     "name": "schueler183",
     "schoolclass": "3A",
     "name2": "",
@@ -1129,7 +1035,6 @@
   },
   {
     "id": 183,
-    "nr": "B13",
     "name": "schueler184",
     "schoolclass": "3B",
     "name2": "",
@@ -1141,7 +1046,6 @@
   },
   {
     "id": 184,
-    "nr": "F07",
     "name": "schueler185",
     "schoolclass": "3F",
     "name2": "",
@@ -1153,7 +1057,6 @@
   },
   {
     "id": 185,
-    "nr": "C11",
     "name": "schueler186",
     "schoolclass": "3C",
     "name2": "",
@@ -1165,7 +1068,6 @@
   },
   {
     "id": 186,
-    "nr": "G04",
     "name": "schueler187",
     "schoolclass": "3G",
     "name2": "",
@@ -1177,7 +1079,6 @@
   },
   {
     "id": 187,
-    "nr": "B21",
     "name": "schueler188",
     "schoolclass": "3B",
     "name2": "",
@@ -1189,7 +1090,6 @@
   },
   {
     "id": 188,
-    "nr": "G05",
     "name": "schueler189",
     "schoolclass": "3G",
     "name2": "",
@@ -1201,7 +1101,6 @@
   },
   {
     "id": 19,
-    "nr": "D17",
     "name": "schueler20",
     "schoolclass": "3D",
     "name2": "",
@@ -1213,7 +1112,6 @@
   },
   {
     "id": 2,
-    "nr": "I13",
     "name": "schueler3",
     "schoolclass": "3I",
     "name2": "",
@@ -1225,7 +1123,6 @@
   },
   {
     "id": 20,
-    "nr": "C19",
     "name": "schueler21",
     "schoolclass": "3C",
     "name2": "",
@@ -1237,7 +1134,6 @@
   },
   {
     "id": 21,
-    "nr": "C15",
     "name": "schueler22",
     "schoolclass": "3C",
     "name2": "",
@@ -1249,7 +1145,6 @@
   },
   {
     "id": 22,
-    "nr": "G10",
     "name": "schueler23",
     "schoolclass": "3G",
     "name2": "",
@@ -1261,7 +1156,6 @@
   },
   {
     "id": 23,
-    "nr": "E11",
     "name": "schueler24",
     "schoolclass": "3E",
     "name2": "",
@@ -1273,7 +1167,6 @@
   },
   {
     "id": 24,
-    "nr": "E02",
     "name": "schueler25",
     "schoolclass": "3E",
     "name2": "",
@@ -1285,7 +1178,6 @@
   },
   {
     "id": 25,
-    "nr": "C10",
     "name": "schueler26",
     "schoolclass": "3C",
     "name2": "",
@@ -1297,7 +1189,6 @@
   },
   {
     "id": 26,
-    "nr": "H04",
     "name": "schueler27",
     "schoolclass": "3H",
     "name2": "",
@@ -1309,7 +1200,6 @@
   },
   {
     "id": 27,
-    "nr": "F06",
     "name": "schueler28",
     "schoolclass": "3F",
     "name2": "",
@@ -1321,7 +1211,6 @@
   },
   {
     "id": 28,
-    "nr": "D10",
     "name": "schueler29",
     "schoolclass": "3D",
     "name2": "",
@@ -1333,7 +1222,6 @@
   },
   {
     "id": 29,
-    "nr": "I07",
     "name": "schueler30",
     "schoolclass": "3I",
     "name2": "",
@@ -1345,7 +1233,6 @@
   },
   {
     "id": 3,
-    "nr": "I01",
     "name": "schueler4",
     "schoolclass": "3I",
     "name2": "",
@@ -1357,7 +1244,6 @@
   },
   {
     "id": 30,
-    "nr": "B05",
     "name": "schueler31",
     "schoolclass": "3B",
     "name2": "",
@@ -1369,7 +1255,6 @@
   },
   {
     "id": 31,
-    "nr": "B18",
     "name": "schueler32",
     "schoolclass": "3B",
     "name2": "",
@@ -1381,7 +1266,6 @@
   },
   {
     "id": 32,
-    "nr": "E10",
     "name": "schueler33",
     "schoolclass": "3E",
     "name2": "",
@@ -1393,7 +1277,6 @@
   },
   {
     "id": 33,
-    "nr": "E20",
     "name": "schueler34",
     "schoolclass": "3E",
     "name2": "",
@@ -1405,7 +1288,6 @@
   },
   {
     "id": 34,
-    "nr": "I08",
     "name": "schueler35",
     "schoolclass": "3I",
     "name2": "",
@@ -1417,7 +1299,6 @@
   },
   {
     "id": 35,
-    "nr": "B15",
     "name": "schueler36",
     "schoolclass": "3B",
     "name2": "",
@@ -1429,7 +1310,6 @@
   },
   {
     "id": 36,
-    "nr": "D21",
     "name": "schueler37",
     "schoolclass": "3D",
     "name2": "",
@@ -1441,7 +1321,6 @@
   },
   {
     "id": 37,
-    "nr": "B07",
     "name": "schueler38",
     "schoolclass": "3B",
     "name2": "",
@@ -1453,7 +1332,6 @@
   },
   {
     "id": 38,
-    "nr": "B14",
     "name": "schueler39",
     "schoolclass": "3B",
     "name2": "",
@@ -1465,7 +1343,6 @@
   },
   {
     "id": 39,
-    "nr": "E09",
     "name": "schueler40",
     "schoolclass": "3E",
     "name2": "",
@@ -1477,7 +1354,6 @@
   },
   {
     "id": 4,
-    "nr": "I11",
     "name": "schueler5",
     "schoolclass": "3I",
     "name2": "",
@@ -1489,7 +1365,6 @@
   },
   {
     "id": 40,
-    "nr": "G13",
     "name": "schueler41",
     "schoolclass": "3G",
     "name2": "",
@@ -1501,7 +1376,6 @@
   },
   {
     "id": 41,
-    "nr": "H15",
     "name": "schueler42",
     "schoolclass": "3H",
     "name2": "",
@@ -1513,7 +1387,6 @@
   },
   {
     "id": 42,
-    "nr": "B10",
     "name": "schueler43",
     "schoolclass": "3B",
     "name2": "",
@@ -1525,7 +1398,6 @@
   },
   {
     "id": 43,
-    "nr": "A01",
     "name": "schueler44",
     "schoolclass": "3A",
     "name2": "",
@@ -1537,7 +1409,6 @@
   },
   {
     "id": 44,
-    "nr": "A06",
     "name": "schueler45",
     "schoolclass": "3A",
     "name2": "",
@@ -1549,7 +1420,6 @@
   },
   {
     "id": 45,
-    "nr": "G02",
     "name": "schueler46",
     "schoolclass": "3G",
     "name2": "",
@@ -1561,7 +1431,6 @@
   },
   {
     "id": 46,
-    "nr": "A07",
     "name": "schueler47",
     "schoolclass": "3A",
     "name2": "",
@@ -1573,7 +1442,6 @@
   },
   {
     "id": 47,
-    "nr": "H11",
     "name": "schueler48",
     "schoolclass": "3H",
     "name2": "",
@@ -1585,7 +1453,6 @@
   },
   {
     "id": 48,
-    "nr": "B08",
     "name": "schueler49",
     "schoolclass": "3B",
     "name2": "",
@@ -1597,7 +1464,6 @@
   },
   {
     "id": 49,
-    "nr": "F02",
     "name": "schueler50",
     "schoolclass": "3F",
     "name2": "",
@@ -1609,7 +1475,6 @@
   },
   {
     "id": 5,
-    "nr": "A12",
     "name": "schueler6",
     "schoolclass": "3A",
     "name2": "",
@@ -1621,7 +1486,6 @@
   },
   {
     "id": 50,
-    "nr": "R03",
     "name": "schueler51",
     "schoolclass": "Rep.",
     "name2": "",
@@ -1633,7 +1497,6 @@
   },
   {
     "id": 51,
-    "nr": "I15",
     "name": "schueler52",
     "schoolclass": "3I",
     "name2": "",
@@ -1645,7 +1508,6 @@
   },
   {
     "id": 52,
-    "nr": "A15",
     "name": "schueler53",
     "schoolclass": "3A",
     "name2": "",
@@ -1657,7 +1519,6 @@
   },
   {
     "id": 53,
-    "nr": "A08",
     "name": "schueler54",
     "schoolclass": "3A",
     "name2": "",
@@ -1669,7 +1530,6 @@
   },
   {
     "id": 54,
-    "nr": "I22",
     "name": "schueler55",
     "schoolclass": "3I",
     "name2": "",
@@ -1681,7 +1541,6 @@
   },
   {
     "id": 55,
-    "nr": "H03",
     "name": "schueler56",
     "schoolclass": "3H",
     "name2": "",
@@ -1693,7 +1552,6 @@
   },
   {
     "id": 56,
-    "nr": "A19",
     "name": "schueler57",
     "schoolclass": "3A",
     "name2": "",
@@ -1705,7 +1563,6 @@
   },
   {
     "id": 57,
-    "nr": "A10",
     "name": "schueler58",
     "schoolclass": "3A",
     "name2": "",
@@ -1717,7 +1574,6 @@
   },
   {
     "id": 58,
-    "nr": "E21",
     "name": "schueler59",
     "schoolclass": "3E",
     "name2": "",
@@ -1729,7 +1585,6 @@
   },
   {
     "id": 59,
-    "nr": "D15",
     "name": "schueler60",
     "schoolclass": "3D",
     "name2": "",
@@ -1741,7 +1596,6 @@
   },
   {
     "id": 6,
-    "nr": "H08",
     "name": "schueler7",
     "schoolclass": "3H",
     "name2": "",
@@ -1753,7 +1607,6 @@
   },
   {
     "id": 60,
-    "nr": "C08",
     "name": "schueler61",
     "schoolclass": "3C",
     "name2": "",
@@ -1765,7 +1618,6 @@
   },
   {
     "id": 61,
-    "nr": "G17",
     "name": "schueler62",
     "schoolclass": "3G",
     "name2": "",
@@ -1777,7 +1629,6 @@
   },
   {
     "id": 62,
-    "nr": "H02",
     "name": "schueler63",
     "schoolclass": "3H",
     "name2": "",
@@ -1789,7 +1640,6 @@
   },
   {
     "id": 63,
-    "nr": "G07",
     "name": "schueler64",
     "schoolclass": "3G",
     "name2": "",
@@ -1801,7 +1651,6 @@
   },
   {
     "id": 64,
-    "nr": "F17",
     "name": "schueler65",
     "schoolclass": "3F",
     "name2": "",
@@ -1813,7 +1662,6 @@
   },
   {
     "id": 65,
-    "nr": "D12",
     "name": "schueler66",
     "schoolclass": "3D",
     "name2": "",
@@ -1825,7 +1673,6 @@
   },
   {
     "id": 66,
-    "nr": "D09",
     "name": "schueler67",
     "schoolclass": "3D",
     "name2": "",
@@ -1837,7 +1684,6 @@
   },
   {
     "id": 67,
-    "nr": "E01",
     "name": "schueler68",
     "schoolclass": "3E",
     "name2": "",
@@ -1849,7 +1695,6 @@
   },
   {
     "id": 68,
-    "nr": "D22",
     "name": "schueler69",
     "schoolclass": "3D",
     "name2": "",
@@ -1861,7 +1706,6 @@
   },
   {
     "id": 69,
-    "nr": "R02",
     "name": "schueler70",
     "schoolclass": "3B",
     "name2": "",
@@ -1873,7 +1717,6 @@
   },
   {
     "id": 7,
-    "nr": "D06",
     "name": "schueler8",
     "schoolclass": "3D",
     "name2": "",
@@ -1885,7 +1728,6 @@
   },
   {
     "id": 70,
-    "nr": "F10",
     "name": "schueler71",
     "schoolclass": "3F",
     "name2": "",
@@ -1897,7 +1739,6 @@
   },
   {
     "id": 71,
-    "nr": "F03",
     "name": "schueler72",
     "schoolclass": "3F",
     "name2": "",
@@ -1909,7 +1750,6 @@
   },
   {
     "id": 72,
-    "nr": "G20",
     "name": "schueler73",
     "schoolclass": "3G",
     "name2": "",
@@ -1921,7 +1761,6 @@
   },
   {
     "id": 73,
-    "nr": "F09",
     "name": "schueler74",
     "schoolclass": "3F",
     "name2": "",
@@ -1933,7 +1772,6 @@
   },
   {
     "id": 74,
-    "nr": "E23",
     "name": "schueler75",
     "schoolclass": "3E",
     "name2": "",
@@ -1945,7 +1783,6 @@
   },
   {
     "id": 75,
-    "nr": "A04",
     "name": "schueler76",
     "schoolclass": "3A",
     "name2": "",
@@ -1957,7 +1794,6 @@
   },
   {
     "id": 76,
-    "nr": "F01",
     "name": "schueler77",
     "schoolclass": "3F",
     "name2": "",
@@ -1969,7 +1805,6 @@
   },
   {
     "id": 77,
-    "nr": "B20",
     "name": "schueler78",
     "schoolclass": "3B",
     "name2": "",
@@ -1981,7 +1816,6 @@
   },
   {
     "id": 78,
-    "nr": "F04",
     "name": "schueler79",
     "schoolclass": "3F",
     "name2": "",
@@ -1993,7 +1827,6 @@
   },
   {
     "id": 79,
-    "nr": "D11",
     "name": "schueler80",
     "schoolclass": "3D",
     "name2": "",
@@ -2005,7 +1838,6 @@
   },
   {
     "id": 8,
-    "nr": "D03",
     "name": "schueler9",
     "schoolclass": "3D",
     "name2": "",
@@ -2017,7 +1849,6 @@
   },
   {
     "id": 80,
-    "nr": "I02",
     "name": "schueler81",
     "schoolclass": "3I",
     "name2": "",
@@ -2029,7 +1860,6 @@
   },
   {
     "id": 81,
-    "nr": "H05",
     "name": "schueler82",
     "schoolclass": "3H",
     "name2": "",
@@ -2041,7 +1871,6 @@
   },
   {
     "id": 82,
-    "nr": "A20",
     "name": "schueler83",
     "schoolclass": "3A",
     "name2": "",
@@ -2053,7 +1882,6 @@
   },
   {
     "id": 83,
-    "nr": "D24",
     "name": "schueler84",
     "schoolclass": "3D",
     "name2": "",
@@ -2065,7 +1893,6 @@
   },
   {
     "id": 84,
-    "nr": "F05",
     "name": "schueler85",
     "schoolclass": "3F",
     "name2": "",
@@ -2077,7 +1904,6 @@
   },
   {
     "id": 85,
-    "nr": "B12",
     "name": "schueler86",
     "schoolclass": "3B",
     "name2": "",
@@ -2089,7 +1915,6 @@
   },
   {
     "id": 86,
-    "nr": "C21",
     "name": "schueler87",
     "schoolclass": "3C",
     "name2": "",
@@ -2101,7 +1926,6 @@
   },
   {
     "id": 87,
-    "nr": "I05",
     "name": "schueler88",
     "schoolclass": "3I",
     "name2": "",
@@ -2113,7 +1937,6 @@
   },
   {
     "id": 88,
-    "nr": "B04",
     "name": "schueler89",
     "schoolclass": "3B",
     "name2": "",
@@ -2125,7 +1948,6 @@
   },
   {
     "id": 89,
-    "nr": "A05",
     "name": "schueler90",
     "schoolclass": "3A",
     "name2": "",
@@ -2137,7 +1959,6 @@
   },
   {
     "id": 9,
-    "nr": "I23",
     "name": "schueler10",
     "schoolclass": "3I",
     "name2": "",
@@ -2149,7 +1970,6 @@
   },
   {
     "id": 90,
-    "nr": "A13",
     "name": "schueler91",
     "schoolclass": "3A",
     "name2": "",
@@ -2161,7 +1981,6 @@
   },
   {
     "id": 91,
-    "nr": "G21",
     "name": "schueler92",
     "schoolclass": "3G",
     "name2": "",
@@ -2173,7 +1992,6 @@
   },
   {
     "id": 92,
-    "nr": "I20",
     "name": "schueler93",
     "schoolclass": "3I",
     "name2": "",
@@ -2185,7 +2003,6 @@
   },
   {
     "id": 93,
-    "nr": "C06",
     "name": "schueler94",
     "schoolclass": "3C",
     "name2": "",
@@ -2197,7 +2014,6 @@
   },
   {
     "id": 94,
-    "nr": "B11",
     "name": "schueler95",
     "schoolclass": "3B",
     "name2": "",
@@ -2209,7 +2025,6 @@
   },
   {
     "id": 95,
-    "nr": "C02",
     "name": "schueler96",
     "schoolclass": "3C",
     "name2": "",
@@ -2221,7 +2036,6 @@
   },
   {
     "id": 96,
-    "nr": "C13",
     "name": "schueler97",
     "schoolclass": "3C",
     "name2": "",
@@ -2233,7 +2047,6 @@
   },
   {
     "id": 97,
-    "nr": "D01",
     "name": "schueler98",
     "schoolclass": "3D",
     "name2": "",
@@ -2245,7 +2058,6 @@
   },
   {
     "id": 98,
-    "nr": "C01",
     "name": "schueler99",
     "schoolclass": "3C",
     "name2": "",
@@ -2257,7 +2069,6 @@
   },
   {
     "id": 99,
-    "nr": "D23",
     "name": "schueler100",
     "schoolclass": "3D",
     "name2": "",
@@ -2269,7 +2080,6 @@
   },
   {
     "id": 189,
-    "nr": "",
     "name": "schueler190",
     "schoolclass": "3I",
     "name2": "",
@@ -2281,7 +2091,6 @@
   },
   {
     "id": 190,
-    "nr": "",
     "name": "schueler191",
     "schoolclass": "3D",
     "name2": "",
@@ -2293,7 +2102,6 @@
   },
   {
     "id": 191,
-    "nr": "",
     "name": "schueler192",
     "schoolclass": "3I",
     "name2": "",
@@ -2305,7 +2113,6 @@
   },
   {
     "id": 192,
-    "nr": "",
     "name": "schueler193",
     "schoolclass": "3I",
     "name2": "",
@@ -2317,7 +2124,6 @@
   },
   {
     "id": 193,
-    "nr": "",
     "name": "schueler194",
     "schoolclass": "3I",
     "name2": "",
@@ -2329,7 +2135,6 @@
   },
   {
     "id": 194,
-    "nr": "",
     "name": "schueler195",
     "schoolclass": "3A",
     "name2": "",
@@ -2341,7 +2146,6 @@
   },
   {
     "id": 195,
-    "nr": "",
     "name": "schueler196",
     "schoolclass": "3H",
     "name2": "",
@@ -2353,7 +2157,6 @@
   },
   {
     "id": 196,
-    "nr": "",
     "name": "schueler197",
     "schoolclass": "3D",
     "name2": "",
@@ -2365,7 +2168,6 @@
   },
   {
     "id": 197,
-    "nr": "",
     "name": "schueler198",
     "schoolclass": "3D",
     "name2": "",
@@ -2377,7 +2179,6 @@
   },
   {
     "id": 198,
-    "nr": "",
     "name": "schueler199",
     "schoolclass": "3I",
     "name2": "",
@@ -2389,7 +2190,6 @@
   },
   {
     "id": 199,
-    "nr": "",
     "name": "schueler200",
     "schoolclass": "3B",
     "name2": "",
@@ -2401,7 +2201,6 @@
   },
   {
     "id": 200,
-    "nr": "",
     "name": "schueler201",
     "schoolclass": "3I",
     "name2": "",
@@ -2413,7 +2212,6 @@
   },
   {
     "id": 201,
-    "nr": "",
     "name": "schueler202",
     "schoolclass": "3E",
     "name2": "",
@@ -2425,7 +2223,6 @@
   },
   {
     "id": 202,
-    "nr": "",
     "name": "schueler203",
     "schoolclass": "3B",
     "name2": "",
@@ -2437,7 +2234,6 @@
   },
   {
     "id": 203,
-    "nr": "",
     "name": "schueler204",
     "schoolclass": "3B",
     "name2": "",
@@ -2449,7 +2245,6 @@
   },
   {
     "id": 204,
-    "nr": "",
     "name": "schueler205",
     "schoolclass": "3A",
     "name2": "",
@@ -2461,7 +2256,6 @@
   },
   {
     "id": 205,
-    "nr": "",
     "name": "schueler206",
     "schoolclass": "3E",
     "name2": "",
@@ -2473,7 +2267,6 @@
   },
   {
     "id": 206,
-    "nr": "",
     "name": "schueler207",
     "schoolclass": "3E",
     "name2": "",
@@ -2485,7 +2278,6 @@
   },
   {
     "id": 207,
-    "nr": "",
     "name": "schueler208",
     "schoolclass": "3H",
     "name2": "",
@@ -2497,7 +2289,6 @@
   },
   {
     "id": 208,
-    "nr": "",
     "name": "schueler209",
     "schoolclass": "3D",
     "name2": "",
@@ -2509,7 +2300,6 @@
   },
   {
     "id": 209,
-    "nr": "",
     "name": "schueler210",
     "schoolclass": "3C",
     "name2": "",
@@ -2521,7 +2311,6 @@
   },
   {
     "id": 210,
-    "nr": "",
     "name": "schueler211",
     "schoolclass": "3C",
     "name2": "",
@@ -2533,7 +2322,6 @@
   },
   {
     "id": 211,
-    "nr": "",
     "name": "schueler212",
     "schoolclass": "3G",
     "name2": "",
@@ -2545,7 +2333,6 @@
   },
   {
     "id": 212,
-    "nr": "",
     "name": "schueler213",
     "schoolclass": "3E",
     "name2": "",
@@ -2557,7 +2344,6 @@
   },
   {
     "id": 213,
-    "nr": "",
     "name": "schueler214",
     "schoolclass": "3E",
     "name2": "",
@@ -2569,7 +2355,6 @@
   },
   {
     "id": 214,
-    "nr": "",
     "name": "schueler215",
     "schoolclass": "3C",
     "name2": "",
@@ -2581,7 +2366,6 @@
   },
   {
     "id": 215,
-    "nr": "",
     "name": "schueler216",
     "schoolclass": "3H",
     "name2": "",
@@ -2593,7 +2377,6 @@
   },
   {
     "id": 216,
-    "nr": "",
     "name": "schueler217",
     "schoolclass": "3F",
     "name2": "",
@@ -2605,7 +2388,6 @@
   },
   {
     "id": 217,
-    "nr": "",
     "name": "schueler218",
     "schoolclass": "3D",
     "name2": "",
@@ -2617,7 +2399,6 @@
   },
   {
     "id": 218,
-    "nr": "",
     "name": "schueler219",
     "schoolclass": "3I",
     "name2": "",
@@ -2629,7 +2410,6 @@
   },
   {
     "id": 219,
-    "nr": "",
     "name": "schueler220",
     "schoolclass": "3B",
     "name2": "",
@@ -2641,7 +2421,6 @@
   },
   {
     "id": 220,
-    "nr": "",
     "name": "schueler221",
     "schoolclass": "3B",
     "name2": "",
@@ -2653,7 +2432,6 @@
   },
   {
     "id": 221,
-    "nr": "",
     "name": "schueler222",
     "schoolclass": "3E",
     "name2": "",
@@ -2665,7 +2443,6 @@
   },
   {
     "id": 222,
-    "nr": "",
     "name": "schueler223",
     "schoolclass": "3E",
     "name2": "",
@@ -2677,7 +2454,6 @@
   },
   {
     "id": 223,
-    "nr": "",
     "name": "schueler224",
     "schoolclass": "3I",
     "name2": "",
@@ -2689,7 +2465,6 @@
   },
   {
     "id": 224,
-    "nr": "",
     "name": "schueler225",
     "schoolclass": "3B",
     "name2": "",
@@ -2701,7 +2476,6 @@
   },
   {
     "id": 225,
-    "nr": "",
     "name": "schueler226",
     "schoolclass": "3D",
     "name2": "",
@@ -2713,7 +2487,6 @@
   },
   {
     "id": 226,
-    "nr": "",
     "name": "schueler227",
     "schoolclass": "3B",
     "name2": "",
@@ -2725,7 +2498,6 @@
   },
   {
     "id": 227,
-    "nr": "",
     "name": "schueler228",
     "schoolclass": "3B",
     "name2": "",
@@ -2737,7 +2509,6 @@
   },
   {
     "id": 228,
-    "nr": "",
     "name": "schueler229",
     "schoolclass": "3E",
     "name2": "",
@@ -2749,7 +2520,6 @@
   },
   {
     "id": 229,
-    "nr": "",
     "name": "schueler230",
     "schoolclass": "3G",
     "name2": "",
@@ -2761,7 +2531,6 @@
   },
   {
     "id": 230,
-    "nr": "",
     "name": "schueler231",
     "schoolclass": "3H",
     "name2": "",
@@ -2773,7 +2542,6 @@
   },
   {
     "id": 231,
-    "nr": "",
     "name": "schueler232",
     "schoolclass": "3B",
     "name2": "",
@@ -2785,7 +2553,6 @@
   },
   {
     "id": 232,
-    "nr": "",
     "name": "schueler233",
     "schoolclass": "3A",
     "name2": "",
@@ -2797,7 +2564,6 @@
   },
   {
     "id": 233,
-    "nr": "",
     "name": "schueler234",
     "schoolclass": "3A",
     "name2": "",
@@ -2809,7 +2575,6 @@
   },
   {
     "id": 234,
-    "nr": "",
     "name": "schueler235",
     "schoolclass": "3G",
     "name2": "",
@@ -2821,7 +2586,6 @@
   },
   {
     "id": 235,
-    "nr": "",
     "name": "schueler236",
     "schoolclass": "3A",
     "name2": "",
@@ -2833,7 +2597,6 @@
   },
   {
     "id": 236,
-    "nr": "",
     "name": "schueler237",
     "schoolclass": "3H",
     "name2": "",
@@ -2845,7 +2608,6 @@
   },
   {
     "id": 237,
-    "nr": "",
     "name": "schueler238",
     "schoolclass": "3B",
     "name2": "",
@@ -2857,7 +2619,6 @@
   },
   {
     "id": 238,
-    "nr": "",
     "name": "schueler239",
     "schoolclass": "3F",
     "name2": "",
@@ -2869,7 +2630,6 @@
   },
   {
     "id": 239,
-    "nr": "",
     "name": "schueler240",
     "schoolclass": "Rep.",
     "name2": "",
@@ -2881,7 +2641,6 @@
   },
   {
     "id": 240,
-    "nr": "",
     "name": "schueler241",
     "schoolclass": "3I",
     "name2": "",
@@ -2893,7 +2652,6 @@
   },
   {
     "id": 241,
-    "nr": "",
     "name": "schueler242",
     "schoolclass": "3A",
     "name2": "",
@@ -2905,7 +2663,6 @@
   },
   {
     "id": 242,
-    "nr": "",
     "name": "schueler243",
     "schoolclass": "3A",
     "name2": "",
@@ -2917,7 +2674,6 @@
   },
   {
     "id": 243,
-    "nr": "",
     "name": "schueler244",
     "schoolclass": "3I",
     "name2": "",
@@ -2929,7 +2685,6 @@
   },
   {
     "id": 244,
-    "nr": "",
     "name": "schueler245",
     "schoolclass": "3H",
     "name2": "",
@@ -2941,7 +2696,6 @@
   },
   {
     "id": 245,
-    "nr": "",
     "name": "schueler246",
     "schoolclass": "3A",
     "name2": "",
@@ -2953,7 +2707,6 @@
   },
   {
     "id": 246,
-    "nr": "",
     "name": "schueler247",
     "schoolclass": "3A",
     "name2": "",
@@ -2965,7 +2718,6 @@
   },
   {
     "id": 247,
-    "nr": "",
     "name": "schueler248",
     "schoolclass": "3E",
     "name2": "",
@@ -2977,7 +2729,6 @@
   },
   {
     "id": 248,
-    "nr": "",
     "name": "schueler249",
     "schoolclass": "3D",
     "name2": "",
@@ -2989,7 +2740,6 @@
   },
   {
     "id": 249,
-    "nr": "",
     "name": "schueler250",
     "schoolclass": "3C",
     "name2": "",
@@ -3001,7 +2751,6 @@
   },
   {
     "id": 250,
-    "nr": "",
     "name": "schueler251",
     "schoolclass": "3G",
     "name2": "",
@@ -3013,7 +2762,6 @@
   },
   {
     "id": 251,
-    "nr": "",
     "name": "schueler252",
     "schoolclass": "3H",
     "name2": "",
@@ -3025,7 +2773,6 @@
   },
   {
     "id": 252,
-    "nr": "",
     "name": "schueler253",
     "schoolclass": "3G",
     "name2": "",
@@ -3037,7 +2784,6 @@
   },
   {
     "id": 253,
-    "nr": "",
     "name": "schueler254",
     "schoolclass": "3F",
     "name2": "",
@@ -3049,7 +2795,6 @@
   },
   {
     "id": 254,
-    "nr": "",
     "name": "schueler255",
     "schoolclass": "3D",
     "name2": "",
@@ -3061,7 +2806,6 @@
   },
   {
     "id": 255,
-    "nr": "",
     "name": "schueler256",
     "schoolclass": "3D",
     "name2": "",
@@ -3073,7 +2817,6 @@
   },
   {
     "id": 256,
-    "nr": "",
     "name": "schueler257",
     "schoolclass": "3E",
     "name2": "",
@@ -3085,7 +2828,6 @@
   },
   {
     "id": 257,
-    "nr": "",
     "name": "schueler258",
     "schoolclass": "3D",
     "name2": "",
@@ -3097,7 +2839,6 @@
   },
   {
     "id": 258,
-    "nr": "",
     "name": "schueler259",
     "schoolclass": "3B",
     "name2": "",
@@ -3109,7 +2850,6 @@
   },
   {
     "id": 259,
-    "nr": "",
     "name": "schueler260",
     "schoolclass": "3F",
     "name2": "",
@@ -3121,7 +2861,6 @@
   },
   {
     "id": 260,
-    "nr": "",
     "name": "schueler261",
     "schoolclass": "3F",
     "name2": "",
@@ -3133,7 +2872,6 @@
   },
   {
     "id": 261,
-    "nr": "",
     "name": "schueler262",
     "schoolclass": "3G",
     "name2": "",
@@ -3145,7 +2883,6 @@
   },
   {
     "id": 262,
-    "nr": "",
     "name": "schueler263",
     "schoolclass": "3F",
     "name2": "",
@@ -3157,7 +2894,6 @@
   },
   {
     "id": 263,
-    "nr": "",
     "name": "schueler264",
     "schoolclass": "3E",
     "name2": "",
@@ -3169,7 +2905,6 @@
   },
   {
     "id": 264,
-    "nr": "",
     "name": "schueler265",
     "schoolclass": "3A",
     "name2": "",
@@ -3181,7 +2916,6 @@
   },
   {
     "id": 265,
-    "nr": "",
     "name": "schueler266",
     "schoolclass": "3F",
     "name2": "",
@@ -3193,7 +2927,6 @@
   },
   {
     "id": 266,
-    "nr": "",
     "name": "schueler267",
     "schoolclass": "3B",
     "name2": "",
@@ -3205,7 +2938,6 @@
   },
   {
     "id": 267,
-    "nr": "",
     "name": "schueler268",
     "schoolclass": "3F",
     "name2": "",
@@ -3217,7 +2949,6 @@
   },
   {
     "id": 268,
-    "nr": "",
     "name": "schueler269",
     "schoolclass": "3D",
     "name2": "",
@@ -3229,7 +2960,6 @@
   },
   {
     "id": 269,
-    "nr": "",
     "name": "schueler270",
     "schoolclass": "3I",
     "name2": "",
@@ -3241,7 +2971,6 @@
   },
   {
     "id": 270,
-    "nr": "",
     "name": "schueler271",
     "schoolclass": "3H",
     "name2": "",
@@ -3253,7 +2982,6 @@
   },
   {
     "id": 271,
-    "nr": "",
     "name": "schueler272",
     "schoolclass": "3A",
     "name2": "",
@@ -3265,7 +2993,6 @@
   },
   {
     "id": 272,
-    "nr": "",
     "name": "schueler273",
     "schoolclass": "3D",
     "name2": "",
@@ -3277,7 +3004,6 @@
   },
   {
     "id": 273,
-    "nr": "",
     "name": "schueler274",
     "schoolclass": "3F",
     "name2": "",
@@ -3289,7 +3015,6 @@
   },
   {
     "id": 274,
-    "nr": "",
     "name": "schueler275",
     "schoolclass": "3B",
     "name2": "",
@@ -3301,7 +3026,6 @@
   },
   {
     "id": 275,
-    "nr": "",
     "name": "schueler276",
     "schoolclass": "3C",
     "name2": "",
@@ -3313,7 +3037,6 @@
   },
   {
     "id": 276,
-    "nr": "",
     "name": "schueler277",
     "schoolclass": "3I",
     "name2": "",
@@ -3325,7 +3048,6 @@
   },
   {
     "id": 277,
-    "nr": "",
     "name": "schueler278",
     "schoolclass": "3B",
     "name2": "",
@@ -3337,7 +3059,6 @@
   },
   {
     "id": 278,
-    "nr": "",
     "name": "schueler279",
     "schoolclass": "3A",
     "name2": "",
@@ -3349,7 +3070,6 @@
   },
   {
     "id": 279,
-    "nr": "",
     "name": "schueler280",
     "schoolclass": "3A",
     "name2": "",
@@ -3361,7 +3081,6 @@
   },
   {
     "id": 280,
-    "nr": "",
     "name": "schueler281",
     "schoolclass": "3G",
     "name2": "",
@@ -3373,7 +3092,6 @@
   },
   {
     "id": 281,
-    "nr": "",
     "name": "schueler282",
     "schoolclass": "3I",
     "name2": "",
@@ -3385,7 +3103,6 @@
   },
   {
     "id": 282,
-    "nr": "",
     "name": "schueler283",
     "schoolclass": "3C",
     "name2": "",
@@ -3397,7 +3114,6 @@
   },
   {
     "id": 283,
-    "nr": "",
     "name": "schueler284",
     "schoolclass": "3B",
     "name2": "",
@@ -3409,7 +3125,6 @@
   },
   {
     "id": 284,
-    "nr": "",
     "name": "schueler285",
     "schoolclass": "3C",
     "name2": "",
@@ -3421,7 +3136,6 @@
   },
   {
     "id": 285,
-    "nr": "",
     "name": "schueler286",
     "schoolclass": "3C",
     "name2": "",
@@ -3433,7 +3147,6 @@
   },
   {
     "id": 286,
-    "nr": "",
     "name": "schueler287",
     "schoolclass": "3D",
     "name2": "",
@@ -3445,7 +3158,6 @@
   },
   {
     "id": 287,
-    "nr": "",
     "name": "schueler288",
     "schoolclass": "3C",
     "name2": "",
@@ -3457,7 +3169,6 @@
   },
   {
     "id": 288,
-    "nr": "",
     "name": "schueler289",
     "schoolclass": "3D",
     "name2": "",
@@ -3469,7 +3180,6 @@
   },
   {
     "id": 289,
-    "nr": "",
     "name": "schueler290",
     "schoolclass": "3C",
     "name2": "",
@@ -3481,7 +3191,6 @@
   },
   {
     "id": 290,
-    "nr": "",
     "name": "schueler291",
     "schoolclass": "3E",
     "name2": "",
@@ -3493,7 +3202,6 @@
   },
   {
     "id": 291,
-    "nr": "",
     "name": "schueler292",
     "schoolclass": "3B",
     "name2": "",
@@ -3505,7 +3213,6 @@
   },
   {
     "id": 292,
-    "nr": "",
     "name": "schueler293",
     "schoolclass": "3E",
     "name2": "",
@@ -3517,7 +3224,6 @@
   },
   {
     "id": 293,
-    "nr": "",
     "name": "schueler294",
     "schoolclass": "3G",
     "name2": "",
@@ -3529,7 +3235,6 @@
   },
   {
     "id": 294,
-    "nr": "",
     "name": "schueler295",
     "schoolclass": "3E",
     "name2": "",
@@ -3541,7 +3246,6 @@
   },
   {
     "id": 295,
-    "nr": "",
     "name": "schueler296",
     "schoolclass": "3I",
     "name2": "",
@@ -3553,7 +3257,6 @@
   },
   {
     "id": 296,
-    "nr": "",
     "name": "schueler297",
     "schoolclass": "3I",
     "name2": "",
@@ -3565,7 +3268,6 @@
   },
   {
     "id": 297,
-    "nr": "",
     "name": "schueler298",
     "schoolclass": "3I",
     "name2": "",
@@ -3577,7 +3279,6 @@
   },
   {
     "id": 298,
-    "nr": "",
     "name": "schueler299",
     "schoolclass": "3F",
     "name2": "",
@@ -3589,7 +3290,6 @@
   },
   {
     "id": 299,
-    "nr": "",
     "name": "schueler300",
     "schoolclass": "3D",
     "name2": "",
