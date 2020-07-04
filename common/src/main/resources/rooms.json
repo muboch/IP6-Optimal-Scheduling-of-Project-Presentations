@@ -2,231 +2,198 @@
   {
     "id": 0,
     "name": "312",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 1,
     "name": "105",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 2,
     "name": "106",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 3,
     "name": "107",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 4,
     "name": "108",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 5,
     "name": "109",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 6,
     "name": "203",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 7,
     "name": "205",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 8,
     "name": "206",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 9,
     "name": "207",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 10,
     "name": "209",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 11,
     "name": "210",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 12,
     "name": "211",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 13,
     "name": "213",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 14,
     "name": "217",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 15,
     "name": "218",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 16,
     "name": "305",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 17,
     "name": "306",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 18,
     "name": "307",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 19,
     "name": "308",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 20,
     "name": "310",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 21,
     "name": "311",
-    "place": "",
     "type": "normal",
     "reserve": false
   },
   {
     "id": 22,
     "name": "303",
-    "place": "",
     "type": "music",
     "reserve": false
   },
   {
     "id": 23,
     "name": "320",
-    "place": "",
     "type": "music",
     "reserve": false
   },
   {
     "id": 24,
     "name": "304",
-    "place": "",
     "type": "dance",
     "reserve": false
   },
   {
     "id": 25,
     "name": "E11",
-    "place": "",
     "type": "art",
     "reserve": false
   },
   {
     "id": 26,
     "name": "E12",
-    "place": "",
     "type": "art",
     "reserve": false
   },
   {
     "id": 27,
     "name": "U33",
-    "place": "",
     "type": "normal",
     "reserve": true
   },
   {
     "id": 28,
     "name": "E05",
-    "place": "",
     "type": "normal",
     "reserve": true
   },
   {
     "id": 29,
     "name": "E06",
-    "place": "",
     "type": "normal",
     "reserve": true
   },
   {
     "id": 30,
     "name": "E09",
-    "place": "",
     "type": "normal",
     "reserve": true
   },
   {
     "id": 31,
     "name": "E14",
-    "place": "",
     "type": "normal",
     "reserve": true
   },
   {
     "id": 32,
     "name": "E17",
-    "place": "",
     "type": "normal",
     "reserve": true
   }
