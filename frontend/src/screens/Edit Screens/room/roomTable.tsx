@@ -31,10 +31,6 @@ const RoomTable: React.SFC<LecturerTableProps> = () => {
       field: "type",
     },
     {
-      title: "Ort",
-      field: "place",
-    },
-    {
       title: "Reserve",
       field: "reserve",
     },

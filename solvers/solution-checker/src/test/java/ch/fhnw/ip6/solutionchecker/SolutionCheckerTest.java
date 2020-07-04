@@ -308,7 +308,7 @@ public class SolutionCheckerTest {
     private List<R> getRooms(int amount) {
         List<R> rooms = new ArrayList<>();
         while (amount > 0) {
-            rooms.add(RoomDto.builder().name("R" + amount).id(amount).place("place").reserve(false).build());
+            rooms.add(RoomDto.builder().name("R" + amount).id(amount).reserve(false).build());
             amount--;
         }
         return rooms;

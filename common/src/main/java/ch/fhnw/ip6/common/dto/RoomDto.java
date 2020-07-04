@@ -19,7 +19,6 @@ public class RoomDto implements R {
 
     private int id;
     private String name;
-    private String place;
     private String type;
     private Boolean reserve;
 
@@ -31,13 +30,12 @@ public class RoomDto implements R {
         RoomDto roomDto = (RoomDto) o;
         return id == roomDto.id &&
                 Objects.equals(name, roomDto.name) &&
-                Objects.equals(place, roomDto.place) &&
                 Objects.equals(type, roomDto.type) &&
                 Objects.equals(reserve, roomDto.reserve);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, place, type, reserve);
+        return Objects.hash(id, name, type, reserve);
     }
 }
