@@ -12,8 +12,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useGStyles } from "../../theme";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { APIROUTES } from "../../constants";
 import SolvingStatus from "../../Components/solvingStatus";
+import { deletePlanningById } from "../../Services/planningService";
 
 type Plannings = {
   nr: string;
@@ -67,6 +69,7 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
               <TableCell>Status</TableCell>
               <TableCell>Erstellungsdatum</TableCell>
               <TableCell>Download</TableCell>
+              <TableCell>Löschen</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -76,20 +79,33 @@ const ListPlanningScreen: React.FC = (): JSX.Element => {
                   <TableCell component="th" scope="row">
                     {p.name}
                   </TableCell>
-                  <TableCell align="right">{p.nr}</TableCell>
-                  <TableCell align="right">
+                  <TableCell>{p.nr}</TableCell>
+                  <TableCell>
                     {p.status === "SOLUTION"
                       ? "Lösung gefunden"
                       : "Keine Lösung gefunden"}
                   </TableCell>
-                  <TableCell align="right">{p.created}</TableCell>
-                  <TableCell align="right">
+                  <TableCell>{p.created}</TableCell>
+                  <TableCell>
                     <Button
                       className={gStyles.primaryButton}
                       target="_blank"
                       href={`${APIROUTES.planning}/${p.id}`}
                     >
                       Planung Herunterladen
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      className={gStyles.primaryButton}
+                      onClick={() => {
+                        deletePlanningById(parseInt(p.id));
+                        setTimeout(() => {
+                          loadData();
+                        }, 1000);
+                      }}
+                    >
+                      <DeleteIcon></DeleteIcon>
                     </Button>
                   </TableCell>
                 </TableRow>
