@@ -72,7 +72,7 @@ public class Solver extends AbstractSolver {
             constraints.add(new MinTimeslotUsages());
             constraints.add(new MinRoomUsages());
             constraints.add(new MinFreeTimeslots());
-            constraints.add(new MinRoomSwitches());
+            //constraints.add(new MinRoomSwitches());
             constraints.forEach(c -> {
                 c.setObjectives(objective);
                 c.setModel(model).build();
