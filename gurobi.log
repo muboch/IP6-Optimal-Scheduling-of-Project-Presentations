@@ -3853,3 +3853,194 @@ Time limit reached
 Best objective 1.080000000000e+03, best bound -2.600000000000e+02, gap 124.0741%
 
 User-callback calls 30520, time in user-callback 0.68 sec
+
+Gurobi 9.0.2 (mac64) logging started Mon Jul  6 13:57:04 2020
+
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (mac64)
+Optimize a model with 2619 rows, 66159 columns and 264456 nonzeros
+Model fingerprint: 0x487a7d71
+Model has 45 general constraints
+Variable types: 0 continuous, 66159 integer (66159 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [3e+01, 5e+01]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve removed 864 rows and 45 columns
+Presolve time: 1.49s
+Presolved: 1755 rows, 66114 columns, 255960 nonzeros
+Variable types: 0 continuous, 66114 integer (66114 binary)
+Found heuristic solution: objective 0.0000000
+
+Explored 0 nodes (0 simplex iterations) in 2.64 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+
+User-callback calls 111, time in user-callback 0.92 sec
+
+Gurobi 9.0.2 (mac64) logging started Mon Jul  6 13:59:40 2020
+
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (mac64)
+Optimize a model with 2619 rows, 66159 columns and 264456 nonzeros
+Model fingerprint: 0x68382738
+Model has 45 general constraints
+Variable types: 0 continuous, 66159 integer (66159 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [3e+01, 5e+01]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve removed 864 rows and 45 columns
+Presolve time: 1.37s
+Presolved: 1755 rows, 66114 columns, 255960 nonzeros
+Variable types: 0 continuous, 66114 integer (66114 binary)
+Found heuristic solution: objective 0.0000000
+
+Explored 0 nodes (0 simplex iterations) in 2.13 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+
+User-callback calls 117, time in user-callback 0.56 sec
+
+Gurobi 9.0.2 (mac64) logging started Mon Jul  6 14:00:27 2020
+
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (mac64)
+Optimize a model with 2619 rows, 66132 columns and 264456 nonzeros
+Model fingerprint: 0x88e8427e
+Model has 18 general constraints
+Variable types: 0 continuous, 66132 integer (66132 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [3e+01, 5e+01]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve removed 864 rows and 18 columns
+Presolve time: 1.19s
+Presolved: 1755 rows, 66114 columns, 255960 nonzeros
+Variable types: 0 continuous, 66114 integer (66114 binary)
+Found heuristic solution: objective 0.0000000
+
+Explored 0 nodes (0 simplex iterations) in 2.16 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+
+User-callback calls 117, time in user-callback 0.77 sec
+
+Gurobi 9.0.2 (mac64) logging started Mon Jul  6 14:02:49 2020
+
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (mac64)
+Optimize a model with 2619 rows, 66132 columns and 264456 nonzeros
+Model fingerprint: 0xd7ddab4d
+Model has 36 general constraints
+Variable types: 0 continuous, 66132 integer (66132 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [3e+01, 5e+01]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve removed 828 rows and 0 columns
+Presolve time: 2.82s
+Presolved: 1791 rows, 66132 columns, 388224 nonzeros
+Variable types: 0 continuous, 66132 integer (66132 binary)
+Found heuristic solution: objective 470.0000000
+
+Root simplex log...
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+    3361    1.5621646e+02   6.784370e+02   0.000000e+00      5s
+    5204    1.5716216e+02   0.000000e+00   0.000000e+00      7s
+
+Root relaxation: objective 1.571622e+02, 5204 iterations, 3.28 seconds
+Total elapsed time = 10.55s
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  157.16216    0   18  470.00000  157.16216  66.6%     -   11s
+H    0     0                     360.0000000  157.16216  56.3%     -   11s
+H    0     0                     320.0000000  157.16216  50.9%     -   11s
+     0     0  157.16216    0  341  320.00000  157.16216  50.9%     -   15s
+     0     0  157.16216    0  100  320.00000  157.16216  50.9%     -   26s
+     0     0  157.16216    0  107  320.00000  157.16216  50.9%     -   46s
+     0     0  157.16216    0   81  320.00000  157.16216  50.9%     -   54s
+     0     0  157.16216    0  331  320.00000  157.16216  50.9%     -   58s
+
+Gurobi 9.0.2 (mac64) logging started Mon Jul  6 14:04:23 2020
+
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (mac64)
+Optimize a model with 146475 rows, 191655 columns and 827184 nonzeros
+Model fingerprint: 0xaa438ee9
+Model has 90 general constraints
+Variable types: 0 continuous, 191655 integer (191547 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+01]
+  Objective range  [1e+01, 5e+01]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 1e+00]
+Presolve removed 78622 rows and 64319 columns (presolve time = 5s) ...
+Presolve removed 78424 rows and 64209 columns
+Presolve time: 5.76s
+Presolved: 68051 rows, 127446 columns, 699596 nonzeros
+Variable types: 0 continuous, 127446 integer (127378 binary)
+Found heuristic solution: objective 5600.0000000
+
+Deterministic concurrent LP optimizer: primal and dual simplex
+Showing first log only...
+
+
+Root simplex log...
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0   -1.5000000e+02   4.681250e+02   2.007085e+11      9s
+    6499    2.8936908e+05   0.000000e+00   6.401944e+05     10s
+   41339    1.1331515e+04   0.000000e+00   3.247660e+06     15s
+   46139    1.0948427e+04   0.000000e+00   2.872448e+06     20s
+   50489    1.0790236e+04   0.000000e+00   3.777984e+06     25s
+   53939    1.0668495e+04   0.000000e+00   1.273172e+08     30s
+   56639    1.0560774e+04   0.000000e+00   7.361454e+06     35s
+   59339    1.0493700e+04   0.000000e+00   3.405692e+08     40s
+   62039    1.0070441e+04   0.000000e+00   4.932454e+08     45s
+   64589    9.9641360e+03   0.000000e+00   2.124142e+07     50s
+   67439    9.9069010e+03   0.000000e+00   1.211353e+08     55s
+   70289    8.4525662e+03   0.000000e+00   2.171436e+07     60s
+   73289    7.7585937e+03   0.000000e+00   5.597538e+07     65s
+   76394    6.4456747e+03   0.000000e+00   1.154800e+07     70s
+   77594    5.9261473e+03   0.000000e+00   1.551169e+08     75s
+   78944    5.5011200e+03   0.000000e+00   1.652007e+09     80s
+   82094    4.7995718e+03   0.000000e+00   8.304617e+07     85s
+   84794    4.3964840e+03   0.000000e+00   3.760752e+07     90s
+   87498    3.9852211e+03   0.000000e+00   1.363985e+07     95s
+   89601    3.8125698e+03   0.000000e+00   1.240330e+08    100s
+   91552    3.7029490e+03   0.000000e+00   2.668855e+07    105s
+   93352    3.6104658e+03   0.000000e+00   1.493429e+07    110s
+   95152    3.4914424e+03   0.000000e+00   3.183398e+07    115s
+
+
+Root relaxation: time limit, 97705 iterations, 112.46 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0          -    0      5600.00000 -600.00000   111%     -  120s
+
+Explored 0 nodes (97705 simplex iterations) in 120.07 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 5600 
+
+Time limit reached
+Best objective 5.600000000000e+03, best bound -6.000000000000e+02, gap 110.7143%
+
+User-callback calls 36890, time in user-callback 0.96 sec

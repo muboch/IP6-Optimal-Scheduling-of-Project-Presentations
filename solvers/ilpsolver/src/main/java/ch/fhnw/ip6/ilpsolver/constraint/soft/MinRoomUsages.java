@@ -31,6 +31,7 @@ public class MinRoomUsages extends SoftConstraint {
                     }
                 }
                 getGrbModel().addGenConstrIndicator(roomUsed, 1, sumOfUsedRooms, GRB.GREATER_EQUAL, 1.0, null);
+                getGrbModel().addGenConstrIndicator(roomUsed, 0, sumOfUsedRooms, GRB.LESS_EQUAL, 1.0, null);
                 getObjectives().addTerm(USED_ROOM_COST, roomUsed);
 
             }
