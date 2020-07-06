@@ -42,9 +42,6 @@ public class MinRoomUsages extends SoftConstraint {
 
             }
 
-            // subtract cost for each lecturer with min. one presentation. this is because the first usage of a room (entrance) is counted. this is actually false as this is no room switch
-            getObjectives().addConstant(-(int) getIlpModel().getPresentationsPerLecturer().entrySet().stream().filter(e -> e.getValue().size() > 0).count() * CostUtil.ROOM_SWITCH_COST);
-
         } catch (GRBException e) {
             e.printStackTrace();
         }
