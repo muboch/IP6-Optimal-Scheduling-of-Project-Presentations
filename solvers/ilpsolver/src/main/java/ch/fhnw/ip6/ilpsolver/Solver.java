@@ -86,13 +86,16 @@ public class Solver extends AbstractSolver {
             grbModel.write("model.mps");
             grbModel.set(GRB.StringParam.LogFile, "gurobi.log");
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
+            grbModel.set(GRB.IntParam.Method, 2);
+            grbModel.set(GRB.IntParam.NormAdjust, 3);
+            grbModel.set(GRB.IntParam.SimplexPricing, 3);
             grbModel.set(GRB.DoubleParam.TuneTimeLimit, 600);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
             grbModel.update();
 
             watch.split();
             log.info("Start with Gurobi Optimization");
-            //grbModel.tune();
+            grbModel.tune();
             grbModel.optimize();
             log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
             watch.unsplit();
