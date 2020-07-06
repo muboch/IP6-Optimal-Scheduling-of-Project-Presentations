@@ -28,6 +28,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Slf4j
@@ -87,10 +88,12 @@ public class Solver extends AbstractSolver {
             grbModel.set(GRB.StringParam.LogFile, "gurobi.log");
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
+            grbModel.set(GRB.DoubleParam.TuneTimeLimit, timeLimit);
             grbModel.update();
 
             watch.split();
             log.info("Start with Gurobi Optimization");
+            grbModel.tune();
             grbModel.optimize();
             log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
             watch.unsplit();
