@@ -39,6 +39,11 @@ public class MinRoomSwitches extends SoftConstraint {
             }
 
             for (L l : lecturers) {
+
+                if(getIlpModel().getPresentationsPerLecturer().get(l).size() == 0){
+                    continue;
+                }
+
                 for (R r : rooms) {
                     for (T t : timeslots) {
 
