@@ -80,11 +80,16 @@ public class MinRoomSwitches extends SoftConstraint {
                         rhs.addConstant(-1);
                         // {0,1} >= rhs
                         getGrbModel().addConstr(currentRoomNotPrevRoom, GRB.GREATER_EQUAL, rhs, "ConstrCurrentRoomNotPrevRoom-" + l.getInitials() + "-" + r.getName() + "-" + t.getId());
-                        // FIXME: Bug cost are wrong
                         getObjectives().addTerm(CostUtil.ROOM_SWITCH_COST, currentRoomNotPrevRoom);
+
                     }
+
                 }
+
             }
+
+            // subtract cost for each lecturer with min. one presentation. this is because the first usage of a room (entrance) is counted. this is actually false as this is no room switch
+            getObjectives().addConstant(-(int) getIlpModel().getPresentationsPerLecturer().entrySet().stream().filter(e -> e.getValue().size() > 0).count() * CostUtil.ROOM_SWITCH_COST);
 
         } catch (GRBException e) {
             e.printStackTrace();
