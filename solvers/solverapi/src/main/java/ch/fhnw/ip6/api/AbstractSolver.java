@@ -33,7 +33,7 @@ public abstract class AbstractSolver implements SolverApi {
 
     public Planning testSolve() {
         JsonUtil util = new JsonUtil();
-        List<PresentationDto> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", PresentationDto.class));
+        List<PresentationDto> presentations = new ArrayList<>(util.getJsonAsList("presentations.json", PresentationDto.class)).subList(0,100);
         return testSolve(presentations);
     }
 
