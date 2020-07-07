@@ -14,21 +14,18 @@ import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.AllPresentationsToRoomAndTimeslotAssigned;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.LecturerNotMoreThanOnePresentationPerTimeslot;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.OnlyOnePresentationPerRoomAndTimeslot;
-import ch.fhnw.ip6.ilpsolver.constraint.soft.MinFreeTimeslots;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomSwitches;
-import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomUsages;
-import ch.fhnw.ip6.ilpsolver.constraint.soft.MinTimeslotUsages;
 import gurobi.GRB;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
+import gurobi.GRBVar;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @Slf4j
@@ -70,9 +67,9 @@ public class Solver extends AbstractSolver {
             constraints.add(new AllPresentationsToRoomAndTimeslotAssigned());
             constraints.add(new LecturerNotMoreThanOnePresentationPerTimeslot());
             constraints.add(new OnlyOnePresentationPerRoomAndTimeslot());
-            constraints.add(new MinTimeslotUsages());
-            constraints.add(new MinRoomUsages());
-            constraints.add(new MinFreeTimeslots());
+            //constraints.add(new MinTimeslotUsages());
+            //constraints.add(new MinRoomUsages());
+            //constraints.add(new MinFreeTimeslots());
             constraints.add(new MinRoomSwitches());
             constraints.forEach(c -> {
                 c.setObjectives(objective);
@@ -88,19 +85,26 @@ public class Solver extends AbstractSolver {
             grbModel.set(GRB.StringParam.LogFile, "gurobi.log");
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
-            grbModel.set(GRB.DoubleParam.TuneTimeLimit, timeLimit);
+            grbModel.set(GRB.DoubleParam.TuneTimeLimit, 600);
             grbModel.update();
 
             watch.split();
             log.info("Start with Gurobi Optimization");
+            grbModel.tune();
             grbModel.optimize();
             log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
             watch.unsplit();
 
+            for (GRBVar v : grbModel.getVars()) {
+                if (v.get(GRB.StringAttr.VarName).startsWith("lecInRoomAtTime") && v.get(GRB.DoubleAttr.X) > 0) {
+                    System.out.println(v.get(GRB.StringAttr.VarName) + " - " + v.get(GRB.DoubleAttr.X));
+                }
+            }
+
             Planning planning = solverContext.getPlanning();
             planning.setTimeslots(ts);
             planning.setRooms(rs);
-            fillPlanning(ps, rs, ts, grbModel, model, planning);
+            //fillPlanning(ps, rs, ts, grbModel, model, planning);
 
             int status = grbModel.get(GRB.IntAttr.Status);
             if (status == GRB.Status.OPTIMAL || status == GRB.Status.TIME_LIMIT)
