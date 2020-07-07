@@ -14,7 +14,10 @@ import ch.fhnw.ip6.ilpsolver.constraint.Constraint;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.AllPresentationsToRoomAndTimeslotAssigned;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.LecturerNotMoreThanOnePresentationPerTimeslot;
 import ch.fhnw.ip6.ilpsolver.constraint.hard.OnlyOnePresentationPerRoomAndTimeslot;
+import ch.fhnw.ip6.ilpsolver.constraint.soft.MinFreeTimeslots;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomSwitches;
+import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomUsages;
+import ch.fhnw.ip6.ilpsolver.constraint.soft.MinTimeslotUsages;
 import gurobi.GRB;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
@@ -67,9 +70,9 @@ public class Solver extends AbstractSolver {
             constraints.add(new AllPresentationsToRoomAndTimeslotAssigned());
             constraints.add(new LecturerNotMoreThanOnePresentationPerTimeslot());
             constraints.add(new OnlyOnePresentationPerRoomAndTimeslot());
-            //constraints.add(new MinTimeslotUsages());
-            //constraints.add(new MinRoomUsages());
-            //constraints.add(new MinFreeTimeslots());
+            constraints.add(new MinTimeslotUsages());
+            constraints.add(new MinRoomUsages());
+            constraints.add(new MinFreeTimeslots());
             constraints.add(new MinRoomSwitches());
             constraints.forEach(c -> {
                 c.setObjectives(objective);
@@ -84,7 +87,9 @@ public class Solver extends AbstractSolver {
             grbModel.write("model.mps");
             grbModel.set(GRB.StringParam.LogFile, "gurobi.log");
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
+            grbModel.set(GRB.IntParam.Method, 0);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
+
             grbModel.set(GRB.DoubleParam.TuneTimeLimit, 1000);
             grbModel.getEnv().set(GRB.IntParam.TuneResults, 1);
             grbModel.update();
