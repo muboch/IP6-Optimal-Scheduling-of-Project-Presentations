@@ -85,20 +85,28 @@ public class Solver extends AbstractSolver {
             grbModel.set(GRB.StringParam.LogFile, "gurobi.log");
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
-            grbModel.set(GRB.DoubleParam.TuneTimeLimit, 600);
+            grbModel.set(GRB.DoubleParam.TuneTimeLimit, 1000);
+            grbModel.getEnv().set(GRB.IntParam.TuneResults, 1);
             grbModel.update();
 
             watch.split();
             log.info("Start with Gurobi Optimization");
             grbModel.tune();
-            grbModel.optimize();
-            log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
-            watch.unsplit();
 
-            for (GRBVar v : grbModel.getVars()) {
-                if (v.get(GRB.StringAttr.VarName).startsWith("lecInRoomAtTime") && v.get(GRB.DoubleAttr.X) > 0) {
-                    System.out.println(v.get(GRB.StringAttr.VarName) + " - " + v.get(GRB.DoubleAttr.X));
-                }
+            int resultcount = grbModel.get(GRB.IntAttr.TuneResultCount);
+
+            if (resultcount > 0) {
+
+                // Load the tuned parameters into the model's environment
+                grbModel.getTuneResult(0);
+
+                // Write the tuned parameters to a file
+                grbModel.write("tune.prm");
+
+                // Solve the model using the tuned parameters
+                grbModel.optimize();
+                log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
+                watch.unsplit();
             }
 
             Planning planning = solverContext.getPlanning();
