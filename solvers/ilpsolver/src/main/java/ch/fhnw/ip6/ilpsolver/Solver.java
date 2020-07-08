@@ -89,7 +89,7 @@ public class Solver extends AbstractSolver {
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
 
-            grbModel.set(GRB.DoubleParam.TuneTimeLimit, 1000);
+            grbModel.set(GRB.DoubleParam.TuneTimeLimit, 10000);
             grbModel.getEnv().set(GRB.IntParam.TuneResults, 1);
             grbModel.update();
 
