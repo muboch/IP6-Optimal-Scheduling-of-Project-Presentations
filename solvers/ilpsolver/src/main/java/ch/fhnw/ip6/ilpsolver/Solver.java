@@ -23,7 +23,6 @@ import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
-import gurobi.GRBVar;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.stereotype.Component;
@@ -89,7 +88,7 @@ public class Solver extends AbstractSolver {
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
             //grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
 
-            grbModel.set(GRB.DoubleParam.TuneTimeLimit, 10000);
+            grbModel.set(GRB.DoubleParam.TuneTimeLimit, 43200); // 12h
             grbModel.getEnv().set(GRB.IntParam.TuneResults, 1);
             grbModel.update();
 
@@ -99,18 +98,19 @@ public class Solver extends AbstractSolver {
 
             int resultcount = grbModel.get(GRB.IntAttr.TuneResultCount);
 
-            if (resultcount > 0) {
+            while (resultcount >= 0) {
 
                 // Load the tuned parameters into the model's environment
-                grbModel.getTuneResult(0);
+                grbModel.getTuneResult(resultcount);
 
                 // Write the tuned parameters to a file
-                grbModel.write("tune.prm");
+                grbModel.write("tune_" + resultcount + ".prm");
 
                 // Solve the model using the tuned parameters
                 grbModel.optimize();
                 log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
                 watch.unsplit();
+                resultcount--;
             }
 
             Planning planning = solverContext.getPlanning();
