@@ -39,6 +39,11 @@ public class MinRoomSwitches extends SoftConstraint {
             }
 
             for (L l : lecturers) {
+
+                if (getIlpModel().getPresentationsPerLecturer().get(l).size() == 0) {
+                    continue;
+                }
+
                 for (R r : rooms) {
                     for (T t : timeslots) {
 
@@ -48,7 +53,10 @@ public class MinRoomSwitches extends SoftConstraint {
                             if (getX()[indexOf(p1)][indexOf(t)][indexOf(r)] != null)
                                 presAtTimeInRoom.addTerm(1.0, getX()[indexOf(p1)][indexOf(t)][indexOf(r)]);
                         }
-                        getGrbModel().addConstr(lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)], GRB.EQUAL, presAtTimeInRoom, null);
+
+                        getGrbModel().addGenConstrIndicator(lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)], 1, presAtTimeInRoom, GRB.GREATER_EQUAL, 1.0, null);
+                        getGrbModel().addGenConstrIndicator(lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)], 0, presAtTimeInRoom, GRB.LESS_EQUAL, 0.0, null);
+
 
                         GRBLinExpr linExprPrevRoom = new GRBLinExpr();
                         linExprPrevRoom.addConstant(1.0);
@@ -58,28 +66,15 @@ public class MinRoomSwitches extends SoftConstraint {
                             linExprPrevRoom.addTerm(0.0, lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)]);
                         }
 
-                        GRBVar currentRoomNotPrevRoom = getGrbModel().addVar(0, 1, 0.0, GRB.BINARY, "currentRoomNotPrevRoom-" + l.getInitials() + "-" + r.getName() + "-" + t.getId());
-
-                        //                {0,1}                       {0,1}
-                        // ---> current == prev
-                        // rhs = 1.0 * prt[l][t][r] + (1 - 1.0 * prt[l][t-1][r]) - 1
-                        // rhs = 1.0 *       1      + (1 - 1.0 *  1            ) - 1
-                        // rhs = 1 + (0) - 1
-                        // rhs = 0
-                        // ---- current != prev
-                        // rhs = 1.0 *       1      + (1 - 1.0 * 0             ) - 1
-                        // rhs = 1 + (1 - 0) - 1
-                        // rhs = 1
-                        // ---- current != prev
-                        // rhs = 1.0 *       0      + (1 - 1.0 * 1             ) - 1
-                        // rhs = 0 + (1 - 1) - 1
-                        // rhs = -1
                         GRBLinExpr rhs = new GRBLinExpr();
                         rhs.addTerm(1.0, lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)]);
                         rhs.multAdd(1.0, linExprPrevRoom);
                         rhs.addConstant(-1);
-                        // {0,1} >= rhs
-                        getGrbModel().addConstr(currentRoomNotPrevRoom, GRB.GREATER_EQUAL, rhs, "ConstrCurrentRoomNotPrevRoom-" + l.getInitials() + "-" + r.getName() + "-" + t.getId());
+
+                        GRBVar currentRoomNotPrevRoom = getGrbModel().addVar(0, 1, 0.0, GRB.BINARY, "currentRoomNotPrevRoom-" + l.getInitials() + "-" + r.getName() + "-" + t.getId());
+                        getGrbModel().addGenConstrIndicator(currentRoomNotPrevRoom, 1, rhs, GRB.GREATER_EQUAL, 1, null);
+                        getGrbModel().addGenConstrIndicator(currentRoomNotPrevRoom, 0, rhs, GRB.LESS_EQUAL, 0, null);
+
                         getObjectives().addTerm(CostUtil.ROOM_SWITCH_COST, currentRoomNotPrevRoom);
 
                     }
