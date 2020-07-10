@@ -14,7 +14,7 @@ public class MinTimeslotUsages extends SoftConstraint {
     public void build() {
 
         try {
-            final double MAX_TIMESLOTS = 1.0 / getIlpModel().getTimeslots().size();
+            final double MAX_TIMESLOTS = Math.round((1.0 / getIlpModel().getTimeslots().size()) * 2) / 2.0;
 
             for (T t : getIlpModel().getTimeslots()) {
 

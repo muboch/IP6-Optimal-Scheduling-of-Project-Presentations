@@ -3,7 +3,6 @@ package ch.fhnw.ip6.ilpsolver.constraint.soft;
 import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
-import ch.fhnw.ip6.common.util.CostUtil;
 import ch.fhnw.ip6.ilpsolver.constraint.SoftConstraint;
 import gurobi.GRB;
 import gurobi.GRBException;
@@ -17,7 +16,8 @@ public class MinRoomUsages extends SoftConstraint {
     public void build() {
 
         // final double MAX_ROOMS = (1.0 / getIlpModel().getPresentationsPerLecturer().values().stream().max(Comparator.comparingInt(List::size)).get().size());
-        final double MAX_ROOMS = (1.0 / getIlpModel().getRooms().size());
+        final double MAX_ROOMS = Math.round((1.0 / getIlpModel().getRooms().size()) * 2) / 2.0;
+        ;
 
         try {
             for (R r : getIlpModel().getRooms()) {
