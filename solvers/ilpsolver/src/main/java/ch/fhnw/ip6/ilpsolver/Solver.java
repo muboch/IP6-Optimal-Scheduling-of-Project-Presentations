@@ -91,11 +91,11 @@ public class Solver extends AbstractSolver {
             grbModel.set(GRB.IntParam.AggFill, 10);
             grbModel.set(GRB.IntParam.GomoryPasses, 0);
             grbModel.set(GRB.IntParam.Symmetry, 2);
+            grbModel.set(GRB.IntParam.Presolve, 2);
             grbModel.update();
 
             watch.split();
             log.info("Start with Gurobi Optimization");
-            grbModel.tune();
             grbModel.optimize();
 
 

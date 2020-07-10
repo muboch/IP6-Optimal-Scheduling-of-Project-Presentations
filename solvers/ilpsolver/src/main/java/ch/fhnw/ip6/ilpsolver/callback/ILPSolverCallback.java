@@ -39,6 +39,7 @@ public class ILPSolverCallback extends GRBCallback {
             Planning planning = new Planning();
             planning.setRooms(rooms);
             planning.setTimeslots(timeslots);
+            planning.setNr(solverContext.getPlanning() != null ? solverContext.getPlanning().getNr() + 1 : 1);
             Set<Solution> solutions = new HashSet<>();
             for (P p : presentations) {
                 for (T t : timeslots) {
