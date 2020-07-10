@@ -86,32 +86,18 @@ public class Solver extends AbstractSolver {
             grbModel.write("model.mps");
             grbModel.set(GRB.StringParam.LogFile, "gurobi.log");
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
-            //grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
-
-            grbModel.set(GRB.DoubleParam.TuneTimeLimit, 43200); // 12h
-            grbModel.getEnv().set(GRB.IntParam.TuneResults, 1);
+            grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
+            grbModel.set(GRB.IntParam.Method, 2);
+            grbModel.set(GRB.IntParam.AggFill, 10);
+            grbModel.set(GRB.IntParam.GomoryPasses, 0);
+            grbModel.set(GRB.IntParam.Symmetry, 2);
             grbModel.update();
 
             watch.split();
             log.info("Start with Gurobi Optimization");
             grbModel.tune();
+            grbModel.optimize();
 
-            int resultcount = grbModel.get(GRB.IntAttr.TuneResultCount);
-
-            while (resultcount >= 0) {
-
-                // Load the tuned parameters into the model's environment
-                grbModel.getTuneResult(resultcount);
-
-                // Write the tuned parameters to a file
-                grbModel.write("tune_" + resultcount + ".prm");
-
-                // Solve the model using the tuned parameters
-                grbModel.optimize();
-                log.info("End of Gurobi Optimization after " + watch.getSplitTime() + "ms");
-                watch.unsplit();
-                resultcount--;
-            }
 
             Planning planning = solverContext.getPlanning();
             planning.setTimeslots(ts);
