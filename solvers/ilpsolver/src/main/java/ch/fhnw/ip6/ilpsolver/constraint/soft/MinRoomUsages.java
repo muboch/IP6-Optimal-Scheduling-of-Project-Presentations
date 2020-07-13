@@ -15,14 +15,9 @@ public class MinRoomUsages extends SoftConstraint {
     @Override
     public void build() {
 
-        // final double MAX_ROOMS = (1.0 / getIlpModel().getPresentationsPerLecturer().values().stream().max(Comparator.comparingInt(List::size)).get().size());
-        final double MAX_ROOMS = (1.0 / getIlpModel().getRooms().size());
-        ;
-
         try {
             for (R r : getIlpModel().getRooms()) {
 
-                GRBLinExpr linExpr = new GRBLinExpr();
 
                 GRBVar roomUsed = getGrbModel().addVar(0, 1, 0.0, GRB.BINARY, null);
 
@@ -30,13 +25,13 @@ public class MinRoomUsages extends SoftConstraint {
                 for (T t : getIlpModel().getTimeslots()) {
                     for (P p : getIlpModel().getPresentations()) {
                         if (getX()[indexOf(p)][indexOf(t)][indexOf(r)] != null) {
-                            sumOfUsedRooms.addTerm(MAX_ROOMS, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
-                            linExpr.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
+                            sumOfUsedRooms.addTerm(1.0, getX()[indexOf(p)][indexOf(t)][indexOf(r)]);
                         }
                     }
                 }
 
-                getGrbModel().addConstr(roomUsed, GRB.GREATER_EQUAL, sumOfUsedRooms, null);
+                getGrbModel().addGenConstrIndicator(roomUsed, 1, sumOfUsedRooms, GRB.GREATER_EQUAL, 1.0, null);
+                getGrbModel().addGenConstrIndicator(roomUsed, 0, sumOfUsedRooms, GRB.LESS_EQUAL, 0.0, null);
 
                 getObjectives().addTerm(USED_ROOM_COST, roomUsed);
 
