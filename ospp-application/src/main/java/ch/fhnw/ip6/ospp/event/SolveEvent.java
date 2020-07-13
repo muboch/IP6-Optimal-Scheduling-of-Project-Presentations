@@ -10,7 +10,6 @@ public class SolveEvent extends ApplicationEvent {
 
     private String solverName;
     private TestMode testMode;
-    private int timeLimit;
 
     public enum TestMode {
         NORMAL("2019"),
@@ -27,10 +26,9 @@ public class SolveEvent extends ApplicationEvent {
         }
     }
 
-    public SolveEvent(Object source, String solverName, TestMode testMode, int timeLimit) {
+    public SolveEvent(Object source, String solverName, TestMode testMode) {
         super(source);
         this.solverName = solverName;
         this.testMode = testMode;
-        this.timeLimit = timeLimit;
     }
 }
