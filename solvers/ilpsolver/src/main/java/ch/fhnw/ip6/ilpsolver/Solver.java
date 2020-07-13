@@ -86,7 +86,7 @@ public class Solver extends AbstractSolver {
             grbModel.write("model.mps");
             grbModel.set(GRB.StringParam.LogFile, "gurobi.log");
             grbModel.set(GRB.IntAttr.ModelSense, GRB.MINIMIZE);
-
+            grbModel.set(GRB.DoubleParam.TimeLimit, timeLimit);
             grbModel.set(GRB.IntParam.Method, 2);
             grbModel.set(GRB.IntParam.GomoryPasses, 15);
             grbModel.update();
