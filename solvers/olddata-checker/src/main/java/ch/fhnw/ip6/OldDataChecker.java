@@ -51,11 +51,9 @@ public class OldDataChecker {
         timeslotCostMap.put(15,45); // SA 0845
         timeslotCostMap.put(16,45); // SA 0900
         timeslotCostMap.put(17,40); // SA 0930
-        timeslotCostMap.put(18,40); //SA 1000
-        timeslotCostMap.put(19,45); //SA 1015
-        timeslotCostMap.put(20,50); //SA 1100
-
-
+        timeslotCostMap.put(18,40); // SA 1000
+        timeslotCostMap.put(19,45); // SA 1015
+        timeslotCostMap.put(20,50); // SA 1100
 
         try (InputStream inputStream = OldDataChecker.class.getClassLoader().getResourceAsStream("Präsentationsplan_SA_19_def.xlsx")) {
             Workbook workbook = WorkbookFactory.create(inputStream);
