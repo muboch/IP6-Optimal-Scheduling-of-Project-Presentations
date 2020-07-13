@@ -63,7 +63,7 @@ public class MinRoomSwitches extends SoftConstraint {
                         if (t != firstTimeslot) {
                             linExprPrevRoom.addTerm(-1.0, lecInRoomAtTime[indexOf(l)][indexOf(t) - 1][indexOf(r)]);
                         } else {
-                            linExprPrevRoom.addTerm(0.0, lecInRoomAtTime[indexOf(l)][indexOf(t)][indexOf(r)]);
+                            linExprPrevRoom.addConstant(0);
                         }
 
                         GRBLinExpr rhs = new GRBLinExpr();
