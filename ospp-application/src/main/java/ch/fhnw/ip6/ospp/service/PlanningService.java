@@ -126,19 +126,13 @@ public class PlanningService {
         }
         solverContext.reset();
 
-        if (testMode == TestMode.NONE) {
-            planning = getSolver().solve(presentationDtos, lecturerDtos, roomDtos, timeslotDtos, offTimes);
-        }
         if (testMode == TestMode.NORMAL) {
             planning = getSolver().testSolve();
-        }
-        if (testMode == TestMode.LARGE) {
+        } else if (testMode == TestMode.LARGE) {
             planning = getSolver().testSolveLarge();
+        } else {
+            planning = getSolver().solve(presentationDtos, lecturerDtos, roomDtos, timeslotDtos, offTimes);
         }
-
-
-
-
 
 
         ExcelFile excelFile = transformToCsv(planning);
@@ -231,7 +225,7 @@ public class PlanningService {
         if (solverContext.isSolving()) {
             throw new FachlicheException("Es wird bereits eine Planung erstellt.");
         }
-        applicationEventPublisher.publishEvent( new SolveEvent(this, solverName, TestMode.NONE, timeLimit));
+        applicationEventPublisher.publishEvent(new SolveEvent(this, solverName,  null));
     }
 
     public ExcelFile getFileById(long id) {

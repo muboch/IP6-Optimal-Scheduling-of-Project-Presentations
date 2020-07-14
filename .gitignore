@@ -29,3 +29,5 @@ Thumbs.db
 /solvers/ilpsolver/target/
 /solvers/solution-checker/target/
 /solvers/solverapi/target/
+gurobi.log
+model.mps

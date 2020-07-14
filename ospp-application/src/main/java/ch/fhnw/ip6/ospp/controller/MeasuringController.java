@@ -66,6 +66,25 @@ public class MeasuringController {
     }
 
     private void solve(String solverName, Integer timeLimit, TestMode testMode) throws Exception {
+
+    @GetMapping("auto")
+    public void auto() throws Exception {
+
+        TestMode[] modes = {NORMAL, LARGE};
+        String[] solvers = {"ch.fhnw.ip6.optasolver.Solver", "ch.fhnw.ip6.ilpsolver.Solver", "ch.fhnw.ip6.ortoolssolver.Solver"};
+
+        Arrays.stream(modes).forEach(m -> {
+            AtomicInteger run = new AtomicInteger(1);
+            for (String s : solvers) {
+                log.info("Start of auto-solving {} mode {} run {}", s, m.getIndicator(), run);
+                solve(s, m);
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                while (solverContext.isSolving())
+                    log.debug("{} {} is still solving ({})", s, m.getIndicator(), solverContext.getPlanning() != null ? solverContext.getPlanning().getCost() : "nA");
         if (solverName == null) {
             throw new FachlicheException("Kein Solver angegeben.");
         }

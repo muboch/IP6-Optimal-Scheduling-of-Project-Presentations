@@ -2,15 +2,17 @@ package ch.fhnw.ip6.api;
 
 import ch.fhnw.ip6.api.util.SimpleSystemInfo;
 import ch.fhnw.ip6.common.dto.Planning;
-import oshi.SystemInfo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import oshi.SystemInfo;
 import oshi.hardware.GlobalMemory;
 import oshi.hardware.VirtualMemory;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,7 +32,9 @@ public class SolverContext {
     private boolean isSolving;
 
     private Planning planning;
+
     private Timer timer;
+
 
     /**
      * Compares received planning with existing planning. Keeps the planning with the better score.
@@ -67,9 +71,9 @@ public class SolverContext {
                     SystemInfo si = new SystemInfo();
                     GlobalMemory mem = si.getHardware().getMemory();
                     VirtualMemory virtualMemory = mem.getVirtualMemory();
-                    log.info("SYSINFO: "+showCpuInfo(info));
-                    log.info(String.format("SYSINFO: System memory: %s used, %s total, %s available ", bytesToHumanReadableValue(mem.getTotal() - mem.getAvailable()), bytesToHumanReadableValue(mem.getTotal()),bytesToHumanReadableValue(mem.getAvailable())));
-                    log.info(String.format("SYSINFO: Virtual memory: %s used, %s total, %s available ", bytesToHumanReadableValue(virtualMemory.getSwapUsed()),bytesToHumanReadableValue(virtualMemory.getSwapTotal()), bytesToHumanReadableValue(virtualMemory.getSwapTotal() - virtualMemory.getSwapUsed())));
+                    log.info("SYSINFO: " + showCpuInfo(info));
+                    log.info(String.format("SYSINFO: System memory: %s used, %s total, %s available ", bytesToHumanReadableValue(mem.getTotal() - mem.getAvailable()), bytesToHumanReadableValue(mem.getTotal()), bytesToHumanReadableValue(mem.getAvailable())));
+                    log.info(String.format("SYSINFO: Virtual memory: %s used, %s total, %s available ", bytesToHumanReadableValue(virtualMemory.getSwapUsed()), bytesToHumanReadableValue(virtualMemory.getSwapTotal()), bytesToHumanReadableValue(virtualMemory.getSwapTotal() - virtualMemory.getSwapUsed())));
 
                 }
             }, 0, 60000);
