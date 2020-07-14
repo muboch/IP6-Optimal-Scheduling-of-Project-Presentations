@@ -10,14 +10,25 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <File>${user.home}/app.log</File> <!-- LOCATION of FILE WHERE YOU WANT TO SAVE -->
+        <filter class="ch.fhnw.ip6.ospp.logging.DefaultFilter" />
+
+        <File>${user.home}/app.log</File>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
+    <appender name="FILE_SYS" class="ch.qos.logback.core.FileAppender">
+        <File>${user.home}/sysusage.log</File>
+        <filter class="ch.fhnw.ip6.ospp.logging.SysinfoFilter" />
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d - %msg%n</pattern>
+        </layout>
+    </appender>
+
     <root level="INFO">
         <appender-ref ref="FILE" />
+        <appender-ref ref="FILE_SYS" />
         <appender-ref ref="CONSOLE" />
     </root>
 </configuration>
