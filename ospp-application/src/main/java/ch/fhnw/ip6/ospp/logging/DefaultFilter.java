@@ -8,7 +8,7 @@ public class DefaultFilter extends Filter<ILoggingEvent> {
 
     @Override
     public FilterReply decide(ILoggingEvent event) {
-        if (event.getMessage().startsWith("SYSINFO:")) {
+        if (event.getMessage().contains("SYSINFO:")) {
             return FilterReply.DENY;
         } else {
             return FilterReply.ACCEPT;
