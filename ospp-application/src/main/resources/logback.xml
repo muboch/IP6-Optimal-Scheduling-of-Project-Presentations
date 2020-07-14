@@ -26,6 +26,8 @@
         </layout>
     </appender>
 
+    <logger name="org.optaplanner" level="info"/>
+
     <root level="INFO">
         <appender-ref ref="FILE" />
         <appender-ref ref="FILE_SYS" />
