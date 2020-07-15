@@ -7,7 +7,6 @@ import ch.fhnw.ip6.ospp.event.SolveEvent.TestMode;
 import ch.fhnw.ip6.ospp.service.FachlicheException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.MDC;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -75,21 +74,28 @@ public class MeasuringController {
         TestMode[] modes = {NORMAL, LARGE};
         String[] solvers = {"ch.fhnw.ip6.optasolver.Solver", "ch.fhnw.ip6.ilpsolver.Solver", "ch.fhnw.ip6.ortoolssolver.Solver"};
 
-        Arrays.stream(modes).forEach(m -> {
-            AtomicInteger run = new AtomicInteger(1);
+        Thread auto = new Thread(() -> Arrays.stream(modes).forEach(m -> {
             for (String s : solvers) {
-                log.info("Start of auto-solving {} mode {} run {}", s, m.getIndicator(), run);
-                solve(s, m);
-                try {
-                    TimeUnit.SECONDS.sleep(10);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                AtomicInteger run = new AtomicInteger(1);
+                while(run.get() <= 5) {
+                    log.info("Start of auto-solving {} mode {} run {}", s, m.getIndicator(), run);
+                    solve(s, m);
+                    try {
+                        TimeUnit.SECONDS.sleep(10);
+
+                        while (solverContext.isSolving()) {
+                            TimeUnit.SECONDS.sleep(10);
+                            log.debug("{} {} is still solving ({})", s, m.getIndicator(), solverContext.getPlanning() != null ? solverContext.getPlanning().getCost() : "nA");
+                        }
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    run.getAndIncrement();
                 }
-                while (solverContext.isSolving())
-                    log.debug("{} {} is still solving ({})", s, m.getIndicator(), solverContext.getPlanning() != null ? solverContext.getPlanning().getCost() : "nA");
-                run.getAndIncrement();
             }
-        });
+        }));
+        auto.start();
+
     }
 
 

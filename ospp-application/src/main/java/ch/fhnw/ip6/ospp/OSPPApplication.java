@@ -15,18 +15,7 @@ import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 @ComponentScan(basePackages = "ch.fhnw.ip6")
 public class OSPPApplication {
 
-    @Value("${ospp.solver}")
-    private static String solver;
-    @Value("${ospp.timeLimit}")
-    private static int timeLimit;
-    @Value("${ospp.testMode}")
-    private static SolveEvent.TestMode testMode;
-
     public static void main(String[] args) {
         SpringApplication.run(OSPPApplication.class, args);
-
-       // SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
-
-        log.debug("TestMode: {}, Solver {}, TimeLimit: {}", testMode, solver, timeLimit);
     }
 }
