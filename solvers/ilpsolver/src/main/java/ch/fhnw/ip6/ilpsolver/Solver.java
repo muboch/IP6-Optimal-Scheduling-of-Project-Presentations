@@ -18,6 +18,7 @@ import ch.fhnw.ip6.ilpsolver.constraint.soft.MinFreeTimeslots;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomSwitches;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinRoomUsages;
 import ch.fhnw.ip6.ilpsolver.constraint.soft.MinTimeslotUsages;
+import ch.fhnw.ip6.solutionchecker.SolutionChecker;
 import gurobi.GRB;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
@@ -28,7 +29,9 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Component("ch.fhnw.ip6.ilpsolver.Solver")
@@ -95,32 +98,59 @@ public class Solver extends AbstractSolver {
             log.info("Start with Gurobi Optimization");
             grbModel.optimize();
 
+            Planning planning;
+            if (solverContext.getPlanning() != null) {
+                planning = solverContext.getPlanning();
+                planning.setTimeslots(ts);
+                planning.setRooms(rs);
+                fillPlanning(ps, rs, ts, grbModel, model, planning);
 
-            Planning planning = solverContext.getPlanning();
-            planning.setTimeslots(ts);
-            planning.setRooms(rs);
-            fillPlanning(ps, rs, ts, grbModel, model, planning);
-
-            int status = grbModel.get(GRB.IntAttr.Status);
-            if (status == GRB.Status.OPTIMAL || status == GRB.Status.TIME_LIMIT)
-                planning.setStatus(StatusEnum.SOLUTION);
-            else
-                planning.setStatus(StatusEnum.NO_SOLUTION);
-
-            // Dispose of model and environment
-            grbModel.dispose();
-            env.dispose();
+                int status = grbModel.get(GRB.IntAttr.Status);
+                if (status == GRB.Status.OPTIMAL || status == GRB.Status.TIME_LIMIT)
+                    planning.setStatus(StatusEnum.SOLUTION);
+                else
+                    planning.setStatus(StatusEnum.NO_SOLUTION);
+            } else {
+                planning = getPlanning(ps, ls, rs, ts, model);
+            }
+            solverContext.saveBestPlanning(planning);
             return planning;
-
         } catch (GRBException e) {
             e.printStackTrace();
         } finally {
             // set this flag so other processes know that the solver is finished
             solverContext.setIsSolving(false);
             watch.stop();
-            log.info("Duration of \"Gurobi\" Solver: " + watch.getTime() + "ms");
+            log.info("Best ILP Planning with Cost: {}\n{}", solverContext.getPlanning().getCost(), solverContext.getPlanning().getPlanningStats());
+            logTime("ILP", watch);
+
+
         }
         return null;
+    }
+
+    private Planning getPlanning(List<P> ps, List<L> ls, List<R> rs, List<T> ts, ILPModel model) throws GRBException {
+        Planning planning = new Planning();
+        planning.setRooms(rs);
+        planning.setTimeslots(ts);
+        planning.setNr(solverContext.getPlanning() != null ? solverContext.getPlanning().getNr() + 1 : 1);
+        Set<Solution> solutions = new HashSet<>();
+        for (P p : ps) {
+            for (T t : ts) {
+                for (R r : rs) {
+                    if (model.getX()[ps.indexOf(p)][ts.indexOf(t)][rs.indexOf(r)] == null) continue;
+                    if (model.getX()[ps.indexOf(p)][ts.indexOf(t)][rs.indexOf(r)].get(GRB.DoubleAttr.X) == 1.0) {
+                        solutions.add(new Solution(r, t, p, p.getCoach(), p.getExpert()));
+                    }
+                }
+            }
+        }
+        planning.setSolutions(solutions);
+        SolutionChecker solutionChecker = new SolutionChecker();
+        solutionChecker.generateStats(planning, ls, ps, ts, rs);
+        planning.setCost(solutionChecker.getTotalPlanningCost());
+        solverContext.saveBestPlanning(planning);
+        return planning;
     }
 
     private void fillPlanning(List<P> ps, List<R> rs, List<T> ts, GRBModel grbModel, ILPModel model, Planning planning) throws GRBException {

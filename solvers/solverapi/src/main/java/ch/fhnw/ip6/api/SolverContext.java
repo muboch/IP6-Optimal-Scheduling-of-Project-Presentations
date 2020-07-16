@@ -11,8 +11,6 @@ import oshi.hardware.GlobalMemory;
 import oshi.hardware.VirtualMemory;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -73,7 +71,11 @@ public class SolverContext {
                     VirtualMemory virtualMemory = mem.getVirtualMemory();
                     log.info("SYSINFO: " + showCpuInfo(info));
                     log.info(String.format("SYSINFO: System memory: %s used, %s total, %s available ", bytesToHumanReadableValue(mem.getTotal() - mem.getAvailable()), bytesToHumanReadableValue(mem.getTotal()), bytesToHumanReadableValue(mem.getAvailable())));
-                    log.info(String.format("SYSINFO: Virtual memory: %s used, %s total, %s available ", bytesToHumanReadableValue(virtualMemory.getSwapUsed()), bytesToHumanReadableValue(virtualMemory.getSwapTotal()), bytesToHumanReadableValue(virtualMemory.getSwapTotal() - virtualMemory.getSwapUsed())));
+                    try {
+                        log.info(String.format("SYSINFO: Virtual memory: %s used, %s total, %s available ", bytesToHumanReadableValue(virtualMemory.getSwapUsed()), bytesToHumanReadableValue(virtualMemory.getSwapTotal()), bytesToHumanReadableValue(virtualMemory.getSwapTotal() - virtualMemory.getSwapUsed())));
+                    } catch (Exception e) {
+                        // does not work on osx
+                    }
 
                 }
             }, 0, 60000);

@@ -122,18 +122,17 @@ public class Solver extends AbstractSolver {
 
             // offtimes[lecturers][timeslots]. Map offtimes to timeslots
 
-                for (int i = 0; i < lecturers.size(); i++) {
-                    for (int j = 0; j < timeslots.size(); j++) {
-                        if (offTimes[i][j]) {
-                            int finalI = i;
-                            int finalJ = j;
-                            Timeslot timeslot = timeslots.stream().filter(t -> t.getId() == finalJ).findFirst().get();
-                            lecturers.stream().filter(l -> l.getId() == finalI).findFirst().get().getOfftimes().add(timeslot);
-                        }
+            for (int i = 0; i < lecturers.size(); i++) {
+                for (int j = 0; j < timeslots.size(); j++) {
+                    if (offTimes[i][j]) {
+                        int finalI = i;
+                        int finalJ = j;
+                        Timeslot timeslot = timeslots.stream().filter(t -> t.getId() == finalJ).findFirst().get();
+                        lecturers.stream().filter(l -> l.getId() == finalI).findFirst().get().getOfftimes().add(timeslot);
                     }
                 }
-                lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
-
+            }
+            lecturers.forEach(l -> l.setPresentations(presentations.stream().filter(p -> p.getExpert().getId() == l.getId() || p.getCoach().getId() == l.getId()).collect(Collectors.toList()))); // map presentations to lecturerDto
 
 
             OptaSolution problem = new OptaSolution(timeslots, rooms, presentations, lecturers);
@@ -171,10 +170,11 @@ public class Solver extends AbstractSolver {
 
             solutionChecker.generateStats(planning, lecturers, presentations, timeslots, rooms);
             planning.setCost(solutionChecker.getTotalPlanningCost());
-            log.info("New Planning Nr. " + planning.getNr() + " - Cost: " + planning.getCost() + "\n" + planning.getPlanningStats() + "\n" + planning.getPlanningAsTable());
+            solverContext.saveBestPlanning(planning);
             watch.stop();
-            log.info("Duration of Optasolver: " + watch.getTime() + "ms");
-            solverContext.setPlanning(planning);
+            log.info("Best OPTA Planning with Cost: {}\n{}", solverContext.getPlanning().getCost(), solverContext.getPlanning().getPlanningStats());
+            logTime("OPTA", watch);
+
             return planning;
         } catch (InterruptedException | ExecutionException e) {
             log.error(ExceptionUtils.getStackTrace(e));

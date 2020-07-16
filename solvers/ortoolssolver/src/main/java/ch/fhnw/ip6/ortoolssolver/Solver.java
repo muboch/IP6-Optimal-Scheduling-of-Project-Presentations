@@ -137,7 +137,9 @@ public class Solver extends AbstractSolver {
             }
 
             watch.stop();
-            log.info("Duration of OR-Tools Solver: " + watch.getTime() + "ms");
+            log.info("Best OR Planning with Cost: {}\n{}", solverContext.getPlanning().getCost(), solverContext.getPlanning().getPlanningStats());
+            logTime("OR", watch);
+
             return p;
 
         } catch (Exception e) {
@@ -148,6 +150,8 @@ public class Solver extends AbstractSolver {
         }
         return null;
     }
+
+
 
     private void buildConstraintPresScheduledAtRoomAtTime(List<P> presentations, List<R> rooms, List<T> timeslots, IntVar[][][] presRoomTime) {
         for (P p : presentations) {

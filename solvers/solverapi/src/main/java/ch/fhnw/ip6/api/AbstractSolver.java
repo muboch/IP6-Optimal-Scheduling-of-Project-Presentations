@@ -11,11 +11,16 @@ import ch.fhnw.ip6.common.dto.marker.P;
 import ch.fhnw.ip6.common.dto.marker.R;
 import ch.fhnw.ip6.common.dto.marker.T;
 import ch.fhnw.ip6.common.util.JsonUtil;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -65,10 +70,16 @@ public abstract class AbstractSolver implements SolverApi {
                 new boolean[lecturers.size()][timeslots.size()]
         );
 
-        log.info("Solver completed. Best solution:");
-        log.info("Planning Stats:\n{}", solverContext.getPlanning().getPlanningStats());
-        log.info("Planning:\n{}", solverContext.getPlanning().getPlanningAsTable());
+        log.debug("Solver completed. Best solution:");
+        log.debug("Planning Stats:\n{}", solverContext.getPlanning().getPlanningStats());
+        log.debug("Planning:\n{}", solverContext.getPlanning().getPlanningAsTable());
         return solverContext.getPlanning();
+    }
+
+    public void logTime(String solver, StopWatch watch) {
+        LocalDateTime start = Instant.ofEpochMilli(watch.getStartTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime end = Instant.ofEpochMilli(watch.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        log.info("Duration of {} Start '{}' End '{}' ", solver, start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 
     public void init() {
