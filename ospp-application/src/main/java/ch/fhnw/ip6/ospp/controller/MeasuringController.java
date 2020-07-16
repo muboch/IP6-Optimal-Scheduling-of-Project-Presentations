@@ -7,11 +7,13 @@ import ch.fhnw.ip6.ospp.event.SolveEvent.TestMode;
 import ch.fhnw.ip6.ospp.service.FachlicheException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
@@ -69,31 +71,31 @@ public class MeasuringController {
 
 
     @GetMapping("auto")
-    public void auto() throws Exception {
-
-        TestMode[] modes = {NORMAL, LARGE};
+    public void auto(@RequestParam("mode") TestMode mode, @RequestParam("solver") String solver) throws Exception {
         String[] solvers = {"ch.fhnw.ip6.optasolver.Solver", "ch.fhnw.ip6.ilpsolver.Solver", "ch.fhnw.ip6.ortoolssolver.Solver"};
 
-        Thread auto = new Thread(() -> Arrays.stream(modes).forEach(m -> {
-            for (String s : solvers) {
-                AtomicInteger run = new AtomicInteger(1);
-                while(run.get() <= 5) {
-                    log.info("Start of auto-solving {} mode {} run {}", s, m.getIndicator(), run);
-                    solve(s, m);
-                    try {
-                        TimeUnit.SECONDS.sleep(10);
+        if (!Arrays.asList(TestMode.values()).contains(mode) || !solver.contains(solver)) {
+            throw new FachlicheException("falsche params\nMode: " + StringUtils.join(TestMode.values(), ", ") + "\nSolvers: " + StringUtils.join(solvers, ", "));
+        }
 
-                        while (solverContext.isSolving()) {
-                            TimeUnit.SECONDS.sleep(10);
-                            log.debug("{} {} is still solving ({})", s, m.getIndicator(), solverContext.getPlanning() != null ? solverContext.getPlanning().getCost() : "nA");
-                        }
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+        Thread auto = new Thread(() -> {
+            AtomicInteger run = new AtomicInteger(1);
+            while (run.get() <= 5) {
+                log.info("Start of auto-solving {} mode {} run {}", solver, mode.getIndicator(), run);
+                solve(solver, mode);
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+
+                    while (solverContext.isSolving()) {
+                        TimeUnit.SECONDS.sleep(10);
+                        log.debug("{} {} is still solving ({})", solver, mode.getIndicator(), solverContext.getPlanning() != null ? solverContext.getPlanning().getCost() : "nA");
                     }
-                    run.getAndIncrement();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
+                run.getAndIncrement();
             }
-        }));
+        });
         auto.start();
 
     }

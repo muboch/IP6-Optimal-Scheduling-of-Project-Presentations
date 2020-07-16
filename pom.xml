@@ -20,16 +20,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
-        <maven.compiler.source>9</maven.compiler.source>
-        <maven.compiler.target>9</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
         <mapstruct-processor.version>1.3.1.Final</mapstruct-processor.version>
         <lombok.version>1.18.12</lombok.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <eirslett.version>1.9.1</eirslett.version>
-        <docker.jib.version>2.1.0</docker.jib.version>
-        <docker.registry>bananenhoschi</docker.registry>
-        <docker.name>ospp</docker.name>
     </properties>
 
     <modules>
