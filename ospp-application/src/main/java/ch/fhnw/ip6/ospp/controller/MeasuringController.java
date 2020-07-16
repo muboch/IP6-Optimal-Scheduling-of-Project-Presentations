@@ -90,6 +90,7 @@ public class MeasuringController {
                         TimeUnit.SECONDS.sleep(10);
                         log.debug("{} {} is still solving ({})", solver, mode.getIndicator(), solverContext.getPlanning() != null ? solverContext.getPlanning().getCost() : "nA");
                     }
+                    log.info("End of auto-solving {} mode {} run {}. Score: {}", solver, mode.getIndicator(), run, solverContext.getPlanning().getCost());
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
