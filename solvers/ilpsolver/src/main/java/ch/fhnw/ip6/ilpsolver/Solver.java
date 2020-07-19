@@ -97,10 +97,7 @@ public class Solver extends AbstractSolver {
 
 
             Planning planning = solverContext.getPlanning() != null ? solverContext.getPlanning() : new Planning();
-            planning.setTimeslots(ts);
-            planning.setRooms(rs);
-            fillPlanning(ps, rs, ts, grbModel, model, planning);
-
+            log.info("Gurobi Score: {}", grbModel.getObjective(0).getValue());
             int status = grbModel.get(GRB.IntAttr.Status);
             if (status == GRB.Status.OPTIMAL || status == GRB.Status.TIME_LIMIT)
                 planning.setStatus(StatusEnum.SOLUTION);
